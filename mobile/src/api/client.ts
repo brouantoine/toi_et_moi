@@ -12,7 +12,12 @@ export type Schemas = components['schemas'];
 export type ApiClient = ReturnType<typeof createApiClient>;
 
 export function createApiClient(baseUrl: string = API_URL, middlewares: Middleware[] = []) {
-  const client = createClient<paths>({ baseUrl, headers: { Accept: 'application/json' } });
+  const client = createClient<paths>({
+    baseUrl,
+    headers: { Accept: 'application/json' },
+    // Resolve fetch at call time (not at creation) so it can be swapped (tests, polyfills).
+    fetch: (request: Request) => globalThis.fetch(request),
+  });
   middlewares.forEach((m) => client.use(m));
   return client;
 }

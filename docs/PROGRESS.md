@@ -57,3 +57,7 @@
 ## 2026-11-02 — P1.12 Design system partie 2
 - Fichiers clés : `mobile/src/ui/{Input,Avatar,EmptyState,ErrorState,LoadingState,Skeleton,Sheet}.tsx`, `mobile/src/test-utils.tsx` (`renderWithProviders`), `ui/__tests__/components.test.tsx`.
 - À savoir : `ErrorState` prend un `code` (`ApiError.code`) et affiche un message calme traduit (`errors.*`). `Skeleton` respecte « réduire les animations ». `Sheet` repose sur le Modal natif. `Avatar` utilise expo-image avec cache disque. Avec React 19, `ref` est une simple prop (pas de `forwardRef`).
+
+## 2026-11-03 — P1.13 Écrans d'authentification
+- Fichiers clés : `mobile/src/features/auth/{LoginScreen,RegisterScreen,ForgotPasswordScreen,FormField,schemas,useAuthActions}.ts(x)`, routes `src/app/{login,register,forgot-password}.tsx`, `mobile/jest.setup.ts` (mock expo-router), `src/test-utils.tsx` (`renderWithProviders`, `mockFetch`, `routerMock`).
+- À savoir : messages de validation zod = clés i18n. L'inscription envoie la langue de l'app et le fuseau de l'appareil. Le client API résout `fetch` à chaque appel (mockable en test). Mot de passe oublié : confirmation identique que le compte existe ou non.

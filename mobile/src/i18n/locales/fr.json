@@ -17,5 +17,43 @@
     "not_found": "Cet élément n'existe plus.",
     "throttled": "Doucement : réessaie dans une minute.",
     "unauthorized": "Ta session a expiré. Reconnecte-toi pour continuer."
+  },
+  "auth": {
+    "fields": {
+      "email": "Email",
+      "password": "Mot de passe",
+      "firstName": "Prénom"
+    },
+    "login": {
+      "title": "Content de te revoir",
+      "submit": "Se connecter",
+      "forgot": "Mot de passe oublié ?",
+      "noAccount": "Pas encore de compte ? Créer un compte"
+    },
+    "register": {
+      "title": "Créer ton compte",
+      "subtitle": "Quelques secondes, et vous pourrez commencer à deux.",
+      "passwordHint": "Au moins 10 caractères. Une phrase marche très bien.",
+      "submit": "Créer mon compte",
+      "haveAccount": "Déjà un compte ? Se connecter"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Indique ton email : si un compte existe, tu recevras un lien pour en choisir un nouveau.",
+      "submit": "Envoyer le lien",
+      "sentTitle": "Regarde tes emails",
+      "sentMessage": "Si un compte correspond à cette adresse, un lien vient de partir. Pense à vérifier les indésirables.",
+      "backToLogin": "Retour à la connexion"
+    },
+    "errors": {
+      "emailRequired": "Indique ton email.",
+      "emailInvalid": "Cet email ne semble pas valide.",
+      "passwordRequired": "Indique ton mot de passe.",
+      "passwordTooShort": "Au moins 10 caractères, s’il te plaît.",
+      "firstNameRequired": "Indique ton prénom.",
+      "emailTaken": "Un compte existe déjà avec cet email. Tu peux te connecter.",
+      "passwordWeak": "Ce mot de passe est trop facile à deviner. Essaie une petite phrase.",
+      "badCredentials": "Email ou mot de passe incorrect."
+    }
   }
 }

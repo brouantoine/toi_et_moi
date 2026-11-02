@@ -17,5 +17,43 @@
     "not_found": "This item no longer exists.",
     "throttled": "Easy there: try again in a minute.",
     "unauthorized": "Your session has expired. Sign in again to continue."
+  },
+  "auth": {
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "firstName": "First name"
+    },
+    "login": {
+      "title": "Good to see you again",
+      "submit": "Sign in",
+      "forgot": "Forgot your password?",
+      "noAccount": "No account yet? Create one"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "A few seconds, and you can start together.",
+      "passwordHint": "At least 10 characters. A short sentence works great.",
+      "submit": "Create my account",
+      "haveAccount": "Already have an account? Sign in"
+    },
+    "forgot": {
+      "title": "Forgot your password",
+      "subtitle": "Enter your email: if an account exists, you will get a link to choose a new one.",
+      "submit": "Send the link",
+      "sentTitle": "Check your email",
+      "sentMessage": "If an account matches this address, a link is on its way. Remember to check your spam folder.",
+      "backToLogin": "Back to sign in"
+    },
+    "errors": {
+      "emailRequired": "Enter your email.",
+      "emailInvalid": "This email does not look valid.",
+      "passwordRequired": "Enter your password.",
+      "passwordTooShort": "At least 10 characters, please.",
+      "firstNameRequired": "Enter your first name.",
+      "emailTaken": "An account already exists with this email. You can sign in.",
+      "passwordWeak": "This password is too easy to guess. Try a short sentence.",
+      "badCredentials": "Wrong email or password."
+    }
   }
 }
