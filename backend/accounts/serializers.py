@@ -36,6 +36,13 @@ class UserSerializer(serializers.ModelSerializer[User]):
     def get_avatar_url(self, obj: User) -> str | None:
         return obj.avatar.url if obj.avatar else None
 
+    def validate_timezone(self, value: str) -> str:
+        try:
+            validate_timezone(value)
+        except DjangoValidationError as exc:
+            raise serializers.ValidationError(exc.messages) from exc
+        return value
+
 
 class RegisterSerializer(serializers.Serializer[None]):
     email = serializers.EmailField()

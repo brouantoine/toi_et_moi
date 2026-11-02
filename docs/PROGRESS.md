@@ -17,3 +17,7 @@
 - Fichiers clés : `backend/accounts/{tokens,services,web_views,web_urls,tasks}.py`, `backend/core/emails.py`, `backend/templates/emails/*.{fr,en}.txt`, `backend/templates/web/*.html`.
 - Endpoints : `auth/verify-email/`, `auth/verify-email/resend/`, `auth/password-reset/` (toujours 204), `auth/password-reset/confirm/`. Pages web : `/account/verify-email/<token>/`, `/account/reset/<uid>/<token>/`.
 - À savoir : emails envoyés via une tâche Celery ; settings email migrés vers `MAILERS` (Django 6.1) ; variables `PUBLIC_BASE_URL`, `SMTP_*`.
+
+## 2026-11-02 — P1.4 Profil /me
+- Fichiers clés : `backend/accounts/views.py` (`MeView`), `accounts/tests/test_me_api.py`.
+- `GET/PATCH /api/v1/me/` : email et `email_verified` en lecture seule, fuseau IANA et langue fr/en validés. Avatar en P2.7.

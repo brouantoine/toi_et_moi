@@ -1,0 +1,70 @@
+import pytest
+from django.urls import reverse
+from rest_framework.test import APIClient
+
+from accounts.models import User
+
+from .factories import UserFactory
+
+pytestmark = pytest.mark.django_db
+
+ME = reverse("me")
+
+
+def test_me_requires_authentication(api_client: APIClient) -> None:
+    assert api_client.get(ME).status_code == 401
+    assert api_client.patch(ME, {"nickname": "x"}).status_code == 401
+
+
+def test_get_me_returns_own_profile(user_client: APIClient, user: User) -> None:
+    body = user_client.get(ME).json()
+    assert body["email"] == user.email
+    assert body["display_name"] == user.first_name
+    assert body["avatar_url"] is None
+    assert "password" not in body
+
+
+def test_patch_me_updates_profile(user_client: APIClient, user: User) -> None:
+    response = user_client.patch(
+        ME,
+        {
+            "nickname": "Loulou",
+            "language": "en",
+            "timezone": "America/Montreal",
+            "birth_date": "1992-04-05",
+            "quiet_hours_start": "23:00",
+            "quiet_hours_end": None,
+        },
+        format="json",
+    )
+    assert response.status_code == 200, response.content
+    user.refresh_from_db()
+    assert user.nickname == "Loulou"
+    assert user.display_name == "Loulou"
+    assert user.language == "en"
+    assert user.timezone == "America/Montreal"
+    assert user.quiet_hours_end is None
+
+
+def test_patch_me_validates_fields(user_client: APIClient) -> None:
+    assert user_client.patch(ME, {"timezone": "Atlantis/Core"}).status_code == 400
+    assert user_client.patch(ME, {"language": "de"}).status_code == 400
+
+
+def test_read_only_fields_cannot_be_changed(user_client: APIClient, user: User) -> None:
+    user_client.patch(ME, {"email": "hacker@example.com", "email_verified": True}, format="json")
+    user.refresh_from_db()
+    assert user.email != "hacker@example.com"
+
+
+def test_put_and_delete_not_allowed(user_client: APIClient) -> None:
+    assert user_client.put(ME, {}).status_code == 405
+    assert user_client.delete(ME).status_code == 405
+
+
+def test_user_only_ever_edits_themselves(api_client: APIClient) -> None:
+    alice, bob = UserFactory(nickname=""), UserFactory(nickname="")
+    api_client.force_authenticate(alice)
+    api_client.patch(ME, {"nickname": "Changed"})
+    bob.refresh_from_db()
+    assert bob.nickname == ""

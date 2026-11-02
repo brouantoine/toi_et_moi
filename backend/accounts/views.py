@@ -2,7 +2,7 @@ from collections.abc import Sequence
 
 from django.core.exceptions import ValidationError as DjangoValidationError
 from drf_spectacular.utils import extend_schema
-from rest_framework import status
+from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -12,6 +12,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from . import services
+from .models import User
 from .serializers import (
     AuthResponseSerializer,
     EmailSerializer,
@@ -62,6 +63,17 @@ class LogoutView(APIView):
         except TokenError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_205_RESET_CONTENT)
+
+
+class MeView(generics.RetrieveUpdateAPIView[User]):
+    """The authenticated user's own profile. Nobody else's profile is reachable here."""
+
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "patch", "head", "options"]
+
+    def get_object(self) -> User:
+        return self.request.user  # type: ignore[return-value]
 
 
 class VerifyEmailView(AuthThrottleMixin, APIView):
