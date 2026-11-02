@@ -5,7 +5,8 @@ from .base import *  # noqa: F403
 DEBUG = False
 SECRET_KEY = "test-secret-key-not-for-production"  # noqa: S105
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
-EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
+MAILERS = {"default": {"BACKEND": "django.core.mail.backends.locmem.EmailBackend"}}
+PUBLIC_BASE_URL = "https://api.example.com"
 
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True

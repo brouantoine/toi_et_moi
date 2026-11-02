@@ -1,0 +1,22 @@
+{% extends "web/base.html" %}
+{% block content %}
+<div class="card">
+  {% if LANGUAGE_CODE == "en" %}
+    {% if ok %}
+      <h1>Your email is confirmed</h1>
+      <p>Thank you. You can go back to the app.</p>
+    {% else %}
+      <h1>This link no longer works</h1>
+      <p class="muted">It may have expired. From the app, you can ask for a new confirmation email.</p>
+    {% endif %}
+  {% else %}
+    {% if ok %}
+      <h1>Ton email est confirmé</h1>
+      <p>Merci. Tu peux retourner dans l'app.</p>
+    {% else %}
+      <h1>Ce lien ne fonctionne plus</h1>
+      <p class="muted">Il a peut-être expiré. Depuis l'app, tu peux demander un nouvel email de confirmation.</p>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

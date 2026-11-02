@@ -1,5 +1,6 @@
 from collections.abc import Sequence
 
+from django.core.exceptions import ValidationError as DjangoValidationError
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -13,8 +14,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import services
 from .serializers import (
     AuthResponseSerializer,
+    EmailSerializer,
     LogoutSerializer,
+    PasswordResetConfirmSerializer,
     RegisterSerializer,
+    TokenSerializer,
     UserSerializer,
 )
 
@@ -58,3 +62,56 @@ class LogoutView(APIView):
         except TokenError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_205_RESET_CONTENT)
+
+
+class VerifyEmailView(AuthThrottleMixin, APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    @extend_schema(request=TokenSerializer, responses={204: None, 400: None})
+    def post(self, request: Request) -> Response:
+        serializer = TokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        ok = services.verify_email(serializer.validated_data["token"])
+        return Response(status=status.HTTP_204_NO_CONTENT if ok else status.HTTP_400_BAD_REQUEST)
+
+
+class ResendVerificationView(AuthThrottleMixin, APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(request=None, responses={204: None})
+    def post(self, request: Request) -> Response:
+        services.send_verification_email(request.user)  # type: ignore[arg-type]
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PasswordResetRequestView(AuthThrottleMixin, APIView):
+    """Always answers 204: never reveals whether the email has an account."""
+
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    @extend_schema(request=EmailSerializer, responses={204: None})
+    def post(self, request: Request) -> Response:
+        serializer = EmailSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        services.request_password_reset(serializer.validated_data["email"])
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PasswordResetConfirmView(AuthThrottleMixin, APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    @extend_schema(request=PasswordResetConfirmSerializer, responses={204: None, 400: None})
+    def post(self, request: Request) -> Response:
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        try:
+            ok = services.confirm_password_reset(data["uid"], data["token"], data["new_password"])
+        except DjangoValidationError as exc:
+            return Response({"new_password": exc.messages}, status=status.HTTP_400_BAD_REQUEST)
+        if not ok:
+            return Response({"token": ["invalid"]}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)

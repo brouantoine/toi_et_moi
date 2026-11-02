@@ -17,6 +17,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 BRAND_NAME = env_str("BRAND_NAME", "Nous Deux")
 
 SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
+
+# Public URL of this backend (used in email links).
+PUBLIC_BASE_URL = env_str("PUBLIC_BASE_URL", "http://localhost:8000")
+DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "Nous Deux <no-reply@example.com>")
+
+# Email (Django 6.1 MAILERS). Console in dev; SMTP in prod (see prod.py).
+MAILERS: dict[str, dict[str, object]] = {
+    "default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"}
+}
 DEBUG = env_bool("DJANGO_DEBUG", False)
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 
@@ -64,6 +73,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],

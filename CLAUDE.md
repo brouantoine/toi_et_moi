@@ -29,3 +29,6 @@ Ajouter un paquet mobile : `npx expo install <pkg>` (jamais `npm install` pour u
 - Le modèle User personnalisé (P1.1) doit exister avant toute autre migration d'app.
 - RNTL v14 : `await render(...)` et `await fireEvent.press(...)`.
 - `app.config.ts` ne peut importer que du JSON/JS, pas de `.ts`.
+
+## Git
+- Remote `origin` = https://github.com/brouantoine/toi_et_moi (push autorisé par l'utilisateur, voir DECISIONS.md). Pousser `main` après chaque commit : `git push origin main`.

@@ -1,0 +1,10 @@
+Confirm your email address for {{ brand }}
+Hi {{ name }},
+
+To confirm your email address, open this link (valid for 3 days):
+{{ link }}
+
+If you did not create a {{ brand }} account, you can ignore this message.
+
+See you soon,
+The {{ brand }} team

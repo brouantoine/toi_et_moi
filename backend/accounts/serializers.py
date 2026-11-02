@@ -76,3 +76,17 @@ class AuthResponseSerializer(TokenPairSerializer):
 
 class LogoutSerializer(serializers.Serializer[None]):
     refresh = serializers.CharField()
+
+
+class TokenSerializer(serializers.Serializer[None]):
+    token = serializers.CharField()
+
+
+class EmailSerializer(serializers.Serializer[None]):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer[None]):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(trim_whitespace=False)

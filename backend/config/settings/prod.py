@@ -19,13 +19,19 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = "DENY"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env_str("EMAIL_HOST", "")
-EMAIL_PORT = env_int("EMAIL_PORT", 587)
-EMAIL_HOST_USER = env_str("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = env_str("EMAIL_HOST_PASSWORD", "")
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "no-reply@example.com")
+MAILERS = {
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": env_str("SMTP_HOST", ""),
+            "port": env_int("SMTP_PORT", 587),
+            "username": env_str("SMTP_USER", ""),
+            "password": env_str("SMTP_PASSWORD", ""),
+            "use_tls": True,
+            "timeout": 10,
+        },
+    }
+}
 
 CACHES = {
     "default": {

@@ -12,3 +12,8 @@
 ## 2026-11-02 — P1.2 Inscription + JWT
 - Fichiers clés : `backend/accounts/{services,serializers,views,urls}.py`, `accounts/tests/test_auth_api.py`, `backend/conftest.py`.
 - Endpoints : `POST /api/v1/auth/register/`, `auth/token/`, `auth/token/refresh/` (rotation + blacklist), `auth/logout/`. Throttle `auth` = 10/min (variable `THROTTLE_AUTH`).
+
+## 2026-11-02 — P1.3 Vérification email + mot de passe oublié
+- Fichiers clés : `backend/accounts/{tokens,services,web_views,web_urls,tasks}.py`, `backend/core/emails.py`, `backend/templates/emails/*.{fr,en}.txt`, `backend/templates/web/*.html`.
+- Endpoints : `auth/verify-email/`, `auth/verify-email/resend/`, `auth/password-reset/` (toujours 204), `auth/password-reset/confirm/`. Pages web : `/account/verify-email/<token>/`, `/account/reset/<uid>/<token>/`.
+- À savoir : emails envoyés via une tâche Celery ; settings email migrés vers `MAILERS` (Django 6.1) ; variables `PUBLIC_BASE_URL`, `SMTP_*`.
