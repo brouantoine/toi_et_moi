@@ -81,3 +81,25 @@ class User(AbstractBaseUser, PermissionsMixin):
     def display_name(self) -> str:
         """Name shown to the partner: nickname if set, else first name."""
         return self.nickname or self.first_name
+
+
+class SocialProvider(models.TextChoices):
+    APPLE = "apple", "Apple"
+    GOOGLE = "google", "Google"
+
+
+class SocialAccount(models.Model):
+    """Link between a user and a verified provider identity (provider + stable subject)."""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="social_accounts")
+    provider = models.CharField(max_length=10, choices=SocialProvider.choices)
+    subject = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["provider", "subject"], name="unique_social_identity")
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.provider}:{self.user_id}"

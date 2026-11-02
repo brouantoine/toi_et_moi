@@ -11,14 +11,17 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from . import services
+from . import services, social
 from .models import User
 from .serializers import (
     AuthResponseSerializer,
     EmailSerializer,
+    ErrorCodeSerializer,
     LogoutSerializer,
     PasswordResetConfirmSerializer,
     RegisterSerializer,
+    SocialAuthResponseSerializer,
+    SocialLoginSerializer,
     TokenSerializer,
     UserSerializer,
 )
@@ -127,3 +130,35 @@ class PasswordResetConfirmView(AuthThrottleMixin, APIView):
         if not ok:
             return Response({"token": ["invalid"]}, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SocialLoginView(AuthThrottleMixin, APIView):
+    """Sign in with Apple / Google: the identity token is verified server-side."""
+
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    @extend_schema(
+        request=SocialLoginSerializer,
+        responses={200: SocialAuthResponseSerializer, 400: ErrorCodeSerializer},
+    )
+    def post(self, request: Request, provider: str) -> Response:
+        serializer = SocialLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        try:
+            if provider == "apple":
+                identity = social.verify_apple(data["id_token"], data["nonce"], data["first_name"])
+            elif provider == "google":
+                identity = social.verify_google(data["id_token"], data["first_name"])
+            else:
+                return Response({"code": "unknown_provider"}, status=status.HTTP_400_BAD_REQUEST)
+            user, created = services.sign_in_with_identity(identity, data["language"])
+        except social.SocialAuthError as exc:
+            return Response({"code": exc.code}, status=status.HTTP_400_BAD_REQUEST)
+        payload = {
+            **services.issue_tokens(user),
+            "user": UserSerializer(user, context={"request": request}).data,
+            "created": created,
+        }
+        return Response(payload)

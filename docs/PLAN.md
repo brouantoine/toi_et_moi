@@ -17,8 +17,8 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P1.5 — App `couples` : modèles Couple (statuts pending/active/dissolving/dissolved, date de début, devise) et Invitation + services create/join (code 6 caractères sans ambiguïté, expire 48 h, un seul couple actif par utilisateur) — tests services (code expiré, déjà en couple, rejoindre son propre couple) — dépend de : P1.1
 - [x] P1.6 — Mixin unique `CoupleScopedQuerysetMixin` + permissions `IsCoupleMember` / `IsAuthorOnly` dans `core` — tests génériques prouvant le filtrage couple et auteur (partenaire et étranger → 404) — dépend de : P1.5
 - [x] P1.7 — Endpoints couple (créer, rejoindre par code, mon couple, modifier infos) — tests partenaire/étranger, lien `nousdeux://join/CODE` renvoyé — dépend de : P1.6
-- [ ] P1.8 — Sign in with Apple côté serveur (vérification JWKS, audience, nonce, cache des clés) — tests avec clés générées et JWKS mocké — dépend de : P1.2
-- [ ] P1.9 — Connexion Google côté serveur (vérification ID token, audiences iOS/Android/web) — tests mockés — dépend de : P1.2
+- [x] P1.8 — Sign in with Apple côté serveur (vérification JWKS, audience, nonce, cache des clés) — tests avec clés générées et JWKS mocké — dépend de : P1.2
+- [x] P1.9 — Connexion Google côté serveur (vérification ID token, audiences iOS/Android/web) — tests mockés — dépend de : P1.2
 - [ ] P1.10 — Client API typé : `make api-types` (drf-spectacular → openapi-typescript) + client `openapi-fetch` + test CI « schéma à jour » — `schema.d.ts` généré, tsc vert — dépend de : P1.7
 - [ ] P1.11 — Mobile : socle données (TanStack Query + persistance, Zustand, expo-secure-store, client authentifié avec refresh automatique) — tests du refresh et du logout sur 401 — dépend de : P1.10
 - [ ] P1.12 — Design system partie 2 : Input, Avatar, EmptyState, ErrorState, Skeleton, Sheet (a11y, clair/sombre) — tests RNTL de chaque composant — dépend de : P0.2

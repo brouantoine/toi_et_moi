@@ -9,7 +9,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User
+from .models import SocialAccount, User
+from .social import SocialAuthError, SocialIdentity
 from .tasks import send_email_task
 from .tokens import make_email_verification_token, read_email_verification_token
 
@@ -96,3 +97,42 @@ def confirm_password_reset(uidb64: str, token: str, new_password: str) -> bool:
     user.set_password(new_password)
     user.save(update_fields=["password"])
     return True
+
+
+# --- Social sign-in (identity already verified by accounts.social) ---
+
+
+@transaction.atomic
+def sign_in_with_identity(identity: SocialIdentity, language: str = "fr") -> tuple[User, bool]:
+    """Find or create the user for a verified provider identity. Returns (user, created)."""
+    link = (
+        SocialAccount.objects.select_related("user")
+        .filter(provider=identity.provider, subject=identity.subject)
+        .first()
+    )
+    if link is not None:
+        return link.user, False
+
+    user: User | None = None
+    if identity.email and identity.email_verified:
+        user = User.objects.filter(email__iexact=identity.email).first()
+    created = False
+    if user is None:
+        if not identity.email:
+            raise SocialAuthError("email_required")
+        if User.objects.filter(email__iexact=identity.email).exists():
+            # Unverified provider email matching an account: never link automatically.
+            raise SocialAuthError("email_in_use")
+        user = User.objects.create_user(
+            identity.email,
+            None,
+            first_name=identity.first_name or identity.email.split("@")[0][:60],
+            language=language,
+            email_verified=identity.email_verified,
+        )
+        created = True
+    elif identity.email_verified and not user.email_verified:
+        user.email_verified = True
+        user.save(update_fields=["email_verified"])
+    SocialAccount.objects.create(user=user, provider=identity.provider, subject=identity.subject)
+    return user, created

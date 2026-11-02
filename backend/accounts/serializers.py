@@ -97,3 +97,18 @@ class PasswordResetConfirmSerializer(serializers.Serializer[None]):
     uid = serializers.CharField()
     token = serializers.CharField()
     new_password = serializers.CharField(trim_whitespace=False)
+
+
+class SocialLoginSerializer(serializers.Serializer[None]):
+    id_token = serializers.CharField()
+    nonce = serializers.CharField(required=False, allow_null=True, default=None)
+    first_name = serializers.CharField(required=False, allow_blank=True, default="", max_length=60)
+    language = serializers.ChoiceField(choices=Language.choices, default=Language.FR)
+
+
+class SocialAuthResponseSerializer(AuthResponseSerializer):
+    created = serializers.BooleanField()
+
+
+class ErrorCodeSerializer(serializers.Serializer[None]):
+    code = serializers.CharField()

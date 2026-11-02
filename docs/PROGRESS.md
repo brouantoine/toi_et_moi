@@ -36,3 +36,8 @@
 - Endpoints : `GET/POST/PATCH/DELETE /api/v1/couple/` (couple courant de l'utilisateur ; DELETE = annuler un couple en attente), `POST couple/join/` (throttle `join` 10/min), `POST couple/invitation/` (nouveau code).
 - Le partenaire voit : prénom, surnom, nom affiché, avatar, fuseau. Jamais l'email ni la date de naissance. Lien d'invitation `nousdeux://join/CODE` (`APP_SCHEME`).
 - La validation backend vérifie aussi que le schéma OpenAPI se génère sans avertissement.
+
+## 2026-11-02 — P1.8 + P1.9 Connexion Apple et Google (serveur)
+- Fichiers clés : `backend/accounts/social.py` (vérification JWKS, iss, aud, exp, nonce Apple), `accounts/models.py` (`SocialAccount`), `accounts/services.py` (`sign_in_with_identity`), endpoint `POST /api/v1/auth/social/<apple|google>/`, `accounts/tests/test_social.py`.
+- Variables : `APPLE_AUDIENCES` (bundle id, défaut `com.changeme.nousdeux`), `GOOGLE_CLIENT_IDS` (vide = Google désactivé, renvoie `provider_disabled`).
+- Sécurité : un email non certifié par le fournisseur ne relie jamais un compte existant (`email_in_use`).

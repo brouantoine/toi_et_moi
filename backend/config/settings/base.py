@@ -187,6 +187,11 @@ STORAGES = {
     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
+# --- Social sign-in: accepted audiences (client ids) ---
+# Apple: iOS bundle id(s). Google: OAuth client ids (iOS, Android, web). Empty = disabled.
+APPLE_AUDIENCES = env_list("APPLE_AUDIENCES", "com.changeme.nousdeux")
+GOOGLE_CLIENT_IDS = env_list("GOOGLE_CLIENT_IDS", "")
+
 # --- Feature flags ---
 AI_REFORMULATION_ENABLED = env_bool("AI_REFORMULATION_ENABLED", False)
 ANTHROPIC_API_KEY = env_str("ANTHROPIC_API_KEY", "")
