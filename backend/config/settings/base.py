@@ -118,6 +118,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "anon": env_str("THROTTLE_ANON", "60/min"),
         "user": env_str("THROTTLE_USER", "600/min"),
+        "auth": env_str("THROTTLE_AUTH", "10/min"),
     },
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.CursorPagination",
     "PAGE_SIZE": 30,

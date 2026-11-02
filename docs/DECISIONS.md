@@ -19,3 +19,5 @@ Format : date — choix — raison — alternative écartée.
 - 2026-11-02 — Client API prévu : types `openapi-typescript` + `openapi-fetch` (très léger, typé par les types générés) — évite tout type écrit à la main — client axios avec types manuels.
 - 2026-11-02 — `loop.sh` absent : non créé par l'agent (fichier « ne pas modifier », fourni par l'humain) — noté dans `HUMAN_TODO.md` — en écrire un.
 - 2026-11-02 — Django 6.1 déprécie `EMAIL_BACKEND` au profit de `MAILERS` (avertissement en test) — migration planifiée dans P1.3 avec l'envoi d'emails — migrer à l'aveugle dès P0.
+- 2026-11-02 — L'inscription renvoie directement les tokens et ne bloque pas l'accès avant vérification de l'email (bandeau côté app) — parcours de couple fluide — bloquer jusqu'à vérification.
+- 2026-11-02 — L'inscription signale un email déjà utilisé (nécessaire à l'UX), protégée par le throttle `auth` ; la réinitialisation de mot de passe ne donne, elle, aucun indice — compromis courant — réponse générique à l'inscription avec email explicatif.
