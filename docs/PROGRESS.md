@@ -45,3 +45,7 @@
 ## 2026-11-02 — P1.10 Client API typé
 - Fichiers clés : `scripts/api-types.sh` (schéma drf-spectacular → `mobile/src/api/schema.yaml` → `schema.d.ts`), `mobile/src/api/client.ts` (`openapi-fetch`), `mobile/src/config/env.ts`, `scripts/validate-mobile.sh`.
 - À savoir : après tout changement d'API backend, lancer `sh scripts/api-types.sh` et commiter `mobile/src/api/`. La CI échoue si les types ne sont pas à jour.
+
+## 2026-11-02 — P1.12a Icônes Lucide (demande utilisateur)
+- Fichiers clés : `mobile/src/ui/Icon.tsx`, `mobile/src/ui/__tests__/Icon.test.tsx`, `mobile/src/__tests__/no-emoji.test.ts`.
+- À savoir : `<Icon icon={Heart} />` est décoratif par défaut (masqué aux lecteurs d'écran) ; avec `accessibilityLabel`, il est annoncé. Couleur = clé de palette du thème.
