@@ -31,3 +31,9 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
   cd C:\Users\DELL\nous-deux
   git push -u origin main
   ```
+
+## Connexion Apple / Google
+- [ ] Apple : activer la capacité « Sign in with Apple » sur l'identifiant d'app (EAS la configure à partir de `ios.usesAppleSignIn`). Mettre le bundle id définitif dans `APPLE_AUDIENCES` côté backend.
+- [ ] Google : créer 3 clients OAuth (iOS, Android avec l'empreinte SHA-1 de signature EAS, Web) dans Google Cloud Console. Puis :
+  - mobile (`eas.json` / variables EAS) : `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`, `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` ;
+  - backend : `GOOGLE_CLIENT_IDS=<web>,<ios>,<android>`.

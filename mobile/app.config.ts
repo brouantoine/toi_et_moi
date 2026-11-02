@@ -2,6 +2,19 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 
 import BRAND from './src/config/brand.json';
 
+type PluginEntry = string | [string, Record<string, unknown>];
+
+/**
+ * Google Sign-In needs the reversed iOS client id as URL scheme. The plugin is only added
+ * when EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID is set (see docs/HUMAN_TODO.md).
+ */
+function googlePlugin(): PluginEntry[] {
+  const iosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+  if (!iosClientId) return [];
+  const iosUrlScheme = `com.googleusercontent.apps.${iosClientId.replace('.apps.googleusercontent.com', '')}`;
+  return [['@react-native-google-signin/google-signin', { iosUrlScheme }]];
+}
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: BRAND.name,
@@ -14,6 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: BRAND.bundleId,
+    usesAppleSignIn: true,
     config: { usesNonExemptEncryption: false },
   },
   android: {
@@ -30,6 +44,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     'expo-router',
     'expo-localization',
+    'expo-secure-store',
+    'expo-apple-authentication',
     [
       'expo-splash-screen',
       {
@@ -39,6 +55,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         dark: { backgroundColor: '#15171C' },
       },
     ],
+    ...googlePlugin(),
   ],
   experiments: { typedRoutes: true },
   extra: {

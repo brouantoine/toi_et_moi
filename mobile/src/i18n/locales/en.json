@@ -54,6 +54,19 @@
       "emailTaken": "An account already exists with this email. You can sign in.",
       "passwordWeak": "This password is too easy to guess. Try a short sentence.",
       "badCredentials": "Wrong email or password."
+    },
+    "social": {
+      "or": "or",
+      "google": "Continue with Google",
+      "errors": {
+        "generic": "Sign-in did not go through. You can try again.",
+        "email_in_use": "An account already exists with this email. Sign in with your password.",
+        "email_required": "We need your email to create the account.",
+        "provider_disabled": "This sign-in method is not available yet.",
+        "invalid_token": "Sign-in could not be verified. Try again.",
+        "expired_token": "Sign-in expired. Try again.",
+        "invalid_nonce": "Sign-in could not be verified. Try again."
+      }
     }
   }
 }

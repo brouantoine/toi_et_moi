@@ -7,6 +7,7 @@ import { ApiError } from '@/api';
 import { Button, Screen, Text } from '@/ui';
 
 import { FormField } from './FormField';
+import { SocialButtons } from './social/SocialButtons';
 import { loginSchema, type LoginForm } from './schemas';
 import { useLogin } from './useAuthActions';
 
@@ -60,6 +61,7 @@ export function LoginScreen() {
         loading={login.isPending}
         onPress={handleSubmit((form) => login.mutate(form))}
       />
+      <SocialButtons />
       <Link href="/forgot-password" testID="login-forgot">
         <Text muted>{t('auth.login.forgot')}</Text>
       </Link>

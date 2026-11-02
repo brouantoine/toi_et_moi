@@ -61,3 +61,7 @@
 ## 2026-11-03 — P1.13 Écrans d'authentification
 - Fichiers clés : `mobile/src/features/auth/{LoginScreen,RegisterScreen,ForgotPasswordScreen,FormField,schemas,useAuthActions}.ts(x)`, routes `src/app/{login,register,forgot-password}.tsx`, `mobile/jest.setup.ts` (mock expo-router), `src/test-utils.tsx` (`renderWithProviders`, `mockFetch`, `routerMock`).
 - À savoir : messages de validation zod = clés i18n. L'inscription envoie la langue de l'app et le fuseau de l'appareil. Le client API résout `fetch` à chaque appel (mockable en test). Mot de passe oublié : confirmation identique que le compte existe ou non.
+
+## 2026-11-03 — P1.14 Boutons Apple et Google (mobile)
+- Fichiers clés : `mobile/src/features/auth/social/{providers,useSocialLogin}.ts`, `SocialButtons.tsx`, `app.config.ts` (`usesAppleSignIn`, plugin `expo-apple-authentication`, plugin Google si `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID`), mocks natifs globaux dans `jest.setup.ts`.
+- À savoir : Apple uniquement sur iOS (bouton natif imposé par Apple), nonce SHA-256 envoyé à Apple et nonce brut au serveur. Google masqué tant que `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` est vide. Une annulation par l'utilisateur ne produit ni appel API ni message.

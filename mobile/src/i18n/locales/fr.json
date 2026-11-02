@@ -54,6 +54,19 @@
       "emailTaken": "Un compte existe déjà avec cet email. Tu peux te connecter.",
       "passwordWeak": "Ce mot de passe est trop facile à deviner. Essaie une petite phrase.",
       "badCredentials": "Email ou mot de passe incorrect."
+    },
+    "social": {
+      "or": "ou",
+      "google": "Continuer avec Google",
+      "errors": {
+        "generic": "La connexion n’a pas abouti. Tu peux réessayer.",
+        "email_in_use": "Un compte existe déjà avec cet email. Connecte-toi avec ton mot de passe.",
+        "email_required": "Nous avons besoin de ton email pour créer le compte.",
+        "provider_disabled": "Cette méthode de connexion n’est pas encore disponible.",
+        "invalid_token": "La connexion n’a pas pu être vérifiée. Réessaie.",
+        "expired_token": "La connexion a expiré. Réessaie.",
+        "invalid_nonce": "La connexion n’a pas pu être vérifiée. Réessaie."
+      }
     }
   }
 }

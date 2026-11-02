@@ -45,3 +45,35 @@ jest.mock('expo-router', () => {
     useSegments: jest.fn(() => []),
   };
 });
+
+/* Native sign-in modules (behaviour set per test through the jest.fn spies). */
+jest.mock('expo-crypto', () => ({
+  randomUUID: () => 'raw-nonce',
+  CryptoDigestAlgorithm: { SHA256: 'SHA-256' },
+  digestStringAsync: jest.fn(async () => 'hashed-nonce'),
+}));
+
+jest.mock('expo-apple-authentication', () => {
+  /* eslint-disable @typescript-eslint/no-require-imports */
+  const React = require('react');
+  const { Pressable } = require('react-native');
+  /* eslint-enable @typescript-eslint/no-require-imports */
+  return {
+    isAvailableAsync: jest.fn(async () => true),
+    signInAsync: jest.fn(),
+    AppleAuthenticationScope: { FULL_NAME: 0, EMAIL: 1 },
+    AppleAuthenticationButtonType: { CONTINUE: 1 },
+    AppleAuthenticationButtonStyle: { WHITE: 0, BLACK: 2 },
+    AppleAuthenticationButton: ({ onPress, testID }: { onPress: () => void; testID: string }) =>
+      React.createElement(Pressable, { onPress, testID, accessibilityRole: 'button' }),
+  };
+});
+
+jest.mock('@react-native-google-signin/google-signin', () => ({
+  GoogleSignin: {
+    configure: jest.fn(),
+    hasPlayServices: jest.fn(async () => true),
+    signIn: jest.fn(),
+  },
+  isSuccessResponse: (r: { type: string }) => r.type === 'success',
+}));

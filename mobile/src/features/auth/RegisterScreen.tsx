@@ -7,6 +7,7 @@ import { ApiError } from '@/api';
 import { Button, Screen, Text } from '@/ui';
 
 import { FormField } from './FormField';
+import { SocialButtons } from './social/SocialButtons';
 import { registerSchema, type RegisterForm } from './schemas';
 import { registerFieldError, useRegister } from './useAuthActions';
 
@@ -77,6 +78,7 @@ export function RegisterScreen() {
         loading={register.isPending}
         onPress={onSubmit}
       />
+      <SocialButtons />
       <Link href="/login" testID="register-to-login">
         <Text muted>{t('auth.register.haveAccount')}</Text>
       </Link>
