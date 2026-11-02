@@ -1,0 +1,21 @@
+# Décisions
+
+Format : date — choix — raison — alternative écartée.
+
+- 2026-11-02 — Dépôt créé dans `C:\Users\DELL\nous-deux` — le dossier de travail initial était le dossier personnel de l'utilisateur, inadapté à un dépôt — créer le dépôt directement dans le dossier personnel.
+- 2026-11-02 — Git et Node.js LTS (26.x) installés via winget, Python 3.12 existant utilisé dans `backend/.venv` — outils absents de la machine — aucune alternative viable.
+- 2026-11-02 — Docker absent de la machine : les tests tournent sans Docker (SQLite, Celery eager, channel layer en mémoire, stockage `InMemoryStorage`) — prévu par la spec section 4 — installer Docker Desktop (droits admin, redémarrage).
+- 2026-11-02 — `make` absent sous Windows : les commandes équivalentes PowerShell sont listées dans `CLAUDE.md`; le Makefile reste la référence (CI, Linux/macOS) — réécrire en script PowerShell.
+- 2026-11-02 — Django 6.1.2, DRF 3.18, Expo SDK 58 (React Native 0.88, React 19.3), TypeScript 6 — dernières versions stables au moment du bootstrap — versions antérieures.
+- 2026-11-02 — App Django supplémentaire `core` (health, mixin de permissions, stockage, champ chiffré) — utilitaires transverses partagés par toutes les apps métier — les dupliquer ou les mettre dans `config`.
+- 2026-11-02 — Settings via un petit module `config/settings/env.py` + `dj-database-url` — pas de dépendance lourde, typé pour mypy — django-environ.
+- 2026-11-02 — Pagination DRF par curseur par défaut — stable avec les insertions temps réel et adaptée aux listes infinies — pagination par numéro de page.
+- 2026-11-02 — Routes Expo Router dans `mobile/src/app/` (alias `@/*` → `src/*`) — recommandation du template Expo SDK 58 — dossier `app/` à la racine.
+- 2026-11-02 — Les valeurs de marque vivent dans `mobile/src/config/brand.json`, ré-exporté et typé par `brand.ts`, et lu par `app.config.ts` — le chargeur de config Expo ne sait pas `require` un fichier `.ts` (erreur « Cannot find module ./src/config/brand ») — dupliquer la chaîne dans les deux fichiers.
+- 2026-11-02 — `react-dom` épinglé à la version exacte de `react` (19.3.0) — `react-dom@19.3.1` exige `react@19.3.1` (ERESOLVE) — `--legacy-peer-deps`.
+- 2026-11-02 — React Native Testing Library v14 : `render()`/`fireEvent()` sont asynchrones, tous les tests utilisent `await` — API v14 — rester en v13.
+- 2026-11-02 — TypeScript 6 ne charge plus les types globaux par défaut : `"types": ["jest", "node"]` dans `mobile/tsconfig.json` — nécessaire pour les tests — imports explicites de `@jest/globals`.
+- 2026-11-02 — i18n via `createInstance()` d'i18next (instance dédiée) — évite l'avertissement ESLint `no-named-as-default-member` et l'état global partagé — instance par défaut.
+- 2026-11-02 — Client API prévu : types `openapi-typescript` + `openapi-fetch` (très léger, typé par les types générés) — évite tout type écrit à la main — client axios avec types manuels.
+- 2026-11-02 — `loop.sh` absent : non créé par l'agent (fichier « ne pas modifier », fourni par l'humain) — noté dans `HUMAN_TODO.md` — en écrire un.
+- 2026-11-02 — Django 6.1 déprécie `EMAIL_BACKEND` au profit de `MAILERS` (avertissement en test) — migration planifiée dans P1.3 avec l'envoi d'emails — migrer à l'aveugle dès P0.

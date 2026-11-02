@@ -1,0 +1,10 @@
+-r base.txt
+pytest==9.2.0
+pytest-django==4.14.0
+pytest-cov==7.1.0
+factory_boy==3.3.3
+ruff==0.17.3
+mypy==2.4.1
+django-stubs==6.1.2
+djangorestframework-stubs==3.18.1
+celery-types==0.26.0

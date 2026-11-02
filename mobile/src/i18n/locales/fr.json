@@ -1,0 +1,11 @@
+{
+  "welcome": {
+    "title": "Bienvenue dans {{brand}}",
+    "subtitle": "L'app qui vous aide à moins regarder vos téléphones, et plus à vous regarder.",
+    "start": "Commencer"
+  },
+  "common": {
+    "loading": "Un instant…",
+    "retry": "Réessayer"
+  }
+}
