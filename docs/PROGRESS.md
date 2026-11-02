@@ -30,3 +30,9 @@
 - Fichiers clés : `backend/core/mixins.py` (`CoupleScopedQuerysetMixin`), `core/permissions.py` (`HasActiveCouple`, `request_couple`), `core/pagination.py`, app de test `core/tests/scoping/` (installée seulement en settings de test), `core/tests/test_scoping_mixin.py`.
 - Usage : `couple_field` (défaut "couple"), `author_field`, `private=True` ; objets hors périmètre → 404 ; à la mise à jour, couple et auteur ne peuvent pas être changés ; pas de couple actif → 403 `no_active_couple`.
 - Pagination par défaut : curseur trié sur `-id` (réponse `{next, previous, results}`).
+
+## 2026-11-02 — P1.7 Endpoints couple
+- Fichiers clés : `backend/couples/{serializers,views,urls}.py`, `couples/tests/test_api.py`.
+- Endpoints : `GET/POST/PATCH/DELETE /api/v1/couple/` (couple courant de l'utilisateur ; DELETE = annuler un couple en attente), `POST couple/join/` (throttle `join` 10/min), `POST couple/invitation/` (nouveau code).
+- Le partenaire voit : prénom, surnom, nom affiché, avatar, fuseau. Jamais l'email ni la date de naissance. Lien d'invitation `nousdeux://join/CODE` (`APP_SCHEME`).
+- La validation backend vérifie aussi que le schéma OpenAPI se génère sans avertissement.

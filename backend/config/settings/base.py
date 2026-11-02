@@ -20,6 +20,8 @@ SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
 
 # Public URL of this backend (used in email links).
 PUBLIC_BASE_URL = env_str("PUBLIC_BASE_URL", "http://localhost:8000")
+# Mobile deep link scheme (invitation links: <scheme>://join/<CODE>).
+APP_SCHEME = env_str("APP_SCHEME", "nousdeux")
 DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "Nous Deux <no-reply@example.com>")
 
 # Email (Django 6.1 MAILERS). Console in dev; SMTP in prod (see prod.py).
@@ -130,6 +132,7 @@ REST_FRAMEWORK = {
         "anon": env_str("THROTTLE_ANON", "60/min"),
         "user": env_str("THROTTLE_USER", "600/min"),
         "auth": env_str("THROTTLE_AUTH", "10/min"),
+        "join": env_str("THROTTLE_JOIN", "10/min"),
     },
     "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
