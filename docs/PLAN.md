@@ -10,7 +10,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P0.3 — Infra et docs (git, `.gitignore`, docker-compose, Makefile, CI, `CLAUDE.md`, fichiers `docs/`) — fichiers présents et cohérents, premier commit — dépend de : P0.1, P0.2
 
 ## P1 — Comptes & couple (F1)
-- [ ] P1.1 — App `accounts` : User personnalisé (login email, prénom, surnom, avatar, date de naissance, langue, fuseau, heures calmes) + admin + factory — AUTH_USER_MODEL défini AVANT toute autre migration, tests modèle verts — dépend de : P0.3
+- [x] P1.1 — App `accounts` : User personnalisé (login email, prénom, surnom, avatar, date de naissance, langue, fuseau, heures calmes) + admin + factory — AUTH_USER_MODEL défini AVANT toute autre migration, tests modèle verts — dépend de : P0.3
 - [ ] P1.2 — Inscription + JWT (register, token, refresh avec rotation/blacklist, logout) — tests : inscription, mauvais mot de passe, refresh blacklisté après rotation, throttling auth — dépend de : P1.1
 - [ ] P1.3 — Vérification email + mot de passe oublié (tokens signés, emails fr/en, endpoints) + migration EMAIL_BACKEND→MAILERS (dépréciation Django 6.1) — tests : lien valide/expiré/réutilisé, aucun indice sur l'existence d'un email — dépend de : P1.2
 - [ ] P1.4 — Endpoints profil `GET/PATCH /me` (sans avatar) — tests : un utilisateur ne modifie que lui-même, champs validés (fuseau IANA, langue fr/en) — dépend de : P1.2

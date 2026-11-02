@@ -23,13 +23,21 @@ plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 exclude = ['\.venv/', 'migrations/']
 
 [[tool.mypy.overrides]]
-module = ["dj_database_url.*", "storages.*", "factory.*", "channels.*", "corsheaders.*"]
+module = ["dj_database_url.*", "storages.*", "channels.*", "corsheaders.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# factory_boy ships partial types that fight with Django models: treat as Any.
+module = ["factory", "factory.*"]
+follow_imports = "skip"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = ["*.tests.*", "conftest"]
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
+disallow_untyped_calls = false
+disallow_subclassing_any = false
 
 [tool.django-stubs]
 django_settings_module = "config.settings.test"

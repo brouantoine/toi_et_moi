@@ -4,8 +4,12 @@ from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
+import django_stubs_ext
 
 from .env import env_bool, env_int, env_list, env_str
+
+# Allow generic subscripting of Django classes at runtime (e.g. ModelAdmin[User]).
+django_stubs_ext.monkeypatch()
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -33,7 +37,10 @@ INSTALLED_APPS = [
     "storages",
     # Local
     "core",
+    "accounts",
 ]
+
+AUTH_USER_MODEL = "accounts.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
