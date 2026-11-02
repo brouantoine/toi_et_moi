@@ -131,7 +131,7 @@ REST_FRAMEWORK = {
         "user": env_str("THROTTLE_USER", "600/min"),
         "auth": env_str("THROTTLE_AUTH", "10/min"),
     },
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.CursorPagination",
+    "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
 }
 

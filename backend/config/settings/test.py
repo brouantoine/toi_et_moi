@@ -23,3 +23,6 @@ CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"
 
 # Deterministic test key (never used outside tests).
 FIELD_ENCRYPTION_KEYS = ["dGVzdC1rZXktdGVzdC1rZXktdGVzdC1rZXktMTIzNDU="]
+
+# Test-only app proving the scoping mixin (see core/tests/scoping).
+INSTALLED_APPS = [*INSTALLED_APPS, "core.tests.scoping"]  # noqa: F405
