@@ -6,6 +6,16 @@
   },
   "common": {
     "loading": "Un instant…",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "close": "Fermer"
+  },
+  "errors": {
+    "title": "Petit contretemps",
+    "generic": "Quelque chose n'a pas fonctionné. Rien de grave : tu peux réessayer.",
+    "network": "Pas de connexion pour le moment. Tes données reviendront dès que le réseau sera là.",
+    "server": "Le service se repose un instant. Réessaie dans quelques minutes.",
+    "not_found": "Cet élément n'existe plus.",
+    "throttled": "Doucement : réessaie dans une minute.",
+    "unauthorized": "Ta session a expiré. Reconnecte-toi pour continuer."
   }
 }

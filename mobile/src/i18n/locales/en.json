@@ -6,6 +6,16 @@
   },
   "common": {
     "loading": "Just a moment…",
-    "retry": "Try again"
+    "retry": "Try again",
+    "close": "Close"
+  },
+  "errors": {
+    "title": "A small hiccup",
+    "generic": "Something didn't work. Nothing serious: you can try again.",
+    "network": "No connection right now. Your data will be back as soon as the network is.",
+    "server": "The service is taking a short break. Try again in a few minutes.",
+    "not_found": "This item no longer exists.",
+    "throttled": "Easy there: try again in a minute.",
+    "unauthorized": "Your session has expired. Sign in again to continue."
   }
 }

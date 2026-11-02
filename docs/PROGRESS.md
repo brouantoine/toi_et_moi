@@ -53,3 +53,7 @@
 ## 2026-11-02 — P1.11 Socle données mobile
 - Fichiers clés : `mobile/src/auth/{tokenStorage,authStore}.ts` (tokens dans expo-secure-store, état Zustand), `mobile/src/api/authMiddleware.ts` (Bearer + refresh unique partagé + rejeu, déconnexion si échec), `mobile/src/api/{errors,queryClient,QueryProvider,index}.ts`, `mobile/jest.setup.ts` (mocks secure-store et AsyncStorage).
 - À savoir : utiliser `api` + `unwrap()` depuis `@/api` dans les hooks ; les erreurs sont des `ApiError` avec un `code` stable. Le cache TanStack Query est persisté 7 jours dans AsyncStorage (`CACHE_BUSTER` à incrémenter si la forme des données change). NetInfo est installé pour P3.6.
+
+## 2026-11-02 — P1.12 Design system partie 2
+- Fichiers clés : `mobile/src/ui/{Input,Avatar,EmptyState,ErrorState,LoadingState,Skeleton,Sheet}.tsx`, `mobile/src/test-utils.tsx` (`renderWithProviders`), `ui/__tests__/components.test.tsx`.
+- À savoir : `ErrorState` prend un `code` (`ApiError.code`) et affiche un message calme traduit (`errors.*`). `Skeleton` respecte « réduire les animations ». `Sheet` repose sur le Modal natif. `Avatar` utilise expo-image avec cache disque. Avec React 19, `ref` est une simple prop (pas de `forwardRef`).
