@@ -68,5 +68,43 @@
         "invalid_nonce": "Sign-in could not be verified. Try again."
       }
     }
+  },
+  "couple": {
+    "setup": {
+      "title": "Your space for two",
+      "message": "Create your space, then invite the other with a code. Or join the space they already created.",
+      "create": "Create our space",
+      "haveCode": "I have a code"
+    },
+    "pending": {
+      "title": "Your invitation code",
+      "explain": "Give this code to the other person, or send them the link. They just need to enter it in the app.",
+      "codeLabel": "Invitation code: {{code}}",
+      "expires": "Valid until {{date}}",
+      "share": "Send the invitation",
+      "shareMessage": "Join me on {{brand}}. Our code: {{code}} — or open this link: {{link}}",
+      "waiting": "As soon as they join, your space will open.",
+      "newCode": "Generate a new code",
+      "cancel": "Cancel this space"
+    },
+    "active": {
+      "title": "You are together",
+      "message": "Your space for two is ready. Take your time, there is nothing to fill in right now.",
+      "continue": "Enter"
+    },
+    "join": {
+      "title": "Join the other",
+      "explain": "Enter the 6-character code you received.",
+      "codeLabel": "Invitation code",
+      "invalidFormat": "The code has 6 characters (letters and digits).",
+      "submit": "Join"
+    },
+    "errors": {
+      "invalid_code": "This code does not work. Check it, or ask for a new one.",
+      "expired_code": "This code has expired. Ask the other person to generate a new one.",
+      "own_couple": "This is your own code: share it with the other person.",
+      "already_in_couple": "You are already part of a space for two.",
+      "couple_full": "This space is already complete."
+    }
   }
 }

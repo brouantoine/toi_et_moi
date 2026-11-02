@@ -65,3 +65,7 @@
 ## 2026-11-03 — P1.14 Boutons Apple et Google (mobile)
 - Fichiers clés : `mobile/src/features/auth/social/{providers,useSocialLogin}.ts`, `SocialButtons.tsx`, `app.config.ts` (`usesAppleSignIn`, plugin `expo-apple-authentication`, plugin Google si `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID`), mocks natifs globaux dans `jest.setup.ts`.
 - À savoir : Apple uniquement sur iOS (bouton natif imposé par Apple), nonce SHA-256 envoyé à Apple et nonce brut au serveur. Google masqué tant que `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` est vide. Une annulation par l'utilisateur ne produit ni appel API ni message.
+
+## 2026-11-03 — P1.15 Formation du couple (mobile)
+- Fichiers clés : `mobile/src/features/couple/{CoupleSetupScreen,JoinCoupleScreen,JoinLinkHandler}.tsx`, `useCouple.ts` (hooks + devise de l'appareil), `inviteLink.ts` (parseur `nousdeux://join/CODE`), `pendingInvite.ts`. Routes : `/couple`, `/couple/join`, `/join/[code]`.
+- À savoir : pendant l'attente du partenaire, le couple est relu toutes les 10 s (le temps réel viendra en P3). Un code reçu par lien avant inscription est gardé dans `usePendingInvite` et pré-remplit l'écran de jonction.
