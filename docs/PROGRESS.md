@@ -41,3 +41,7 @@
 - Fichiers clés : `backend/accounts/social.py` (vérification JWKS, iss, aud, exp, nonce Apple), `accounts/models.py` (`SocialAccount`), `accounts/services.py` (`sign_in_with_identity`), endpoint `POST /api/v1/auth/social/<apple|google>/`, `accounts/tests/test_social.py`.
 - Variables : `APPLE_AUDIENCES` (bundle id, défaut `com.changeme.nousdeux`), `GOOGLE_CLIENT_IDS` (vide = Google désactivé, renvoie `provider_disabled`).
 - Sécurité : un email non certifié par le fournisseur ne relie jamais un compte existant (`email_in_use`).
+
+## 2026-11-02 — P1.10 Client API typé
+- Fichiers clés : `scripts/api-types.sh` (schéma drf-spectacular → `mobile/src/api/schema.yaml` → `schema.d.ts`), `mobile/src/api/client.ts` (`openapi-fetch`), `mobile/src/config/env.ts`, `scripts/validate-mobile.sh`.
+- À savoir : après tout changement d'API backend, lancer `sh scripts/api-types.sh` et commiter `mobile/src/api/`. La CI échoue si les types ne sont pas à jour.

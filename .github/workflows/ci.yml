@@ -59,3 +59,19 @@ jobs:
       - run: npx eslint .
       - run: npx jest --ci
       - run: npx expo-doctor
+
+  api-types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: python -m venv backend/.venv && backend/.venv/bin/pip install -r backend/requirements/dev.txt
+      - run: cd mobile && npm ci
+      - run: sh scripts/api-types.sh
+      - name: Generated API types must be committed and up to date
+        run: git diff --exit-code mobile/src/api/

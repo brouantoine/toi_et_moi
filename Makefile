@@ -35,5 +35,4 @@ demo: seed
 
 # Regenerate the typed API client from the backend OpenAPI schema.
 api-types:
-	cd backend && ../$(PY) manage.py spectacular --file ../mobile/src/api/schema.yaml --settings=config.settings.test
-	cd mobile && npx openapi-typescript src/api/schema.yaml -o src/api/schema.d.ts
+	sh scripts/api-types.sh
