@@ -21,3 +21,7 @@
 ## 2026-11-02 — P1.4 Profil /me
 - Fichiers clés : `backend/accounts/views.py` (`MeView`), `accounts/tests/test_me_api.py`.
 - `GET/PATCH /api/v1/me/` : email et `email_verified` en lecture seule, fuseau IANA et langue fr/en validés. Avatar en P2.7.
+
+## 2026-11-02 — P1.5 Couple et invitation
+- Fichiers clés : `backend/couples/{models,services,admin}.py`, `couples/tests/factories.py` (`make_couple()`), `couples/tests/test_services.py`.
+- À savoir : appartenance via `CoupleMember.is_current` avec contrainte unique en base (un seul couple courant par utilisateur). Codes de 6 caractères sans 0/O/1/I/L, 48 h, un nouveau code révoque l'ancien. Erreurs métier = `CoupleError(code)` avec codes stables (`invalid_code`, `expired_code`, `own_couple`, `already_in_couple`, `couple_full`, `couple_not_pending`, `no_pending_couple`).

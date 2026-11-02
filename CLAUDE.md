@@ -32,3 +32,4 @@ Ajouter un paquet mobile : `npx expo install <pkg>` (jamais `npm install` pour u
 
 ## Git
 - Remote `origin` = https://github.com/brouantoine/toi_et_moi (push autorisé par l'utilisateur, voir DECISIONS.md). Pousser `main` après chaque commit : `git push origin main`.
+- Validation backend en une commande (Git Bash) : `sh backend/scripts/validate.sh`. Le `.ps1` équivalent exige `-ExecutionPolicy Bypass`.

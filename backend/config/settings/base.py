@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Local
     "core",
     "accounts",
+    "couples",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
