@@ -1030,7 +1030,7 @@ components:
           readOnly: true
         status:
           allOf:
-          - $ref: '#/components/schemas/StatusEnum'
+          - $ref: '#/components/schemas/CoupleStatusEnum'
           readOnly: true
         start_date:
           type: string
@@ -1073,6 +1073,18 @@ components:
           type: string
       required:
       - code
+    CoupleStatusEnum:
+      enum:
+      - pending
+      - active
+      - dissolving
+      - dissolved
+      type: string
+      description: |-
+        * `pending` - En attente du partenaire
+        * `active` - Actif
+        * `dissolving` - En dissolution
+        * `dissolved` - Dissous
     CreateCoupleRequest:
       type: object
       properties:
@@ -1244,7 +1256,7 @@ components:
           type: string
           maxLength: 200
         type:
-          $ref: '#/components/schemas/TypeEnum'
+          $ref: '#/components/schemas/MemoryTypeEnum'
         tags:
           type: array
           items:
@@ -1374,7 +1386,7 @@ components:
           type: string
           maxLength: 200
         type:
-          $ref: '#/components/schemas/TypeEnum'
+          $ref: '#/components/schemas/MemoryTypeEnum'
         tags:
           type: array
           items:
@@ -1385,6 +1397,20 @@ components:
       required:
       - happened_on
       - title
+    MemoryTypeEnum:
+      enum:
+      - first_time
+      - inside_joke
+      - place
+      - moment
+      - quote
+      type: string
+      description: |-
+        * `first_time` - Première fois
+        * `inside_joke` - Blague à nous
+        * `place` - Lieu
+        * `moment` - Moment
+        * `quote` - Citation
     OnThisDay:
       type: object
       properties:
@@ -1472,7 +1498,7 @@ components:
           type: string
           maxLength: 200
         type:
-          $ref: '#/components/schemas/TypeEnum'
+          $ref: '#/components/schemas/MemoryTypeEnum'
         tags:
           type: array
           items:
@@ -1600,18 +1626,6 @@ components:
           default: fr
       required:
       - id_token
-    StatusEnum:
-      enum:
-      - pending
-      - active
-      - dissolving
-      - dissolved
-      type: string
-      description: |-
-        * `pending` - En attente du partenaire
-        * `active` - Actif
-        * `dissolving` - En dissolution
-        * `dissolved` - Dissous
     TokenObtainPair:
       type: object
       properties:
@@ -1665,20 +1679,6 @@ components:
           minLength: 1
       required:
       - token
-    TypeEnum:
-      enum:
-      - first_time
-      - inside_joke
-      - place
-      - moment
-      - quote
-      type: string
-      description: |-
-        * `first_time` - Première fois
-        * `inside_joke` - Blague à nous
-        * `place` - Lieu
-        * `moment` - Moment
-        * `quote` - Citation
     User:
       type: object
       description: The authenticated user's own profile.

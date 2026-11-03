@@ -1,6 +1,3 @@
-import { TabPlaceholder } from '@/features/shell/TabPlaceholder';
-import { BookHeart } from 'lucide-react-native';
+import { MemoriesScreen } from '@/features/memories/MemoriesScreen';
 
-export default function MemoriesTab() {
-  return <TabPlaceholder icon={BookHeart} tab="memories" />;
-}
+export default MemoriesScreen;

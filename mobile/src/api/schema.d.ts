@@ -483,7 +483,7 @@ export interface components {
     };
     Couple: {
       readonly id: number;
-      readonly status: components['schemas']['StatusEnum'];
+      readonly status: components['schemas']['CoupleStatusEnum'];
       /** Format: date */
       start_date?: string | null;
       currency?: string;
@@ -498,6 +498,14 @@ export interface components {
     CoupleError: {
       code: string;
     };
+    /**
+     * @description * `pending` - En attente du partenaire
+     *     * `active` - Actif
+     *     * `dissolving` - En dissolution
+     *     * `dissolved` - Dissous
+     * @enum {string}
+     */
+    CoupleStatusEnum: 'pending' | 'active' | 'dissolving' | 'dissolved';
     CreateCoupleRequest: {
       /** Format: date */
       start_date?: string | null;
@@ -569,7 +577,7 @@ export interface components {
       /** Format: date */
       happened_on: string;
       place?: string;
-      type?: components['schemas']['TypeEnum'];
+      type?: components['schemas']['MemoryTypeEnum'];
       tags?: string[];
       readonly created_by: number | null;
       readonly photos: components['schemas']['MemoryPhoto'][];
@@ -607,9 +615,18 @@ export interface components {
       /** Format: date */
       happened_on: string;
       place?: string;
-      type?: components['schemas']['TypeEnum'];
+      type?: components['schemas']['MemoryTypeEnum'];
       tags?: string[];
     };
+    /**
+     * @description * `first_time` - Première fois
+     *     * `inside_joke` - Blague à nous
+     *     * `place` - Lieu
+     *     * `moment` - Moment
+     *     * `quote` - Citation
+     * @enum {string}
+     */
+    MemoryTypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
     OnThisDay: {
       /** Format: date */
       date: string;
@@ -649,7 +666,7 @@ export interface components {
       /** Format: date */
       happened_on?: string;
       place?: string;
-      type?: components['schemas']['TypeEnum'];
+      type?: components['schemas']['MemoryTypeEnum'];
       tags?: string[];
     };
     /** @description The authenticated user's own profile. */
@@ -699,14 +716,6 @@ export interface components {
       /** @default fr */
       language: components['schemas']['LanguageEnum'];
     };
-    /**
-     * @description * `pending` - En attente du partenaire
-     *     * `active` - Actif
-     *     * `dissolving` - En dissolution
-     *     * `dissolved` - Dissous
-     * @enum {string}
-     */
-    StatusEnum: 'pending' | 'active' | 'dissolving' | 'dissolved';
     TokenObtainPair: {
       readonly access: string;
       readonly refresh: string;
@@ -725,15 +734,6 @@ export interface components {
     TokenRequest: {
       token: string;
     };
-    /**
-     * @description * `first_time` - Première fois
-     *     * `inside_joke` - Blague à nous
-     *     * `place` - Lieu
-     *     * `moment` - Moment
-     *     * `quote` - Citation
-     * @enum {string}
-     */
-    TypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
     /** @description The authenticated user's own profile. */
     User: {
       readonly id: number;

@@ -191,5 +191,22 @@
     "currency": "Budget currency",
     "currencyHint": "3-letter code, for example EUR, CAD, XOF.",
     "currencyInvalid": "Enter a 3-letter code (EUR, CAD…)."
+  },
+  "memories": {
+    "all": "All",
+    "add": "Add a memory",
+    "searchLabel": "Search",
+    "searchPlaceholder": "A word, a place…",
+    "emptyTitle": "Your first memory is waiting",
+    "emptyMessage": "A first time, a place, a laugh: keep what matters to you both.",
+    "noMatchTitle": "Nothing matches",
+    "noMatchMessage": "Try another word or clear the filter.",
+    "types": {
+      "moment": "Moment",
+      "first_time": "First time",
+      "place": "Place",
+      "inside_joke": "Inside joke",
+      "quote": "Quote"
+    }
   }
 }

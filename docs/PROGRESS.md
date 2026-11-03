@@ -118,3 +118,8 @@
 - Fichiers clés : `backend/core/{uploads,upload_views}.py` (champ image unique générique), `accounts/avatar_views.py`, `couples/photo_views.py`, `core/tests/test_single_images.py`.
 - Endpoints : `POST /api/v1/me/avatar/upload-url/`, `PUT/DELETE /api/v1/me/avatar/` ; `POST /api/v1/couple/photo/upload-url/`, `PUT/DELETE /api/v1/couple/photo/`. Même format de ticket que les photos de souvenirs (`form_fields`).
 - À savoir : remplacer ou retirer une image supprime réellement l'ancien fichier (après commit). La clé doit appartenir à l'espace de l'utilisateur (avatar) ou du couple (photo).
+
+## 2026-11-03 — P2.8 Frise des souvenirs (EN COURS, non cochée)
+- Fichiers clés : `mobile/src/features/memories/{MemoriesScreen,MemoryCard,useMemories,memoryTypes}.ts(x)`, `mobile/src/api/pagination.ts`, route `src/app/(tabs)/memories.tsx`. Énumérations OpenAPI nommées (`MemoryTypeEnum`, `LanguageEnum`, `CoupleStatusEnum`).
+- État : l'écran compile et passe le lint ; **les tests de la frise restent à écrire** avant de cocher P2.8.
+- README rempli (avancement + prompt d'origine) à la demande de l'utilisateur.

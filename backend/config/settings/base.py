@@ -145,6 +145,11 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
+    "ENUM_NAME_OVERRIDES": {
+        "MemoryTypeEnum": "memories.models.MemoryType",
+        "LanguageEnum": "accounts.models.Language",
+        "CoupleStatusEnum": "couples.models.CoupleStatus",
+    },
 }
 
 SIMPLE_JWT = {

@@ -191,5 +191,22 @@
     "currency": "Devise du budget",
     "currencyHint": "Code à 3 lettres, par exemple EUR, CAD, XOF.",
     "currencyInvalid": "Indique un code à 3 lettres (EUR, CAD…)."
+  },
+  "memories": {
+    "all": "Tous",
+    "add": "Ajouter un souvenir",
+    "searchLabel": "Rechercher",
+    "searchPlaceholder": "Un mot, un lieu…",
+    "emptyTitle": "Votre premier souvenir vous attend",
+    "emptyMessage": "Une première fois, un lieu, un fou rire : gardez ce qui compte pour vous deux.",
+    "noMatchTitle": "Rien ne correspond",
+    "noMatchMessage": "Essaie un autre mot ou retire le filtre.",
+    "types": {
+      "moment": "Moment",
+      "first_time": "Première fois",
+      "place": "Lieu",
+      "inside_joke": "Blague à nous",
+      "quote": "Citation"
+    }
   }
 }
