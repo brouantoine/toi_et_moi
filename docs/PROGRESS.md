@@ -90,3 +90,7 @@
 ## 2026-11-03 — P2.1 Stockage : upload présigné et URL signées
 - Fichiers clés : `backend/core/storage.py`, `core/tests/test_storage.py`.
 - À savoir : upload direct par **POST présigné** (S3 impose type et taille max via la policy signée), clés `couples/<id>/<kind>/<uuid>.<ext>` ou `users/<id>/...`, `key_belongs_to()` empêche de confirmer une clé hors de son espace. Lecture via URL signées (15 min, `S3_URL_EXPIRE_SECONDS`). Nouvelle variable `S3_PUBLIC_ENDPOINT_URL` : adresse de MinIO joignable depuis le téléphone en dev.
+
+## 2026-11-03 — P2.2 Modèles Souvenirs
+- Fichiers clés : `backend/memories/{models,signals,admin}.py`, `memories/tests/{factories,test_models}.py`.
+- À savoir : `Memory` (couple, auteur nullable, titre, texte, date, lieu libre, type, tags JSON), `MemoryPhoto` (clé S3 + miniature), `MemoryReaction` (un seul cœur par personne, aucun compteur), `MemoryComment`. La suppression d'une photo (ou d'un souvenir, en cascade) supprime réellement les fichiers après validation de la transaction. Si l'auteur supprime son compte, le souvenir reste au partenaire.
