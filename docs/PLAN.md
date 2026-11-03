@@ -49,7 +49,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P3.2 — Listes et items (cochables, réordonnables) + API — tests réordonnancement et permissions — dépend de : P1.6
 - [x] P3.3 — Tâches de la maison (assignation, récurrence, échéance, complétion) + vue de répartition neutre de la semaine — tests (aucun score exposé) — dépend de : P1.6
 - [x] P3.4 — Budget : Expense/ExpenseShare (entiers + devise), répartition 50/50 ou personnalisée, solde « qui doit combien », remboursement — tests du calcul et des arrondis — dépend de : P1.6
-- [ ] P3.5 — Temps réel : consumer Channels authentifié JWT, groupe par couple, diffusion des changements organisation — tests WebsocketCommunicator (étranger refusé) — dépend de : P3.1, P3.2, P3.3, P3.4
+- [x] P3.5 — Temps réel : consumer Channels authentifié JWT, groupe par couple, diffusion des changements organisation — tests WebsocketCommunicator (étranger refusé) — dépend de : P3.1, P3.2, P3.3, P3.4
 - [ ] P3.6 — Mobile : hors ligne (persistance du cache, file de mutations, mises à jour optimistes, reprise réseau) — tests unitaires des helpers — dépend de : P1.11
 - [ ] P3.7 — Mobile : client WebSocket (reconnexion, invalidation de requêtes) — tests — dépend de : P3.5, P3.6
 - [ ] P3.8 — Mobile : agenda — tests états vide/chargement/erreur — dépend de : P3.7

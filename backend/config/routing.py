@@ -1,5 +1,7 @@
-"""WebSocket routes. Real-time consumers are added in P3 (organization sync)."""
+"""WebSocket routes."""
 
-from django.urls import URLPattern
+from django.urls import path
 
-websocket_urlpatterns: list[URLPattern] = []
+from core.realtime import SyncConsumer
+
+websocket_urlpatterns = [path("ws/v1/sync/", SyncConsumer.as_asgi())]

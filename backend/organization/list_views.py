@@ -12,19 +12,24 @@ from rest_framework.serializers import BaseSerializer
 
 from core.auth import current_user
 from core.mixins import CoupleScopedQuerysetMixin
+from core.realtime import notify_changed
 
 from . import services
 from .models import ListItem, SharedList
 from .serializers import ListItemSerializer, ReorderSerializer, SharedListSerializer
 
 
-def _apply_order(queryset: QuerySet[Any], request: Request) -> Response:
+def _apply_order(
+    queryset: QuerySet[Any], request: Request, couple_id: int, resource: str, **extra: Any
+) -> Response:
     payload = ReorderSerializer(data=request.data)
     payload.is_valid(raise_exception=True)
     try:
         services.reorder(queryset, payload.validated_data["ids"])
     except ValueError as error:
         raise serializers.ValidationError({"ids": "mismatch"}, code="mismatch") from error
+    # bulk_update sends no signal: tell the other phone explicitly.
+    notify_changed(couple_id, resource, 0, "reorder", **extra)
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -46,7 +51,9 @@ class SharedListViewSet(CoupleScopedQuerysetMixin, viewsets.ModelViewSet[SharedL
     @extend_schema(request=ReorderSerializer, responses={204: None})
     @action(detail=False, methods=["post"])
     def reorder(self, request: Request) -> Response:
-        return _apply_order(SharedList.objects.filter(couple=self.couple), request)
+        return _apply_order(
+            SharedList.objects.filter(couple=self.couple), request, self.couple.pk, "lists"
+        )
 
 
 class ListItemViewSet(CoupleScopedQuerysetMixin, viewsets.ModelViewSet[ListItem]):
@@ -83,7 +90,10 @@ class ListItemViewSet(CoupleScopedQuerysetMixin, viewsets.ModelViewSet[ListItem]
     @extend_schema(request=ReorderSerializer, responses={204: None})
     @action(detail=False, methods=["post"])
     def reorder(self, request: Request, list_pk: str | None = None) -> Response:
-        return _apply_order(self.parent.items.all(), request)
+        parent = self.parent
+        return _apply_order(
+            parent.items.all(), request, self.couple.pk, "list_items", list_id=parent.pk
+        )
 
     @extend_schema(request=None, responses={204: None})
     @action(detail=False, methods=["post"], url_path="clear-done")
