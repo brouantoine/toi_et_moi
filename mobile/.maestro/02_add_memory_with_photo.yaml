@@ -1,0 +1,102 @@
+# Add a memory with a photo, then find it in the timeline and open it.
+# Starts from flow 01 (fresh couple), so it runs on its own.
+appId: com.changeme.nousdeux
+name: Ajouter un souvenir avec photo
+---
+- runFlow: 01_signup_couple_partner_joins.yaml
+
+# Put a known photo in the device library.
+- addMedia:
+    - "assets/memory.jpg"
+
+- tapOn:
+    id: "tabbar-memories"
+- extendedWaitUntil:
+    visible:
+      id: "memories-empty"
+    timeout: 15000
+- tapOn:
+    id: "memories-add"
+- extendedWaitUntil:
+    visible:
+      id: "memory-form"
+    timeout: 10000
+
+# System photo picker: its UI differs per platform (and per system language).
+- tapOn:
+    id: "memory-form-add-photos"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: "Photo.*"
+          timeout: 10000
+      - tapOn:
+          text: "Photo.*"
+          index: 0
+      - tapOn:
+          text: "(Add|Ajouter)"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: "(Photo|Image).*"
+          timeout: 10000
+      - tapOn:
+          text: "(Photo|Image).*"
+          index: 0
+      - tapOn:
+          text: "(Add|Ajouter|Done|OK)"
+- extendedWaitUntil:
+    visible:
+      text: "1 sur 10"
+    timeout: 10000
+
+# Write the memory.
+- tapOn:
+    id: "memory-form-title"
+- inputText: "Le lac au lever du jour"
+- tapOn:
+    id: "memory-form-body"
+- inputText: "On avait froid, on riait."
+- hideKeyboard
+- tapOn:
+    id: "memory-form-type-place"
+- scrollUntilVisible:
+    element:
+      id: "memory-form-place"
+    direction: DOWN
+- tapOn:
+    id: "memory-form-place"
+- inputText: "Annecy"
+- hideKeyboard
+- tapOn:
+    id: "memory-form-save"
+
+# Back on the timeline: the memory is there, with its photo.
+- extendedWaitUntil:
+    visible:
+      text: "Le lac au lever du jour"
+    timeout: 30000
+- assertVisible:
+    id: "memories-list"
+- tapOn:
+    text: "Le lac au lever du jour"
+- extendedWaitUntil:
+    visible:
+      id: "memory-detail"
+    timeout: 10000
+- assertVisible:
+    id: "memory-photos"
+- assertVisible:
+    id: "memory-heart"
+- tapOn:
+    id: "memory-heart"
+- tapOn:
+    id: "memory-back"
+- assertVisible:
+    id: "tab-memories"

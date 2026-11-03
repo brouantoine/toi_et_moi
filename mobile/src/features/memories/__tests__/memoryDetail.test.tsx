@@ -2,7 +2,15 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react-nativ
 import { Alert, type AlertButton } from 'react-native';
 
 import i18n from '@/i18n';
-import { jsonResponse, mockFetch, renderWithProviders, routerMock } from '@/test-utils';
+import { coupleKey } from '@/features/couple/useCouple';
+import { meKey } from '@/features/me/useProfile';
+import {
+  createTestQueryClient,
+  jsonResponse,
+  mockFetch,
+  renderWithProviders as baseRender,
+  routerMock,
+} from '@/test-utils';
 
 import { MemoryDetailScreen } from '../MemoryDetailScreen';
 
@@ -95,6 +103,14 @@ const myComment = {
   created_at: '2025-03-15T09:00:00Z',
 };
 
+/** Renders with me and the couple already cached, as in the running app. */
+function renderWithProviders(ui: Parameters<typeof baseRender>[0], scheme?: 'light' | 'dark') {
+  const client = createTestQueryClient();
+  client.setQueryData(meKey, me);
+  client.setQueryData(coupleKey, couple);
+  return baseRender(ui, scheme, client);
+}
+
 type Call = { method: string; path: string; body?: unknown };
 
 function fakeBackend({
@@ -162,11 +178,15 @@ describe('MemoryDetailScreen', () => {
     expect(screen.queryByTestId('memory-photos')).toBeNull();
   });
 
-  it('shows a loading state, then a calm error state with retry', async () => {
-    const fetch = mockFetch();
-    fetch.mockRejectedValue(new TypeError('Network request failed'));
+  it('shows a loading state while the memory loads', async () => {
+    mockFetch().mockReturnValue(new Promise(() => {}));
     await renderWithProviders(<MemoryDetailScreen memoryId={5} />);
     expect(screen.getByTestId('memory-detail-loading')).toBeTruthy();
+  });
+
+  it('shows a calm error state, with a way back', async () => {
+    mockFetch().mockRejectedValue(new TypeError('Network request failed'));
+    await renderWithProviders(<MemoryDetailScreen memoryId={5} />);
     expect(await screen.findByTestId('memory-detail-error')).toBeTruthy();
     await fireEvent.press(screen.getByRole('button', { name: 'Retour' }));
     expect(routerMock().back).toHaveBeenCalled();

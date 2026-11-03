@@ -42,7 +42,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P2.8 — Mobile : timeline des souvenirs (liste virtualisée, filtre, recherche) — tests états vide/chargement/erreur — dépend de : P2.3, P1.16
 - [x] P2.9 — Mobile : création/édition de souvenir + sélection photos + compression (2048 px, JPEG 0,8) + upload présigné — tests du service de compression/upload mocké, refus de permission sans crash — dépend de : P2.8, P2.4
 - [x] P2.10 — Mobile : détail souvenir (photos expo-image, cœur, commentaires) — tests — dépend de : P2.9, P2.5
-- [ ] P2.11 — Maestro : ajouter un souvenir avec photo — dépend de : P2.10
+- [x] P2.11 — Maestro : ajouter un souvenir avec photo — dépend de : P2.10
 
 ## P3 — Organisation (F3) + temps réel + hors ligne
 - [ ] P3.1 — App `organization` : Event (journée entière, rappel, concerné moi/toi/nous, récurrence annuelle, type retrouvailles) + API — tests partenaire/étranger, occurrences récurrentes — dépend de : P1.6

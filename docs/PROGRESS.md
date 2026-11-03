@@ -150,3 +150,10 @@
 - Suppression du souvenir : bouton discret en bas de page (loin des actions courantes), confirmation calme qui rappelle que c'est pour vous deux et définitif.
 - Design system : `Icon` gagne `filled`, `IconButton` la variante `overlay`, nouvelle variante typographique `lead`, `common.cancel`.
 - Validation : 348 tests mobile verts, tsc, ESLint. Vérification visuelle clair et sombre par export web + captures.
+
+## 2026-11-03 — P2.11 Parcours Maestro « ajouter un souvenir avec photo »
+- Fichiers clés : `mobile/.maestro/02_add_memory_with_photo.yaml`, `.maestro/assets/memory.jpg` (photo de test générée), `.maestro/README.md` (tableau des parcours).
+- Le parcours repart du 01 (couple actif), dépose la photo dans la photothèque (`addMedia`), passe par le sélecteur système (une branche iOS et une branche Android, libellés anglais et français), crée le souvenir, le retrouve dans la frise, ouvre le détail et met un cœur.
+- Maestro n'est pas exécuté ici (aucun simulateur) ; le test Jest de cohérence des `testID` couvre le nouveau parcours.
+- Tests du détail stabilisés (chargement et erreur séparés, cache « moi » et « couple » pré-rempli : plus d'avertissement `act`).
+- **Phase P2 terminée.** 367 tests mobile verts, tsc, ESLint.
