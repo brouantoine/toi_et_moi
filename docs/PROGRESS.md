@@ -86,3 +86,7 @@
 - Fichiers clés : `mobile/.maestro/01_signup_couple_partner_joins.yaml`, `.maestro/subflows/register.yaml`, `.maestro/config.yaml`, `.maestro/README.md`, `mobile/src/__tests__/maestro-ids.test.ts` (chaque `id` des parcours doit exister comme `testID`).
 - À savoir : le parcours joue les deux personnes sur le même appareil (déconnexion entre les deux). Ajout d'un bouton « Se déconnecter » sur l'écran du couple en attente (il manquait : une personne sans couple actif n'avait pas accès à l'onglet Moi). Maestro n'est pas exécuté ici (aucun simulateur sur cette machine Windows).
 - **Phase P1 terminée.**
+
+## 2026-11-03 — P2.1 Stockage : upload présigné et URL signées
+- Fichiers clés : `backend/core/storage.py`, `core/tests/test_storage.py`.
+- À savoir : upload direct par **POST présigné** (S3 impose type et taille max via la policy signée), clés `couples/<id>/<kind>/<uuid>.<ext>` ou `users/<id>/...`, `key_belongs_to()` empêche de confirmer une clé hors de son espace. Lecture via URL signées (15 min, `S3_URL_EXPIRE_SECONDS`). Nouvelle variable `S3_PUBLIC_ENDPOINT_URL` : adresse de MinIO joignable depuis le téléphone en dev.

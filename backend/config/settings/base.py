@@ -176,6 +176,8 @@ AWS_ACCESS_KEY_ID = env_str("S3_ACCESS_KEY", "minioadmin")
 AWS_SECRET_ACCESS_KEY = env_str("S3_SECRET_KEY", "minioadmin")
 AWS_STORAGE_BUCKET_NAME = env_str("S3_BUCKET", "nousdeux")
 AWS_S3_ENDPOINT_URL = env_str("S3_ENDPOINT_URL", "http://localhost:9000")
+# Endpoint reachable by phones for presigned uploads (e.g. LAN IP of MinIO in dev).
+S3_PUBLIC_ENDPOINT_URL = env_str("S3_PUBLIC_ENDPOINT_URL", "")
 AWS_S3_REGION_NAME = env_str("S3_REGION", "us-east-1")
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
