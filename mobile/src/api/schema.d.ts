@@ -245,6 +245,44 @@ export interface paths {
     patch: operations['v1_me_partial_update'];
     trace?: never;
   };
+  '/api/v1/memories/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared memories of the couple, newest first. */
+    get: operations['v1_memories_list'];
+    put?: never;
+    /** @description Shared memories of the couple, newest first. */
+    post: operations['v1_memories_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memories/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared memories of the couple, newest first. */
+    get: operations['v1_memories_retrieve'];
+    /** @description Shared memories of the couple, newest first. */
+    put: operations['v1_memories_update'];
+    post?: never;
+    /** @description Shared memories of the couple, newest first. */
+    delete: operations['v1_memories_destroy'];
+    options?: never;
+    head?: never;
+    /** @description Shared memories of the couple, newest first. */
+    patch: operations['v1_memories_partial_update'];
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -311,6 +349,56 @@ export interface components {
       readonly avatar_url: string | null;
       readonly timezone: string;
     };
+    /** @description A shared memory. Hearts are booleans only: never a counter. */
+    Memory: {
+      readonly id: number;
+      title: string;
+      body?: string;
+      /** Format: date */
+      happened_on: string;
+      place?: string;
+      type?: components['schemas']['TypeEnum'];
+      tags?: string[];
+      readonly created_by: number | null;
+      readonly photos: components['schemas']['MemoryPhoto'][];
+      readonly my_heart: boolean;
+      readonly partner_heart: boolean;
+      /** Format: date-time */
+      readonly created_at: string;
+      /** Format: date-time */
+      readonly updated_at: string;
+    };
+    MemoryPhoto: {
+      readonly id: number;
+      readonly url: string | null;
+      readonly thumbnail_url: string | null;
+      readonly width: number | null;
+      readonly height: number | null;
+      readonly position: number;
+    };
+    /** @description A shared memory. Hearts are booleans only: never a counter. */
+    MemoryRequest: {
+      title: string;
+      body?: string;
+      /** Format: date */
+      happened_on: string;
+      place?: string;
+      type?: components['schemas']['TypeEnum'];
+      tags?: string[];
+    };
+    PaginatedMemoryList: {
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cD00ODY%3D"
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+       */
+      previous?: string | null;
+      results: components['schemas']['Memory'][];
+    };
     PasswordResetConfirmRequest: {
       uid: string;
       token: string;
@@ -320,6 +408,16 @@ export interface components {
       /** Format: date */
       start_date?: string | null;
       currency?: string;
+    };
+    /** @description A shared memory. Hearts are booleans only: never a counter. */
+    PatchedMemoryRequest: {
+      title?: string;
+      body?: string;
+      /** Format: date */
+      happened_on?: string;
+      place?: string;
+      type?: components['schemas']['TypeEnum'];
+      tags?: string[];
     };
     /** @description The authenticated user's own profile. */
     PatchedUserRequest: {
@@ -386,6 +484,15 @@ export interface components {
     TokenRequest: {
       token: string;
     };
+    /**
+     * @description * `first_time` - Première fois
+     *     * `inside_joke` - Blague à nous
+     *     * `place` - Lieu
+     *     * `moment` - Moment
+     *     * `quote` - Citation
+     * @enum {string}
+     */
+    TypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
     /** @description The authenticated user's own profile. */
     User: {
       readonly id: number;
@@ -890,6 +997,158 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['User'];
+        };
+      };
+    };
+  };
+  v1_memories_list: {
+    parameters: {
+      query?: {
+        /** @description La valeur du curseur de pagination. */
+        cursor?: string;
+        /** @description Nombre de résultats à retourner par page. */
+        page_size?: number;
+        /** @description Full-text search */
+        q?: string;
+        tag?: string;
+        type?: 'first_time' | 'inside_joke' | 'moment' | 'place' | 'quote';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaginatedMemoryList'];
+        };
+      };
+    };
+  };
+  v1_memories_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MemoryRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['MemoryRequest'];
+        'multipart/form-data': components['schemas']['MemoryRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Memory'];
+        };
+      };
+    };
+  };
+  v1_memories_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Memory'];
+        };
+      };
+    };
+  };
+  v1_memories_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MemoryRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['MemoryRequest'];
+        'multipart/form-data': components['schemas']['MemoryRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Memory'];
+        };
+      };
+    };
+  };
+  v1_memories_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_memories_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedMemoryRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedMemoryRequest'];
+        'multipart/form-data': components['schemas']['PatchedMemoryRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Memory'];
         };
       };
     };

@@ -94,3 +94,8 @@
 ## 2026-11-03 — P2.2 Modèles Souvenirs
 - Fichiers clés : `backend/memories/{models,signals,admin}.py`, `memories/tests/{factories,test_models}.py`.
 - À savoir : `Memory` (couple, auteur nullable, titre, texte, date, lieu libre, type, tags JSON), `MemoryPhoto` (clé S3 + miniature), `MemoryReaction` (un seul cœur par personne, aucun compteur), `MemoryComment`. La suppression d'une photo (ou d'un souvenir, en cascade) supprime réellement les fichiers après validation de la transaction. Si l'auteur supprime son compte, le souvenir reste au partenaire.
+
+## 2026-11-03 — P2.3 API Souvenirs
+- Fichiers clés : `backend/memories/{serializers,services,views,urls}.py`, `memories/tests/test_api.py`.
+- Endpoints : `GET/POST /api/v1/memories/` (`?type=`, `?tag=`, `?q=` plein texte), `GET/PATCH/PUT/DELETE /api/v1/memories/<id>/`. Pagination curseur sur `-happened_on, -id`.
+- À savoir : recherche plein texte Postgres (`SearchVector` config `simple`, requêtes « websearch ») et repli `icontains` sous SQLite. Cœurs exposés en booléens (`my_heart`, `partner_heart`), jamais de compteur. Liste sans N+1 (≤ 6 requêtes testé). Routers : `SimpleRouter` (pas de vue racine qui entrerait en conflit entre apps).

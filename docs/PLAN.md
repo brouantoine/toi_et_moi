@@ -34,7 +34,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 ## P2 — Souvenirs (F2)
 - [x] P2.1 — `core/storage` : URL présignée d'upload (clé préfixée par couple, type et taille validés) + URL signée de lecture à durée limitée — tests avec botocore Stubber — dépend de : P1.6
 - [x] P2.2 — App `memories` : modèles Memory, MemoryPhoto, MemoryReaction, MemoryComment + admin + factories + suppression réelle des fichiers — tests modèles et suppression fichiers — dépend de : P2.1
-- [ ] P2.3 — API souvenirs CRUD (chronologique, filtre par type, recherche plein texte Postgres avec repli SQLite) — tests partenaire/étranger + `django_assert_num_queries` — dépend de : P2.2
+- [x] P2.3 — API souvenirs CRUD (chronologique, filtre par type, recherche plein texte Postgres avec repli SQLite) — tests partenaire/étranger + `django_assert_num_queries` — dépend de : P2.2
 - [ ] P2.4 — API photos (demande d'upload, confirmation, max 10, suppression) + tâche Celery de miniatures (Pillow) — tests eager — dépend de : P2.3
 - [ ] P2.5 — Réaction cœur (toggle, sans compteur) + commentaires courts — tests partenaire/étranger — dépend de : P2.3
 - [ ] P2.6 — Endpoint « Il y a N ans aujourd'hui » dans le fuseau de l'utilisateur — tests aux frontières de fuseau et 29 février — dépend de : P2.3

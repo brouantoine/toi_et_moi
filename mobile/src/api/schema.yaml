@@ -427,6 +427,183 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
+  /api/v1/memories/:
+    get:
+      operationId: v1_memories_list
+      description: Shared memories of the couple, newest first.
+      parameters:
+      - name: cursor
+        required: false
+        in: query
+        description: La valeur du curseur de pagination.
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        description: Nombre de résultats à retourner par page.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Full-text search
+      - in: query
+        name: tag
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - first_time
+          - inside_joke
+          - moment
+          - place
+          - quote
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMemoryList'
+          description: ''
+    post:
+      operationId: v1_memories_create
+      description: Shared memories of the couple, newest first.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemoryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/memories/{id}/:
+    get:
+      operationId: v1_memories_retrieve
+      description: Shared memories of the couple, newest first.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+    put:
+      operationId: v1_memories_update
+      description: Shared memories of the couple, newest first.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemoryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+    patch:
+      operationId: v1_memories_partial_update
+      description: Shared memories of the couple, newest first.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMemoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMemoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMemoryRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+    delete:
+      operationId: v1_memories_destroy
+      description: Shared memories of the couple, newest first.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
     AuthResponse:
@@ -589,6 +766,146 @@ components:
       - id
       - nickname
       - timezone
+    Memory:
+      type: object
+      description: 'A shared memory. Hearts are booleans only: never a counter.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 120
+        body:
+          type: string
+          maxLength: 5000
+        happened_on:
+          type: string
+          format: date
+        place:
+          type: string
+          maxLength: 200
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 30
+          maxItems: 50
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        photos:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryPhoto'
+          readOnly: true
+        my_heart:
+          type: boolean
+          readOnly: true
+        partner_heart:
+          type: boolean
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - created_by
+      - happened_on
+      - id
+      - my_heart
+      - partner_heart
+      - photos
+      - title
+      - updated_at
+    MemoryPhoto:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          nullable: true
+          readOnly: true
+        thumbnail_url:
+          type: string
+          nullable: true
+          readOnly: true
+        width:
+          type: integer
+          readOnly: true
+          nullable: true
+        height:
+          type: integer
+          readOnly: true
+          nullable: true
+        position:
+          type: integer
+          readOnly: true
+      required:
+      - height
+      - id
+      - position
+      - thumbnail_url
+      - url
+      - width
+    MemoryRequest:
+      type: object
+      description: 'A shared memory. Hearts are booleans only: never a counter.'
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        body:
+          type: string
+          maxLength: 5000
+        happened_on:
+          type: string
+          format: date
+        place:
+          type: string
+          maxLength: 200
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        tags:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 30
+          maxItems: 50
+      required:
+      - happened_on
+      - title
+    PaginatedMemoryList:
+      type: object
+      required:
+      - results
+      properties:
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?cursor=cD00ODY%3D"
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Memory'
     PasswordResetConfirmRequest:
       type: object
       properties:
@@ -616,6 +933,32 @@ components:
           type: string
           minLength: 1
           maxLength: 3
+    PatchedMemoryRequest:
+      type: object
+      description: 'A shared memory. Hearts are booleans only: never a counter.'
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        body:
+          type: string
+          maxLength: 5000
+        happened_on:
+          type: string
+          format: date
+        place:
+          type: string
+          maxLength: 200
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        tags:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 30
+          maxItems: 50
     PatchedUserRequest:
       type: object
       description: The authenticated user's own profile.
@@ -776,6 +1119,20 @@ components:
           minLength: 1
       required:
       - token
+    TypeEnum:
+      enum:
+      - first_time
+      - inside_joke
+      - place
+      - moment
+      - quote
+      type: string
+      description: |-
+        * `first_time` - Première fois
+        * `inside_joke` - Blague à nous
+        * `place` - Lieu
+        * `moment` - Moment
+        * `quote` - Citation
     User:
       type: object
       description: The authenticated user's own profile.
