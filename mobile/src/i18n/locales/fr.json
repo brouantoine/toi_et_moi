@@ -12,7 +12,8 @@
     "clear": "Effacer",
     "confirm": "Valider",
     "save": "Enregistrer",
-    "saved": "C’est enregistré."
+    "saved": "C’est enregistré.",
+    "cancel": "Annuler"
   },
   "errors": {
     "title": "Petit contretemps",
@@ -255,6 +256,31 @@
         "bodyTooLong": "Ce récit est un peu long (5 000 caractères au plus).",
         "dateRequired": "Choisis une date."
       }
+    },
+    "detail": {
+      "back": "Retour",
+      "edit": "Modifier",
+      "delete": "Supprimer le souvenir",
+      "deleteTitle": "Supprimer ce souvenir ?",
+      "deleteMessage": "Il disparaîtra pour vous deux, avec ses photos et vos mots. C’est définitif.",
+      "deleteConfirm": "Supprimer",
+      "deleteError": "La suppression n’a pas abouti. Réessaie dans un instant.",
+      "photoOf": "Photo {{n}} sur {{total}}",
+      "heartLabel": "Mettre un cœur sur ce souvenir",
+      "heartOff": "Mettre un cœur",
+      "heartOn": "Dans ton cœur",
+      "partnerHeart": "{{name}} y a mis un cœur",
+      "bothHearts": "Vous y avez mis un cœur tous les deux",
+      "commentsTitle": "Vos mots",
+      "commentsEmpty": "Un mot doux, un détail que l’autre aurait oublié…",
+      "commentsError": "Vos mots n’ont pas pu être chargés.",
+      "commentLabel": "Ton mot",
+      "commentPlaceholder": "Écrire un mot",
+      "send": "Envoyer",
+      "you": "Toi",
+      "deleteComment": "Supprimer ton mot",
+      "deleteCommentTitle": "Supprimer ce mot ?",
+      "commentError": "Ton mot n’a pas pu être envoyé. Il est toujours là, tu peux réessayer."
     }
   }
 }

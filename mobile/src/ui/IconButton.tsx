@@ -6,7 +6,7 @@ import { PressableScale } from './PressableScale';
 import { useTheme } from './theme';
 import { MIN_TOUCH_TARGET, type Palette } from './tokens';
 
-type Variant = 'primary' | 'soft' | 'plain';
+type Variant = 'primary' | 'soft' | 'plain' | 'overlay';
 
 type Props = {
   icon: LucideIcon;
@@ -21,6 +21,8 @@ const VARIANTS: Record<Variant, { bg: keyof Palette | null; fg: keyof Palette }>
   primary: { bg: 'primary', fg: 'onPrimary' },
   soft: { bg: 'primarySoft', fg: 'onPrimarySoft' },
   plain: { bg: null, fg: 'text' },
+  /** Over a photo: light icon on the dark scrim. */
+  overlay: { bg: 'scrim', fg: 'onScrim' },
 };
 
 /** Round icon-only button, always at least MIN_TOUCH_TARGET wide. */

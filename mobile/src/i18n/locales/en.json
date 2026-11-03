@@ -12,7 +12,8 @@
     "clear": "Clear",
     "confirm": "Confirm",
     "save": "Save",
-    "saved": "Saved."
+    "saved": "Saved.",
+    "cancel": "Cancel"
   },
   "errors": {
     "title": "A small hiccup",
@@ -255,6 +256,31 @@
         "bodyTooLong": "This story is a bit long (5,000 characters max).",
         "dateRequired": "Pick a date."
       }
+    },
+    "detail": {
+      "back": "Back",
+      "edit": "Edit",
+      "delete": "Delete memory",
+      "deleteTitle": "Delete this memory?",
+      "deleteMessage": "It will disappear for both of you, with its photos and your words. This can’t be undone.",
+      "deleteConfirm": "Delete",
+      "deleteError": "Deleting didn’t go through. Try again in a moment.",
+      "photoOf": "Photo {{n}} of {{total}}",
+      "heartLabel": "Heart this memory",
+      "heartOff": "Add a heart",
+      "heartOn": "In your heart",
+      "partnerHeart": "{{name}} added a heart",
+      "bothHearts": "You both added a heart",
+      "commentsTitle": "Your words",
+      "commentsEmpty": "A kind word, a detail the other may have forgotten…",
+      "commentsError": "Your words could not be loaded.",
+      "commentLabel": "Your word",
+      "commentPlaceholder": "Write a word",
+      "send": "Send",
+      "you": "You",
+      "deleteComment": "Delete your word",
+      "deleteCommentTitle": "Delete this word?",
+      "commentError": "Your word could not be sent. It’s still here, you can try again."
     }
   }
 }

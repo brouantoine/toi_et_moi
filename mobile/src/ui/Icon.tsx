@@ -9,6 +9,8 @@ type Props = {
   size?: number;
   color?: keyof Palette;
   strokeWidth?: number;
+  /** Fill the shape with the same color (e.g. a full heart). */
+  filled?: boolean;
   /** When set, the icon is announced by screen readers; otherwise it is decorative. */
   accessibilityLabel?: string;
   testID?: string;
@@ -23,6 +25,7 @@ export function Icon({
   size = 24,
   color = 'text',
   strokeWidth = 1.75,
+  filled = false,
   accessibilityLabel,
   testID,
 }: Props) {
@@ -34,6 +37,7 @@ export function Icon({
       size={size}
       color={colors[color]}
       strokeWidth={strokeWidth}
+      fill={filled ? colors[color] : 'none'}
       aria-hidden={!labelled}
       accessible={labelled}
       accessibilityRole={labelled ? 'image' : undefined}

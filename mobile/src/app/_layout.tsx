@@ -64,6 +64,7 @@ function GuardedStack() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="settings/profile" options={{ ...header, title: t('me.profile') }} />
           <Stack.Screen name="settings/couple" options={{ ...header, title: t('me.couple') }} />
+          <Stack.Screen name="memories/[id]/index" />
           <Stack.Screen name="memories/new" options={{ presentation: 'modal' }} />
           <Stack.Screen name="memories/[id]/edit" options={{ presentation: 'modal' }} />
         </Stack.Protected>

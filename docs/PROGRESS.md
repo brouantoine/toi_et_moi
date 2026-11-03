@@ -141,3 +141,12 @@
 - Cache : après enregistrement, le détail est écrit directement dans le cache (pas de rechargement en double) et seules les listes sont invalidées.
 - `app.config.ts` : plugin `expo-image-picker` (photothèque seulement, ni caméra ni micro). Textes de permission localisés prévus en P11.1.
 - Validation : 329 tests mobile verts, tsc, ESLint, expo-doctor 20/20. Vérification visuelle (clair et sombre) par export web + captures.
+
+## 2026-11-03 — P2.10 Détail d'un souvenir
+- Fichiers clés : `features/memories/{MemoryDetailScreen,PhotoPager,MemoryComments,useMemoryDetail}.ts(x)`, `features/couple/usePartner.ts`, route `src/app/memories/[id]/index.tsx`, test `features/memories/__tests__/memoryDetail.test.tsx`.
+- Écran : photos en pleine largeur (4:5) qu'on fait défiler, avec points de pagination ; retour et modifier en boutons ronds sur voile ; type, titre serif `display`, date complète, lieu, récit en variante `lead` (lecture longue) ou citation en italique serif avec filet terracotta, mots-clés. Sans photo : barre simple.
+- Cœur : un seul, sans compteur (`switch` accessible), mise à jour optimiste avec retour en arrière si l'API refuse, haptique légère. « Sam y a mis un cœur » / « Vous y avez mis un cœur tous les deux » avec le prénom du partenaire (`usePartner`).
+- Mots (commentaires) : bulles distinctes pour soi et pour l'autre, suppression de ses propres mots après confirmation, saisie avec bouton d'envoi, invitation douce quand il n'y en a pas, aucun accusé de lecture.
+- Suppression du souvenir : bouton discret en bas de page (loin des actions courantes), confirmation calme qui rappelle que c'est pour vous deux et définitif.
+- Design system : `Icon` gagne `filled`, `IconButton` la variante `overlay`, nouvelle variante typographique `lead`, `common.cancel`.
+- Validation : 348 tests mobile verts, tsc, ESLint. Vérification visuelle clair et sombre par export web + captures.

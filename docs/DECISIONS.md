@@ -42,3 +42,5 @@ Format : date — choix — raison — alternative écartée.
 - 2026-11-03 — Envoi des photos un par un plutôt qu'en parallèle — progression lisible, mémoire maîtrisée sur les téléphones modestes, un échec n'interrompt pas les autres — envoi parallèle (plus rapide, plus fragile).
 - 2026-11-03 — Un échec d'envoi de photo après création bascule l'écran en mode édition du souvenir créé — aucun doublon au nouvel essai, rien n'est perdu — annuler la création (suppression du souvenir) en cas d'échec.
 - 2026-11-03 — Pipeline image dans `src/media/` (hors `features/`) — partagé par les souvenirs, l'avatar et la photo de couple — le dupliquer par fonctionnalité.
+- 2026-11-03 — Suppression d'un souvenir placée en bas de la page de détail (bouton discret) plutôt qu'à côté de « Modifier » — évite les suppressions accidentelles, hiérarchie plus calme — icône corbeille dans la barre du haut.
+- 2026-11-03 — Le cœur du partenaire est affiché par une phrase douce avec son prénom, jamais par un nombre — conforme à « un cœur, sans compteur » — badge numérique.

@@ -111,6 +111,8 @@ export const typography = {
   heading: { fontSize: 22, lineHeight: 28, fontFamily: fonts.displayMedium, letterSpacing: -0.2 },
   /** Quotes and gentle asides. */
   quote: { fontSize: 20, lineHeight: 28, fontFamily: fonts.displayItalic },
+  /** Long reading: a memory's story. */
+  lead: { fontSize: 18, lineHeight: 29, fontWeight: '400' },
   body: { fontSize: 17, lineHeight: 26, fontWeight: '400' },
   label: { fontSize: 16, lineHeight: 22, fontWeight: '600' },
   caption: { fontSize: 14, lineHeight: 20, fontWeight: '400' },
