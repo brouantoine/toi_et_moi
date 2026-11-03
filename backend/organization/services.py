@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass
+from typing import Any
 
-from django.db.models import Q, QuerySet
+from django.db import transaction
+from django.db.models import Max, Q, QuerySet
 
 from .models import Event, Recurrence
 
@@ -55,3 +57,20 @@ def occurrences(events: QuerySet[Event], start: dt.date, end: dt.date) -> list[O
     epoch = dt.datetime.min.replace(tzinfo=dt.UTC)
     found.sort(key=lambda o: (o.date, o.starts_at or epoch, o.event.pk))
     return found
+
+
+def next_position(queryset: QuerySet[Any]) -> int:
+    """Position after the last element (new elements go to the end)."""
+    last = queryset.aggregate(top=Max("position"))["top"]
+    return 0 if last is None else last + 1
+
+
+@transaction.atomic
+def reorder(queryset: QuerySet[Any], ids: list[int]) -> None:
+    """Applies the order given by `ids`, which must be exactly the queryset's elements."""
+    current = list(queryset.select_for_update().values_list("pk", flat=True))
+    if len(ids) != len(set(ids)) or set(ids) != set(current):
+        raise ValueError("ids_mismatch")
+    model = queryset.model
+    rows = [model(pk=pk, position=index) for index, pk in enumerate(ids)]
+    model.objects.bulk_update(rows, ["position"])

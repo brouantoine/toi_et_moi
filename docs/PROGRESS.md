@@ -177,3 +177,8 @@
 - Fichiers clés : `backend/organization/{models,services,serializers,views,urls,admin}.py`, `organization/tests/test_events.py`.
 - Endpoints : `GET/POST /api/v1/events/`, `GET/PATCH/PUT/DELETE /api/v1/events/<id>/`, `GET /api/v1/events/occurrences/?start=&end=` (400 jours max, récurrences annuelles déployées).
 - À savoir : `kind` (event, birthday, reunion), `all_day` + `date`, ou `starts_at`/`ends_at` en UTC (le jour est alors celui du fuseau de l'auteur). `concerns` vaut `me`/`you`/`us` relativement à la personne qui lit ou écrit (stocké comme utilisateur, vide = nous). Anniversaire du 29 février fêté le 28 les années non bissextiles. `reminder_minutes` stocké (envoi en P5.4).
+
+## 2026-11-03 — P3.2 Listes partagées (API)
+- Fichiers clés : `backend/organization/{models,services,list_views,serializers}.py`, `organization/tests/test_lists.py`.
+- Endpoints : `GET/POST /api/v1/lists/`, `/lists/<id>/`, `POST /lists/reorder/` (`{ids}`), `GET/POST /lists/<id>/items/`, `/lists/<id>/items/<item>/`, `POST /lists/<id>/items/reorder/`, `POST /lists/<id>/items/clear-done/`.
+- À savoir : nouveaux éléments ajoutés en fin de liste ; `reorder` exige exactement les éléments de la liste (sinon 400) ; cocher enregistre `done_by` (`me`/`you` relatif au lecteur) et `done_at`, sans aucun décompte par personne ; `open_items` = éléments restants. Liste d'un autre couple : 404 partout, y compris sur ses éléments. Piège : `Meta.ordering` est ignoré par les requêtes agrégées, d'où l'`order_by` explicite. `services.reorder` / `next_position` réutilisables pour les tâches.

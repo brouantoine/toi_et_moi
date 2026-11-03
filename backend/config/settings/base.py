@@ -152,6 +152,7 @@ SPECTACULAR_SETTINGS = {
         "CoupleStatusEnum": "couples.models.CoupleStatus",
         "EventKindEnum": "organization.models.EventKind",
         "RecurrenceEnum": "organization.models.Recurrence",
+        "ListKindEnum": "organization.models.ListKind",
     },
 }
 

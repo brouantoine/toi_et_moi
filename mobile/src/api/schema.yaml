@@ -643,6 +643,416 @@ paths:
               schema:
                 $ref: '#/components/schemas/Health'
           description: ''
+  /api/v1/lists/:
+    get:
+      operationId: v1_lists_list
+      description: Shared lists, in the couple's order.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedList'
+          description: ''
+    post:
+      operationId: v1_lists_create
+      description: Shared lists, in the couple's order.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SharedListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SharedListRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedList'
+          description: ''
+  /api/v1/lists/{list_pk}/items/:
+    get:
+      operationId: v1_lists_items_list
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListItem'
+          description: ''
+    post:
+      operationId: v1_lists_items_create
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListItemRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ListItemRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ListItemRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+          description: ''
+  /api/v1/lists/{list_pk}/items/{id}/:
+    get:
+      operationId: v1_lists_items_retrieve
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) list item.
+        required: true
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+          description: ''
+    put:
+      operationId: v1_lists_items_update
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) list item.
+        required: true
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListItemRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ListItemRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ListItemRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+          description: ''
+    patch:
+      operationId: v1_lists_items_partial_update
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) list item.
+        required: true
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedListItemRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedListItemRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedListItemRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+          description: ''
+    delete:
+      operationId: v1_lists_items_destroy
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) list item.
+        required: true
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/lists/{list_pk}/items/clear-done/:
+    post:
+      operationId: v1_lists_items_clear_done_create
+      description: Removes ticked items (e.g. after shopping).
+      parameters:
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/lists/{list_pk}/items/reorder/:
+    post:
+      operationId: v1_lists_items_reorder_create
+      description: Items of one list. Ticking records who did it, never a count per
+        person.
+      parameters:
+      - in: path
+        name: list_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/lists/{id}/:
+    get:
+      operationId: v1_lists_retrieve
+      description: Shared lists, in the couple's order.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedList'
+          description: ''
+    put:
+      operationId: v1_lists_update
+      description: Shared lists, in the couple's order.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SharedListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SharedListRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedList'
+          description: ''
+    patch:
+      operationId: v1_lists_partial_update
+      description: Shared lists, in the couple's order.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSharedListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSharedListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSharedListRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedList'
+          description: ''
+    delete:
+      operationId: v1_lists_destroy
+      description: Shared lists, in the couple's order.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/lists/reorder/:
+    post:
+      operationId: v1_lists_reorder_create
+      description: Shared lists, in the couple's order.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/me/:
     get:
       operationId: v1_me_retrieve
@@ -1485,6 +1895,61 @@ components:
       description: |-
         * `fr` - Français
         * `en` - English
+    ListItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        text:
+          type: string
+          maxLength: 200
+        done:
+          type: boolean
+        done_by:
+          type: string
+          nullable: true
+          description: '`me` / `you`: who ticked it, relative to the reader (no tally
+            is ever kept).'
+          readOnly: true
+        done_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        position:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - done_at
+      - done_by
+      - id
+      - position
+      - text
+    ListItemRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 200
+        done:
+          type: boolean
+      required:
+      - text
+    ListKindEnum:
+      enum:
+      - groceries
+      - free
+      type: string
+      description: |-
+        * `groceries` - Courses
+        * `free` - Libre
     LogoutRequest:
       type: object
       properties:
@@ -1827,6 +2292,15 @@ components:
           minimum: 0
           format: int64
           nullable: true
+    PatchedListItemRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 200
+        done:
+          type: boolean
     PatchedMemoryRequest:
       type: object
       description: 'A shared memory. Hearts are booleans only: never a counter.'
@@ -1853,6 +2327,15 @@ components:
             minLength: 1
             maxLength: 30
           maxItems: 50
+    PatchedSharedListRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 80
+        kind:
+          $ref: '#/components/schemas/ListKindEnum'
     PatchedUserRequest:
       type: object
       description: The authenticated user's own profile.
@@ -1945,6 +2428,60 @@ components:
       - email
       - first_name
       - password
+    ReorderRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          maxItems: 500
+      required:
+      - ids
+    SharedList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 80
+        kind:
+          $ref: '#/components/schemas/ListKindEnum'
+        position:
+          type: integer
+          readOnly: true
+        open_items:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - open_items
+      - position
+      - title
+      - updated_at
+    SharedListRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 80
+        kind:
+          $ref: '#/components/schemas/ListKindEnum'
+      required:
+      - title
     SocialAuthResponse:
       type: object
       properties:

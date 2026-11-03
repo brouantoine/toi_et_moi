@@ -8,7 +8,7 @@ from rest_framework import serializers
 
 from core.auth import current_user
 
-from .models import Event
+from .models import Event, ListItem, SharedList
 
 
 class ConcernsField(serializers.ChoiceField):
@@ -113,3 +113,33 @@ class OccurrenceSerializer(serializers.Serializer[Any]):
     starts_at = serializers.DateTimeField(allow_null=True)
     ends_at = serializers.DateTimeField(allow_null=True)
     event = EventSerializer()
+
+
+class ReorderSerializer(serializers.Serializer[Any]):
+    ids = serializers.ListField(child=serializers.IntegerField(min_value=1), max_length=500)
+
+
+class SharedListSerializer(serializers.ModelSerializer[SharedList]):
+    title = serializers.CharField(max_length=80, trim_whitespace=True)
+    open_items = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = SharedList
+        fields = ["id", "title", "kind", "position", "open_items", "created_at", "updated_at"]
+        read_only_fields = ["id", "position", "open_items", "created_at", "updated_at"]
+
+
+class ListItemSerializer(serializers.ModelSerializer[ListItem]):
+    text = serializers.CharField(max_length=200, trim_whitespace=True)
+    done_by = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ListItem
+        fields = ["id", "text", "done", "done_by", "done_at", "position", "created_at"]
+        read_only_fields = ["id", "done_by", "done_at", "position", "created_at"]
+
+    def get_done_by(self, obj: ListItem) -> str | None:
+        """`me` / `you`: who ticked it, relative to the reader (no tally is ever kept)."""
+        if obj.done_by_id is None:
+            return None
+        return "me" if obj.done_by_id == current_user(self.context["request"]).pk else "you"

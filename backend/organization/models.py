@@ -44,3 +44,49 @@ class Event(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
+class ListKind(models.TextChoices):
+    GROCERIES = "groceries", "Courses"
+    FREE = "free", "Libre"
+
+
+class SharedList(models.Model):
+    """A shared list (groceries or free), ordered by `position`."""
+
+    couple = models.ForeignKey("couples.Couple", on_delete=models.CASCADE, related_name="lists")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    title = models.CharField(max_length=80)
+    kind = models.CharField(max_length=10, choices=ListKind.choices, default=ListKind.FREE)
+    position = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["position", "id"]
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class ListItem(models.Model):
+    list = models.ForeignKey(SharedList, on_delete=models.CASCADE, related_name="items")
+    text = models.CharField(max_length=200)
+    done = models.BooleanField(default=False)
+    done_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
+    done_at = models.DateTimeField(null=True, blank=True)
+    position = models.PositiveIntegerField(default=0)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["position", "id"]
+
+    def __str__(self) -> str:
+        return self.text

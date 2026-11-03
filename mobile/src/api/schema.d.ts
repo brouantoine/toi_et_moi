@@ -316,6 +316,133 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/lists/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared lists, in the couple's order. */
+    get: operations['v1_lists_list'];
+    put?: never;
+    /** @description Shared lists, in the couple's order. */
+    post: operations['v1_lists_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/lists/{list_pk}/items/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    get: operations['v1_lists_items_list'];
+    put?: never;
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    post: operations['v1_lists_items_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/lists/{list_pk}/items/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    get: operations['v1_lists_items_retrieve'];
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    put: operations['v1_lists_items_update'];
+    post?: never;
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    delete: operations['v1_lists_items_destroy'];
+    options?: never;
+    head?: never;
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    patch: operations['v1_lists_items_partial_update'];
+    trace?: never;
+  };
+  '/api/v1/lists/{list_pk}/items/clear-done/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Removes ticked items (e.g. after shopping). */
+    post: operations['v1_lists_items_clear_done_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/lists/{list_pk}/items/reorder/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Items of one list. Ticking records who did it, never a count per person. */
+    post: operations['v1_lists_items_reorder_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/lists/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared lists, in the couple's order. */
+    get: operations['v1_lists_retrieve'];
+    /** @description Shared lists, in the couple's order. */
+    put: operations['v1_lists_update'];
+    post?: never;
+    /** @description Shared lists, in the couple's order. */
+    delete: operations['v1_lists_destroy'];
+    options?: never;
+    head?: never;
+    /** @description Shared lists, in the couple's order. */
+    patch: operations['v1_lists_partial_update'];
+    trace?: never;
+  };
+  '/api/v1/lists/reorder/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Shared lists, in the couple's order. */
+    post: operations['v1_lists_reorder_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/me/': {
     parameters: {
       query?: never;
@@ -661,6 +788,28 @@ export interface components {
      * @enum {string}
      */
     LanguageEnum: 'fr' | 'en';
+    ListItem: {
+      readonly id: number;
+      text: string;
+      done?: boolean;
+      /** @description `me` / `you`: who ticked it, relative to the reader (no tally is ever kept). */
+      readonly done_by: string | null;
+      /** Format: date-time */
+      readonly done_at: string | null;
+      readonly position: number;
+      /** Format: date-time */
+      readonly created_at: string;
+    };
+    ListItemRequest: {
+      text: string;
+      done?: boolean;
+    };
+    /**
+     * @description * `groceries` - Courses
+     *     * `free` - Libre
+     * @enum {string}
+     */
+    ListKindEnum: 'groceries' | 'free';
     LogoutRequest: {
       refresh: string;
     };
@@ -791,6 +940,10 @@ export interface components {
       /** Format: int64 */
       reminder_minutes?: number | null;
     };
+    PatchedListItemRequest: {
+      text?: string;
+      done?: boolean;
+    };
     /** @description A shared memory. Hearts are booleans only: never a counter. */
     PatchedMemoryRequest: {
       title?: string;
@@ -800,6 +953,10 @@ export interface components {
       place?: string;
       type?: components['schemas']['MemoryTypeEnum'];
       tags?: string[];
+    };
+    PatchedSharedListRequest: {
+      title?: string;
+      kind?: components['schemas']['ListKindEnum'];
     };
     /** @description The authenticated user's own profile. */
     PatchedUserRequest: {
@@ -839,6 +996,24 @@ export interface components {
       language: components['schemas']['LanguageEnum'];
       /** @default UTC */
       timezone: string;
+    };
+    ReorderRequest: {
+      ids: number[];
+    };
+    SharedList: {
+      readonly id: number;
+      title: string;
+      kind?: components['schemas']['ListKindEnum'];
+      readonly position: number;
+      readonly open_items: number;
+      /** Format: date-time */
+      readonly created_at: string;
+      /** Format: date-time */
+      readonly updated_at: string;
+    };
+    SharedListRequest: {
+      title: string;
+      kind?: components['schemas']['ListKindEnum'];
     };
     SocialAuthResponse: {
       access: string;
@@ -1582,6 +1757,370 @@ export interface operations {
         content: {
           'application/json': components['schemas']['Health'];
         };
+      };
+    };
+  };
+  v1_lists_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SharedList'][];
+        };
+      };
+    };
+  };
+  v1_lists_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SharedListRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['SharedListRequest'];
+        'multipart/form-data': components['schemas']['SharedListRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SharedList'];
+        };
+      };
+    };
+  };
+  v1_lists_items_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListItem'][];
+        };
+      };
+    };
+  };
+  v1_lists_items_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ListItemRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ListItemRequest'];
+        'multipart/form-data': components['schemas']['ListItemRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListItem'];
+        };
+      };
+    };
+  };
+  v1_lists_items_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) list item. */
+        id: number;
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListItem'];
+        };
+      };
+    };
+  };
+  v1_lists_items_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) list item. */
+        id: number;
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ListItemRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ListItemRequest'];
+        'multipart/form-data': components['schemas']['ListItemRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListItem'];
+        };
+      };
+    };
+  };
+  v1_lists_items_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) list item. */
+        id: number;
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_lists_items_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) list item. */
+        id: number;
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedListItemRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedListItemRequest'];
+        'multipart/form-data': components['schemas']['PatchedListItemRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListItem'];
+        };
+      };
+    };
+  };
+  v1_lists_items_clear_done_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_lists_items_reorder_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        list_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ReorderRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ReorderRequest'];
+        'multipart/form-data': components['schemas']['ReorderRequest'];
+      };
+    };
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_lists_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) shared list. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SharedList'];
+        };
+      };
+    };
+  };
+  v1_lists_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) shared list. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SharedListRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['SharedListRequest'];
+        'multipart/form-data': components['schemas']['SharedListRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SharedList'];
+        };
+      };
+    };
+  };
+  v1_lists_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) shared list. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_lists_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) shared list. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedSharedListRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedSharedListRequest'];
+        'multipart/form-data': components['schemas']['PatchedSharedListRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SharedList'];
+        };
+      };
+    };
+  };
+  v1_lists_reorder_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ReorderRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ReorderRequest'];
+        'multipart/form-data': components['schemas']['ReorderRequest'];
+      };
+    };
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
