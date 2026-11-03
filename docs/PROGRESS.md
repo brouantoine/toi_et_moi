@@ -172,3 +172,8 @@
 - Souvenirs : une teinte par type (moment rouge, première fois ambre, lieu sauge, blague à nous lagon, citation violet) sur les pastilles, les filtres, un point sur le rail de la frise, l'en-tête du détail ; les citations deviennent des cartes teintées.
 - Plan : 16 tâches ajoutées (P4.12–P4.19, P6.14–P6.17, P8.8–P8.11), total 129.
 - Validation : tests de contraste AA étendus aux teintes (sur leur fond, sur le fond de l'app, texte et texte secondaire sur fond teinté).
+
+## 2026-11-03 — P3.1 Agenda partagé (API)
+- Fichiers clés : `backend/organization/{models,services,serializers,views,urls,admin}.py`, `organization/tests/test_events.py`.
+- Endpoints : `GET/POST /api/v1/events/`, `GET/PATCH/PUT/DELETE /api/v1/events/<id>/`, `GET /api/v1/events/occurrences/?start=&end=` (400 jours max, récurrences annuelles déployées).
+- À savoir : `kind` (event, birthday, reunion), `all_day` + `date`, ou `starts_at`/`ends_at` en UTC (le jour est alors celui du fuseau de l'auteur). `concerns` vaut `me`/`you`/`us` relativement à la personne qui lit ou écrit (stocké comme utilisateur, vide = nous). Anniversaire du 29 février fêté le 28 les années non bissextiles. `reminder_minutes` stocké (envoi en P5.4).

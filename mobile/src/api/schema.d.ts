@@ -244,6 +244,61 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/events/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared calendar. Use `occurrences` to read a period (recurrences expanded). */
+    get: operations['v1_events_list'];
+    put?: never;
+    /** @description Shared calendar. Use `occurrences` to read a period (recurrences expanded). */
+    post: operations['v1_events_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/events/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared calendar. Use `occurrences` to read a period (recurrences expanded). */
+    get: operations['v1_events_retrieve'];
+    /** @description Shared calendar. Use `occurrences` to read a period (recurrences expanded). */
+    put: operations['v1_events_update'];
+    post?: never;
+    /** @description Shared calendar. Use `occurrences` to read a period (recurrences expanded). */
+    delete: operations['v1_events_destroy'];
+    options?: never;
+    head?: never;
+    /** @description Shared calendar. Use `occurrences` to read a period (recurrences expanded). */
+    patch: operations['v1_events_partial_update'];
+    trace?: never;
+  };
+  '/api/v1/events/occurrences/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Events between `start` and `end` inclusive (at most 400 days). */
+    get: operations['v1_events_occurrences_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/health/': {
     parameters: {
       query?: never;
@@ -481,6 +536,13 @@ export interface components {
       refresh: string;
       user: components['schemas']['User'];
     };
+    /**
+     * @description * `me` - me
+     *     * `you` - you
+     *     * `us` - us
+     * @enum {string}
+     */
+    ConcernsEnum: 'me' | 'you' | 'us';
     Couple: {
       readonly id: number;
       readonly status: components['schemas']['CoupleStatusEnum'];
@@ -519,6 +581,50 @@ export interface components {
     /** @description Business error with a stable machine code, translated by the app. */
     ErrorCode: {
       code: string;
+    };
+    Event: {
+      readonly id: number;
+      title: string;
+      kind?: components['schemas']['EventKindEnum'];
+      place?: string;
+      all_day?: boolean;
+      /** Format: date */
+      date?: string;
+      /** Format: date-time */
+      starts_at?: string | null;
+      /** Format: date-time */
+      ends_at?: string | null;
+      recurrence?: components['schemas']['RecurrenceEnum'];
+      concerns?: components['schemas']['ConcernsEnum'];
+      /** Format: int64 */
+      reminder_minutes?: number | null;
+      /** Format: date-time */
+      readonly created_at: string;
+      /** Format: date-time */
+      readonly updated_at: string;
+    };
+    /**
+     * @description * `event` - Événement
+     *     * `birthday` - Anniversaire
+     *     * `reunion` - Retrouvailles
+     * @enum {string}
+     */
+    EventKindEnum: 'event' | 'birthday' | 'reunion';
+    EventRequest: {
+      title: string;
+      kind?: components['schemas']['EventKindEnum'];
+      place?: string;
+      all_day?: boolean;
+      /** Format: date */
+      date?: string;
+      /** Format: date-time */
+      starts_at?: string | null;
+      /** Format: date-time */
+      ends_at?: string | null;
+      recurrence?: components['schemas']['RecurrenceEnum'];
+      concerns?: components['schemas']['ConcernsEnum'];
+      /** Format: int64 */
+      reminder_minutes?: number | null;
     };
     Health: {
       status: string;
@@ -627,6 +733,16 @@ export interface components {
      * @enum {string}
      */
     MemoryTypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
+    /** @description One day on which an event happens (yearly events have one per year). */
+    Occurrence: {
+      /** Format: date */
+      date: string;
+      /** Format: date-time */
+      starts_at: string | null;
+      /** Format: date-time */
+      ends_at: string | null;
+      event: components['schemas']['Event'];
+    };
     OnThisDay: {
       /** Format: date */
       date: string;
@@ -658,6 +774,22 @@ export interface components {
       /** Format: date */
       start_date?: string | null;
       currency?: string;
+    };
+    PatchedEventRequest: {
+      title?: string;
+      kind?: components['schemas']['EventKindEnum'];
+      place?: string;
+      all_day?: boolean;
+      /** Format: date */
+      date?: string;
+      /** Format: date-time */
+      starts_at?: string | null;
+      /** Format: date-time */
+      ends_at?: string | null;
+      recurrence?: components['schemas']['RecurrenceEnum'];
+      concerns?: components['schemas']['ConcernsEnum'];
+      /** Format: int64 */
+      reminder_minutes?: number | null;
     };
     /** @description A shared memory. Hearts are booleans only: never a counter. */
     PatchedMemoryRequest: {
@@ -692,6 +824,12 @@ export interface components {
     PhotoUploadRequestRequest: {
       content_type: string;
     };
+    /**
+     * @description * `none` - Aucune
+     *     * `yearly` - Chaque année
+     * @enum {string}
+     */
+    RecurrenceEnum: 'none' | 'yearly';
     RegisterRequest: {
       /** Format: email */
       email: string;
@@ -1259,6 +1397,171 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ErrorCode'];
+        };
+      };
+    };
+  };
+  v1_events_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Event'][];
+        };
+      };
+    };
+  };
+  v1_events_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['EventRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['EventRequest'];
+        'multipart/form-data': components['schemas']['EventRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Event'];
+        };
+      };
+    };
+  };
+  v1_events_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) event. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Event'];
+        };
+      };
+    };
+  };
+  v1_events_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) event. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['EventRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['EventRequest'];
+        'multipart/form-data': components['schemas']['EventRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Event'];
+        };
+      };
+    };
+  };
+  v1_events_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) event. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_events_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) event. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedEventRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedEventRequest'];
+        'multipart/form-data': components['schemas']['PatchedEventRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Event'];
+        };
+      };
+    };
+  };
+  v1_events_occurrences_list: {
+    parameters: {
+      query: {
+        end: string;
+        start: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Occurrence'][];
         };
       };
     };

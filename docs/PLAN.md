@@ -45,7 +45,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P2.11 — Maestro : ajouter un souvenir avec photo — dépend de : P2.10
 
 ## P3 — Organisation (F3) + temps réel + hors ligne
-- [ ] P3.1 — App `organization` : Event (journée entière, rappel, concerné moi/toi/nous, récurrence annuelle, type retrouvailles) + API — tests partenaire/étranger, occurrences récurrentes — dépend de : P1.6
+- [x] P3.1 — App `organization` : Event (journée entière, rappel, concerné moi/toi/nous, récurrence annuelle, type retrouvailles) + API — tests partenaire/étranger, occurrences récurrentes — dépend de : P1.6
 - [ ] P3.2 — Listes et items (cochables, réordonnables) + API — tests réordonnancement et permissions — dépend de : P1.6
 - [ ] P3.3 — Tâches de la maison (assignation, récurrence, échéance, complétion) + vue de répartition neutre de la semaine — tests (aucun score exposé) — dépend de : P1.6
 - [ ] P3.4 — Budget : Expense/ExpenseShare (entiers + devise), répartition 50/50 ou personnalisée, solde « qui doit combien », remboursement — tests du calcul et des arrondis — dépend de : P1.6

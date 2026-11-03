@@ -24,7 +24,7 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 - [ ] Captures d'écran stores, tests sur vrais appareils, test fermé Google Play si exigé.
 
 ## GitHub (push bloqué)
-- [ ] Le push vers https://github.com/brouantoine/toi_et_moi est refusé : le jeton GitHub n'a pas le droit `workflow`, nécessaire pour `.github/workflows/ci.yml`. Lance dans un terminal, puis valide le code dans le navigateur :
+- [x] (Résolu le 2026-11-03 : les pushes passent.) Le push vers https://github.com/brouantoine/toi_et_moi est refusé : le jeton GitHub n'a pas le droit `workflow`, nécessaire pour `.github/workflows/ci.yml`. Lance dans un terminal, puis valide le code dans le navigateur :
   ```
   gh auth refresh -h github.com -s workflow
   gh auth setup-git

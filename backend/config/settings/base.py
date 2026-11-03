@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "accounts",
     "couples",
     "memories",
+    "organization",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -149,6 +150,8 @@ SPECTACULAR_SETTINGS = {
         "MemoryTypeEnum": "memories.models.MemoryType",
         "LanguageEnum": "accounts.models.Language",
         "CoupleStatusEnum": "couples.models.CoupleStatus",
+        "EventKindEnum": "organization.models.EventKind",
+        "RecurrenceEnum": "organization.models.Recurrence",
     },
 }
 

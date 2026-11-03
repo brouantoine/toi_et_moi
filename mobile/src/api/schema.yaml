@@ -447,6 +447,189 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorCode'
           description: ''
+  /api/v1/events/:
+    get:
+      operationId: v1_events_list
+      description: Shared calendar. Use `occurrences` to read a period (recurrences
+        expanded).
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+          description: ''
+    post:
+      operationId: v1_events_create
+      description: Shared calendar. Use `occurrences` to read a period (recurrences
+        expanded).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+  /api/v1/events/{id}/:
+    get:
+      operationId: v1_events_retrieve
+      description: Shared calendar. Use `occurrences` to read a period (recurrences
+        expanded).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) event.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+    put:
+      operationId: v1_events_update
+      description: Shared calendar. Use `occurrences` to read a period (recurrences
+        expanded).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) event.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+    patch:
+      operationId: v1_events_partial_update
+      description: Shared calendar. Use `occurrences` to read a period (recurrences
+        expanded).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) event.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEventRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEventRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEventRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+    delete:
+      operationId: v1_events_destroy
+      description: Shared calendar. Use `occurrences` to read a period (recurrences
+        expanded).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) event.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/events/occurrences/:
+    get:
+      operationId: v1_events_occurrences_list
+      description: Events between `start` and `end` inclusive (at most 400 days).
+      parameters:
+      - in: query
+        name: end
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: start
+        schema:
+          type: string
+          format: date
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Occurrence'
+          description: ''
   /api/v1/health/:
     get:
       operationId: v1_health_retrieve
@@ -1022,6 +1205,16 @@ components:
       - access
       - refresh
       - user
+    ConcernsEnum:
+      enum:
+      - me
+      - you
+      - us
+      type: string
+      description: |-
+        * `me` - me
+        * `you` - you
+        * `us` - us
     Couple:
       type: object
       properties:
@@ -1114,6 +1307,103 @@ components:
           type: string
       required:
       - code
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 120
+        kind:
+          $ref: '#/components/schemas/EventKindEnum'
+        place:
+          type: string
+          maxLength: 200
+        all_day:
+          type: boolean
+        date:
+          type: string
+          format: date
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        recurrence:
+          $ref: '#/components/schemas/RecurrenceEnum'
+        concerns:
+          $ref: '#/components/schemas/ConcernsEnum'
+        reminder_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - title
+      - updated_at
+    EventKindEnum:
+      enum:
+      - event
+      - birthday
+      - reunion
+      type: string
+      description: |-
+        * `event` - Événement
+        * `birthday` - Anniversaire
+        * `reunion` - Retrouvailles
+    EventRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        kind:
+          $ref: '#/components/schemas/EventKindEnum'
+        place:
+          type: string
+          maxLength: 200
+        all_day:
+          type: boolean
+        date:
+          type: string
+          format: date
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        recurrence:
+          $ref: '#/components/schemas/RecurrenceEnum'
+        concerns:
+          $ref: '#/components/schemas/ConcernsEnum'
+        reminder_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+      required:
+      - title
     Health:
       type: object
       properties:
@@ -1411,6 +1701,28 @@ components:
         * `place` - Lieu
         * `moment` - Moment
         * `quote` - Citation
+    Occurrence:
+      type: object
+      description: One day on which an event happens (yearly events have one per year).
+      properties:
+        date:
+          type: string
+          format: date
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        event:
+          $ref: '#/components/schemas/Event'
+      required:
+      - date
+      - ends_at
+      - event
+      - starts_at
     OnThisDay:
       type: object
       properties:
@@ -1480,6 +1792,41 @@ components:
           type: string
           minLength: 1
           maxLength: 3
+    PatchedEventRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        kind:
+          $ref: '#/components/schemas/EventKindEnum'
+        place:
+          type: string
+          maxLength: 200
+        all_day:
+          type: boolean
+        date:
+          type: string
+          format: date
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        recurrence:
+          $ref: '#/components/schemas/RecurrenceEnum'
+        concerns:
+          $ref: '#/components/schemas/ConcernsEnum'
+        reminder_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
     PatchedMemoryRequest:
       type: object
       description: 'A shared memory. Hearts are booleans only: never a counter.'
@@ -1562,6 +1909,14 @@ components:
           minLength: 1
       required:
       - content_type
+    RecurrenceEnum:
+      enum:
+      - none
+      - yearly
+      type: string
+      description: |-
+        * `none` - Aucune
+        * `yearly` - Chaque année
     RegisterRequest:
       type: object
       properties:
