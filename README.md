@@ -10,12 +10,12 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 
 ## État d'avancement (au 3 novembre 2026)
 
-**34 tâches terminées sur 129** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
+**38 tâches terminées sur 129** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
 
 | Côté | Tests | Contrôles |
 |---|---|---|
-| Backend (Django) | 149 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
-| Mobile (Expo) | 378 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20 |
+| Backend (Django) | 209 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
+| Mobile (Expo) | 368 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
 
 ### Phases
 
@@ -23,44 +23,51 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 |---|---|---|
 | P0 | Bootstrap : dépôt, Django, Expo, CI, docker-compose, docs | Terminé |
 | P1 | Comptes et couple : inscription, connexion, Apple/Google, invitation par code, 5 onglets, onboarding, profil | Terminé |
-| P2 | Souvenirs : API complète, frise, création avec photos, détail, cœur, commentaires | Terminé |
-| P3 | Organisation : agenda, listes, tâches, budget, temps réel, hors ligne | À faire |
-| P4 | Question du jour et « À retenir sur l'autre » | À faire |
-| P5 | Notifications, heures calmes | À faire |
-| P6 | Rituels : check-in, idées de sorties, « Je pense à toi », distance | À faire |
-| P7 | Rêves et épargne | À faire |
-| P8 | Espace privé chiffré, préparer une conversation, pause | À faire |
-| P9 | Vie privée : export, quitter le couple, suppression de compte, pages légales | À faire |
-| P10 | Finitions : accessibilité, mode sombre, performances, traduction | À faire |
-| P11 | Préparation des stores, compte de démo, documentation | À faire |
-| P12 | Validation finale | À faire |
+| P2 | Souvenirs : frise, création avec photos, détail, cœur, commentaires, « il y a N ans » | Terminé |
+| P3 | Organisation : agenda, listes, tâches, budget, temps réel, hors ligne | **En cours** : API terminées (4/12), écrans mobiles à faire |
+| P4 | Se connaître : question du jour, « À retenir », jeux de correspondance, envies communes, quiz, langages de l'amour, cartes de conversation | À faire (0/19) |
+| P5 | Notifications, heures calmes | À faire (0/6) |
+| P6 | Rituels et présence : check-in, idées de sorties, « Je pense à toi », distance, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget | À faire (0/17) |
+| P7 | Rêves et épargne | À faire (0/4) |
+| P8 | Moments difficiles : journal privé chiffré, pause, préparer une conversation, module « Apaiser » (température, gestes de réparation, nos règles) | À faire (0/11) |
+| P9 | Vie privée : export, quitter le couple, suppression de compte, pages légales | À faire (0/7) |
+| P10 | Finitions : accessibilité, mode sombre, animations, performances, traduction | À faire (0/6) |
+| P11 | Préparation des stores, compte de démo, documentation | À faire (0/7) |
+| P12 | Validation finale | À faire (0/6) |
 
-### Ce qui fonctionne déjà
+### Ce qui est fait
+
+**Design**
+- Direction « carnet éditorial chaleureux » : titres en serif Fraunces, texte en police système, palette **rouge passion, sauge, crème chaude et encre** (jamais de rose), une couleur par type de souvenir, ombres chaudes en clair et filets en sombre.
+- Design system maison (`mobile/src/ui/`) : boutons, cartes, champs, filtres, recherche, états vides, d'erreur et de chargement, retour tactile doux qui respecte « réduire les animations ». Mode clair et sombre complets, contrastes AA vérifiés par test pour chaque paire de couleurs, cibles tactiles de 48 pt, icônes Lucide uniquement, typographie française soignée (espaces insécables).
 
 **Backend** (`backend/`, Django 6.1 + DRF, API `/api/v1/`, documentation `/api/docs/`)
-- Comptes : inscription par email, connexion JWT (rotation et liste noire des jetons), déconnexion, vérification de l'email et mot de passe oublié (emails et pages web en français et en anglais), profil `/me`.
-- Connexion avec Apple et Google : jetons vérifiés côté serveur (signature, émetteur, audience, nonce Apple).
-- Couple : création, code d'invitation de 6 caractères lisibles valable 48 h, lien `nousdeux://join/CODE`, un seul couple actif par personne (garanti en base).
+- Comptes : inscription, connexion JWT (rotation et liste noire), vérification de l'email, mot de passe oublié (emails et pages web fr/en), profil, connexion Apple et Google vérifiée côté serveur.
+- Couple : création, code d'invitation lisible valable 48 h, lien `nousdeux://join/CODE`, un seul couple actif par personne.
 - Cloisonnement : un mécanisme unique et testé filtre toutes les données par couple (et par auteur pour le privé). Un étranger reçoit toujours 404.
-- Souvenirs : création, modification, suppression, tri chronologique, filtres par type et tag, recherche plein texte, jusqu'à 10 photos par souvenir (upload direct vers S3 par URL présignée, miniatures générées en tâche de fond), un seul cœur sans compteur, commentaires courts, « Il y a N ans aujourd'hui » dans le fuseau de chacun.
-- Photo de profil et photo de couple. Tout fichier remplacé ou supprimé est réellement effacé du stockage.
+- Souvenirs : CRUD, filtres, recherche plein texte, jusqu'à 10 photos (upload direct S3 présigné, miniatures Celery), un cœur sans compteur, commentaires, « il y a N ans » dans le fuseau de chacun, photo de profil et de couple.
+- Organisation : agenda (événements, anniversaires annuels, retrouvailles, « pour moi / toi / nous »), listes cochables et réordonnables, tâches de la maison récurrentes avec une vue « qui porte quoi » sans aucun score, budget en centimes avec partage 50/50 ou personnalisé, solde par devise et remboursement en un geste.
 
 **Mobile** (`mobile/`, Expo SDK 58, Expo Router, TypeScript strict)
-- Design system maison, direction « carnet éditorial chaleureux » : titres en serif Fraunces, texte en police système, palette **rouge passion, sauge, crème chaude et encre** (jamais de rose), une teinte par type de souvenir, ombres chaudes en clair et filets en sombre, retour tactile doux (respecte « réduire les animations »). Thème clair et sombre, contrastes AA vérifiés par test pour chaque paire, cibles tactiles de 48 pt, icônes **Lucide uniquement**, sans aucun emoji.
-- Onboarding en 3 écrans, dont « ce que l'app ne fera jamais ».
-- Inscription, connexion, mot de passe oublié, boutons Apple et Google.
-- Création du couple, partage du code, saisie du code ou ouverture du lien d'invitation.
-- Navigation à 5 onglets (Aujourd'hui, Souvenirs, Organisation, Nous, Moi) avec des gardes de route : connexion, formation du couple, puis app.
-- Profil (prénom, surnom, date de naissance, langue, fuseau) et infos du couple (date de début, devise).
-- Client API typé, généré depuis le schéma OpenAPI ; cache hors ligne persistant ; jetons dans le trousseau sécurisé ; rafraîchissement automatique de session.
-- Souvenirs : frise groupée par mois avec rail de dates, recherche et filtres ; création et édition avec jusqu'à 10 photos (compression 2048 px / JPEG 0,8, upload direct S3 présigné, reprise des photos en échec sans doublon) ; détail avec photos plein écran, un cœur sans compteur, mots doux entre vous deux.
+- Accueil en 3 écrans, écran de bienvenue, inscription, connexion, mot de passe oublié, Apple et Google.
+- Formation du couple : créer, partager le code, rejoindre par code ou par lien.
+- Navigation à 5 onglets avec gardes de route. Profil et infos du couple.
+- Souvenirs : frise par mois avec rail de dates, recherche et filtres ; création et édition avec photos (compression, envoi direct, reprise des échecs sans doublon) ; détail avec photos plein écran, cœur, petits mots, suppression.
+- Client API typé généré depuis le schéma OpenAPI, cache hors ligne persistant, jetons dans le trousseau sécurisé.
+- Parcours E2E Maestro : inscription → couple ; ajouter un souvenir avec photo.
 
-### Prochaines étapes
-1. Phase P3 Organisation (agenda, listes, tâches, budget, temps réel, hors ligne), puis la suite du plan dans l'ordre de `docs/PLAN.md`, qui intègre désormais les jeux de correspondance, le quiz, les langages de l'amour, les cartes de conversation, le compteur « ensemble depuis », l'humeur du jour, les lettres à ouvrir plus tard, le widget et le module « Apaiser » pour les disputes.
-2. Côté mobile, brancher l'upload de la photo de profil et de la photo de couple sur le pipeline image existant (`src/media/`).
+### Ce qui reste à faire (91 tâches, voir `docs/PLAN.md`)
+1. **P3 Organisation** : temps réel entre les deux téléphones (WebSocket), mode hors ligne, écrans agenda, listes, tâches et budget.
+2. **P4 Se connaître** : question du jour (365 questions fr+en), « À retenir sur l'autre », jeux de correspondance « Notre futur » (photos Pixabay), envies communes, quiz, langages de l'amour, cartes de conversation.
+3. **P5 Notifications** : push, préférences, heures calmes, souvenir du jour.
+4. **P6 Rituels** : check-in hebdo, 150 idées de sorties, « Je pense à toi », heure de l'autre et retrouvailles, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget d'écran d'accueil.
+5. **P7 Rêves et épargne.**
+6. **P8 Moments difficiles** : journal privé chiffré, pause, préparer une conversation (option IA), module « Apaiser ».
+7. **P9 Vie privée** : export ZIP, quitter le couple, suppression de compte, pages légales.
+8. **P10 à P12** : finitions (accessibilité, animations, performances, anglais complet), préparation des stores, validation finale.
 
 ### Ce qui demande une action humaine
-Comptes Apple et Google, clés, déploiement, relecture juridique… La liste détaillée, commandes comprises, est dans [`docs/HUMAN_TODO.md`](docs/HUMAN_TODO.md).
+Comptes Apple et Google, clés (OAuth, push, S3, Pixabay), nom et identifiant définitifs, déploiement du serveur, relecture juridique, icône par un designer, tests sur vrais téléphones. La liste détaillée, commandes comprises, est dans [`docs/HUMAN_TODO.md`](docs/HUMAN_TODO.md).
 
 ---
 
