@@ -840,6 +840,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/Heart'
           description: ''
+  /api/v1/memories/on-this-day/:
+    get:
+      operationId: v1_memories_on_this_day_retrieve
+      description: N years ago today, computed in the requester time zone.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnThisDay'
+          description: ''
 components:
   schemas:
     AuthResponse:
@@ -1171,6 +1186,29 @@ components:
       required:
       - happened_on
       - title
+    OnThisDay:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OnThisDayItem'
+      required:
+      - date
+      - items
+    OnThisDayItem:
+      type: object
+      properties:
+        years_ago:
+          type: integer
+        memory:
+          $ref: '#/components/schemas/Memory'
+      required:
+      - memory
+      - years_ago
     PaginatedMemoryList:
       type: object
       required:

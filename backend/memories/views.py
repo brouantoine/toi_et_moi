@@ -14,7 +14,7 @@ from core.pagination import DefaultCursorPagination
 
 from . import services
 from .models import Memory, MemoryReaction, MemoryType
-from .serializers import HeartSerializer, MemorySerializer
+from .serializers import HeartSerializer, MemorySerializer, OnThisDaySerializer
 
 
 class MemoryPagination(DefaultCursorPagination):
@@ -62,3 +62,20 @@ class MemoryViewSet(CoupleScopedQuerysetMixin, viewsets.ModelViewSet[Memory]):
             return Response({"my_heart": True}, status=status.HTTP_200_OK)
         MemoryReaction.objects.filter(memory=memory, user=user).delete()
         return Response({"my_heart": False}, status=status.HTTP_200_OK)
+
+    @extend_schema(responses={200: OnThisDaySerializer})
+    @action(detail=False, methods=["get"], url_path="on-this-day")
+    def on_this_day(self, request: Request) -> Response:
+        """N years ago today, computed in the requester time zone."""
+        today = services.local_today(current_user(request).timezone)
+        items = services.on_this_day(self.couple.pk, today)
+        context = self.get_serializer_context()
+        return Response(
+            {
+                "date": today.isoformat(),
+                "items": [
+                    {"years_ago": years, "memory": MemorySerializer(m, context=context).data}
+                    for m, years in items
+                ],
+            }
+        )

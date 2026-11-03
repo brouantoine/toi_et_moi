@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
+import calendar
+from datetime import date
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
 from django.db import connection, transaction
 from django.db.models import Q, QuerySet
+from django.utils import timezone
 
 from core import storage
 
@@ -88,3 +93,32 @@ def confirm_photo(
     )
     transaction.on_commit(lambda: generate_thumbnail.delay(photo.pk))
     return photo
+
+
+def local_today(tz_name: str) -> date:
+    """Today's date in the person's own time zone."""
+    try:
+        tz = ZoneInfo(tz_name)
+    except (ZoneInfoNotFoundError, ValueError):
+        tz = ZoneInfo("UTC")
+    return timezone.now().astimezone(tz).date()
+
+
+def on_this_day(couple_id: int, today: date) -> list[tuple[Memory, int]]:
+    """Memories of previous years on this calendar day, with how many years ago.
+
+    On Feb 28 of a non-leap year, Feb 29 memories are included (they have no day of their own).
+    """
+    days = [(today.month, today.day)]
+    if today.month == 2 and today.day == 28 and not calendar.isleap(today.year):
+        days.append((2, 29))
+    condition = Q()
+    for month, day in days:
+        condition |= Q(happened_on__month=month, happened_on__day=day)
+    memories = (
+        Memory.objects.filter(couple_id=couple_id, happened_on__year__lt=today.year)
+        .filter(condition)
+        .prefetch_related("photos", "reactions")
+        .order_by("-happened_on", "-id")
+    )
+    return [(m, today.year - m.happened_on.year) for m in memories]

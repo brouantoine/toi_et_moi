@@ -119,3 +119,13 @@ class MemoryCommentSerializer(serializers.ModelSerializer[MemoryComment]):
 
 class HeartSerializer(serializers.Serializer[None]):
     my_heart = serializers.BooleanField()
+
+
+class OnThisDayItemSerializer(serializers.Serializer[None]):
+    years_ago = serializers.IntegerField()
+    memory = MemorySerializer()
+
+
+class OnThisDaySerializer(serializers.Serializer[None]):
+    date = serializers.DateField()
+    items = OnThisDayItemSerializer(many=True)

@@ -109,3 +109,7 @@
 ## 2026-11-03 — P2.5 Cœur et commentaires
 - Fichiers clés : `backend/memories/views.py` (action `heart`), `memories/comment_views.py`, `memories/tests/test_hearts_comments.py`, `core/auth.py` (`current_user`).
 - Endpoints : `POST/DELETE /api/v1/memories/<id>/heart/` (idempotent, réponse `{my_heart}`), `GET/POST /api/v1/memories/<id>/comments/`, `DELETE .../comments/<cid>/` (auteur seulement, sinon 403 `not_author`). Commentaires ≤ 500 caractères.
+
+## 2026-11-03 — P2.6 « Il y a N ans aujourd'hui »
+- Fichiers clés : `backend/memories/services.py` (`local_today`, `on_this_day`), action `GET /api/v1/memories/on-this-day/` → `{date, items: [{years_ago, memory}]}`, `memories/tests/test_on_this_day.py`.
+- À savoir : la date du jour est celle du fuseau de chaque personne (deux partenaires peuvent voir des jours différents). Le 28 février d'une année non bissextile inclut les souvenirs du 29 février.

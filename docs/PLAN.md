@@ -37,7 +37,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P2.3 — API souvenirs CRUD (chronologique, filtre par type, recherche plein texte Postgres avec repli SQLite) — tests partenaire/étranger + `django_assert_num_queries` — dépend de : P2.2
 - [x] P2.4 — API photos (demande d'upload, confirmation, max 10, suppression) + tâche Celery de miniatures (Pillow) — tests eager — dépend de : P2.3
 - [x] P2.5 — Réaction cœur (toggle, sans compteur) + commentaires courts — tests partenaire/étranger — dépend de : P2.3
-- [ ] P2.6 — Endpoint « Il y a N ans aujourd'hui » dans le fuseau de l'utilisateur — tests aux frontières de fuseau et 29 février — dépend de : P2.3
+- [x] P2.6 — Endpoint « Il y a N ans aujourd'hui » dans le fuseau de l'utilisateur — tests aux frontières de fuseau et 29 février — dépend de : P2.3
 - [ ] P2.7 — Upload avatar et photo de couple via URL présignée — tests — dépend de : P2.1, P1.7
 - [ ] P2.8 — Mobile : timeline des souvenirs (liste virtualisée, filtre, recherche) — tests états vide/chargement/erreur — dépend de : P2.3, P1.16
 - [ ] P2.9 — Mobile : création/édition de souvenir + sélection photos + compression (2048 px, JPEG 0,8) + upload présigné — tests du service de compression/upload mocké, refus de permission sans crash — dépend de : P2.8, P2.4
