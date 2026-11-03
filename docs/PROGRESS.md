@@ -77,3 +77,7 @@
 ## 2026-11-03 — P1.17 Onboarding
 - Fichiers clés : `mobile/src/features/onboarding/{OnboardingScreen.tsx,onboardingStore.ts}`, route `src/app/(auth)/onboarding.tsx`, `src/navigation/GateRedirect.tsx`.
 - À savoir : 3 écrans (ensemble, douceur, ce que l'app ne fera jamais : pas de séries/score, pas de géolocalisation ni « vu à », pas de pub ni pistage, le privé reste privé). Drapeau `nd.onboarding.v1` dans AsyncStorage ; affiché seulement au premier lancement, avant l'écran d'accueil.
+
+## 2026-11-03 — P1.18 Profil et infos du couple
+- Fichiers clés : `mobile/src/features/me/{MeScreen,ProfileScreen,useProfile}.ts(x)`, `mobile/src/features/couple/CoupleInfoScreen.tsx` (+ `useUpdateCouple`), routes `src/app/settings/{profile,couple}.tsx` (protégées, en-tête avec retour), composants `ui/{DateField,Segmented,ListRow}.tsx`.
+- À savoir : la langue du profil s'applique à la connexion (`useApplyProfileLanguage`) et dès l'enregistrement. Le fuseau peut être aligné sur celui du téléphone. Les dates passent par `DateField` (dialogue natif Android, feuille iOS) au format `AAAA-MM-JJ` local. La devise par défaut vient de la locale de l'appareil à la création du couple.

@@ -7,7 +7,12 @@
   "common": {
     "loading": "Just a moment…",
     "retry": "Try again",
-    "close": "Close"
+    "close": "Close",
+    "notSet": "Not set",
+    "clear": "Clear",
+    "confirm": "Confirm",
+    "save": "Save",
+    "saved": "Saved."
   },
   "errors": {
     "title": "A small hiccup",
@@ -140,7 +145,11 @@
     }
   },
   "me": {
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "profile": "Profile",
+    "profileHint": "First name, nickname, language",
+    "couple": "Our couple",
+    "coupleHint": "Start date, currency"
   },
   "onboarding": {
     "together": {
@@ -165,5 +174,22 @@
     "skip": "Skip",
     "start": "Let’s go",
     "progress": "Step {{current}} of {{total}}"
+  },
+  "profile": {
+    "title": "Your profile",
+    "nickname": "Nickname",
+    "nicknameHint": "This is what the other person sees. Optional.",
+    "birthDate": "Date of birth (optional)",
+    "language": "Language",
+    "timezone": "Time zone",
+    "useDeviceTimezone": "Use this phone’s time zone ({{tz}})",
+    "invalid": "Some information is not valid."
+  },
+  "coupleInfo": {
+    "title": "Our couple",
+    "startDate": "Our start date",
+    "currency": "Budget currency",
+    "currencyHint": "3-letter code, for example EUR, CAD, XOF.",
+    "currencyInvalid": "Enter a 3-letter code (EUR, CAD…)."
   }
 }

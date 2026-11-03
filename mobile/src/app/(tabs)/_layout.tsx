@@ -1,12 +1,14 @@
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { useApplyProfileLanguage } from '@/features/me/useProfile';
 import { TABS } from '@/features/shell/tabs';
 import { Icon, useTheme } from '@/ui';
 
 export default function TabsLayout() {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  useApplyProfileLanguage();
   return (
     <Tabs
       screenOptions={{

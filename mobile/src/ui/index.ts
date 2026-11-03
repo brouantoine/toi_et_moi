@@ -1,12 +1,15 @@
 export { Avatar, initials } from './Avatar';
 export { Button } from './Button';
 export { Card } from './Card';
+export { DateField, fromIsoDate, toIsoDate } from './DateField';
 export { EmptyState } from './EmptyState';
 export { ErrorState } from './ErrorState';
 export { Icon } from './Icon';
 export { Input } from './Input';
+export { ListRow } from './ListRow';
 export { LoadingState } from './LoadingState';
 export { Screen } from './Screen';
+export { Segmented } from './Segmented';
 export { Sheet } from './Sheet';
 export { Skeleton } from './Skeleton';
 export { Text } from './Text';

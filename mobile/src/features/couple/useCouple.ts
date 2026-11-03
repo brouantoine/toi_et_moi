@@ -79,3 +79,11 @@ export function joinErrorKey(error: unknown): string {
   }
   return 'errors.generic';
 }
+
+export type CoupleUpdate = Schemas['PatchedCoupleRequest'];
+
+export function useUpdateCouple() {
+  return useCoupleMutation(async (patch: CoupleUpdate) =>
+    unwrap(await api.PATCH('/api/v1/couple/', { body: patch })),
+  );
+}

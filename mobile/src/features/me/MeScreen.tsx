@@ -1,15 +1,40 @@
-import { UserRound } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
+import { HeartHandshake, UserRound } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useSignOut } from '@/auth/useSignOut';
-import { TabPlaceholder } from '@/features/shell/TabPlaceholder';
-import { Button } from '@/ui';
+import { Button, Card, ListRow, Screen, Text } from '@/ui';
+
+import { useMe } from './useProfile';
 
 export function MeScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
+  const me = useMe();
   const signOut = useSignOut();
   return (
-    <TabPlaceholder icon={UserRound} tab="me">
+    <Screen testID="tab-me">
+      <Text variant="title">{t('tabs.me.title')}</Text>
+      {me.data ? <Text muted>{me.data.display_name}</Text> : null}
+      <Card>
+        <ListRow
+          testID="me-profile"
+          icon={UserRound}
+          label={t('me.profile')}
+          hint={t('me.profileHint')}
+          onPress={() => router.push('/settings/profile')}
+        />
+        <ListRow
+          testID="me-couple"
+          icon={HeartHandshake}
+          label={t('me.couple')}
+          hint={t('me.coupleHint')}
+          onPress={() => router.push('/settings/couple')}
+        />
+      </Card>
+      <Text variant="caption" muted>
+        {t('tabs.me.emptyMessage')}
+      </Text>
       <Button
         testID="me-sign-out"
         variant="ghost"
@@ -17,6 +42,6 @@ export function MeScreen() {
         loading={signOut.isPending}
         onPress={() => signOut.mutate()}
       />
-    </TabPlaceholder>
+    </Screen>
   );
 }

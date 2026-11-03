@@ -3,6 +3,7 @@ import '@/i18n';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { QueryProvider } from '@/api/QueryProvider';
@@ -16,8 +17,16 @@ void SplashScreen.preventAutoHideAsync();
  * reached (deep links included), and the router falls back to an allowed screen.
  */
 function GuardedStack() {
+  const { t } = useTranslation();
   const { colors, scheme } = useTheme();
   const gate = useGate();
+  const header = {
+    headerShown: true,
+    headerStyle: { backgroundColor: colors.background },
+    headerTintColor: colors.primary,
+    headerTitleStyle: { color: colors.text },
+    headerShadowVisible: false,
+  };
 
   useEffect(() => {
     if (gate !== 'loading') void SplashScreen.hideAsync();
@@ -40,6 +49,8 @@ function GuardedStack() {
         </Stack.Protected>
         <Stack.Protected guard={gate === 'app'}>
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="settings/profile" options={{ ...header, title: t('me.profile') }} />
+          <Stack.Screen name="settings/couple" options={{ ...header, title: t('me.couple') }} />
         </Stack.Protected>
       </Stack>
     </>

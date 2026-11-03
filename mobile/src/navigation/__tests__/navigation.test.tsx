@@ -95,17 +95,21 @@ describe('tabs', () => {
 describe('MeScreen sign out', () => {
   it('revokes the refresh token, wipes cached data and signs out', async () => {
     await useAuthStore.getState().signIn({ access: 'a', refresh: 'r' });
-    const fetchMock = mockFetch().mockResolvedValue(new Response(null, { status: 205 }));
+    const fetchMock = mockFetch().mockImplementation(async (input) =>
+      (input as Request).url.includes('/auth/logout/')
+        ? new Response(null, { status: 205 })
+        : jsonResponse({ id: 1, display_name: 'Léa' }),
+    );
     const client = createTestQueryClient();
     client.setQueryData(['couple'], { id: 1 });
     await renderWithProviders(<MeScreen />, 'light', client);
-    expect(screen.getByText('Ton espace à toi')).toBeTruthy();
+    expect(screen.getByText('Moi')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('me-sign-out'));
     await waitFor(() => expect(useAuthStore.getState().status).toBe('signedOut'));
     expect(client.getQueryData(['couple'])).toBeUndefined();
     expect(store.size).toBe(0);
-    const request = fetchMock.mock.calls[0]![0] as Request;
-    expect(request.url).toContain('/api/v1/auth/logout/');
+    const urls = fetchMock.mock.calls.map(([i]) => (i as Request).url);
+    expect(urls.some((u) => u.includes('/api/v1/auth/logout/'))).toBe(true);
   });
 
   it('still signs out locally when offline', async () => {

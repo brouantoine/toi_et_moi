@@ -83,3 +83,25 @@ jest.mock('@react-native-google-signin/google-signin', () => ({
   },
   isSuccessResponse: (r: { type: string }) => r.type === 'success',
 }));
+
+/* Date picker: pressing it picks Feb 14 2020 (Android-like 'set' event). */
+jest.mock('@react-native-community/datetimepicker', () => {
+  /* eslint-disable @typescript-eslint/no-require-imports */
+  const React = require('react');
+  const { Pressable } = require('react-native');
+  /* eslint-enable @typescript-eslint/no-require-imports */
+  return {
+    __esModule: true,
+    default: ({
+      testID,
+      onChange,
+    }: {
+      testID?: string;
+      onChange: (e: unknown, d?: Date) => void;
+    }) =>
+      React.createElement(Pressable, {
+        testID,
+        onPress: () => onChange({ type: 'set' }, new Date(2020, 1, 14, 12)),
+      }),
+  };
+});

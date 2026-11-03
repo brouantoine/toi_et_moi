@@ -7,7 +7,12 @@
   "common": {
     "loading": "Un instant…",
     "retry": "Réessayer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "notSet": "Non renseignée",
+    "clear": "Effacer",
+    "confirm": "Valider",
+    "save": "Enregistrer",
+    "saved": "C’est enregistré."
   },
   "errors": {
     "title": "Petit contretemps",
@@ -140,7 +145,11 @@
     }
   },
   "me": {
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "profile": "Profil",
+    "profileHint": "Prénom, surnom, langue",
+    "couple": "Notre couple",
+    "coupleHint": "Date de début, devise"
   },
   "onboarding": {
     "together": {
@@ -165,5 +174,22 @@
     "skip": "Passer",
     "start": "C’est parti",
     "progress": "Étape {{current}} sur {{total}}"
+  },
+  "profile": {
+    "title": "Ton profil",
+    "nickname": "Surnom",
+    "nicknameHint": "C’est ce que l’autre verra. Facultatif.",
+    "birthDate": "Date de naissance (facultative)",
+    "language": "Langue",
+    "timezone": "Fuseau horaire",
+    "useDeviceTimezone": "Utiliser le fuseau de ce téléphone ({{tz}})",
+    "invalid": "Certaines informations ne sont pas valides."
+  },
+  "coupleInfo": {
+    "title": "Notre couple",
+    "startDate": "Notre date de début",
+    "currency": "Devise du budget",
+    "currencyHint": "Code à 3 lettres, par exemple EUR, CAD, XOF.",
+    "currencyInvalid": "Indique un code à 3 lettres (EUR, CAD…)."
   }
 }
