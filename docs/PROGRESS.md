@@ -123,3 +123,13 @@
 - Fichiers clés : `mobile/src/features/memories/{MemoriesScreen,MemoryCard,useMemories,memoryTypes}.ts(x)`, `mobile/src/api/pagination.ts`, route `src/app/(tabs)/memories.tsx`. Énumérations OpenAPI nommées (`MemoryTypeEnum`, `LanguageEnum`, `CoupleStatusEnum`).
 - État : l'écran compile et passe le lint ; **les tests de la frise restent à écrire** avant de cocher P2.8.
 - README rempli (avancement + prompt d'origine) à la demande de l'utilisateur.
+
+## 2026-11-03 — P2.8 Frise des souvenirs (terminée) + montée en gamme du design system
+- Fichiers clés : `mobile/src/ui/{tokens,theme,PressableScale,Chip,SearchField,IconButton,Medallion,Card,Button,Text,EmptyState,ErrorState,ListRow}.tsx`, `mobile/src/features/memories/{MemoriesScreen,MemoryCard,timeline}.ts(x)`, `features/memories/__tests__/memories.test.tsx`, `src/app/_layout.tsx` (chargement des polices).
+- Design system : direction « carnet éditorial chaleureux ». Titres en serif **Fraunces** (`display`, `title`, `heading`, `quote` en italique), texte courant en police système (lisibilité, tailles dynamiques), nouvelle variante `overline`. Palette enrichie (`surfaceMuted`, `primarySoft`/`onPrimarySoft`, `secondarySoft`/`onSecondarySoft`, `scrim`/`onScrim`), toutes les paires vérifiées AA en clair et en sombre. Élévations en `boxShadow` chaudes et diffuses en clair, filet fin en sombre (`elevations`, `useSurfaceStyle`). Tokens `motion` + `useReducedMotion`.
+- Nouvelles primitives : `PressableScale` (enfoncement doux, simple atténuation si « réduire les animations »), `Chip` (filtre, cible tactile 48 pt via hitSlop), `SearchField` (avec bouton effacer), `IconButton` (icône seule, label obligatoire), `Medallion` (icône dans un cercle teinté, états vides/erreur). `Button` gagne `soft`, `size="lg"`, `icon` et `style` (mise en page seulement).
+- Frise : souvenirs groupés par mois (titres serif localisés), rail à gauche avec jour et jour de la semaine reliés par un fil, cartes éditoriales (couverture 4:3, pastille de type, titre serif, extrait, lieu, badge « +N photos »), citations en italique serif sans photo, pagination infinie avec indicateur, tirer pour rafraîchir. Squelette à la forme de la frise, état vide avec action, état « rien ne correspond », état d'erreur avec réessai.
+- Vérification visuelle : export web de production + captures Chromium headless (clair, sombre, vide, chargement) via une route d'aperçu temporaire non commitée (voir DECISIONS).
+- Dépendances : `@expo-google-fonts/fraunces`, `expo-font`, `expo-haptics` (pour « Je pense à toi », P6) ; correctifs Expo SDK 58 appliqués (`expo install --fix`), expo-doctor 20/20.
+- Validation : 294 tests mobile verts, tsc, ESLint, expo-doctor.
+

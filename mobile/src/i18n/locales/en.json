@@ -201,6 +201,11 @@
     "emptyMessage": "A first time, a place, a laugh: keep what matters to you both.",
     "noMatchTitle": "Nothing matches",
     "noMatchMessage": "Try another word or clear the filter.",
+    "eyebrow": "Your story",
+    "clearSearch": "Clear search",
+    "morePhotos_one": "{{count}} more photo",
+    "morePhotos_other": "{{count}} more photos",
+    "loadingMore": "Loading older memories",
     "types": {
       "moment": "Moment",
       "first_time": "First time",

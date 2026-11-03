@@ -201,6 +201,11 @@
     "emptyMessage": "Une première fois, un lieu, un fou rire : gardez ce qui compte pour vous deux.",
     "noMatchTitle": "Rien ne correspond",
     "noMatchMessage": "Essaie un autre mot ou retire le filtre.",
+    "eyebrow": "Votre histoire",
+    "clearSearch": "Effacer la recherche",
+    "morePhotos_one": "{{count}} autre photo",
+    "morePhotos_other": "{{count}} autres photos",
+    "loadingMore": "Chargement des souvenirs plus anciens",
     "types": {
       "moment": "Moment",
       "first_time": "Première fois",
