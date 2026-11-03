@@ -155,6 +155,9 @@ SPECTACULAR_SETTINGS = {
         "ListKindEnum": "organization.models.ListKind",
         "ChoreRecurrenceEnum": "organization.models.ChoreRecurrence",
         "RelativePersonEnum": [("me", "me"), ("you", "you"), ("us", "us")],
+        "PayerEnum": [("me", "me"), ("you", "you")],
+        "ExpenseCategoryEnum": "organization.models.ExpenseCategory",
+        "SplitEnum": "organization.models.Split",
     },
 }
 

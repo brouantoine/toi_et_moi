@@ -388,6 +388,78 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/expenses/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared expenses, the simple balance and the one-gesture reimbursement. */
+    get: operations['v1_expenses_list'];
+    put?: never;
+    /** @description Shared expenses, the simple balance and the one-gesture reimbursement. */
+    post: operations['v1_expenses_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/expenses/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Shared expenses, the simple balance and the one-gesture reimbursement. */
+    get: operations['v1_expenses_retrieve'];
+    /** @description Shared expenses, the simple balance and the one-gesture reimbursement. */
+    put: operations['v1_expenses_update'];
+    post?: never;
+    /** @description Shared expenses, the simple balance and the one-gesture reimbursement. */
+    delete: operations['v1_expenses_destroy'];
+    options?: never;
+    head?: never;
+    /** @description Shared expenses, the simple balance and the one-gesture reimbursement. */
+    patch: operations['v1_expenses_partial_update'];
+    trace?: never;
+  };
+  '/api/v1/expenses/balance/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Who owes how much, per currency. Simple and neutral. */
+    get: operations['v1_expenses_balance_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/expenses/settle/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Records the reimbursement of the whole balance in this currency. */
+    post: operations['v1_expenses_settle_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/health/': {
     parameters: {
       query?: never;
@@ -752,6 +824,12 @@ export interface components {
       refresh: string;
       user: components['schemas']['User'];
     };
+    /** @description Per currency. `amount` is always positive; `direction` says who owes whom. */
+    Balance: {
+      currency: string;
+      amount: number;
+      direction: components['schemas']['DirectionEnum'];
+    };
     Chore: {
       readonly id: number;
       title: string;
@@ -822,6 +900,13 @@ export interface components {
       /** @default EUR */
       currency: string;
     };
+    /**
+     * @description * `partner_owes_me` - partner_owes_me
+     *     * `i_owe_partner` - i_owe_partner
+     *     * `settled` - settled
+     * @enum {string}
+     */
+    DirectionEnum: 'partner_owes_me' | 'i_owe_partner' | 'settled';
     EmailRequest: {
       /** Format: email */
       email: string;
@@ -873,6 +958,45 @@ export interface components {
       concerns?: components['schemas']['RelativePersonEnum'];
       /** Format: int64 */
       reminder_minutes?: number | null;
+    };
+    /** @description Amounts in the currency's smallest unit (cents). Shares are relative to the reader. */
+    Expense: {
+      readonly id: number;
+      title: string;
+      amount: number;
+      currency?: string;
+      category?: components['schemas']['ExpenseCategoryEnum'];
+      /** Format: date */
+      spent_on?: string;
+      paid_by?: components['schemas']['PayerEnum'];
+      split?: components['schemas']['SplitEnum'];
+      my_share?: number;
+      readonly partner_share: number;
+      /** Format: date-time */
+      readonly created_at: string;
+    };
+    /**
+     * @description * `groceries` - Courses
+     *     * `home` - Maison
+     *     * `outings` - Sorties
+     *     * `travel` - Voyages
+     *     * `gifts` - Cadeaux
+     *     * `health` - Santé
+     *     * `other` - Autre
+     * @enum {string}
+     */
+    ExpenseCategoryEnum: 'groceries' | 'home' | 'outings' | 'travel' | 'gifts' | 'health' | 'other';
+    /** @description Amounts in the currency's smallest unit (cents). Shares are relative to the reader. */
+    ExpenseRequest: {
+      title: string;
+      amount: number;
+      currency?: string;
+      category?: components['schemas']['ExpenseCategoryEnum'];
+      /** Format: date */
+      spent_on?: string;
+      paid_by?: components['schemas']['PayerEnum'];
+      split?: components['schemas']['SplitEnum'];
+      my_share?: number;
     };
     Health: {
       status: string;
@@ -1022,6 +1146,32 @@ export interface components {
       years_ago: number;
       memory: components['schemas']['Memory'];
     };
+    PaginatedBalanceList: {
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cD00ODY%3D"
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+       */
+      previous?: string | null;
+      results: components['schemas']['Balance'][];
+    };
+    PaginatedExpenseList: {
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cD00ODY%3D"
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+       */
+      previous?: string | null;
+      results: components['schemas']['Expense'][];
+    };
     PaginatedMemoryList: {
       /**
        * Format: uri
@@ -1068,6 +1218,18 @@ export interface components {
       /** Format: int64 */
       reminder_minutes?: number | null;
     };
+    /** @description Amounts in the currency's smallest unit (cents). Shares are relative to the reader. */
+    PatchedExpenseRequest: {
+      title?: string;
+      amount?: number;
+      currency?: string;
+      category?: components['schemas']['ExpenseCategoryEnum'];
+      /** Format: date */
+      spent_on?: string;
+      paid_by?: components['schemas']['PayerEnum'];
+      split?: components['schemas']['SplitEnum'];
+      my_share?: number;
+    };
     PatchedListItemRequest: {
       text?: string;
       done?: boolean;
@@ -1101,6 +1263,12 @@ export interface components {
       /** Format: time */
       quiet_hours_end?: string | null;
     };
+    /**
+     * @description * `me` - me
+     *     * `you` - you
+     * @enum {string}
+     */
+    PayerEnum: 'me' | 'you';
     PhotoConfirmRequest: {
       key: string;
       width?: number | null;
@@ -1135,6 +1303,9 @@ export interface components {
     ReorderRequest: {
       ids: number[];
     };
+    SettleRequest: {
+      currency: string;
+    };
     SharedList: {
       readonly id: number;
       title: string;
@@ -1164,6 +1335,12 @@ export interface components {
       /** @default fr */
       language: components['schemas']['LanguageEnum'];
     };
+    /**
+     * @description * `equal` - 50/50
+     *     * `custom` - Personnalisée
+     * @enum {string}
+     */
+    SplitEnum: 'equal' | 'custom';
     TokenObtainPair: {
       readonly access: string;
       readonly refresh: string;
@@ -2081,6 +2258,208 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Occurrence'][];
+        };
+      };
+    };
+  };
+  v1_expenses_list: {
+    parameters: {
+      query?: {
+        /** @description La valeur du curseur de pagination. */
+        cursor?: string;
+        /** @description Nombre de résultats à retourner par page. */
+        page_size?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaginatedExpenseList'];
+        };
+      };
+    };
+  };
+  v1_expenses_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ExpenseRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ExpenseRequest'];
+        'multipart/form-data': components['schemas']['ExpenseRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Expense'];
+        };
+      };
+    };
+  };
+  v1_expenses_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) expense. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Expense'];
+        };
+      };
+    };
+  };
+  v1_expenses_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) expense. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ExpenseRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ExpenseRequest'];
+        'multipart/form-data': components['schemas']['ExpenseRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Expense'];
+        };
+      };
+    };
+  };
+  v1_expenses_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) expense. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_expenses_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) expense. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedExpenseRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedExpenseRequest'];
+        'multipart/form-data': components['schemas']['PatchedExpenseRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Expense'];
+        };
+      };
+    };
+  };
+  v1_expenses_balance_list: {
+    parameters: {
+      query?: {
+        /** @description La valeur du curseur de pagination. */
+        cursor?: string;
+        /** @description Nombre de résultats à retourner par page. */
+        page_size?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaginatedBalanceList'];
+        };
+      };
+    };
+  };
+  v1_expenses_settle_create: {
+    parameters: {
+      query?: {
+        /** @description La valeur du curseur de pagination. */
+        cursor?: string;
+        /** @description Nombre de résultats à retourner par page. */
+        page_size?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SettleRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['SettleRequest'];
+        'multipart/form-data': components['schemas']['SettleRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaginatedBalanceList'];
         };
       };
     };

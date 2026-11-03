@@ -187,3 +187,8 @@
 - Fichiers clés : `backend/organization/{chore_views,services,serializers,models}.py`, `organization/tests/test_chores.py`.
 - Endpoints : `GET/POST /api/v1/chores/` (`?done=true` pour les tâches ponctuelles terminées), `/chores/<id>/`, `POST /chores/<id>/complete/`, `POST /chores/<id>/reopen/`, `GET /chores/week/`.
 - À savoir : `assignee` vaut `me`/`you`/`us` relatif au lecteur (énumération OpenAPI `RelativePersonEnum`, partagée avec `concerns` des événements). Terminer une tâche récurrente la reporte à la première échéance après aujourd'hui (pas de rattrapage culpabilisant) ; mensuelle : 31 janvier → 28 février. `week` = trois listes simples (moi, toi, nous) des tâches ouvertes de la semaine (lundi–dimanche, fuseau du lecteur) : aucun total, aucun score, aucun décompte de qui a fait quoi.
+
+## 2026-11-03 — P3.4 Budget partagé (API)
+- Fichiers clés : `backend/organization/{budget,expense_views,serializers,models}.py`, `organization/tests/test_budget.py`.
+- Endpoints : `GET/POST /api/v1/expenses/` (curseur, plus récentes d'abord), `/expenses/<id>/`, `GET /expenses/balance/`, `POST /expenses/settle/` (`{currency}`).
+- À savoir : montants entiers dans la plus petite unité de la devise ; devise par défaut celle du couple, date par défaut aujourd'hui (fuseau de la personne), payeur par défaut la personne. `paid_by` vaut `me`/`you`, `my_share`/`partner_share` sont relatifs au lecteur. 50/50 : l'unité impaire reste au payeur. Personnalisée : `my_share` obligatoire et ≤ montant ; changer le montant d'une dépense personnalisée exige la nouvelle part (jamais devinée). Solde par devise (`partner_owes_me` / `i_owe_partner` / `settled`), remboursement en un geste = un `Settlement` du montant exact. Aucune liaison bancaire.

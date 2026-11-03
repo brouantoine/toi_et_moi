@@ -844,6 +844,232 @@ paths:
                 items:
                   $ref: '#/components/schemas/Occurrence'
           description: ''
+  /api/v1/expenses/:
+    get:
+      operationId: v1_expenses_list
+      description: Shared expenses, the simple balance and the one-gesture reimbursement.
+      parameters:
+      - name: cursor
+        required: false
+        in: query
+        description: La valeur du curseur de pagination.
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        description: Nombre de résultats à retourner par page.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedExpenseList'
+          description: ''
+    post:
+      operationId: v1_expenses_create
+      description: Shared expenses, the simple balance and the one-gesture reimbursement.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExpenseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExpenseRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+          description: ''
+  /api/v1/expenses/{id}/:
+    get:
+      operationId: v1_expenses_retrieve
+      description: Shared expenses, the simple balance and the one-gesture reimbursement.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) expense.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+          description: ''
+    put:
+      operationId: v1_expenses_update
+      description: Shared expenses, the simple balance and the one-gesture reimbursement.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) expense.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExpenseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExpenseRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+          description: ''
+    patch:
+      operationId: v1_expenses_partial_update
+      description: Shared expenses, the simple balance and the one-gesture reimbursement.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) expense.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedExpenseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedExpenseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedExpenseRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+          description: ''
+    delete:
+      operationId: v1_expenses_destroy
+      description: Shared expenses, the simple balance and the one-gesture reimbursement.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) expense.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/expenses/balance/:
+    get:
+      operationId: v1_expenses_balance_list
+      description: Who owes how much, per currency. Simple and neutral.
+      parameters:
+      - name: cursor
+        required: false
+        in: query
+        description: La valeur du curseur de pagination.
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        description: Nombre de résultats à retourner par page.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBalanceList'
+          description: ''
+  /api/v1/expenses/settle/:
+    post:
+      operationId: v1_expenses_settle_create
+      description: Records the reimbursement of the whole balance in this currency.
+      parameters:
+      - name: cursor
+        required: false
+        in: query
+        description: La valeur du curseur de pagination.
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        description: Nombre de résultats à retourner par page.
+        schema:
+          type: integer
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SettleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SettleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBalanceList'
+          description: ''
   /api/v1/health/:
     get:
       operationId: v1_health_retrieve
@@ -1829,6 +2055,21 @@ components:
       - access
       - refresh
       - user
+    Balance:
+      type: object
+      description: Per currency. `amount` is always positive; `direction` says who
+        owes whom.
+      properties:
+        currency:
+          type: string
+        amount:
+          type: integer
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+      required:
+      - amount
+      - currency
+      - direction
     Chore:
       type: object
       properties:
@@ -1999,6 +2240,16 @@ components:
           minLength: 1
           default: EUR
           maxLength: 3
+    DirectionEnum:
+      enum:
+      - partner_owes_me
+      - i_owe_partner
+      - settled
+      type: string
+      description: |-
+        * `partner_owes_me` - partner_owes_me
+        * `i_owe_partner` - i_owe_partner
+        * `settled` - settled
     EmailRequest:
       type: object
       properties:
@@ -2112,6 +2363,101 @@ components:
           format: int64
           nullable: true
       required:
+      - title
+    Expense:
+      type: object
+      description: Amounts in the currency's smallest unit (cents). Shares are relative
+        to the reader.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 120
+        amount:
+          type: integer
+          maximum: 100000000
+          minimum: 1
+        currency:
+          type: string
+          pattern: ^[A-Z]{3}$
+        category:
+          $ref: '#/components/schemas/ExpenseCategoryEnum'
+        spent_on:
+          type: string
+          format: date
+        paid_by:
+          $ref: '#/components/schemas/PayerEnum'
+        split:
+          $ref: '#/components/schemas/SplitEnum'
+        my_share:
+          type: integer
+          maximum: 100000000
+          minimum: 0
+        partner_share:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - created_at
+      - id
+      - partner_share
+      - title
+    ExpenseCategoryEnum:
+      enum:
+      - groceries
+      - home
+      - outings
+      - travel
+      - gifts
+      - health
+      - other
+      type: string
+      description: |-
+        * `groceries` - Courses
+        * `home` - Maison
+        * `outings` - Sorties
+        * `travel` - Voyages
+        * `gifts` - Cadeaux
+        * `health` - Santé
+        * `other` - Autre
+    ExpenseRequest:
+      type: object
+      description: Amounts in the currency's smallest unit (cents). Shares are relative
+        to the reader.
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        amount:
+          type: integer
+          maximum: 100000000
+          minimum: 1
+        currency:
+          type: string
+          minLength: 1
+          pattern: ^[A-Z]{3}$
+        category:
+          $ref: '#/components/schemas/ExpenseCategoryEnum'
+        spent_on:
+          type: string
+          format: date
+        paid_by:
+          $ref: '#/components/schemas/PayerEnum'
+        split:
+          $ref: '#/components/schemas/SplitEnum'
+        my_share:
+          type: integer
+          maximum: 100000000
+          minimum: 0
+      required:
+      - amount
       - title
     Health:
       type: object
@@ -2510,6 +2856,44 @@ components:
       required:
       - memory
       - years_ago
+    PaginatedBalanceList:
+      type: object
+      required:
+      - results
+      properties:
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?cursor=cD00ODY%3D"
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Balance'
+    PaginatedExpenseList:
+      type: object
+      required:
+      - results
+      properties:
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?cursor=cD00ODY%3D"
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expense'
     PaginatedMemoryList:
       type: object
       required:
@@ -2606,6 +2990,36 @@ components:
           minimum: 0
           format: int64
           nullable: true
+    PatchedExpenseRequest:
+      type: object
+      description: Amounts in the currency's smallest unit (cents). Shares are relative
+        to the reader.
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        amount:
+          type: integer
+          maximum: 100000000
+          minimum: 1
+        currency:
+          type: string
+          minLength: 1
+          pattern: ^[A-Z]{3}$
+        category:
+          $ref: '#/components/schemas/ExpenseCategoryEnum'
+        spent_on:
+          type: string
+          format: date
+        paid_by:
+          $ref: '#/components/schemas/PayerEnum'
+        split:
+          $ref: '#/components/schemas/SplitEnum'
+        my_share:
+          type: integer
+          maximum: 100000000
+          minimum: 0
     PatchedListItemRequest:
       type: object
       properties:
@@ -2681,6 +3095,14 @@ components:
           type: string
           format: time
           nullable: true
+    PayerEnum:
+      enum:
+      - me
+      - you
+      type: string
+      description: |-
+        * `me` - me
+        * `you` - you
     PhotoConfirmRequest:
       type: object
       properties:
@@ -2763,6 +3185,15 @@ components:
           maxItems: 500
       required:
       - ids
+    SettleRequest:
+      type: object
+      properties:
+        currency:
+          type: string
+          minLength: 1
+          pattern: ^[A-Z]{3}$
+      required:
+      - currency
     SharedList:
       type: object
       properties:
@@ -2842,6 +3273,14 @@ components:
           default: fr
       required:
       - id_token
+    SplitEnum:
+      enum:
+      - equal
+      - custom
+      type: string
+      description: |-
+        * `equal` - 50/50
+        * `custom` - Personnalisée
     TokenObtainPair:
       type: object
       properties:

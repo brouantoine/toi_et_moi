@@ -125,3 +125,85 @@ class Chore(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
+class ExpenseCategory(models.TextChoices):
+    GROCERIES = "groceries", "Courses"
+    HOME = "home", "Maison"
+    OUTINGS = "outings", "Sorties"
+    TRAVEL = "travel", "Voyages"
+    GIFTS = "gifts", "Cadeaux"
+    HEALTH = "health", "Santé"
+    OTHER = "other", "Autre"
+
+
+class Split(models.TextChoices):
+    EQUAL = "equal", "50/50"
+    CUSTOM = "custom", "Personnalisée"
+
+
+class Expense(models.Model):
+    """A shared expense. Amounts are integers in the currency's smallest unit."""
+
+    couple = models.ForeignKey("couples.Couple", on_delete=models.CASCADE, related_name="expenses")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    title = models.CharField(max_length=120)
+    amount = models.PositiveIntegerField()
+    currency = models.CharField(max_length=3)
+    category = models.CharField(
+        max_length=10, choices=ExpenseCategory.choices, default=ExpenseCategory.OTHER
+    )
+    spent_on = models.DateField()
+    paid_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    split = models.CharField(max_length=6, choices=Split.choices, default=Split.EQUAL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-spent_on", "-id"]
+        indexes = [models.Index(fields=["couple", "-spent_on"])]
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class ExpenseShare(models.Model):
+    """What each member carries of an expense (two rows per expense)."""
+
+    expense = models.ForeignKey(Expense, on_delete=models.CASCADE, related_name="shares")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="+")
+    amount = models.PositiveIntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["expense", "user"], name="unique_expense_share")
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.amount} ({self.expense_id})"
+
+
+class Settlement(models.Model):
+    """A reimbursement from one member to the other."""
+
+    couple = models.ForeignKey(
+        "couples.Couple", on_delete=models.CASCADE, related_name="settlements"
+    )
+    from_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    to_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    amount = models.PositiveIntegerField()
+    currency = models.CharField(max_length=3)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-id"]
+
+    def __str__(self) -> str:
+        return f"{self.amount} {self.currency}"
