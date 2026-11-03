@@ -62,8 +62,15 @@ function GuardedStack() {
         </Stack.Protected>
         <Stack.Protected guard={gate === 'app'}>
           <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="settings/profile" options={{ ...header, title: t('me.profile') }} />
-          <Stack.Screen name="settings/couple" options={{ ...header, title: t('me.couple') }} />
+          <Stack.Screen
+            name="settings/profile"
+            // The page carries its own large title; the bar keeps only the back button.
+            options={{ ...header, title: t('me.profile'), headerTitle: '' }}
+          />
+          <Stack.Screen
+            name="settings/couple"
+            options={{ ...header, title: t('me.couple'), headerTitle: '' }}
+          />
           <Stack.Screen name="memories/[id]/index" />
           <Stack.Screen name="memories/new" options={{ presentation: 'modal' }} />
           <Stack.Screen name="memories/[id]/edit" options={{ presentation: 'modal' }} />

@@ -242,7 +242,7 @@ describe('MemoryFormScreen — create', () => {
     await fireEvent.changeText(screen.getByTestId('memory-form-title'), 'Le lac');
     await fireEvent.press(screen.getByTestId('memory-form-close'));
     expect(alert).toHaveBeenCalledWith(
-      'Laisser ce souvenir de côté ?',
+      'Laisser ce souvenir de côté\u00a0?',
       'Ce que tu as écrit ne sera pas gardé.',
       expect.any(Array),
     );

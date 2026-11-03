@@ -157,3 +157,11 @@
 - Maestro n'est pas exécuté ici (aucun simulateur) ; le test Jest de cohérence des `testID` couvre le nouveau parcours.
 - Tests du détail stabilisés (chargement et erreur séparés, cache « moi » et « couple » pré-rempli : plus d'avertissement `act`).
 - **Phase P2 terminée.** 367 tests mobile verts, tsc, ESLint.
+
+## 2026-11-03 — Finitions repérées sur les captures de l'app complète
+- Captures de tous les écrans (32, clair et sombre) via l'export web, une API simulée et Playwright (outillage temporaire hors dépôt). Elles ont révélé et permis de corriger :
+  - barre d'onglets : libellés rognés (« Aujourd'hui ») et tronqués (« Organisati… »). Hauteur explicite incluant la zone de sécurité, libellés 10 pt non compressibles (`src/app/(tabs)/_layout.tsx`) ;
+  - typographie française : espaces insécables avant « : ; ! ? » et à l'intérieur des guillemets dans `fr.json` (plus de deux-points ni de guillemet seul en début de ligne) ;
+  - écran de bienvenue refait (il datait de P0) : motif de deux disques qui se rejoignent, titre serif, « Commencer » et un accès direct « J'ai déjà un compte » ;
+  - écrans Profil et Notre couple : titre en double retiré de la barre (le grand titre de page reste).
+- Validation : 369 tests mobile verts, tsc, ESLint.

@@ -285,7 +285,7 @@ describe('MemoryDetailScreen', () => {
     await renderWithProviders(<MemoryDetailScreen memoryId={5} />);
     await fireEvent.press(await screen.findByTestId('memory-delete'));
     expect(alert).toHaveBeenCalledWith(
-      'Supprimer ce souvenir ?',
+      'Supprimer ce souvenir\u00a0?',
       expect.stringContaining('pour vous deux'),
       expect.any(Array),
     );

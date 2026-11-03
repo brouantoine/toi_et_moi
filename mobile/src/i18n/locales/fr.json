@@ -2,7 +2,8 @@
   "welcome": {
     "title": "Bienvenue dans {{brand}}",
     "subtitle": "L'app qui vous aide à moins regarder vos téléphones, et plus à vous regarder.",
-    "start": "Commencer"
+    "start": "Commencer",
+    "login": "J’ai déjà un compte"
   },
   "common": {
     "loading": "Un instant…",
@@ -17,11 +18,11 @@
   },
   "errors": {
     "title": "Petit contretemps",
-    "generic": "Quelque chose n'a pas fonctionné. Rien de grave : tu peux réessayer.",
+    "generic": "Quelque chose n'a pas fonctionné. Rien de grave : tu peux réessayer.",
     "network": "Pas de connexion pour le moment. Tes données reviendront dès que le réseau sera là.",
     "server": "Le service se repose un instant. Réessaie dans quelques minutes.",
     "not_found": "Cet élément n'existe plus.",
-    "throttled": "Doucement : réessaie dans une minute.",
+    "throttled": "Doucement : réessaie dans une minute.",
     "unauthorized": "Ta session a expiré. Reconnecte-toi pour continuer."
   },
   "auth": {
@@ -33,19 +34,19 @@
     "login": {
       "title": "Content de te revoir",
       "submit": "Se connecter",
-      "forgot": "Mot de passe oublié ?",
-      "noAccount": "Pas encore de compte ? Créer un compte"
+      "forgot": "Mot de passe oublié ?",
+      "noAccount": "Pas encore de compte ? Créer un compte"
     },
     "register": {
       "title": "Créer ton compte",
       "subtitle": "Quelques secondes, et vous pourrez commencer à deux.",
       "passwordHint": "Au moins 10 caractères. Une phrase marche très bien.",
       "submit": "Créer mon compte",
-      "haveAccount": "Déjà un compte ? Se connecter"
+      "haveAccount": "Déjà un compte ? Se connecter"
     },
     "forgot": {
       "title": "Mot de passe oublié",
-      "subtitle": "Indique ton email : si un compte existe, tu recevras un lien pour en choisir un nouveau.",
+      "subtitle": "Indique ton email : si un compte existe, tu recevras un lien pour en choisir un nouveau.",
       "submit": "Envoyer le lien",
       "sentTitle": "Regarde tes emails",
       "sentMessage": "Si un compte correspond à cette adresse, un lien vient de partir. Pense à vérifier les indésirables.",
@@ -85,10 +86,10 @@
     "pending": {
       "title": "Ton code d’invitation",
       "explain": "Donne ce code à l’autre, ou envoie-lui le lien. Il ou elle n’aura qu’à le saisir dans l’app.",
-      "codeLabel": "Code d’invitation : {{code}}",
+      "codeLabel": "Code d’invitation : {{code}}",
       "expires": "Valable jusqu’à {{date}}",
       "share": "Envoyer l’invitation",
-      "shareMessage": "Rejoins-moi sur {{brand}}. Notre code : {{code}} — ou ouvre ce lien : {{link}}",
+      "shareMessage": "Rejoins-moi sur {{brand}}. Notre code : {{code}} — ou ouvre ce lien : {{link}}",
       "waiting": "Dès que l’autre aura rejoint, votre espace s’ouvrira.",
       "newCode": "Générer un nouveau code",
       "cancel": "Annuler cet espace"
@@ -108,7 +109,7 @@
     "errors": {
       "invalid_code": "Ce code ne fonctionne pas. Vérifie-le, ou demande un nouveau code.",
       "expired_code": "Ce code a expiré. Demande à l’autre d’en générer un nouveau.",
-      "own_couple": "C’est ton propre code : partage-le avec l’autre.",
+      "own_couple": "C’est ton propre code : partage-le avec l’autre.",
       "already_in_couple": "Tu fais déjà partie d’un espace à deux.",
       "couple_full": "Cet espace est déjà complet."
     }
@@ -118,7 +119,7 @@
       "label": "Aujourd’hui",
       "title": "Aujourd’hui",
       "emptyTitle": "Une journée à deux",
-      "emptyMessage": "Bientôt ici : la question du jour, un souvenir, vos prochains moments."
+      "emptyMessage": "Bientôt ici : la question du jour, un souvenir, vos prochains moments."
     },
     "memories": {
       "label": "Souvenirs",
@@ -159,16 +160,16 @@
     },
     "gentle": {
       "title": "Doux, jamais pressant",
-      "body": "Une question par jour, des souvenirs à garder, une organisation partagée. Rien d’obligatoire, rien à rattraper : vous avancez à votre rythme."
+      "body": "Une question par jour, des souvenirs à garder, une organisation partagée. Rien d’obligatoire, rien à rattraper : vous avancez à votre rythme."
     },
     "never": {
       "title": "Ce que l’app ne fera jamais",
-      "body": "Parce que la confiance compte plus que tout :",
+      "body": "Parce que la confiance compte plus que tout :",
       "items": {
         "streaks": "Pas de séries, de points ni de score de couple.",
-        "tracking": "Pas de géolocalisation, pas de « vu à », pas d’accusés de lecture.",
+        "tracking": "Pas de géolocalisation, pas de « vu à », pas d’accusés de lecture.",
         "ads": "Pas de publicité, pas de pistage, aucune revente de données.",
-        "private": "Ce que tu gardes pour toi reste à toi : l’autre ne le voit jamais."
+        "private": "Ce que tu gardes pour toi reste à toi : l’autre ne le voit jamais."
       }
     },
     "next": "Suivant",
@@ -199,7 +200,7 @@
     "searchLabel": "Rechercher",
     "searchPlaceholder": "Un mot, un lieu…",
     "emptyTitle": "Votre premier souvenir vous attend",
-    "emptyMessage": "Une première fois, un lieu, un fou rire : gardez ce qui compte pour vous deux.",
+    "emptyMessage": "Une première fois, un lieu, un fou rire : gardez ce qui compte pour vous deux.",
     "noMatchTitle": "Rien ne correspond",
     "noMatchMessage": "Essaie un autre mot ou retire le filtre.",
     "eyebrow": "Votre histoire",
@@ -247,7 +248,7 @@
       "partialFailure_other": "Le souvenir est gardé, mais {{count}} photos n’ont pas pu être envoyées. Tu peux réessayer.",
       "retryPhotos": "Réessayer l’envoi",
       "saveError": "L’enregistrement n’a pas abouti. Ce que tu as écrit est conservé, tu peux réessayer.",
-      "discardTitle": "Laisser ce souvenir de côté ?",
+      "discardTitle": "Laisser ce souvenir de côté ?",
       "discardMessage": "Ce que tu as écrit ne sera pas gardé.",
       "discardConfirm": "Ne pas garder",
       "keepEditing": "Continuer",
@@ -261,7 +262,7 @@
       "back": "Retour",
       "edit": "Modifier",
       "delete": "Supprimer le souvenir",
-      "deleteTitle": "Supprimer ce souvenir ?",
+      "deleteTitle": "Supprimer ce souvenir ?",
       "deleteMessage": "Il disparaîtra pour vous deux, avec ses photos et vos mots. C’est définitif.",
       "deleteConfirm": "Supprimer",
       "deleteError": "La suppression n’a pas abouti. Réessaie dans un instant.",
@@ -279,7 +280,7 @@
       "send": "Envoyer",
       "you": "Toi",
       "deleteComment": "Supprimer ton mot",
-      "deleteCommentTitle": "Supprimer ce mot ?",
+      "deleteCommentTitle": "Supprimer ce mot ?",
       "commentError": "Ton mot n’a pas pu être envoyé. Il est toujours là, tu peux réessayer."
     }
   }
