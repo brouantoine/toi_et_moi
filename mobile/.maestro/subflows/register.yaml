@@ -1,0 +1,23 @@
+# Registers a new account. Inputs: FIRST_NAME, EMAIL, PASSWORD (env).
+appId: com.changeme.nousdeux
+tags:
+  - subflow
+---
+- extendedWaitUntil:
+    visible:
+      id: "welcome-start"
+    timeout: 15000
+- tapOn:
+    id: "welcome-start"
+- tapOn:
+    id: "register-first-name"
+- inputText: ${FIRST_NAME}
+- tapOn:
+    id: "register-email"
+- inputText: ${EMAIL}
+- tapOn:
+    id: "register-password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn:
+    id: "register-submit"

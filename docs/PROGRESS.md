@@ -81,3 +81,8 @@
 ## 2026-11-03 — P1.18 Profil et infos du couple
 - Fichiers clés : `mobile/src/features/me/{MeScreen,ProfileScreen,useProfile}.ts(x)`, `mobile/src/features/couple/CoupleInfoScreen.tsx` (+ `useUpdateCouple`), routes `src/app/settings/{profile,couple}.tsx` (protégées, en-tête avec retour), composants `ui/{DateField,Segmented,ListRow}.tsx`.
 - À savoir : la langue du profil s'applique à la connexion (`useApplyProfileLanguage`) et dès l'enregistrement. Le fuseau peut être aligné sur celui du téléphone. Les dates passent par `DateField` (dialogue natif Android, feuille iOS) au format `AAAA-MM-JJ` local. La devise par défaut vient de la locale de l'appareil à la création du couple.
+
+## 2026-11-03 — P1.19 Parcours Maestro inscription → couple → partenaire
+- Fichiers clés : `mobile/.maestro/01_signup_couple_partner_joins.yaml`, `.maestro/subflows/register.yaml`, `.maestro/config.yaml`, `.maestro/README.md`, `mobile/src/__tests__/maestro-ids.test.ts` (chaque `id` des parcours doit exister comme `testID`).
+- À savoir : le parcours joue les deux personnes sur le même appareil (déconnexion entre les deux). Ajout d'un bouton « Se déconnecter » sur l'écran du couple en attente (il manquait : une personne sans couple actif n'avait pas accès à l'onglet Moi). Maestro n'est pas exécuté ici (aucun simulateur sur cette machine Windows).
+- **Phase P1 terminée.**

@@ -129,6 +129,20 @@ describe('CoupleSetupScreen', () => {
     expect(routerMock().replace).toHaveBeenCalledWith('/');
   });
 
+  it('lets a person waiting for their partner sign out', async () => {
+    const { useAuthStore } =
+      jest.requireActual<typeof import('@/auth/authStore')>('@/auth/authStore');
+    await useAuthStore.getState().signIn({ access: 'a', refresh: 'r' });
+    mockFetch().mockImplementation(async (input) =>
+      urlOf(input).includes('/auth/logout/')
+        ? new Response(null, { status: 205 })
+        : jsonResponse(pending),
+    );
+    await renderWithProviders(<CoupleSetupScreen />);
+    await fireEvent.press(await screen.findByTestId('couple-sign-out'));
+    await waitFor(() => expect(useAuthStore.getState().status).toBe('signedOut'));
+  });
+
   it('shows a calm error state when loading fails', async () => {
     mockFetch().mockResolvedValue(jsonResponse({}, 503));
     await renderWithProviders(<CoupleSetupScreen />);

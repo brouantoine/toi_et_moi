@@ -1,0 +1,83 @@
+# Sign up -> create the couple -> the partner joins with the code.
+# Both people use the same device one after the other (sign out in between).
+appId: com.changeme.nousdeux
+name: Inscription, création du couple, le partenaire rejoint
+---
+- launchApp:
+    clearState: true
+- evalScript: ${output.run = Date.now()}
+
+# Onboarding (first launch only)
+- extendedWaitUntil:
+    visible:
+      id: "onboarding-together"
+    timeout: 20000
+- tapOn:
+    id: "onboarding-next"
+- tapOn:
+    id: "onboarding-next"
+- assertVisible:
+    id: "onboarding-never-tracking"
+- tapOn:
+    id: "onboarding-next"
+
+# Person A signs up and creates the couple
+- runFlow:
+    file: subflows/register.yaml
+    env:
+      FIRST_NAME: "Léa"
+      EMAIL: ${'lea' + output.run + '@example.com'}
+      PASSWORD: "une phrase de passe solide"
+- extendedWaitUntil:
+    visible:
+      id: "couple-create"
+    timeout: 15000
+- tapOn:
+    id: "couple-create"
+- extendedWaitUntil:
+    visible:
+      id: "couple-code"
+    timeout: 15000
+- copyTextFrom:
+    id: "couple-code"
+- evalScript: ${output.code = maestro.copiedText}
+- assertVisible:
+    id: "couple-share"
+- tapOn:
+    id: "couple-sign-out"
+
+# Person B signs up and joins with the code
+- runFlow:
+    file: subflows/register.yaml
+    env:
+      FIRST_NAME: "Sam"
+      EMAIL: ${'sam' + output.run + '@example.com'}
+      PASSWORD: "une autre phrase solide"
+- extendedWaitUntil:
+    visible:
+      id: "couple-have-code"
+    timeout: 15000
+- tapOn:
+    id: "couple-have-code"
+- tapOn:
+    id: "join-code"
+- inputText: ${output.code}
+- hideKeyboard
+- tapOn:
+    id: "join-submit"
+
+# The couple is active: the 5 tabs are there
+- extendedWaitUntil:
+    visible:
+      id: "tab-today"
+    timeout: 15000
+- assertVisible:
+    id: "tabbar-memories"
+- assertVisible:
+    id: "tabbar-organize"
+- assertVisible:
+    id: "tabbar-us"
+- tapOn:
+    id: "tabbar-me"
+- assertVisible:
+    id: "tab-me"

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Share, StyleSheet } from 'react-native';
 
 import { ApiError } from '@/api';
+import { useSignOut } from '@/auth/useSignOut';
 import { BRAND } from '@/config/brand';
 import { Button, Card, EmptyState, ErrorState, LoadingState, Screen, Text, useTheme } from '@/ui';
 
@@ -96,6 +97,7 @@ export function CoupleSetupScreen() {
   const router = useRouter();
   const couple = useCouple({ pollWhilePending: true });
   const create = useCreateCouple();
+  const signOut = useSignOut();
 
   if (couple.isPending) return <LoadingState testID="couple-loading" />;
   if (couple.isError) {
@@ -143,6 +145,13 @@ export function CoupleSetupScreen() {
           {create.isError ? <Text accessibilityRole="alert">{t('errors.generic')}</Text> : null}
         </>
       )}
+      <Button
+        testID="couple-sign-out"
+        variant="ghost"
+        label={t('me.signOut')}
+        loading={signOut.isPending}
+        onPress={() => signOut.mutate()}
+      />
     </Screen>
   );
 }

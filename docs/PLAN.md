@@ -29,7 +29,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P1.16 — Mobile : navigation 5 onglets (Aujourd'hui, Souvenirs, Organisation, Nous, Moi) + garde d'auth/couple + écrans placeholder avec état vide — tests de redirection — dépend de : P1.15
 - [x] P1.17 — Mobile : onboarding 3 écrans (philosophie, ce que l'app ne fera jamais) + drapeau persistant — tests — dépend de : P1.16
 - [x] P1.18 — Mobile : écrans profil et infos du couple (date de début, devise par défaut depuis la locale) — tests — dépend de : P1.16, P1.4
-- [ ] P1.19 — Maestro : inscription → création du couple → le partenaire rejoint — fichier YAML cohérent avec les testID — dépend de : P1.17
+- [x] P1.19 — Maestro : inscription → création du couple → le partenaire rejoint — fichier YAML cohérent avec les testID — dépend de : P1.17
 
 ## P2 — Souvenirs (F2)
 - [ ] P2.1 — `core/storage` : URL présignée d'upload (clé préfixée par couple, type et taille validés) + URL signée de lecture à durée limitée — tests avec botocore Stubber — dépend de : P1.6
