@@ -46,3 +46,8 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 
 ## Stores : classement d'âge
 - [ ] Si le paquet « intimité » des envies communes (P4.16) est activé, déclarer un classement 17+ (App Store) / équivalent PEGI sur Google Play.
+
+## Offre Premium (P9b)
+- [ ] Créer un compte RevenueCat, y relier l'app iOS et Android, récupérer les clés publiques (`EXPO_PUBLIC_REVENUECAT_IOS_KEY`, `EXPO_PUBLIC_REVENUECAT_ANDROID_KEY`) et le secret du webhook (`REVENUECAT_WEBHOOK_SECRET`, backend).
+- [ ] Créer les produits d'abonnement dans App Store Connect et Google Play Console (mensuel 2,99 €, annuel 19,99 € ou prix choisis), un droit « premium » dans RevenueCat.
+- [ ] Contrat « Apps payantes » signé dans App Store Connect et profil de paiement Google Play (comptes bancaires, fiscalité).

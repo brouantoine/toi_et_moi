@@ -134,6 +134,15 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [ ] P9.6 — Mobile : quitter le couple + supprimer le compte (confirmation calme) — tests — dépend de : P9.3, P1.18
 - [ ] P9.7 — Maestro : suppression de compte — dépend de : P9.6
 
+## P9b — Offre Premium (abonnement à petit prix, un achat pour le couple)
+- [ ] P9b.1 — Backend : `Subscription` par couple (droit, expiration, store, produit) + webhook RevenueCat authentifié par secret + champ `premium` exposé dans le couple et un endpoint `features` — tests : webhook sans secret refusé, expiration, le partenaire bénéficie du même droit — dépend de : P1.7
+- [ ] P9b.2 — Backend : helper unique `core.entitlements` (quotas et accès) : photos illimitées en Premium (gratuit : 300 par couple), lettres à ouvrir plus tard illimitées (gratuit : 3 en attente), paquets de jeux supplémentaires ; refus avec le code `premium_required` — tests de chaque limite — dépend de : P9b.1, P6.16, P4.14
+- [ ] P9b.3 — Mobile : SDK RevenueCat (`react-native-purchases` + plugin), écran d'offre calme (prix clair, aucune urgence artificielle, rappel avant la fin d'un essai), restauration des achats, lien « gérer mon abonnement » — tests avec SDK simulé, refus/annulation sans crash — dépend de : P9b.1
+- [ ] P9b.4 — Mobile : badges Premium discrets et proposition douce uniquement là où une limite est atteinte (jamais de pop-up interruptive) — tests — dépend de : P9b.2, P9b.3
+- [ ] P9b.5 — Premium : « Livre de souvenirs » PDF mis en page (Celery, photos, citations, dates), prêt à imprimer — tests du contenu (aucune donnée privée) — dépend de : P9b.2, P2.4
+- [ ] P9b.6 — Premium : thèmes de couleur et icônes d'app alternatives — tests des tokens (contraste AA de chaque thème) — dépend de : P9b.3
+- [ ] P9b.7 — Docs : abonnements dans STORE_RELEASE (métadonnées, notes pour la revue Apple, conditions d'abonnement dans les pages légales) et HUMAN_TODO (compte RevenueCat, produits App Store Connect et Play Console) — dépend de : P9b.3
+
 ## P10 — Finitions
 - [ ] P10.1 — Audit accessibilité (labels, textes dynamiques, contrastes AA via test des tokens, cibles ≥ 44 pt) — dépend de : P9.6
 - [ ] P10.2 — Audit mode sombre sur tous les écrans — dépend de : P9.6
