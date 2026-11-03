@@ -141,5 +141,29 @@
   },
   "me": {
     "signOut": "Sign out"
+  },
+  "onboarding": {
+    "together": {
+      "title": "Welcome to {{brand}}",
+      "body": "An app for the two of you, designed so you close it quickly and spend more time together, truly together."
+    },
+    "gentle": {
+      "title": "Gentle, never pushy",
+      "body": "One question a day, memories to keep, shared organization. Nothing mandatory, nothing to catch up on: you go at your own pace."
+    },
+    "never": {
+      "title": "What this app will never do",
+      "body": "Because trust matters more than anything:",
+      "items": {
+        "streaks": "No streaks, no points, no couple score.",
+        "tracking": "No location tracking, no “seen at”, no read receipts.",
+        "ads": "No ads, no tracking, no selling of data.",
+        "private": "What you keep to yourself stays yours: the other never sees it."
+      }
+    },
+    "next": "Next",
+    "skip": "Skip",
+    "start": "Let’s go",
+    "progress": "Step {{current}} of {{total}}"
   }
 }

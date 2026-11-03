@@ -141,5 +141,29 @@
   },
   "me": {
     "signOut": "Se déconnecter"
+  },
+  "onboarding": {
+    "together": {
+      "title": "Bienvenue dans {{brand}}",
+      "body": "Une app pour vous deux, pensée pour que vous la fermiez vite et que vous passiez plus de temps ensemble, vraiment ensemble."
+    },
+    "gentle": {
+      "title": "Doux, jamais pressant",
+      "body": "Une question par jour, des souvenirs à garder, une organisation partagée. Rien d’obligatoire, rien à rattraper : vous avancez à votre rythme."
+    },
+    "never": {
+      "title": "Ce que l’app ne fera jamais",
+      "body": "Parce que la confiance compte plus que tout :",
+      "items": {
+        "streaks": "Pas de séries, de points ni de score de couple.",
+        "tracking": "Pas de géolocalisation, pas de « vu à », pas d’accusés de lecture.",
+        "ads": "Pas de publicité, pas de pistage, aucune revente de données.",
+        "private": "Ce que tu gardes pour toi reste à toi : l’autre ne le voit jamais."
+      }
+    },
+    "next": "Suivant",
+    "skip": "Passer",
+    "start": "C’est parti",
+    "progress": "Étape {{current}} sur {{total}}"
   }
 }

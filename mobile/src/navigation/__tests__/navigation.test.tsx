@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 
 import { useAuthStore } from '@/auth/authStore';
 import { usePendingInvite } from '@/features/couple/pendingInvite';
+import { useOnboarding } from '@/features/onboarding/onboardingStore';
 import { MeScreen } from '@/features/me/MeScreen';
 import { TABS } from '@/features/shell/tabs';
 import en from '@/i18n/locales/en.json';
@@ -22,6 +23,7 @@ const store = (SecureStore as unknown as { __store: Map<string, string> }).__sto
 beforeEach(() => {
   store.clear();
   usePendingInvite.setState({ code: null });
+  useOnboarding.setState({ status: 'seen' });
   useAuthStore.setState({ status: 'loading', tokens: null });
 });
 
@@ -41,6 +43,12 @@ describe('resolveGate', () => {
 });
 
 describe('GateRedirect', () => {
+  it('shows the onboarding first on a fresh install', async () => {
+    useOnboarding.setState({ status: 'unseen' });
+    await renderWithProviders(<GateRedirect />);
+    expect(await screen.findByText('/onboarding')).toBeTruthy();
+  });
+
   it('sends a signed-out visitor to the welcome screen', async () => {
     await renderWithProviders(<GateRedirect />);
     expect(await screen.findByText('/welcome')).toBeTruthy();

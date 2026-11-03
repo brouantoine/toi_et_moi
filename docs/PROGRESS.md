@@ -73,3 +73,7 @@
 ## 2026-11-03 — P1.16 Navigation 5 onglets + garde
 - Fichiers clés : `mobile/src/navigation/{gate,useGate}.ts` + `GateRedirect.tsx`, `src/app/_layout.tsx` (`Stack.Protected` par état), `src/app/(auth)/*`, `src/app/(tabs)/*` (Aujourd'hui, Souvenirs, Organisation, Nous, Moi), `src/features/shell/{tabs.ts,TabPlaceholder.tsx}`, `src/auth/useSignOut.ts`, `src/features/me/MeScreen.tsx`.
 - À savoir : état `auth` → `/welcome`, `couple` → `/couple` (ou `/couple/join` si une invitation est en attente), `app` → `/today`. Les écrans d'onglets sont provisoires (état vide bienveillant). La déconnexion révoque le refresh token puis efface tokens et cache local, même hors ligne.
+
+## 2026-11-03 — P1.17 Onboarding
+- Fichiers clés : `mobile/src/features/onboarding/{OnboardingScreen.tsx,onboardingStore.ts}`, route `src/app/(auth)/onboarding.tsx`, `src/navigation/GateRedirect.tsx`.
+- À savoir : 3 écrans (ensemble, douceur, ce que l'app ne fera jamais : pas de séries/score, pas de géolocalisation ni « vu à », pas de pub ni pistage, le privé reste privé). Drapeau `nd.onboarding.v1` dans AsyncStorage ; affiché seulement au premier lancement, avant l'écran d'accueil.
