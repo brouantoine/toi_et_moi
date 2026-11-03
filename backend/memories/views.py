@@ -3,14 +3,18 @@ from typing import Any
 from django.db.models import QuerySet
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.request import Request
+from rest_framework.response import Response
 
+from core.auth import current_user
 from core.mixins import CoupleScopedQuerysetMixin
 from core.pagination import DefaultCursorPagination
 
 from . import services
-from .models import Memory, MemoryType
-from .serializers import MemorySerializer
+from .models import Memory, MemoryReaction, MemoryType
+from .serializers import HeartSerializer, MemorySerializer
 
 
 class MemoryPagination(DefaultCursorPagination):
@@ -46,3 +50,15 @@ class MemoryViewSet(CoupleScopedQuerysetMixin, viewsets.ModelViewSet[Memory]):
         if text := params.get("q"):
             queryset = services.search(queryset, text)
         return queryset
+
+    @extend_schema(request=None, responses={200: HeartSerializer})
+    @action(detail=True, methods=["post", "delete"])
+    def heart(self, request: Request, pk: str | None = None) -> Response:
+        """A single gentle heart: POST gives it, DELETE takes it back. Never counted."""
+        memory = self.get_object()
+        user = current_user(request)
+        if request.method == "POST":
+            MemoryReaction.objects.get_or_create(memory=memory, user=user)
+            return Response({"my_heart": True}, status=status.HTTP_200_OK)
+        MemoryReaction.objects.filter(memory=memory, user=user).delete()
+        return Response({"my_heart": False}, status=status.HTTP_200_OK)

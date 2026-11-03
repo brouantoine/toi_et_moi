@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from core.storage import signed_url
 
-from .models import Memory, MemoryPhoto
+from .models import Memory, MemoryComment, MemoryPhoto
 from .services import MAX_TAG_LENGTH, normalize_tags
 
 
@@ -92,3 +92,30 @@ class PhotoConfirmSerializer(serializers.Serializer[None]):
     key = serializers.CharField(max_length=512)
     width = serializers.IntegerField(required=False, allow_null=True, min_value=1)
     height = serializers.IntegerField(required=False, allow_null=True, min_value=1)
+
+
+class MemoryCommentSerializer(serializers.ModelSerializer[MemoryComment]):
+    author_name = serializers.SerializerMethodField()
+    mine = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MemoryComment
+        fields = ["id", "body", "author", "author_name", "mine", "created_at"]
+        read_only_fields = ["id", "author", "author_name", "mine", "created_at"]
+
+    def get_author_name(self, obj: MemoryComment) -> str | None:
+        return obj.author.display_name if obj.author else None
+
+    def get_mine(self, obj: MemoryComment) -> bool:
+        request = self.context.get("request")
+        return bool(request and obj.author_id == request.user.pk)
+
+    def validate_body(self, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("required")
+        return value
+
+
+class HeartSerializer(serializers.Serializer[None]):
+    my_heart = serializers.BooleanField()

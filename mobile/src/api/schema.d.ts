@@ -263,6 +263,41 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/memories/{memory_pk}/comments/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Short comments on a shared memory. Both partners read; only the author deletes. */
+    get: operations['v1_memories_comments_list'];
+    put?: never;
+    /** @description Short comments on a shared memory. Both partners read; only the author deletes. */
+    post: operations['v1_memories_comments_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memories/{memory_pk}/comments/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** @description Short comments on a shared memory. Both partners read; only the author deletes. */
+    delete: operations['v1_memories_comments_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memories/{memory_pk}/photos/': {
     parameters: {
       query?: never;
@@ -334,6 +369,24 @@ export interface paths {
     patch: operations['v1_memories_partial_update'];
     trace?: never;
   };
+  '/api/v1/memories/{id}/heart/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description A single gentle heart: POST gives it, DELETE takes it back. Never counted. */
+    post: operations['v1_memories_heart_create'];
+    /** @description A single gentle heart: POST gives it, DELETE takes it back. Never counted. */
+    delete: operations['v1_memories_heart_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -378,6 +431,9 @@ export interface components {
       status: string;
       brand: string;
     };
+    Heart: {
+      my_heart: boolean;
+    };
     JoinCoupleRequest: {
       code: string;
     };
@@ -419,6 +475,18 @@ export interface components {
       readonly created_at: string;
       /** Format: date-time */
       readonly updated_at: string;
+    };
+    MemoryComment: {
+      readonly id: number;
+      body: string;
+      readonly author: number | null;
+      readonly author_name: string | null;
+      readonly mine: boolean;
+      /** Format: date-time */
+      readonly created_at: string;
+    };
+    MemoryCommentRequest: {
+      body: string;
     };
     MemoryPhoto: {
       readonly id: number;
@@ -1124,6 +1192,76 @@ export interface operations {
       };
     };
   };
+  v1_memories_comments_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memory_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MemoryComment'][];
+        };
+      };
+    };
+  };
+  v1_memories_comments_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memory_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MemoryCommentRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['MemoryCommentRequest'];
+        'multipart/form-data': components['schemas']['MemoryCommentRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MemoryComment'];
+        };
+      };
+    };
+  };
+  v1_memories_comments_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory comment. */
+        id: number;
+        memory_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   v1_memories_photos_create: {
     parameters: {
       query?: never;
@@ -1311,6 +1449,50 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Memory'];
+        };
+      };
+    };
+  };
+  v1_memories_heart_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Heart'];
+        };
+      };
+    };
+  };
+  v1_memories_heart_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Heart'];
         };
       };
     };

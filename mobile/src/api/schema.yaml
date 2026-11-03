@@ -500,6 +500,90 @@ paths:
               schema:
                 $ref: '#/components/schemas/Memory'
           description: ''
+  /api/v1/memories/{memory_pk}/comments/:
+    get:
+      operationId: v1_memories_comments_list
+      description: Short comments on a shared memory. Both partners read; only the
+        author deletes.
+      parameters:
+      - in: path
+        name: memory_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemoryComment'
+          description: ''
+    post:
+      operationId: v1_memories_comments_create
+      description: Short comments on a shared memory. Both partners read; only the
+        author deletes.
+      parameters:
+      - in: path
+        name: memory_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryCommentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemoryCommentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemoryCommentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryComment'
+          description: ''
+  /api/v1/memories/{memory_pk}/comments/{id}/:
+    delete:
+      operationId: v1_memories_comments_destroy
+      description: Short comments on a shared memory. Both partners read; only the
+        author deletes.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory comment.
+        required: true
+      - in: path
+        name: memory_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/memories/{memory_pk}/photos/:
     post:
       operationId: v1_memories_photos_create
@@ -711,6 +795,51 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/memories/{id}/heart/:
+    post:
+      operationId: v1_memories_heart_create
+      description: 'A single gentle heart: POST gives it, DELETE takes it back. Never
+        counted.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Heart'
+          description: ''
+    delete:
+      operationId: v1_memories_heart_destroy
+      description: 'A single gentle heart: POST gives it, DELETE takes it back. Never
+        counted.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Heart'
+          description: ''
 components:
   schemas:
     AuthResponse:
@@ -816,6 +945,13 @@ components:
       required:
       - brand
       - status
+    Heart:
+      type: object
+      properties:
+        my_heart:
+          type: boolean
+      required:
+      - my_heart
     JoinCoupleRequest:
       type: object
       properties:
@@ -934,6 +1070,46 @@ components:
       - photos
       - title
       - updated_at
+    MemoryComment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        body:
+          type: string
+          maxLength: 500
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+        author_name:
+          type: string
+          nullable: true
+          readOnly: true
+        mine:
+          type: boolean
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - author
+      - author_name
+      - body
+      - created_at
+      - id
+      - mine
+    MemoryCommentRequest:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 1
+          maxLength: 500
+      required:
+      - body
     MemoryPhoto:
       type: object
       properties:
