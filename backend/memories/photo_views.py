@@ -10,6 +10,7 @@ from rest_framework.response import Response
 
 from core.mixins import CoupleScopedQuerysetMixin
 from core.serializers import ErrorCodeSerializer
+from core.upload_views import ImageUploadTicketSerializer
 
 from . import services
 from .models import Memory, MemoryPhoto
@@ -17,7 +18,6 @@ from .serializers import (
     MemoryPhotoSerializer,
     PhotoConfirmSerializer,
     PhotoUploadRequestSerializer,
-    UploadTicketSerializer,
 )
 
 
@@ -39,7 +39,7 @@ class MemoryPhotoViewSet(
 
     @extend_schema(
         request=PhotoUploadRequestSerializer,
-        responses={200: UploadTicketSerializer, 400: ErrorCodeSerializer},
+        responses={200: ImageUploadTicketSerializer, 400: ErrorCodeSerializer},
     )
     @action(detail=False, methods=["post"], url_path="upload-url")
     def upload_url(self, request: Request, memory_pk: str) -> Response:

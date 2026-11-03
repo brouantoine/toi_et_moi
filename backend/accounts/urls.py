@@ -1,9 +1,15 @@
 from django.urls import path
 
-from . import views
+from . import avatar_views, views
 
 urlpatterns = [
     path("me/", views.MeView.as_view(), name="me"),
+    path("me/avatar/", avatar_views.AvatarView.as_view(), name="me-avatar"),
+    path(
+        "me/avatar/upload-url/",
+        avatar_views.AvatarUploadUrlView.as_view(),
+        name="me-avatar-upload-url",
+    ),
     path("auth/register/", views.RegisterView.as_view(), name="auth-register"),
     path("auth/token/", views.LoginView.as_view(), name="auth-token"),
     path("auth/token/refresh/", views.RefreshView.as_view(), name="auth-refresh"),

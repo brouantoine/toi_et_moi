@@ -210,6 +210,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/couple/photo/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** @description Shared couple photo: either partner can set or remove it. */
+    put: operations['v1_couple_photo_update'];
+    post?: never;
+    /** @description Shared couple photo: either partner can set or remove it. */
+    delete: operations['v1_couple_photo_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/couple/photo/upload-url/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_couple_photo_upload_url_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/health/': {
     parameters: {
       query?: never;
@@ -243,6 +277,40 @@ export interface paths {
     head?: never;
     /** @description The authenticated user's own profile. Nobody else's profile is reachable here. */
     patch: operations['v1_me_partial_update'];
+    trace?: never;
+  };
+  '/api/v1/me/avatar/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** @description PUT {key} sets my photo after upload; DELETE removes it (file really deleted). */
+    put: operations['v1_me_avatar_update'];
+    post?: never;
+    /** @description PUT {key} sets my photo after upload; DELETE removes it (file really deleted). */
+    delete: operations['v1_me_avatar_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/me/avatar/upload-url/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_me_avatar_upload_url_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
     trace?: never;
   };
   '/api/v1/memories/': {
@@ -451,6 +519,25 @@ export interface components {
     Heart: {
       my_heart: boolean;
     };
+    ImageKeyRequest: {
+      key: string;
+    };
+    ImageUploadRequestRequest: {
+      content_type: string;
+    };
+    ImageUploadTicket: {
+      key: string;
+      /** Format: uri */
+      url: string;
+      form_fields: {
+        [key: string]: string;
+      };
+      max_bytes: number;
+      expires_in: number;
+    };
+    ImageUrl: {
+      url: string | null;
+    };
     JoinCoupleRequest: {
       code: string;
     };
@@ -647,16 +734,6 @@ export interface components {
      * @enum {string}
      */
     TypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
-    UploadTicket: {
-      key: string;
-      /** Format: uri */
-      url: string;
-      form_fields: {
-        [key: string]: string;
-      };
-      max_bytes: number;
-      expires_in: number;
-    };
     /** @description The authenticated user's own profile. */
     User: {
       readonly id: number;
@@ -1102,6 +1179,90 @@ export interface operations {
       };
     };
   };
+  v1_couple_photo_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ImageKeyRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ImageKeyRequest'];
+        'multipart/form-data': components['schemas']['ImageKeyRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ImageUrl'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorCode'];
+        };
+      };
+    };
+  };
+  v1_couple_photo_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_couple_photo_upload_url_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ImageUploadRequestRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ImageUploadRequestRequest'];
+        'multipart/form-data': components['schemas']['ImageUploadRequestRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ImageUploadTicket'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorCode'];
+        };
+      };
+    };
+  };
   v1_health_retrieve: {
     parameters: {
       query?: never;
@@ -1161,6 +1322,90 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['User'];
+        };
+      };
+    };
+  };
+  v1_me_avatar_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ImageKeyRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ImageKeyRequest'];
+        'multipart/form-data': components['schemas']['ImageKeyRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ImageUrl'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorCode'];
+        };
+      };
+    };
+  };
+  v1_me_avatar_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_me_avatar_upload_url_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ImageUploadRequestRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ImageUploadRequestRequest'];
+        'multipart/form-data': components['schemas']['ImageUploadRequestRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ImageUploadTicket'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorCode'];
         };
       };
     };
@@ -1367,7 +1612,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['UploadTicket'];
+          'application/json': components['schemas']['ImageUploadTicket'];
         };
       };
       400: {

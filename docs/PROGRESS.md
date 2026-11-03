@@ -113,3 +113,8 @@
 ## 2026-11-03 — P2.6 « Il y a N ans aujourd'hui »
 - Fichiers clés : `backend/memories/services.py` (`local_today`, `on_this_day`), action `GET /api/v1/memories/on-this-day/` → `{date, items: [{years_ago, memory}]}`, `memories/tests/test_on_this_day.py`.
 - À savoir : la date du jour est celle du fuseau de chaque personne (deux partenaires peuvent voir des jours différents). Le 28 février d'une année non bissextile inclut les souvenirs du 29 février.
+
+## 2026-11-03 — P2.7 Photo de profil et photo de couple
+- Fichiers clés : `backend/core/{uploads,upload_views}.py` (champ image unique générique), `accounts/avatar_views.py`, `couples/photo_views.py`, `core/tests/test_single_images.py`.
+- Endpoints : `POST /api/v1/me/avatar/upload-url/`, `PUT/DELETE /api/v1/me/avatar/` ; `POST /api/v1/couple/photo/upload-url/`, `PUT/DELETE /api/v1/couple/photo/`. Même format de ticket que les photos de souvenirs (`form_fields`).
+- À savoir : remplacer ou retirer une image supprime réellement l'ancien fichier (après commit). La clé doit appartenir à l'espace de l'utilisateur (avatar) ou du couple (photo).

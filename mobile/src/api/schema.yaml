@@ -372,6 +372,81 @@ paths:
               schema:
                 $ref: '#/components/schemas/CoupleError'
           description: ''
+  /api/v1/couple/photo/:
+    put:
+      operationId: v1_couple_photo_update
+      description: 'Shared couple photo: either partner can set or remove it.'
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageKeyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageKeyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageKeyRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageUrl'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+          description: ''
+    delete:
+      operationId: v1_couple_photo_destroy
+      description: 'Shared couple photo: either partner can set or remove it.'
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/couple/photo/upload-url/:
+    post:
+      operationId: v1_couple_photo_upload_url_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageUploadTicket'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+          description: ''
   /api/v1/health/:
     get:
       operationId: v1_health_retrieve
@@ -426,6 +501,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/me/avatar/:
+    put:
+      operationId: v1_me_avatar_update
+      description: PUT {key} sets my photo after upload; DELETE removes it (file really
+        deleted).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageKeyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageKeyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageKeyRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageUrl'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+          description: ''
+    delete:
+      operationId: v1_me_avatar_destroy
+      description: PUT {key} sets my photo after upload; DELETE removes it (file really
+        deleted).
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/me/avatar/upload-url/:
+    post:
+      operationId: v1_me_avatar_upload_url_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageUploadTicket'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
           description: ''
   /api/v1/memories/:
     get:
@@ -683,7 +835,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UploadTicket'
+                $ref: '#/components/schemas/ImageUploadTicket'
           description: ''
         '400':
           content:
@@ -967,6 +1119,53 @@ components:
           type: boolean
       required:
       - my_heart
+    ImageKeyRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+          maxLength: 512
+      required:
+      - key
+    ImageUploadRequestRequest:
+      type: object
+      properties:
+        content_type:
+          type: string
+          minLength: 1
+      required:
+      - content_type
+    ImageUploadTicket:
+      type: object
+      properties:
+        key:
+          type: string
+        url:
+          type: string
+          format: uri
+        form_fields:
+          type: object
+          additionalProperties:
+            type: string
+        max_bytes:
+          type: integer
+        expires_in:
+          type: integer
+      required:
+      - expires_in
+      - form_fields
+      - key
+      - max_bytes
+      - url
+    ImageUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          nullable: true
+      required:
+      - url
     JoinCoupleRequest:
       type: object
       properties:
@@ -1480,28 +1679,6 @@ components:
         * `place` - Lieu
         * `moment` - Moment
         * `quote` - Citation
-    UploadTicket:
-      type: object
-      properties:
-        key:
-          type: string
-        url:
-          type: string
-          format: uri
-        form_fields:
-          type: object
-          additionalProperties:
-            type: string
-        max_bytes:
-          type: integer
-        expires_in:
-          type: integer
-      required:
-      - expires_in
-      - form_fields
-      - key
-      - max_bytes
-      - url
     User:
       type: object
       description: The authenticated user's own profile.
