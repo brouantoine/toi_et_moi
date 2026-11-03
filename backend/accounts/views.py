@@ -11,12 +11,13 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from core.serializers import ErrorCodeSerializer
+
 from . import services, social
 from .models import User
 from .serializers import (
     AuthResponseSerializer,
     EmailSerializer,
-    ErrorCodeSerializer,
     LogoutSerializer,
     PasswordResetConfirmSerializer,
     RegisterSerializer,

@@ -74,3 +74,21 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
         if not value:
             raise serializers.ValidationError("required")
         return value
+
+
+class PhotoUploadRequestSerializer(serializers.Serializer[None]):
+    content_type = serializers.CharField()
+
+
+class UploadTicketSerializer(serializers.Serializer[None]):
+    key = serializers.CharField()
+    url = serializers.URLField()
+    form_fields = serializers.DictField(child=serializers.CharField())
+    max_bytes = serializers.IntegerField()
+    expires_in = serializers.IntegerField()
+
+
+class PhotoConfirmSerializer(serializers.Serializer[None]):
+    key = serializers.CharField(max_length=512)
+    width = serializers.IntegerField(required=False, allow_null=True, min_value=1)
+    height = serializers.IntegerField(required=False, allow_null=True, min_value=1)

@@ -23,7 +23,7 @@ plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 exclude = ['\.venv/', 'migrations/']
 
 [[tool.mypy.overrides]]
-module = ["dj_database_url.*", "storages.*", "channels.*", "corsheaders.*", "boto3.*", "botocore.*"]
+module = ["dj_database_url.*", "storages.*", "channels.*", "corsheaders.*", "boto3.*", "botocore.*", "PIL.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]

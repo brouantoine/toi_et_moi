@@ -263,6 +263,57 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/memories/{memory_pk}/photos/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3) confirm, (delete). */
+    post: operations['v1_memories_photos_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memories/{memory_pk}/photos/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** @description Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3) confirm, (delete). */
+    delete: operations['v1_memories_photos_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memories/{memory_pk}/photos/upload-url/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3) confirm, (delete). */
+    post: operations['v1_memories_photos_upload_url_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memories/{id}/': {
     parameters: {
       query?: never;
@@ -319,6 +370,7 @@ export interface components {
       /** Format: email */
       email: string;
     };
+    /** @description Business error with a stable machine code, translated by the app. */
     ErrorCode: {
       code: string;
     };
@@ -434,6 +486,14 @@ export interface components {
       /** Format: time */
       quiet_hours_end?: string | null;
     };
+    PhotoConfirmRequest: {
+      key: string;
+      width?: number | null;
+      height?: number | null;
+    };
+    PhotoUploadRequestRequest: {
+      content_type: string;
+    };
     RegisterRequest: {
       /** Format: email */
       email: string;
@@ -493,6 +553,16 @@ export interface components {
      * @enum {string}
      */
     TypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
+    UploadTicket: {
+      key: string;
+      /** Format: uri */
+      url: string;
+      form_fields: {
+        [key: string]: string;
+      };
+      max_bytes: number;
+      expires_in: number;
+    };
     /** @description The authenticated user's own profile. */
     User: {
       readonly id: number;
@@ -1050,6 +1120,98 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Memory'];
+        };
+      };
+    };
+  };
+  v1_memories_photos_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memory_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PhotoConfirmRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PhotoConfirmRequest'];
+        'multipart/form-data': components['schemas']['PhotoConfirmRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MemoryPhoto'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorCode'];
+        };
+      };
+    };
+  };
+  v1_memories_photos_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) memory photo. */
+        id: number;
+        memory_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_memories_photos_upload_url_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memory_pk: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PhotoUploadRequestRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PhotoUploadRequestRequest'];
+        'multipart/form-data': components['schemas']['PhotoUploadRequestRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UploadTicket'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorCode'];
         };
       };
     };

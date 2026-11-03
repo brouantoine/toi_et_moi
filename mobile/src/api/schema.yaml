@@ -500,6 +500,113 @@ paths:
               schema:
                 $ref: '#/components/schemas/Memory'
           description: ''
+  /api/v1/memories/{memory_pk}/photos/:
+    post:
+      operationId: v1_memories_photos_create
+      description: 'Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3)
+        confirm, (delete).'
+      parameters:
+      - in: path
+        name: memory_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhotoConfirmRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PhotoConfirmRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PhotoConfirmRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryPhoto'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+          description: ''
+  /api/v1/memories/{memory_pk}/photos/{id}/:
+    delete:
+      operationId: v1_memories_photos_destroy
+      description: 'Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3)
+        confirm, (delete).'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) memory photo.
+        required: true
+      - in: path
+        name: memory_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/memories/{memory_pk}/photos/upload-url/:
+    post:
+      operationId: v1_memories_photos_upload_url_create
+      description: 'Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3)
+        confirm, (delete).'
+      parameters:
+      - in: path
+        name: memory_pk
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhotoUploadRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PhotoUploadRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PhotoUploadRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadTicket'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+          description: ''
   /api/v1/memories/{id}/:
     get:
       operationId: v1_memories_retrieve
@@ -693,6 +800,7 @@ components:
       - email
     ErrorCode:
       type: object
+      description: Business error with a stable machine code, translated by the app.
       properties:
         code:
           type: string
@@ -990,6 +1098,31 @@ components:
           type: string
           format: time
           nullable: true
+    PhotoConfirmRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+          maxLength: 512
+        width:
+          type: integer
+          minimum: 1
+          nullable: true
+        height:
+          type: integer
+          minimum: 1
+          nullable: true
+      required:
+      - key
+    PhotoUploadRequestRequest:
+      type: object
+      properties:
+        content_type:
+          type: string
+          minLength: 1
+      required:
+      - content_type
     RegisterRequest:
       type: object
       properties:
@@ -1133,6 +1266,28 @@ components:
         * `place` - Lieu
         * `moment` - Moment
         * `quote` - Citation
+    UploadTicket:
+      type: object
+      properties:
+        key:
+          type: string
+        url:
+          type: string
+          format: uri
+        form_fields:
+          type: object
+          additionalProperties:
+            type: string
+        max_bytes:
+          type: integer
+        expires_in:
+          type: integer
+      required:
+      - expires_in
+      - form_fields
+      - key
+      - max_bytes
+      - url
     User:
       type: object
       description: The authenticated user's own profile.

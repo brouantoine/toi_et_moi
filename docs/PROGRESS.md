@@ -99,3 +99,9 @@
 - Fichiers clés : `backend/memories/{serializers,services,views,urls}.py`, `memories/tests/test_api.py`.
 - Endpoints : `GET/POST /api/v1/memories/` (`?type=`, `?tag=`, `?q=` plein texte), `GET/PATCH/PUT/DELETE /api/v1/memories/<id>/`. Pagination curseur sur `-happened_on, -id`.
 - À savoir : recherche plein texte Postgres (`SearchVector` config `simple`, requêtes « websearch ») et repli `icontains` sous SQLite. Cœurs exposés en booléens (`my_heart`, `partner_heart`), jamais de compteur. Liste sans N+1 (≤ 6 requêtes testé). Routers : `SimpleRouter` (pas de vue racine qui entrerait en conflit entre apps).
+
+## 2026-11-03 — P2.4 API photos + miniatures
+- Fichiers clés : `backend/memories/{photo_views,tasks}.py`, `memories/services.py` (`request_photo_upload`, `confirm_photo`), `core/serializers.py` (`ErrorCodeSerializer` partagé), `memories/tests/test_photos.py`.
+- Endpoints : `POST /api/v1/memories/<id>/photos/upload-url/` (`{content_type}` → `{key, url, form_fields, max_bytes, expires_in}`), envoi du fichier en multipart vers `url` avec `form_fields`, puis `POST /api/v1/memories/<id>/photos/` (`{key, width?, height?}`), `DELETE .../photos/<photo_id>/`.
+- À savoir : 10 photos max par souvenir (verrou sur la ligne du souvenir), la clé confirmée doit être dans l'espace du couple et réellement présente dans le stockage. Miniature JPEG 640 px (Pillow, `exif_transpose`) générée par Celery après commit ; une image illisible (ex. HEIC) garde l'original sans miniature. Pillow 13 ajouté.
+- Reste à prévoir : les fichiers uploadés mais jamais confirmés (orphelins) seront purgés par la tâche de purge (P9) ou une règle de cycle de vie S3 (voir HUMAN_TODO).

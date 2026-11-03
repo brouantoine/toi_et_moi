@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-from django.db import connection
+from django.db import connection, transaction
 from django.db.models import Q, QuerySet
 
-from .models import MAX_TAGS, Memory
+from core import storage
+
+from .models import MAX_PHOTOS_PER_MEMORY, MAX_TAGS, Memory, MemoryPhoto
+from .tasks import generate_thumbnail
 
 MAX_TAG_LENGTH = 30
 
@@ -45,3 +48,43 @@ def filter_by_tag(queryset: QuerySet[Memory], tag: str) -> QuerySet[Memory]:
         return queryset.filter(tags__contains=wanted)
     # SQLite JSON: match the quoted value inside the serialized list.
     return queryset.filter(tags__icontains=f'"{wanted[0]}"')
+
+
+class MemoryRuleError(Exception):
+    """Business rule violation with a stable code (translated by the app)."""
+
+    def __init__(self, code: str) -> None:
+        super().__init__(code)
+        self.code = code
+
+
+def request_photo_upload(memory: Memory, content_type: str) -> storage.UploadTicket:
+    if memory.photos.count() >= MAX_PHOTOS_PER_MEMORY:
+        raise MemoryRuleError("too_many_photos")
+    try:
+        return storage.presign_image_upload(
+            owner="couples", owner_id=memory.couple_id, kind="memories", content_type=content_type
+        )
+    except storage.StorageError as exc:
+        raise MemoryRuleError(exc.code) from exc
+
+
+@transaction.atomic
+def confirm_photo(
+    memory: Memory, key: str, width: int | None = None, height: int | None = None
+) -> MemoryPhoto:
+    """Records an uploaded photo. The key must be in this couple's space and really exist."""
+    if not storage.key_belongs_to(key, owner="couples", owner_id=memory.couple_id, kind="memories"):
+        raise MemoryRuleError("invalid_key")
+    if MemoryPhoto.objects.filter(key=key).exists():
+        raise MemoryRuleError("invalid_key")
+    count = Memory.objects.select_for_update().get(pk=memory.pk).photos.count()
+    if count >= MAX_PHOTOS_PER_MEMORY:
+        raise MemoryRuleError("too_many_photos")
+    if storage.uploaded_size(key) is None:
+        raise MemoryRuleError("upload_missing")
+    photo = MemoryPhoto.objects.create(
+        memory=memory, key=key, width=width, height=height, position=count
+    )
+    transaction.on_commit(lambda: generate_thumbnail.delay(photo.pk))
+    return photo

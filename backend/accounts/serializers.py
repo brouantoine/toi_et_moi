@@ -108,7 +108,3 @@ class SocialLoginSerializer(serializers.Serializer[None]):
 
 class SocialAuthResponseSerializer(AuthResponseSerializer):
     created = serializers.BooleanField()
-
-
-class ErrorCodeSerializer(serializers.Serializer[None]):
-    code = serializers.CharField()

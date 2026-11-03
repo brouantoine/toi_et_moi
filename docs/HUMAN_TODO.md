@@ -37,3 +37,6 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 - [ ] Google : créer 3 clients OAuth (iOS, Android avec l'empreinte SHA-1 de signature EAS, Web) dans Google Cloud Console. Puis :
   - mobile (`eas.json` / variables EAS) : `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`, `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` ;
   - backend : `GOOGLE_CLIENT_IDS=<web>,<ios>,<android>`.
+
+## Stockage S3
+- [ ] Ajouter une règle de cycle de vie sur le bucket : supprimer les objets non référencés est géré par l'app, mais une règle « expirer les uploads multipart incomplets après 1 jour » est recommandée.
