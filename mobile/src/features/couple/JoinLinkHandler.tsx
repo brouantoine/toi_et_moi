@@ -18,5 +18,6 @@ export function JoinLinkHandler() {
     if (valid) setPending(normalized);
   }, [valid, normalized, setPending]);
 
-  return <Redirect href="/couple/join" />;
+  // Let the gate decide: sign up first if needed, then the join screen opens prefilled.
+  return <Redirect href="/" />;
 }

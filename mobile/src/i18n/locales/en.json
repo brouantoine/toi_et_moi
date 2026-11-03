@@ -106,5 +106,40 @@
       "already_in_couple": "You are already part of a space for two.",
       "couple_full": "This space is already complete."
     }
+  },
+  "tabs": {
+    "today": {
+      "label": "Today",
+      "title": "Today",
+      "emptyTitle": "A day for two",
+      "emptyMessage": "Coming soon: the question of the day, a memory, your next moments."
+    },
+    "memories": {
+      "label": "Memories",
+      "title": "Memories",
+      "emptyTitle": "Your story starts here",
+      "emptyMessage": "Soon you will be able to keep your first times, your places and your laughs."
+    },
+    "organize": {
+      "label": "Organize",
+      "title": "Organize",
+      "emptyTitle": "Share the load, simply",
+      "emptyMessage": "Calendar, lists, chores and budget are coming soon."
+    },
+    "us": {
+      "label": "Us",
+      "title": "Us",
+      "emptyTitle": "Taking care of you two",
+      "emptyMessage": "Weekly check-in, date ideas and plans are coming soon."
+    },
+    "me": {
+      "label": "Me",
+      "title": "Me",
+      "emptyTitle": "Your own space",
+      "emptyMessage": "Your private space, settings and data will be here."
+    }
+  },
+  "me": {
+    "signOut": "Sign out"
   }
 }

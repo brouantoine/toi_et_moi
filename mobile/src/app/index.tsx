@@ -1,3 +1,3 @@
-import { WelcomeScreen } from '@/features/welcome/WelcomeScreen';
+import { GateRedirect } from '@/navigation/GateRedirect';
 
-export default WelcomeScreen;
+export default GateRedirect;

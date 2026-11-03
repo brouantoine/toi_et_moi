@@ -26,7 +26,7 @@ jest.mock('expo-secure-store', () => {
 jest.mock('expo-router', () => {
   /* eslint-disable @typescript-eslint/no-require-imports */
   const React = require('react');
-  const { Pressable } = require('react-native');
+  const { Pressable, Text } = require('react-native');
   /* eslint-enable @typescript-eslint/no-require-imports */
   const router = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), dismissAll: jest.fn() };
   const Link = ({ href, children, testID }: { href: string; children: unknown; testID?: string }) =>
@@ -40,7 +40,13 @@ jest.mock('expo-router', () => {
     router,
     useRouter: () => router,
     Link,
-    Redirect: () => null,
+    Redirect: ({ href }: { href: string }) =>
+      React.createElement(Text, { testID: 'redirect' }, String(href)),
+    Stack: Object.assign(() => null, { Screen: () => null, Protected: () => null }),
+    SplashScreen: {
+      preventAutoHideAsync: jest.fn(async () => true),
+      hideAsync: jest.fn(async () => true),
+    },
     useLocalSearchParams: jest.fn(() => ({})),
     useSegments: jest.fn(() => []),
   };

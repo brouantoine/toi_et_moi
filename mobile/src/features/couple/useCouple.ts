@@ -19,10 +19,11 @@ async function fetchCouple(): Promise<Couple | null> {
   return unwrap(result);
 }
 
-export function useCouple(options: { pollWhilePending?: boolean } = {}) {
+export function useCouple(options: { pollWhilePending?: boolean; enabled?: boolean } = {}) {
   return useQuery({
     queryKey: coupleKey,
     queryFn: fetchCouple,
+    enabled: options.enabled ?? true,
     // While waiting for the partner, check gently for the join (real-time comes later).
     refetchInterval: (query) =>
       options.pollWhilePending && query.state.data?.status === 'pending' ? 10_000 : false,

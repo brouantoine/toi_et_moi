@@ -106,5 +106,40 @@
       "already_in_couple": "Tu fais déjà partie d’un espace à deux.",
       "couple_full": "Cet espace est déjà complet."
     }
+  },
+  "tabs": {
+    "today": {
+      "label": "Aujourd’hui",
+      "title": "Aujourd’hui",
+      "emptyTitle": "Une journée à deux",
+      "emptyMessage": "Bientôt ici : la question du jour, un souvenir, vos prochains moments."
+    },
+    "memories": {
+      "label": "Souvenirs",
+      "title": "Souvenirs",
+      "emptyTitle": "Votre histoire commence ici",
+      "emptyMessage": "Bientôt, vous pourrez garder vos premières fois, vos lieux et vos rires."
+    },
+    "organize": {
+      "label": "Organisation",
+      "title": "Organisation",
+      "emptyTitle": "Partager la charge, simplement",
+      "emptyMessage": "Agenda, listes, tâches et budget arrivent bientôt."
+    },
+    "us": {
+      "label": "Nous",
+      "title": "Nous",
+      "emptyTitle": "Prendre soin de vous deux",
+      "emptyMessage": "Check-in de la semaine, idées de sorties et projets arrivent bientôt."
+    },
+    "me": {
+      "label": "Moi",
+      "title": "Moi",
+      "emptyTitle": "Ton espace à toi",
+      "emptyMessage": "Ton espace privé, tes réglages et tes données seront ici."
+    }
+  },
+  "me": {
+    "signOut": "Se déconnecter"
   }
 }

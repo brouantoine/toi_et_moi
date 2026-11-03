@@ -69,3 +69,7 @@
 ## 2026-11-03 — P1.15 Formation du couple (mobile)
 - Fichiers clés : `mobile/src/features/couple/{CoupleSetupScreen,JoinCoupleScreen,JoinLinkHandler}.tsx`, `useCouple.ts` (hooks + devise de l'appareil), `inviteLink.ts` (parseur `nousdeux://join/CODE`), `pendingInvite.ts`. Routes : `/couple`, `/couple/join`, `/join/[code]`.
 - À savoir : pendant l'attente du partenaire, le couple est relu toutes les 10 s (le temps réel viendra en P3). Un code reçu par lien avant inscription est gardé dans `usePendingInvite` et pré-remplit l'écran de jonction.
+
+## 2026-11-03 — P1.16 Navigation 5 onglets + garde
+- Fichiers clés : `mobile/src/navigation/{gate,useGate}.ts` + `GateRedirect.tsx`, `src/app/_layout.tsx` (`Stack.Protected` par état), `src/app/(auth)/*`, `src/app/(tabs)/*` (Aujourd'hui, Souvenirs, Organisation, Nous, Moi), `src/features/shell/{tabs.ts,TabPlaceholder.tsx}`, `src/auth/useSignOut.ts`, `src/features/me/MeScreen.tsx`.
+- À savoir : état `auth` → `/welcome`, `couple` → `/couple` (ou `/couple/join` si une invitation est en attente), `app` → `/today`. Les écrans d'onglets sont provisoires (état vide bienveillant). La déconnexion révoque le refresh token puis efface tokens et cache local, même hors ligne.
