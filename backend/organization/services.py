@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
+import calendar
 import datetime as dt
 from dataclasses import dataclass
 from typing import Any
 
 from django.db import transaction
 from django.db.models import Max, Q, QuerySet
+from django.utils import timezone
 
-from .models import Event, Recurrence
+from .models import Chore, ChoreRecurrence, Event, Recurrence
 
 MAX_RANGE_DAYS = 400
 
@@ -74,3 +76,38 @@ def reorder(queryset: QuerySet[Any], ids: list[int]) -> None:
     model = queryset.model
     rows = [model(pk=pk, position=index) for index, pk in enumerate(ids)]
     model.objects.bulk_update(rows, ["position"])
+
+
+def add_period(day: dt.date, recurrence: str) -> dt.date:
+    if recurrence == ChoreRecurrence.DAILY:
+        return day + dt.timedelta(days=1)
+    if recurrence == ChoreRecurrence.WEEKLY:
+        return day + dt.timedelta(weeks=1)
+    month = day.month % 12 + 1
+    year = day.year + (1 if day.month == 12 else 0)
+    last_day = calendar.monthrange(year, month)[1]
+    return day.replace(year=year, month=month, day=min(day.day, last_day))
+
+
+def next_due(due: dt.date | None, recurrence: str, today: dt.date) -> dt.date:
+    """Next due date after completing a recurring chore: the first one after today."""
+    day = add_period(due or today, recurrence)
+    while day <= today:
+        day = add_period(day, recurrence)
+    return day
+
+
+def complete_chore(chore: Chore, today: dt.date) -> Chore:
+    now = timezone.now()
+    chore.last_done_at = now
+    if chore.recurrence == ChoreRecurrence.NONE:
+        chore.done_at = now
+    else:
+        chore.due_date = next_due(chore.due_date, chore.recurrence, today)
+    chore.save(update_fields=["done_at", "last_done_at", "due_date"])
+    return chore
+
+
+def week_bounds(today: dt.date) -> tuple[dt.date, dt.date]:
+    monday = today - dt.timedelta(days=today.weekday())
+    return monday, monday + dt.timedelta(days=6)

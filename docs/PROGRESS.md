@@ -182,3 +182,8 @@
 - Fichiers clés : `backend/organization/{models,services,list_views,serializers}.py`, `organization/tests/test_lists.py`.
 - Endpoints : `GET/POST /api/v1/lists/`, `/lists/<id>/`, `POST /lists/reorder/` (`{ids}`), `GET/POST /lists/<id>/items/`, `/lists/<id>/items/<item>/`, `POST /lists/<id>/items/reorder/`, `POST /lists/<id>/items/clear-done/`.
 - À savoir : nouveaux éléments ajoutés en fin de liste ; `reorder` exige exactement les éléments de la liste (sinon 400) ; cocher enregistre `done_by` (`me`/`you` relatif au lecteur) et `done_at`, sans aucun décompte par personne ; `open_items` = éléments restants. Liste d'un autre couple : 404 partout, y compris sur ses éléments. Piège : `Meta.ordering` est ignoré par les requêtes agrégées, d'où l'`order_by` explicite. `services.reorder` / `next_position` réutilisables pour les tâches.
+
+## 2026-11-03 — P3.3 Tâches de la maison (API)
+- Fichiers clés : `backend/organization/{chore_views,services,serializers,models}.py`, `organization/tests/test_chores.py`.
+- Endpoints : `GET/POST /api/v1/chores/` (`?done=true` pour les tâches ponctuelles terminées), `/chores/<id>/`, `POST /chores/<id>/complete/`, `POST /chores/<id>/reopen/`, `GET /chores/week/`.
+- À savoir : `assignee` vaut `me`/`you`/`us` relatif au lecteur (énumération OpenAPI `RelativePersonEnum`, partagée avec `concerns` des événements). Terminer une tâche récurrente la reporte à la première échéance après aujourd'hui (pas de rattrapage culpabilisant) ; mensuelle : 31 janvier → 28 février. `week` = trois listes simples (moi, toi, nous) des tâches ouvertes de la semaine (lundi–dimanche, fuseau du lecteur) : aucun total, aucun score, aucun décompte de qui a fait quoi.

@@ -153,6 +153,8 @@ SPECTACULAR_SETTINGS = {
         "EventKindEnum": "organization.models.EventKind",
         "RecurrenceEnum": "organization.models.Recurrence",
         "ListKindEnum": "organization.models.ListKind",
+        "ChoreRecurrenceEnum": "organization.models.ChoreRecurrence",
+        "RelativePersonEnum": [("me", "me"), ("you", "you"), ("us", "us")],
     },
 }
 

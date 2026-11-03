@@ -225,6 +225,220 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/chores/:
+    get:
+      operationId: v1_chores_list
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      parameters:
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        description: Finished one-offs
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chore'
+          description: ''
+    post:
+      operationId: v1_chores_create
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChoreRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChoreRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChoreRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chore'
+          description: ''
+  /api/v1/chores/{id}/:
+    get:
+      operationId: v1_chores_retrieve
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) chore.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chore'
+          description: ''
+    put:
+      operationId: v1_chores_update
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) chore.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChoreRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChoreRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChoreRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chore'
+          description: ''
+    patch:
+      operationId: v1_chores_partial_update
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) chore.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChoreRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChoreRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChoreRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chore'
+          description: ''
+    delete:
+      operationId: v1_chores_destroy
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) chore.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/chores/{id}/complete/:
+    post:
+      operationId: v1_chores_complete_create
+      description: 'Done: a one-off is closed, a recurring chore moves to its next
+        due date.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) chore.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chore'
+          description: ''
+  /api/v1/chores/{id}/reopen/:
+    post:
+      operationId: v1_chores_reopen_create
+      description: 'Household tasks. No score, no tally: only who carries what.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un(une) valeur entière unique identifiant ce(cette) chore.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chore'
+          description: ''
+  /api/v1/chores/week/:
+    get:
+      operationId: v1_chores_week_retrieve
+      description: Open chores due this week (or without date), grouped by who carries
+        them.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoreWeek'
+          description: ''
   /api/v1/couple/:
     get:
       operationId: v1_couple_retrieve
@@ -1615,16 +1829,101 @@ components:
       - access
       - refresh
       - user
-    ConcernsEnum:
+    Chore:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 120
+        assignee:
+          $ref: '#/components/schemas/RelativePersonEnum'
+        recurrence:
+          $ref: '#/components/schemas/ChoreRecurrenceEnum'
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        done_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_done_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - done_at
+      - id
+      - last_done_at
+      - title
+    ChoreRecurrenceEnum:
       enum:
-      - me
-      - you
-      - us
+      - none
+      - daily
+      - weekly
+      - monthly
       type: string
       description: |-
-        * `me` - me
-        * `you` - you
-        * `us` - us
+        * `none` - Une fois
+        * `daily` - Chaque jour
+        * `weekly` - Chaque semaine
+        * `monthly` - Chaque mois
+    ChoreRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        assignee:
+          $ref: '#/components/schemas/RelativePersonEnum'
+        recurrence:
+          $ref: '#/components/schemas/ChoreRecurrenceEnum'
+        due_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - title
+    ChoreWeek:
+      type: object
+      description: 'Who carries what this week: three plain lists, never counts or
+        comparisons.'
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+        me:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chore'
+        you:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chore'
+        us:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chore'
+      required:
+      - end
+      - me
+      - start
+      - us
+      - you
     Couple:
       type: object
       properties:
@@ -1747,7 +2046,7 @@ components:
         recurrence:
           $ref: '#/components/schemas/RecurrenceEnum'
         concerns:
-          $ref: '#/components/schemas/ConcernsEnum'
+          $ref: '#/components/schemas/RelativePersonEnum'
         reminder_minutes:
           type: integer
           maximum: 9223372036854775807
@@ -1805,7 +2104,7 @@ components:
         recurrence:
           $ref: '#/components/schemas/RecurrenceEnum'
         concerns:
-          $ref: '#/components/schemas/ConcernsEnum'
+          $ref: '#/components/schemas/RelativePersonEnum'
         reminder_minutes:
           type: integer
           maximum: 9223372036854775807
@@ -2246,6 +2545,21 @@ components:
       - new_password
       - token
       - uid
+    PatchedChoreRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        assignee:
+          $ref: '#/components/schemas/RelativePersonEnum'
+        recurrence:
+          $ref: '#/components/schemas/ChoreRecurrenceEnum'
+        due_date:
+          type: string
+          format: date
+          nullable: true
     PatchedCoupleRequest:
       type: object
       properties:
@@ -2285,7 +2599,7 @@ components:
         recurrence:
           $ref: '#/components/schemas/RecurrenceEnum'
         concerns:
-          $ref: '#/components/schemas/ConcernsEnum'
+          $ref: '#/components/schemas/RelativePersonEnum'
         reminder_minutes:
           type: integer
           maximum: 9223372036854775807
@@ -2428,6 +2742,16 @@ components:
       - email
       - first_name
       - password
+    RelativePersonEnum:
+      enum:
+      - me
+      - you
+      - us
+      type: string
+      description: |-
+        * `me` - me
+        * `you` - you
+        * `us` - us
     ReorderRequest:
       type: object
       properties:

@@ -90,3 +90,38 @@ class ListItem(models.Model):
 
     def __str__(self) -> str:
         return self.text
+
+
+class ChoreRecurrence(models.TextChoices):
+    NONE = "none", "Une fois"
+    DAILY = "daily", "Chaque jour"
+    WEEKLY = "weekly", "Chaque semaine"
+    MONTHLY = "monthly", "Chaque mois"
+
+
+class Chore(models.Model):
+    """A household task. Recurring ones move to their next due date when done."""
+
+    couple = models.ForeignKey("couples.Couple", on_delete=models.CASCADE, related_name="chores")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
+    )
+    title = models.CharField(max_length=120)
+    #: Who carries it; null means both of us.
+    assignee = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
+    recurrence = models.CharField(
+        max_length=8, choices=ChoreRecurrence.choices, default=ChoreRecurrence.NONE
+    )
+    due_date = models.DateField(null=True, blank=True)
+    done_at = models.DateTimeField(null=True, blank=True)
+    last_done_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = [models.F("due_date").asc(nulls_last=True), "id"]
+        indexes = [models.Index(fields=["couple", "due_date"])]
+
+    def __str__(self) -> str:
+        return self.title

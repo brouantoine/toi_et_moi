@@ -8,7 +8,7 @@ from rest_framework import serializers
 
 from core.auth import current_user
 
-from .models import Event, ListItem, SharedList
+from .models import Chore, Event, ListItem, SharedList
 
 
 class ConcernsField(serializers.ChoiceField):
@@ -143,3 +143,43 @@ class ListItemSerializer(serializers.ModelSerializer[ListItem]):
         if obj.done_by_id is None:
             return None
         return "me" if obj.done_by_id == current_user(self.context["request"]).pk else "you"
+
+
+class ChoreSerializer(serializers.ModelSerializer[Chore]):
+    title = serializers.CharField(max_length=120, trim_whitespace=True)
+    assignee = ConcernsField(required=False)
+
+    class Meta:
+        model = Chore
+        fields = [
+            "id",
+            "title",
+            "assignee",
+            "recurrence",
+            "due_date",
+            "done_at",
+            "last_done_at",
+            "created_at",
+        ]
+        read_only_fields = ["id", "done_at", "last_done_at", "created_at"]
+
+    def to_representation(self, instance: Chore) -> dict[str, Any]:
+        data = super().to_representation(instance)
+        if instance.assignee_id is None:
+            data["assignee"] = "us"
+        return data
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        if self.instance is None:
+            attrs.setdefault("assignee", None)
+        return attrs
+
+
+class ChoreWeekSerializer(serializers.Serializer[Any]):
+    """Who carries what this week: three plain lists, never counts or comparisons."""
+
+    start = serializers.DateField()
+    end = serializers.DateField()
+    me = ChoreSerializer(many=True)
+    you = ChoreSerializer(many=True)
+    us = ChoreSerializer(many=True)

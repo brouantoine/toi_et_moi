@@ -158,6 +158,95 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/chores/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    get: operations['v1_chores_list'];
+    put?: never;
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    post: operations['v1_chores_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chores/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    get: operations['v1_chores_retrieve'];
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    put: operations['v1_chores_update'];
+    post?: never;
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    delete: operations['v1_chores_destroy'];
+    options?: never;
+    head?: never;
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    patch: operations['v1_chores_partial_update'];
+    trace?: never;
+  };
+  '/api/v1/chores/{id}/complete/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Done: a one-off is closed, a recurring chore moves to its next due date. */
+    post: operations['v1_chores_complete_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chores/{id}/reopen/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Household tasks. No score, no tally: only who carries what. */
+    post: operations['v1_chores_reopen_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chores/week/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Open chores due this week (or without date), grouped by who carries them. */
+    get: operations['v1_chores_week_retrieve'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/couple/': {
     parameters: {
       query?: never;
@@ -663,13 +752,45 @@ export interface components {
       refresh: string;
       user: components['schemas']['User'];
     };
+    Chore: {
+      readonly id: number;
+      title: string;
+      assignee?: components['schemas']['RelativePersonEnum'];
+      recurrence?: components['schemas']['ChoreRecurrenceEnum'];
+      /** Format: date */
+      due_date?: string | null;
+      /** Format: date-time */
+      readonly done_at: string | null;
+      /** Format: date-time */
+      readonly last_done_at: string | null;
+      /** Format: date-time */
+      readonly created_at: string;
+    };
     /**
-     * @description * `me` - me
-     *     * `you` - you
-     *     * `us` - us
+     * @description * `none` - Une fois
+     *     * `daily` - Chaque jour
+     *     * `weekly` - Chaque semaine
+     *     * `monthly` - Chaque mois
      * @enum {string}
      */
-    ConcernsEnum: 'me' | 'you' | 'us';
+    ChoreRecurrenceEnum: 'none' | 'daily' | 'weekly' | 'monthly';
+    ChoreRequest: {
+      title: string;
+      assignee?: components['schemas']['RelativePersonEnum'];
+      recurrence?: components['schemas']['ChoreRecurrenceEnum'];
+      /** Format: date */
+      due_date?: string | null;
+    };
+    /** @description Who carries what this week: three plain lists, never counts or comparisons. */
+    ChoreWeek: {
+      /** Format: date */
+      start: string;
+      /** Format: date */
+      end: string;
+      me: components['schemas']['Chore'][];
+      you: components['schemas']['Chore'][];
+      us: components['schemas']['Chore'][];
+    };
     Couple: {
       readonly id: number;
       readonly status: components['schemas']['CoupleStatusEnum'];
@@ -722,7 +843,7 @@ export interface components {
       /** Format: date-time */
       ends_at?: string | null;
       recurrence?: components['schemas']['RecurrenceEnum'];
-      concerns?: components['schemas']['ConcernsEnum'];
+      concerns?: components['schemas']['RelativePersonEnum'];
       /** Format: int64 */
       reminder_minutes?: number | null;
       /** Format: date-time */
@@ -749,7 +870,7 @@ export interface components {
       /** Format: date-time */
       ends_at?: string | null;
       recurrence?: components['schemas']['RecurrenceEnum'];
-      concerns?: components['schemas']['ConcernsEnum'];
+      concerns?: components['schemas']['RelativePersonEnum'];
       /** Format: int64 */
       reminder_minutes?: number | null;
     };
@@ -919,6 +1040,13 @@ export interface components {
       token: string;
       new_password: string;
     };
+    PatchedChoreRequest: {
+      title?: string;
+      assignee?: components['schemas']['RelativePersonEnum'];
+      recurrence?: components['schemas']['ChoreRecurrenceEnum'];
+      /** Format: date */
+      due_date?: string | null;
+    };
     PatchedCoupleRequest: {
       /** Format: date */
       start_date?: string | null;
@@ -936,7 +1064,7 @@ export interface components {
       /** Format: date-time */
       ends_at?: string | null;
       recurrence?: components['schemas']['RecurrenceEnum'];
-      concerns?: components['schemas']['ConcernsEnum'];
+      concerns?: components['schemas']['RelativePersonEnum'];
       /** Format: int64 */
       reminder_minutes?: number | null;
     };
@@ -997,6 +1125,13 @@ export interface components {
       /** @default UTC */
       timezone: string;
     };
+    /**
+     * @description * `me` - me
+     *     * `you` - you
+     *     * `us` - us
+     * @enum {string}
+     */
+    RelativePersonEnum: 'me' | 'you' | 'us';
     ReorderRequest: {
       ids: number[];
     };
@@ -1312,6 +1447,215 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  v1_chores_list: {
+    parameters: {
+      query?: {
+        /** @description Finished one-offs */
+        done?: boolean;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'][];
+        };
+      };
+    };
+  };
+  v1_chores_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ChoreRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ChoreRequest'];
+        'multipart/form-data': components['schemas']['ChoreRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'];
+        };
+      };
+    };
+  };
+  v1_chores_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) chore. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'];
+        };
+      };
+    };
+  };
+  v1_chores_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) chore. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ChoreRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ChoreRequest'];
+        'multipart/form-data': components['schemas']['ChoreRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'];
+        };
+      };
+    };
+  };
+  v1_chores_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) chore. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_chores_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) chore. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedChoreRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedChoreRequest'];
+        'multipart/form-data': components['schemas']['PatchedChoreRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'];
+        };
+      };
+    };
+  };
+  v1_chores_complete_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) chore. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'];
+        };
+      };
+    };
+  };
+  v1_chores_reopen_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) chore. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Chore'];
+        };
+      };
+    };
+  };
+  v1_chores_week_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ChoreWeek'];
+        };
       };
     };
   };

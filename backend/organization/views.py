@@ -15,19 +15,23 @@ from .models import Event
 from .serializers import EventSerializer, OccurrenceSerializer
 
 
-class EventViewSet(CoupleScopedQuerysetMixin, viewsets.ModelViewSet[Event]):
-    """Shared calendar. Use `occurrences` to read a period (recurrences expanded)."""
-
-    queryset = Event.objects.select_related("concerns")
-    serializer_class = EventSerializer
-    pagination_class = None
-    author_field = "created_by"
+class CoupleContextMixin(CoupleScopedQuerysetMixin):
+    """Gives serializers the couple, to resolve `me` / `you` / `us`."""
 
     def get_serializer_context(self) -> dict[str, Any]:
         context = dict(super().get_serializer_context())
         if self.request.user.is_authenticated:
             context["couple"] = self.couple
         return context
+
+
+class EventViewSet(CoupleContextMixin, viewsets.ModelViewSet[Event]):
+    """Shared calendar. Use `occurrences` to read a period (recurrences expanded)."""
+
+    queryset = Event.objects.select_related("concerns")
+    serializer_class = EventSerializer
+    pagination_class = None
+    author_field = "created_by"
 
     @extend_schema(
         parameters=[

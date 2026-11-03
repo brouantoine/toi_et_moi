@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, ListItem, SharedList
+from .models import Chore, Event, ListItem, SharedList
 
 
 @admin.register(Event)
@@ -18,3 +18,8 @@ class ListItemInline(admin.TabularInline[ListItem, SharedList]):
 class SharedListAdmin(admin.ModelAdmin[SharedList]):
     list_display = ("title", "kind", "couple")
     inlines = [ListItemInline]
+
+
+@admin.register(Chore)
+class ChoreAdmin(admin.ModelAdmin[Chore]):
+    list_display = ("title", "recurrence", "due_date", "couple")
