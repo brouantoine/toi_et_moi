@@ -10,12 +10,12 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 
 ## État d'avancement (au 3 novembre 2026)
 
-**34 tâches terminées sur 113** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
+**34 tâches terminées sur 129** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
 
 | Côté | Tests | Contrôles |
 |---|---|---|
 | Backend (Django) | 149 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
-| Mobile (Expo) | 367 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20 |
+| Mobile (Expo) | 378 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20 |
 
 ### Phases
 
@@ -46,7 +46,7 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 - Photo de profil et photo de couple. Tout fichier remplacé ou supprimé est réellement effacé du stockage.
 
 **Mobile** (`mobile/`, Expo SDK 58, Expo Router, TypeScript strict)
-- Design system maison, direction « carnet éditorial chaleureux » : titres en serif Fraunces, texte en police système, palette terracotta / crème / sauge / encre avec teintes douces, ombres chaudes en clair et filets en sombre, retour tactile doux (respecte « réduire les animations »). Thème clair et sombre, contrastes AA vérifiés par test pour chaque paire, cibles tactiles de 48 pt, icônes **Lucide uniquement**, sans aucun emoji.
+- Design system maison, direction « carnet éditorial chaleureux » : titres en serif Fraunces, texte en police système, palette **rouge passion, sauge, crème chaude et encre** (jamais de rose), une teinte par type de souvenir, ombres chaudes en clair et filets en sombre, retour tactile doux (respecte « réduire les animations »). Thème clair et sombre, contrastes AA vérifiés par test pour chaque paire, cibles tactiles de 48 pt, icônes **Lucide uniquement**, sans aucun emoji.
 - Onboarding en 3 écrans, dont « ce que l'app ne fera jamais ».
 - Inscription, connexion, mot de passe oublié, boutons Apple et Google.
 - Création du couple, partage du code, saisie du code ou ouverture du lien d'invitation.
@@ -56,7 +56,7 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 - Souvenirs : frise groupée par mois avec rail de dates, recherche et filtres ; création et édition avec jusqu'à 10 photos (compression 2048 px / JPEG 0,8, upload direct S3 présigné, reprise des photos en échec sans doublon) ; détail avec photos plein écran, un cœur sans compteur, mots doux entre vous deux.
 
 ### Prochaines étapes
-1. Phase P3 Organisation (agenda, listes, tâches, budget, temps réel, hors ligne), puis la suite du plan dans l'ordre de `docs/PLAN.md`.
+1. Phase P3 Organisation (agenda, listes, tâches, budget, temps réel, hors ligne), puis la suite du plan dans l'ordre de `docs/PLAN.md`, qui intègre désormais les jeux de correspondance, le quiz, les langages de l'amour, les cartes de conversation, le compteur « ensemble depuis », l'humeur du jour, les lettres à ouvrir plus tard, le widget et le module « Apaiser » pour les disputes.
 2. Côté mobile, brancher l'upload de la photo de profil et de la photo de couple sur le pipeline image existant (`src/media/`).
 
 ### Ce qui demande une action humaine

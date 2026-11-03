@@ -3,6 +3,7 @@ import { AccessibilityInfo, useColorScheme } from 'react-native';
 
 import {
   elevations,
+  hues,
   motion,
   palettes,
   radii,
@@ -10,12 +11,15 @@ import {
   typography,
   type ColorScheme,
   type Elevation,
+  type Hue,
+  type HueColors,
   type Palette,
 } from './tokens';
 
 export type Theme = {
   scheme: ColorScheme;
   colors: Palette;
+  hues: Record<Hue, HueColors>;
   elevation: Elevation;
   spacing: typeof spacing;
   radii: typeof radii;
@@ -27,6 +31,7 @@ export function buildTheme(scheme: ColorScheme): Theme {
   return {
     scheme,
     colors: palettes[scheme],
+    hues: hues[scheme],
     elevation: elevations[scheme],
     spacing,
     radii,

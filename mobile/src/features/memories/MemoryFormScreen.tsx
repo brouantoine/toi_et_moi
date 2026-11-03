@@ -35,7 +35,7 @@ import {
 
 import { MAX_PHOTOS, emptyMemoryForm, formFromMemory, memorySchema } from './memoryForm';
 import type { MemoryFormValues } from './memoryForm';
-import { MEMORY_TYPE_ICONS } from './memoryTypes';
+import { MEMORY_TYPE_HUES, MEMORY_TYPE_ICONS } from './memoryTypes';
 import { PhotoStrip, type StripPhoto } from './PhotoStrip';
 import { TagField } from './TagField';
 import { MEMORY_TYPES, useMemory, type Memory } from './useMemories';
@@ -66,7 +66,7 @@ export function MemoryFormScreen({ memoryId }: Props) {
 function MemoryForm({ initial }: { initial?: Memory }) {
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors, radii, spacing, typography } = useTheme();
+  const { colors, hues, radii, spacing, typography } = useTheme();
   const paper = useSurfaceStyle();
   const save = useSaveMemory();
 
@@ -316,6 +316,7 @@ function MemoryForm({ initial }: { initial?: Memory }) {
                         testID={`memory-form-type-${type}`}
                         label={t(`memories.types.${type}`)}
                         icon={MEMORY_TYPE_ICONS[type]}
+                        tint={hues[MEMORY_TYPE_HUES[type]].fg}
                         selected={field.value === type}
                         onPress={() => field.onChange(type)}
                       />

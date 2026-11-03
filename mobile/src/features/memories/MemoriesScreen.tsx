@@ -25,7 +25,7 @@ import {
 } from '@/ui';
 
 import { MemoryCard } from './MemoryCard';
-import { MEMORY_TYPE_ICONS } from './memoryTypes';
+import { MEMORY_TYPE_HUES, MEMORY_TYPE_ICONS } from './memoryTypes';
 import { groupByMonth, railDate, type TimelineSection } from './timeline';
 import { MEMORY_TYPES, useMemories, type Memory, type MemoryType } from './useMemories';
 
@@ -49,7 +49,7 @@ function TypeFilters({
   onChange: (type: MemoryType | undefined) => void;
 }) {
   const { t } = useTranslation();
-  const { spacing } = useTheme();
+  const { hues, spacing } = useTheme();
   return (
     <ScrollView
       horizontal
@@ -72,6 +72,7 @@ function TypeFilters({
           testID={`memories-filter-${type}`}
           label={t(`memories.types.${type}`)}
           icon={MEMORY_TYPE_ICONS[type]}
+          tint={hues[MEMORY_TYPE_HUES[type]].fg}
           selected={type === value}
           onPress={() => onChange(type === value ? undefined : type)}
         />
@@ -91,8 +92,9 @@ function TimelineItem({
   onPress: (id: number) => void;
 }) {
   const { i18n } = useTranslation();
-  const { colors, spacing } = useTheme();
+  const { colors, hues, spacing } = useTheme();
   const { day, weekday } = railDate(memory.happened_on, i18n.language);
+  const hue = hues[MEMORY_TYPE_HUES[memory.type ?? 'moment']];
   return (
     <View style={[styles.item, { paddingHorizontal: spacing.lg }]}>
       <View style={[styles.rail, { width: RAIL }]} importantForAccessibility="no-hide-descendants">
@@ -102,6 +104,7 @@ function TimelineItem({
         <Text variant="overline" muted>
           {weekday}
         </Text>
+        <View style={[styles.dot, { backgroundColor: hue.fg, marginTop: spacing.sm }]} />
         {isLast ? null : (
           <View
             style={[styles.thread, { backgroundColor: colors.border, marginTop: spacing.sm }]}
@@ -306,6 +309,7 @@ const styles = StyleSheet.create({
   item: { flexDirection: 'row' },
   rail: { alignItems: 'center', paddingTop: 2 },
   day: { fontVariant: ['tabular-nums'] },
+  dot: { width: 8, height: 8, borderRadius: 4 },
   thread: { flex: 1, width: StyleSheet.hairlineWidth * 2, borderRadius: 1 },
   cardSlot: { flex: 1 },
 });

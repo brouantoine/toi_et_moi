@@ -165,3 +165,10 @@
   - écran de bienvenue refait (il datait de P0) : motif de deux disques qui se rejoignent, titre serif, « Commencer » et un accès direct « J'ai déjà un compte » ;
   - écrans Profil et Notre couple : titre en double retiré de la barre (le grand titre de page reste).
 - Validation : 369 tests mobile verts, tsc, ESLint.
+
+## 2026-11-03 — Palette rouge et sauge, teintes par type de souvenir, plan enrichi
+- Fichiers clés : `mobile/src/ui/{tokens,theme,Icon,Chip}.ts(x)`, `features/memories/{memoryTypes,MemoryCard,MemoriesScreen,MemoryDetailScreen,MemoryFormScreen}.ts(x)`, `app.config.ts` (fond du splash), `ui/__tests__/tokens.test.ts`, `docs/PLAN.md`.
+- Palette : rouge passion, sauge, crème chaude, encre ; mode sombre recomposé (pas inversé). Nouveaux tokens `hues` (5 teintes de catégorie) exposés par le thème ; `Icon` accepte `tint`, `Chip` colore son icône quand il n'est pas sélectionné.
+- Souvenirs : une teinte par type (moment rouge, première fois ambre, lieu sauge, blague à nous lagon, citation violet) sur les pastilles, les filtres, un point sur le rail de la frise, l'en-tête du détail ; les citations deviennent des cartes teintées.
+- Plan : 16 tâches ajoutées (P4.12–P4.19, P6.14–P6.17, P8.8–P8.11), total 129.
+- Validation : tests de contraste AA étendus aux teintes (sur leur fond, sur le fond de l'app, texte et texte secondaire sur fond teinté).

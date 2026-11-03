@@ -1,10 +1,12 @@
 /**
- * Design tokens. Warm and sober palette: terracotta, cream, sage, ink.
- * Text/background pairs are checked for WCAG AA contrast in tests.
+ * Design tokens. Passion red, warm cream, sage and ink: lively but never pink
+ * (pink is the couple-app cliché the brief rules out, see docs/DECISIONS.md).
+ * Every text/background pair is checked for WCAG AA contrast in tests.
  *
  * Direction: a warm editorial journal. Serif display type (Fraunces) for titles,
  * the platform sans for everything read at length, paper-like surfaces with soft
- * warm shadows, tinted fills instead of hard borders.
+ * warm shadows, tinted fills instead of hard borders. Light tints lean peach, so
+ * the red stays red and never turns pink.
  */
 export type ColorScheme = 'light' | 'dark';
 
@@ -17,7 +19,7 @@ export type Palette = {
   textMuted: string;
   primary: string;
   onPrimary: string;
-  /** Tinted terracotta fill and the text that sits on it. */
+  /** Tinted red fill and the text that sits on it. */
   primarySoft: string;
   onPrimarySoft: string;
   secondary: string;
@@ -35,42 +37,66 @@ export type Palette = {
 
 export const palettes: Record<ColorScheme, Palette> = {
   light: {
-    background: '#FBF6EF', // cream
-    surface: '#FFFDFA', // paper
-    surfaceMuted: '#F3ECE2',
-    text: '#1F2430', // ink
-    textMuted: '#585D69',
-    primary: '#A84B35', // terracotta
+    background: '#FFF8F2', // warm cream
+    surface: '#FFFFFF', // paper
+    surfaceMuted: '#F7ECE3',
+    text: '#231A16', // ink
+    textMuted: '#62564F',
+    primary: '#B3132B', // passion red
     onPrimary: '#FFFFFF',
-    primarySoft: '#F6E4DC',
-    onPrimarySoft: '#7A3322',
+    primarySoft: '#FCE3D8', // peach-leaning, never pink
+    onPrimarySoft: '#7D0A1C',
     secondary: '#4F6B52', // sage (deep)
     onSecondary: '#FFFFFF',
-    secondarySoft: '#E4ECE2',
+    secondarySoft: '#E2ECDF',
     onSecondarySoft: '#32493A',
-    border: '#E8DFD3',
-    danger: '#A23B2C',
-    scrim: 'rgba(20, 16, 12, 0.45)',
+    border: '#EEDFD4',
+    danger: '#9F1D1D',
+    scrim: 'rgba(20, 12, 10, 0.45)',
     onScrim: '#FFFFFF',
   },
   dark: {
-    background: '#15171C',
-    surface: '#1E2128',
-    surfaceMuted: '#282B33',
-    text: '#F3EDE4',
-    textMuted: '#B4AEA5',
-    primary: '#E08A6E',
-    onPrimary: '#1A1310',
-    primarySoft: '#3B2721',
-    onPrimarySoft: '#F2BBA8',
+    background: '#16120F',
+    surface: '#211B17',
+    surfaceMuted: '#2E2620',
+    text: '#F6EEE7',
+    textMuted: '#C2B6AC',
+    primary: '#FF5C5C',
+    onPrimary: '#2E0505',
+    primarySoft: '#4A1A16',
+    onPrimarySoft: '#FFB7AC',
     secondary: '#9DBBA0',
     onSecondary: '#14201A',
     secondarySoft: '#223027',
     onSecondarySoft: '#BCD5BE',
-    border: '#2E323C',
-    danger: '#F08B7A',
+    border: '#3A2F28',
+    danger: '#FF8A80',
     scrim: 'rgba(0, 0, 0, 0.5)',
     onScrim: '#FFFFFF',
+  },
+};
+
+/**
+ * Category hues: a small family of warm-to-cool accents (no pink) used to tell kinds
+ * of content apart at a glance, e.g. one hue per memory type. `fg` on `bg` is AA.
+ */
+export type Hue = 'red' | 'amber' | 'sage' | 'lagoon' | 'violet';
+export type HueColors = { fg: string; bg: string };
+
+export const hues: Record<ColorScheme, Record<Hue, HueColors>> = {
+  light: {
+    red: { fg: '#7D0A1C', bg: '#FCE3D8' },
+    amber: { fg: '#6E4300', bg: '#FCEBC8' },
+    sage: { fg: '#32493A', bg: '#E2ECDF' },
+    lagoon: { fg: '#0B5057', bg: '#D3ECEE' },
+    violet: { fg: '#4A3478', bg: '#E9E3F5' },
+  },
+  dark: {
+    red: { fg: '#FFB7AC', bg: '#4A1A16' },
+    amber: { fg: '#F6CD7C', bg: '#43320F' },
+    sage: { fg: '#BCD5BE', bg: '#223027' },
+    lagoon: { fg: '#9FE3E8', bg: '#123A3E' },
+    violet: { fg: '#CFC1F2', bg: '#2F2547' },
   },
 };
 

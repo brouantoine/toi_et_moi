@@ -70,6 +70,14 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [ ] P4.9 — Mobile : carte question du jour, réponse, révélation, historique — tests — dépend de : P4.7, P1.16
 - [ ] P4.10 — Mobile : écrans « À retenir sur l'autre » — tests — dépend de : P4.8, P1.16
 - [ ] P4.11 — Maestro : répondre à la question du jour — dépend de : P4.9
+- [ ] P4.12 — App `games` : moteur des jeux de correspondance (paquets, cartes à 2–4 choix image ou texte, une réponse par personne, révélation quand les deux ont joué : accords puis différences, jamais de score) + API — tests : la réponse de l'autre reste invisible avant d'avoir joué, partenaire/étranger — dépend de : P1.6
+- [ ] P4.13 — Commande `import_pixabay` (clé `PIXABAY_API_KEY`, requêtes choisies par carte, téléchargement vers le stockage S3, métadonnées source, auteur et licence) — tests avec API simulée ; clé à fournir (HUMAN_TODO) — dépend de : P4.12, P2.1
+- [ ] P4.14 — Paquets « Notre futur » fr+en : logement, salon, chambre, cuisine, ville ou campagne, voyages, mariage, enfants (combien, quand), animaux — validation des fixtures par test — dépend de : P4.13
+- [ ] P4.15 — Mobile : jeux de correspondance (choix en photos, attente douce de l'autre, révélation des accords puis des différences présentées comme sujets de conversation) — tests — dépend de : P4.14, P1.16
+- [ ] P4.16 — Envies communes : même moteur en mode « seulement les points communs » ; paquet intimité séparé, activé par un réglage explicite (classement 17+ dans STORE_RELEASE) — tests : une envie non partagée n'est jamais révélée — dépend de : P4.12
+- [ ] P4.17 — Quiz « Tu me connais ? » : chacun répond pour soi puis devine l'autre, révélation des écarts sans score — API + mobile + tests — dépend de : P4.12, P1.16
+- [ ] P4.18 — Langages de l'amour : test fr+en, résultat privé que l'on choisit de partager, idées d'attentions adaptées à l'autre — API + mobile + tests de confidentialité — dépend de : P4.12, P1.16
+- [ ] P4.19 — Cartes de conversation : paquets fr+en (« Tu préfères… », enfance, projets fous…) et mode soirée hors écran (une carte, on pose le téléphone) — catalogue validé par test + mobile — dépend de : P4.1, P1.16
 
 ## P5 — Notifications (F9)
 - [ ] P5.1 — App `notifications` : PushDevice, NotificationPreference (par type) + API — tests partenaire/étranger — dépend de : P1.4
@@ -93,6 +101,10 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [ ] P6.11 — Mobile : idées de sorties (filtres, favoris, surprise, planifier) — tests — dépend de : P6.5, P3.8
 - [ ] P6.12 — Mobile : rappel doux après 20 min d'utilisation continue (AppState) — tests avec timers factices — dépend de : P6.8
 - [ ] P6.13 — Maestro : « je pense à toi » — dépend de : P6.9
+- [ ] P6.14 — « Ensemble depuis » : jours ensemble, prochains anniversaires et jalons (100, 1 000 jours…) dans le fuseau de chacun, affichés sur Aujourd'hui — tests aux frontières (29 février, changement de fuseau) — dépend de : P1.7, P6.9
+- [ ] P6.15 — Humeur du jour partagée : choix doux en un geste, sans historique ni statistiques, effacée à minuit local — API + mobile + tests partenaire/étranger — dépend de : P1.6, P1.16
+- [ ] P6.16 — Lettres à ouvrir plus tard : lettre chiffrée au repos, date d'ouverture, contenu refusé par l'API avant la date (même au destinataire), notification à l'ouverture — tests — dépend de : P8.1, P5.2
+- [ ] P6.17 — Widget écran d'accueil iOS + Android (config plugin, données partagées App Group / SharedPreferences : compteur, prochaines retrouvailles, photo du jour, « Je pense à toi ») — `expo prebuild` vérifié — dépend de : P6.14, P6.6
 
 ## P7 — Rêves & épargne (F7)
 - [ ] P7.1 — App `dreams` : Dream (horizon, image), DreamStep + API — tests partenaire/étranger — dépend de : P2.1
@@ -108,6 +120,10 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [ ] P8.5 — Mobile : journal privé — tests — dépend de : P8.2, P1.16
 - [ ] P8.6 — Mobile : « Préparer une conversation » (4 étapes, modèles et reformulations types sans IA, option IA si disponible et consentie) — tests — dépend de : P8.3, P1.16
 - [ ] P8.7 — Mobile : flux « Pause » + lien discret vers les ressources d'aide dans les réglages — tests — dépend de : P8.4, P1.18
+- [ ] P8.8 — « Ma température » (1 à 5, privée) : au-dessus de 3, conseil d'attendre ; minuteur de pause de 20 min minimum et respiration guidée — tests — dépend de : P8.4, P8.7
+- [ ] P8.9 — Gestes de réparation : messages courts prédéfinis fr+en (« On peut recommencer ? »…) envoyés en un geste, sans accusé de lecture — API + mobile + tests partenaire/étranger — dépend de : P8.4
+- [ ] P8.10 — « Nos règles pour se disputer » : écrites ensemble au calme, rappelées pendant une pause — API + mobile + tests — dépend de : P8.4
+- [ ] P8.11 — Après la réconciliation : chacun écrit ce qu'il a compris du besoin de l'autre (partagé seulement si l'auteur le choisit), jamais « qui avait raison » — tests de confidentialité — dépend de : P8.2
 
 ## P9 — Vie privée, export, séparation, suppression (F8)
 - [ ] P9.1 — App `privacy` : DataExport + tâche Celery ZIP (JSON + photos) + lien temporaire + purge — tests (contenu du ZIP, aucun privé du partenaire) — dépend de : P2.4, P8.2

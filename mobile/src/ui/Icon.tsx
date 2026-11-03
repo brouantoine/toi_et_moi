@@ -8,6 +8,8 @@ type Props = {
   icon: LucideIcon;
   size?: number;
   color?: keyof Palette;
+  /** Raw color for category hues (see `hues`); overrides `color`. */
+  tint?: string;
   strokeWidth?: number;
   /** Fill the shape with the same color (e.g. a full heart). */
   filled?: boolean;
@@ -24,6 +26,7 @@ export function Icon({
   icon: LucideComponent,
   size = 24,
   color = 'text',
+  tint,
   strokeWidth = 1.75,
   filled = false,
   accessibilityLabel,
@@ -31,13 +34,14 @@ export function Icon({
 }: Props) {
   const { colors } = useTheme();
   const labelled = Boolean(accessibilityLabel);
+  const stroke = tint ?? colors[color];
   return (
     <LucideComponent
       testID={testID}
       size={size}
-      color={colors[color]}
+      color={stroke}
       strokeWidth={strokeWidth}
-      fill={filled ? colors[color] : 'none'}
+      fill={filled ? stroke : 'none'}
       aria-hidden={!labelled}
       accessible={labelled}
       accessibilityRole={labelled ? 'image' : undefined}

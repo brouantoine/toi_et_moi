@@ -21,7 +21,7 @@ import {
 } from '@/ui';
 
 import { MemoryComments } from './MemoryComments';
-import { MEMORY_TYPE_ICONS } from './memoryTypes';
+import { MEMORY_TYPE_HUES, MEMORY_TYPE_ICONS } from './memoryTypes';
 import { PhotoPager } from './PhotoPager';
 import { useMemory, type Memory } from './useMemories';
 import { useDeleteMemory, useToggleHeart } from './useMemoryDetail';
@@ -84,19 +84,20 @@ function HeartRow({ memory }: { memory: Memory }) {
 
 function MemoryBody({ memory }: { memory: Memory }) {
   const { t, i18n } = useTranslation();
-  const { colors, radii, spacing } = useTheme();
+  const { colors, hues, radii, spacing } = useTheme();
   const type = memory.type ?? 'moment';
   const date = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'full' }).format(
     fromIsoDate(memory.happened_on),
   );
   const isQuote = type === 'quote' && Boolean(memory.body?.trim());
+  const hue = hues[MEMORY_TYPE_HUES[type]];
 
   return (
     <View style={{ padding: spacing.lg, gap: spacing.lg }}>
       <View style={{ gap: spacing.sm }}>
         <View style={[styles.row, { gap: spacing.sm }]}>
-          <Icon icon={MEMORY_TYPE_ICONS[type]} size={16} color="secondary" strokeWidth={2} />
-          <Text variant="overline" color="secondary">
+          <Icon icon={MEMORY_TYPE_ICONS[type]} size={16} tint={hue.fg} strokeWidth={2} />
+          <Text variant="overline" style={{ color: hue.fg }}>
             {t(`memories.types.${type}`)}
           </Text>
         </View>
@@ -116,10 +117,10 @@ function MemoryBody({ memory }: { memory: Memory }) {
         <View
           style={[
             styles.quote,
-            { borderLeftColor: colors.primary, paddingLeft: spacing.md, gap: spacing.sm },
+            { borderLeftColor: hue.fg, paddingLeft: spacing.md, gap: spacing.sm },
           ]}
         >
-          <Icon icon={Quote} size={24} color="primary" />
+          <Icon icon={Quote} size={24} tint={hue.fg} />
           <Text variant="quote">{memory.body}</Text>
         </View>
       ) : memory.body?.trim() ? (

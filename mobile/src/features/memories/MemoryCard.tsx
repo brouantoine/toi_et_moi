@@ -6,28 +6,29 @@ import { StyleSheet, View } from 'react-native';
 
 import { fromIsoDate, Icon, PressableScale, Text, useSurfaceStyle, useTheme } from '@/ui';
 
-import { MEMORY_TYPE_ICONS } from './memoryTypes';
+import { MEMORY_TYPE_HUES, MEMORY_TYPE_ICONS } from './memoryTypes';
 import type { Memory } from './useMemories';
 
 type Props = { memory: Memory; onPress: (id: number) => void };
 
 function TypePill({ type }: { type: NonNullable<Memory['type']> }) {
   const { t } = useTranslation();
-  const { colors, radii, spacing } = useTheme();
+  const { hues, radii, spacing } = useTheme();
+  const hue = hues[MEMORY_TYPE_HUES[type]];
   return (
     <View
       style={[
         styles.pill,
         {
-          backgroundColor: colors.secondarySoft,
+          backgroundColor: hue.bg,
           borderRadius: radii.pill,
           paddingHorizontal: spacing.smd - 2,
           gap: spacing.xs + 1,
         },
       ]}
     >
-      <Icon icon={MEMORY_TYPE_ICONS[type]} size={14} color="onSecondarySoft" strokeWidth={2} />
-      <Text variant="overline" color="onSecondarySoft">
+      <Icon icon={MEMORY_TYPE_ICONS[type]} size={14} tint={hue.fg} strokeWidth={2} />
+      <Text variant="overline" style={{ color: hue.fg }}>
         {t(`memories.types.${type}`)}
       </Text>
     </View>
@@ -36,7 +37,7 @@ function TypePill({ type }: { type: NonNullable<Memory['type']> }) {
 
 function MemoryCardBase({ memory, onPress }: Props) {
   const { t, i18n } = useTranslation();
-  const { colors, radii, spacing } = useTheme();
+  const { colors, hues, radii, spacing } = useTheme();
   const surface = useSurfaceStyle();
   const type = memory.type ?? 'moment';
   const isQuote = type === 'quote';
@@ -53,7 +54,13 @@ function MemoryCardBase({ memory, onPress }: Props) {
       accessibilityRole="button"
       accessibilityLabel={`${memory.title}, ${date}`}
       onPress={() => onPress(memory.id)}
-      style={[surface, styles.card, { borderRadius: radii.lg }]}
+      style={[
+        surface,
+        styles.card,
+        { borderRadius: radii.lg },
+        // Quotes stand out as tinted cards, like a passage marked in a book.
+        isQuote && { backgroundColor: hues.violet.bg, borderColor: hues.violet.bg },
+      ]}
     >
       <View style={[styles.clip, { borderRadius: radii.lg }]}>
         {cover ? (
@@ -95,7 +102,7 @@ function MemoryCardBase({ memory, onPress }: Props) {
           {isQuote ? null : <TypePill type={type} />}
           {isQuote ? (
             <View style={{ gap: spacing.sm }}>
-              <Icon icon={Quote} size={22} color="primary" strokeWidth={1.75} />
+              <Icon icon={Quote} size={22} tint={hues.violet.fg} strokeWidth={1.75} />
               <Text variant="quote" numberOfLines={5}>
                 {excerpt || memory.title}
               </Text>

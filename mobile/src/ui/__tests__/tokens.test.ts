@@ -1,5 +1,5 @@
 import { contrastRatio } from '../contrast';
-import { palettes, type ColorScheme } from '../tokens';
+import { hues, palettes, type ColorScheme } from '../tokens';
 
 const AA_TEXT = 4.5;
 const schemes: ColorScheme[] = ['light', 'dark'];
@@ -30,4 +30,15 @@ describe.each(schemes)('%s palette meets WCAG AA', (scheme) => {
 it('computes known contrast ratios', () => {
   expect(contrastRatio('#000000', '#FFFFFF')).toBeCloseTo(21, 0);
   expect(contrastRatio('#FFFFFF', '#FFFFFF')).toBeCloseTo(1, 5);
+});
+
+describe.each(schemes)('%s category hues meet WCAG AA', (scheme) => {
+  it.each(Object.entries(hues[scheme]))('%s', (_name, { fg, bg }) => {
+    expect(contrastRatio(fg, bg)).toBeGreaterThanOrEqual(AA_TEXT);
+    // Hue text also reads on the plain surfaces (rail labels, detail overline).
+    expect(contrastRatio(fg, palettes[scheme].background)).toBeGreaterThanOrEqual(AA_TEXT);
+    // Body text stays readable on a hue-tinted card (quotes).
+    expect(contrastRatio(palettes[scheme].text, bg)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(palettes[scheme].textMuted, bg)).toBeGreaterThanOrEqual(AA_TEXT);
+  });
 });

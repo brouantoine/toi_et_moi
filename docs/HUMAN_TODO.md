@@ -40,3 +40,9 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 
 ## Stockage S3
 - [ ] Ajouter une règle de cycle de vie sur le bucket : supprimer les objets non référencés est géré par l'app, mais une règle « expirer les uploads multipart incomplets après 1 jour » est recommandée.
+
+## Jeux de correspondance (P4.13)
+- [ ] Créer un compte gratuit sur pixabay.com, récupérer la clé API (https://pixabay.com/api/docs/) et la fournir comme variable `PIXABAY_API_KEY` au backend. Licence Pixabay : usage commercial autorisé sans attribution ; l'app stocke ses propres copies (pas de lien direct vers Pixabay).
+
+## Stores : classement d'âge
+- [ ] Si le paquet « intimité » des envies communes (P4.16) est activé, déclarer un classement 17+ (App Store) / équivalent PEGI sur Google Play.

@@ -33,7 +33,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     package: BRAND.bundleId,
     adaptiveIcon: {
-      backgroundColor: '#FBF6EF',
+      backgroundColor: '#FFF8F2',
       foregroundImage: './assets/android-icon-foreground.png',
       backgroundImage: './assets/android-icon-background.png',
       monochromeImage: './assets/android-icon-monochrome.png',
@@ -61,8 +61,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         image: './assets/splash-icon.png',
         imageWidth: 200,
-        backgroundColor: '#FBF6EF',
-        dark: { backgroundColor: '#15171C' },
+        backgroundColor: '#FFF8F2',
+        dark: { backgroundColor: '#16120F' },
       },
     ],
     ...googlePlugin(),

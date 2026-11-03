@@ -12,6 +12,8 @@ type Props = {
   selected: boolean;
   onPress: () => void;
   icon?: LucideIcon;
+  /** Category hue for the icon while not selected (see `hues`). */
+  tint?: string;
   testID?: string;
 };
 
@@ -20,7 +22,7 @@ const VISUAL_HEIGHT = 40;
 const SLOP = (MIN_TOUCH_TARGET - VISUAL_HEIGHT) / 2;
 
 /** Selectable filter pill. Selected = ink fill, otherwise a quiet tinted fill. */
-export function Chip({ label, selected, onPress, icon, testID }: Props) {
+export function Chip({ label, selected, onPress, icon, tint, testID }: Props) {
   const { colors, radii, spacing } = useTheme();
   const fg = selected ? 'background' : 'text';
   return (
@@ -41,7 +43,15 @@ export function Chip({ label, selected, onPress, icon, testID }: Props) {
       ]}
     >
       <View style={[styles.row, { gap: spacing.xs + 2 }]}>
-        {icon ? <Icon icon={icon} size={16} color={fg} strokeWidth={2} /> : null}
+        {icon ? (
+          <Icon
+            icon={icon}
+            size={16}
+            color={fg}
+            tint={selected ? undefined : tint}
+            strokeWidth={2}
+          />
+        ) : null}
         <Text variant="caption" color={fg} style={selected ? styles.labelOn : styles.label}>
           {label}
         </Text>
