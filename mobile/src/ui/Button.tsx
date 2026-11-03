@@ -1,48 +1,58 @@
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import type { LucideIcon } from 'lucide-react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
+import { Icon } from './Icon';
+import { PressableScale } from './PressableScale';
 import { Text } from './Text';
 import { useTheme } from './theme';
-import { MIN_TOUCH_TARGET } from './tokens';
+import { MIN_TOUCH_TARGET, type Palette } from './tokens';
 
-type Variant = 'primary' | 'secondary' | 'ghost';
+type Variant = 'primary' | 'secondary' | 'soft' | 'ghost';
+type Size = 'md' | 'lg';
 
 type Props = {
   label: string;
   onPress: () => void;
   variant?: Variant;
+  size?: Size;
+  /** Optional leading Lucide icon. */
+  icon?: LucideIcon;
   disabled?: boolean;
   loading?: boolean;
   accessibilityHint?: string;
   testID?: string;
+  /** Layout only (margins, alignSelf, flex). */
+  style?: StyleProp<ViewStyle>;
+};
+
+const VARIANTS: Record<Variant, { bg: keyof Palette | null; fg: keyof Palette }> = {
+  primary: { bg: 'primary', fg: 'onPrimary' },
+  secondary: { bg: 'secondary', fg: 'onSecondary' },
+  soft: { bg: 'primarySoft', fg: 'onPrimarySoft' },
+  ghost: { bg: null, fg: 'primary' },
 };
 
 export function Button({
   label,
   onPress,
   variant = 'primary',
+  size = 'md',
+  icon,
   disabled = false,
   loading = false,
   accessibilityHint,
   testID,
+  style,
 }: Props) {
-  const { colors, radii, spacing } = useTheme();
+  const { colors, radii, spacing, elevation } = useTheme();
   const inactive = disabled || loading;
-
-  const background =
-    variant === 'primary'
-      ? colors.primary
-      : variant === 'secondary'
-        ? colors.secondary
-        : 'transparent';
-  const foreground =
-    variant === 'primary'
-      ? colors.onPrimary
-      : variant === 'secondary'
-        ? colors.onSecondary
-        : colors.primary;
+  const { bg, fg } = VARIANTS[variant];
+  const foreground = colors[fg];
+  const filled = bg !== null;
 
   return (
-    <Pressable
+    <PressableScale
       testID={testID}
       accessibilityRole="button"
       accessibilityLabel={label}
@@ -50,30 +60,35 @@ export function Button({
       accessibilityState={{ disabled: inactive, busy: loading }}
       disabled={inactive}
       onPress={onPress}
-      style={({ pressed }) => [
+      style={[
         styles.base,
         {
-          backgroundColor: background,
+          minHeight: size === 'lg' ? 56 : MIN_TOUCH_TARGET,
+          backgroundColor: filled ? colors[bg] : 'transparent',
           borderRadius: radii.pill,
-          paddingHorizontal: spacing.lg,
-          opacity: inactive ? 0.5 : pressed ? 0.85 : 1,
+          paddingHorizontal: size === 'lg' ? spacing.xl : spacing.lg,
+          boxShadow: variant === 'primary' && !inactive ? elevation.card : undefined,
         },
+        style,
       ]}
     >
-      <View style={styles.content}>
+      <View style={[styles.content, { gap: spacing.sm }]}>
         {loading ? (
           <ActivityIndicator color={foreground} />
         ) : (
-          <Text variant="label" style={{ color: foreground }}>
-            {label}
-          </Text>
+          <>
+            {icon ? <Icon icon={icon} size={20} color={fg} strokeWidth={2} /> : null}
+            <Text variant="label" style={{ color: foreground }}>
+              {label}
+            </Text>
+          </>
         )}
       </View>
-    </Pressable>
+    </PressableScale>
   );
 }
 
 const styles = StyleSheet.create({
-  base: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
-  content: { alignItems: 'center', justifyContent: 'center' },
+  base: { justifyContent: 'center', borderCurve: 'continuous' },
+  content: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
 });

@@ -1,5 +1,11 @@
 import '@/i18n';
 
+import {
+  Fraunces_400Regular_Italic,
+  Fraunces_500Medium,
+  Fraunces_600SemiBold,
+} from '@expo-google-fonts/fraunces';
+import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -8,7 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { QueryProvider } from '@/api/QueryProvider';
 import { useGate } from '@/navigation/useGate';
-import { ThemeProvider, useTheme } from '@/ui';
+import { fonts, ThemeProvider, useTheme } from '@/ui';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -20,17 +26,24 @@ function GuardedStack() {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
   const gate = useGate();
+  // A font error is not fatal: the type ramp falls back to the system face.
+  const [fontsLoaded, fontError] = useFonts({
+    Fraunces_400Regular_Italic,
+    Fraunces_500Medium,
+    Fraunces_600SemiBold,
+  });
+  const fontsReady = fontsLoaded || Boolean(fontError);
   const header = {
     headerShown: true,
     headerStyle: { backgroundColor: colors.background },
     headerTintColor: colors.primary,
-    headerTitleStyle: { color: colors.text },
+    headerTitleStyle: { color: colors.text, fontFamily: fonts.displayMedium },
     headerShadowVisible: false,
   };
 
   useEffect(() => {
-    if (gate !== 'loading') void SplashScreen.hideAsync();
-  }, [gate]);
+    if (gate !== 'loading' && fontsReady) void SplashScreen.hideAsync();
+  }, [gate, fontsReady]);
 
   return (
     <>

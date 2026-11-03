@@ -38,7 +38,7 @@ export function Skeleton({ width = '100%', height = 16, radius, testID }: Props)
         height,
         opacity,
         borderRadius: radius ?? radii.sm,
-        backgroundColor: colors.border,
+        backgroundColor: colors.surfaceMuted,
       }}
     />
   );

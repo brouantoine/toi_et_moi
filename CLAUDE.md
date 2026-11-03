@@ -32,6 +32,10 @@ Ajouter un paquet mobile : `npx expo install <pkg>` (jamais `npm install` pour u
 - `app.config.ts` ne peut importer que du JSON/JS, pas de `.ts`.
 - npm échoue en ECONNRESET sur ce réseau : préfixer avec `NODE_OPTIONS=--dns-result-order=ipv4first` (IPv4 d'abord). Si `npx expo install` échoue, lire la version dans `node_modules/expo/bundledNativeModules.json` et installer avec npm.
 
+- Linux (poste actuel) : mêmes commandes avec `backend/.venv/bin/python` ; `make` disponible.
+- Lancer `expo start` génère `.expo/types` (routes typées strictes) et `expo-env.d.ts` : les supprimer avant `tsc` tant que des routes référencées n'existent pas encore (la CI n'a pas ces fichiers).
+- Design system : toute surface tappable passe par `PressableScale` ; les cartes prennent `useSurfaceStyle()` (ombre en clair, filet en sombre) ; aucune couleur en dur hors `src/ui/tokens.ts`.
+
 ## Git
 - Remote `origin` = https://github.com/brouantoine/toi_et_moi (push autorisé par l'utilisateur, voir DECISIONS.md). Pousser `main` après chaque commit : `git push origin main`.
 - Validation backend en une commande (Git Bash) : `sh backend/scripts/validate.sh`. Le `.ps1` équivalent exige `-ExecutionPolicy Bypass`.

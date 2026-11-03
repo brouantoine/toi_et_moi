@@ -1,18 +1,38 @@
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
-import { useColorScheme } from 'react-native';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { AccessibilityInfo, useColorScheme } from 'react-native';
 
-import { palettes, radii, spacing, typography, type ColorScheme, type Palette } from './tokens';
+import {
+  elevations,
+  motion,
+  palettes,
+  radii,
+  spacing,
+  typography,
+  type ColorScheme,
+  type Elevation,
+  type Palette,
+} from './tokens';
 
 export type Theme = {
   scheme: ColorScheme;
   colors: Palette;
+  elevation: Elevation;
   spacing: typeof spacing;
   radii: typeof radii;
   typography: typeof typography;
+  motion: typeof motion;
 };
 
 export function buildTheme(scheme: ColorScheme): Theme {
-  return { scheme, colors: palettes[scheme], spacing, radii, typography };
+  return {
+    scheme,
+    colors: palettes[scheme],
+    elevation: elevations[scheme],
+    spacing,
+    radii,
+    typography,
+    motion,
+  };
 }
 
 const ThemeContext = createContext<Theme>(buildTheme('light'));
@@ -32,4 +52,21 @@ export function ThemeProvider({ children, scheme }: Props) {
 
 export function useTheme(): Theme {
   return useContext(ThemeContext);
+}
+
+/** True when the user asked the system to reduce motion. Animations must then be skipped. */
+export function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((value) => {
+      if (active) setReduced(value);
+    });
+    const sub = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduced);
+    return () => {
+      active = false;
+      sub.remove();
+    };
+  }, []);
+  return reduced;
 }

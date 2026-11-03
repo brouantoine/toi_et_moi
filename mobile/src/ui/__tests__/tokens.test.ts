@@ -16,6 +16,12 @@ describe.each(schemes)('%s palette meets WCAG AA', (scheme) => {
     ['on-secondary on secondary', p.onSecondary, p.secondary],
     ['primary (ghost button) on background', p.primary, p.background],
     ['danger on background', p.danger, p.background],
+    ['text on muted surface (chips, search)', p.text, p.surfaceMuted],
+    ['muted text on muted surface', p.textMuted, p.surfaceMuted],
+    ['selected chip (background on text)', p.background, p.text],
+    ['on-primary-soft on primary-soft', p.onPrimarySoft, p.primarySoft],
+    ['on-secondary-soft on secondary-soft', p.onSecondarySoft, p.secondarySoft],
+    ['primary (link) on surface', p.primary, p.surface],
   ])('%s', (_label, fg, bg) => {
     expect(contrastRatio(fg, bg)).toBeGreaterThanOrEqual(AA_TEXT);
   });

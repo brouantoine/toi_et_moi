@@ -1,9 +1,9 @@
-import { CloudOff } from 'lucide-react-native';
+import { CloudOff, RotateCcw } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { Button } from './Button';
-import { Icon } from './Icon';
+import { Medallion } from './Medallion';
 import { Text } from './Text';
 import { useTheme } from './theme';
 
@@ -21,24 +21,31 @@ export function ErrorState({ code, onRetry, testID }: Props) {
   const { spacing } = useTheme();
   const key = code && KNOWN.includes(code) ? code : 'generic';
   return (
-    <View
-      testID={testID}
-      accessibilityRole="alert"
-      style={[styles.root, { gap: spacing.md, padding: spacing.xl }]}
-    >
-      <Icon icon={CloudOff} size={40} color="textMuted" />
-      <Text variant="heading" style={styles.center}>
-        {t('errors.title')}
-      </Text>
-      <Text muted style={styles.center}>
-        {t(`errors.${key}`)}
-      </Text>
-      {onRetry ? <Button label={t('common.retry')} variant="secondary" onPress={onRetry} /> : null}
+    <View testID={testID} accessibilityRole="alert" style={[styles.root, { padding: spacing.xl }]}>
+      <Medallion icon={CloudOff} tone="neutral" />
+      <View style={[styles.copy, { gap: spacing.sm, marginTop: spacing.lg }]}>
+        <Text variant="heading" style={styles.center}>
+          {t('errors.title')}
+        </Text>
+        <Text muted style={styles.center}>
+          {t(`errors.${key}`)}
+        </Text>
+      </View>
+      {onRetry ? (
+        <Button
+          label={t('common.retry')}
+          variant="soft"
+          icon={RotateCcw}
+          onPress={onRetry}
+          style={{ marginTop: spacing.lg }}
+        />
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { alignItems: 'center', justifyContent: 'center' },
+  root: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  copy: { maxWidth: 320, alignItems: 'center' },
   center: { textAlign: 'center' },
 });

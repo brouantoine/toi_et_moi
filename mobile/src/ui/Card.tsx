@@ -1,24 +1,28 @@
 import type { ReactNode } from 'react';
-import { View, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTheme } from './theme';
 
-type Props = { children: ReactNode; style?: ViewStyle; testID?: string };
+type Variant = 'elevated' | 'muted';
 
-export function Card({ children, style, testID }: Props) {
-  const { colors, radii, spacing } = useTheme();
+type Props = {
+  children: ReactNode;
+  /** `elevated`: paper surface with a soft shadow. `muted`: flat tinted fill. */
+  variant?: Variant;
+  style?: StyleProp<ViewStyle>;
+  testID?: string;
+};
+
+export function Card({ children, variant = 'elevated', style, testID }: Props) {
+  const { radii, spacing } = useTheme();
+  const surface = useSurfaceStyle(variant);
   return (
     <View
       testID={testID}
       style={[
-        {
-          backgroundColor: colors.surface,
-          borderColor: colors.border,
-          borderWidth: 1,
-          borderRadius: radii.lg,
-          padding: spacing.lg,
-          gap: spacing.sm,
-        },
+        styles.base,
+        surface,
+        { borderRadius: radii.lg, padding: spacing.lg, gap: spacing.sm },
         style,
       ]}
     >
@@ -26,3 +30,19 @@ export function Card({ children, style, testID }: Props) {
     </View>
   );
 }
+
+/** Background, shadow and hairline of a surface, shared by every card-like element. */
+export function useSurfaceStyle(variant: Variant = 'elevated'): ViewStyle {
+  const { colors, elevation } = useTheme();
+  if (variant === 'muted') return { backgroundColor: colors.surfaceMuted };
+  return {
+    backgroundColor: colors.surface,
+    boxShadow: elevation.card === 'none' ? undefined : elevation.card,
+    borderWidth: elevation.hairline ? StyleSheet.hairlineWidth : 0,
+    borderColor: colors.border,
+  };
+}
+
+const styles = StyleSheet.create({
+  base: { borderCurve: 'continuous' },
+});
