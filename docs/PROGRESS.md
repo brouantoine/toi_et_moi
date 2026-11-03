@@ -133,3 +133,11 @@
 - Dépendances : `@expo-google-fonts/fraunces`, `expo-font`, `expo-haptics` (pour « Je pense à toi », P6) ; correctifs Expo SDK 58 appliqués (`expo install --fix`), expo-doctor 20/20.
 - Validation : 294 tests mobile verts, tsc, ESLint, expo-doctor.
 
+## 2026-11-03 — P2.9 Création et édition d'un souvenir avec photos
+- Fichiers clés : `mobile/src/media/images.ts` (pipeline image générique : choix, compression, upload présigné), `features/memories/{MemoryFormScreen,PhotoStrip,TagField,memoryForm,useSaveMemory}.ts(x)`, `useMemories.ts` (`useMemory`, `fetchMemory`), routes `src/app/memories/new.tsx` et `src/app/memories/[id]/edit.tsx` (modales), `ui/Notice.tsx`, tests `media/__tests__/images.test.ts` et `features/memories/__tests__/memoryForm.test.tsx`.
+- Parcours : choix de 1 à 10 photos dans la photothèque (aucune permission demandée sur les systèmes récents ; un refus est expliqué avec un lien vers les réglages, jamais de plantage), compression côté client (côté le plus long ramené à 2048 px, JPEG 0,8, EXIF retiré), envoi séquentiel : ticket `upload-url` → POST multipart vers S3 → confirmation. Le bouton affiche « Envoi des photos, 2 sur 3 ».
+- Échec partiel : le souvenir n'est jamais perdu. Si une photo échoue, l'écran reste ouvert, passe en mode édition (le nouvel essai fait un PATCH, pas de doublon) et ne renvoie que les photos en échec, marquées sur la bande.
+- Design : page de carnet (titre serif sans bordure, filet, récit), détails en dessous (type en pastilles, date, lieu, mots-clés en pastilles sauge), bouton principal fixé en bas, haptique de succès, confirmation calme avant d'abandonner une saisie. `Input` et `DateField` passent au style teinté (bordure visible seulement au focus ou en erreur), ce qui harmonise aussi les écrans de connexion.
+- Cache : après enregistrement, le détail est écrit directement dans le cache (pas de rechargement en double) et seules les listes sont invalidées.
+- `app.config.ts` : plugin `expo-image-picker` (photothèque seulement, ni caméra ni micro). Textes de permission localisés prévus en P11.1.
+- Validation : 329 tests mobile verts, tsc, ESLint, expo-doctor 20/20. Vérification visuelle (clair et sombre) par export web + captures.

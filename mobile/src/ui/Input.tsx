@@ -16,7 +16,8 @@ type Props = Omit<TextInputProps, 'style' | 'ref'> & {
 export function Input({ ref, label, error, hint, testID, onFocus, onBlur, ...rest }: Props) {
   const { colors, radii, spacing, typography } = useTheme();
   const [focused, setFocused] = useState(false);
-  const borderColor = error ? colors.danger : focused ? colors.primary : colors.border;
+  // Filled field: the border only shows on focus or error.
+  const borderColor = error ? colors.danger : focused ? colors.primary : 'transparent';
   return (
     <View style={{ gap: spacing.xs }}>
       <Text variant="label">{label}</Text>
@@ -39,9 +40,10 @@ export function Input({ ref, label, error, hint, testID, onFocus, onBlur, ...res
           typography.body,
           {
             color: colors.text,
-            backgroundColor: colors.surface,
+            backgroundColor: colors.surfaceMuted,
             borderColor,
             borderRadius: radii.md,
+            borderCurve: 'continuous',
             paddingHorizontal: spacing.md,
           },
         ]}

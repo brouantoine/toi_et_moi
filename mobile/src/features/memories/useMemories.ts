@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { api, unwrap, type Schemas } from '@/api';
 import { cursorFrom, flattenPages } from '@/api/pagination';
@@ -36,4 +36,18 @@ export function useMemories(filters: MemoryFilters) {
     getNextPageParam: (lastPage) => cursorFrom(lastPage.next),
   });
   return { ...query, memories: flattenPages(query.data?.pages) };
+}
+
+export const memoryKey = (id: number) => ['memories', 'detail', id] as const;
+
+export async function fetchMemory(id: number): Promise<Memory> {
+  return unwrap(await api.GET('/api/v1/memories/{id}/', { params: { path: { id } } }));
+}
+
+export function useMemory(id: number | undefined) {
+  return useQuery({
+    queryKey: memoryKey(id ?? -1),
+    queryFn: () => fetchMemory(id as number),
+    enabled: id !== undefined,
+  });
 }

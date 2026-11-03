@@ -78,9 +78,10 @@ export function DateField({ label, value, onChange, maximumDate, clearable, test
         style={[
           styles.field,
           {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
+            backgroundColor: colors.surfaceMuted,
+            borderColor: 'transparent',
             borderRadius: radii.md,
+            borderCurve: 'continuous',
             paddingHorizontal: spacing.md,
           },
         ]}

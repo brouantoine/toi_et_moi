@@ -47,6 +47,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-secure-store',
     'expo-apple-authentication',
     [
+      'expo-image-picker',
+      {
+        // Library only: no camera nor microphone permission is requested.
+        // Localized permission texts come with P11.1.
+        photosPermission: `${BRAND.name} a besoin de tes photos pour les ajouter à vos souvenirs.`,
+        cameraPermission: false,
+        microphonePermission: false,
+      },
+    ],
+    [
       'expo-splash-screen',
       {
         image: './assets/splash-icon.png',

@@ -11,6 +11,7 @@ export { Input } from './Input';
 export { ListRow } from './ListRow';
 export { LoadingState } from './LoadingState';
 export { Medallion } from './Medallion';
+export { Notice } from './Notice';
 export { PressableScale } from './PressableScale';
 export { Screen } from './Screen';
 export { SearchField } from './SearchField';
