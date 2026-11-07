@@ -105,3 +105,9 @@ jest.mock('@react-native-community/datetimepicker', () => {
       }),
   };
 });
+
+/* Network state (NetInfo): official mock, online by default. */
+jest.mock('@react-native-community/netinfo', () =>
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require('@react-native-community/netinfo/jest/netinfo-mock.js'),
+);

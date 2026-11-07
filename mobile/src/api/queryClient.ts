@@ -3,11 +3,12 @@ import { QueryClient } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ApiError } from './errors';
+import { registerOfflineMutations } from './offline';
 
 const DAY = 24 * 60 * 60 * 1000;
 
 export function createQueryClient(): QueryClient {
-  return new QueryClient({
+  const client = new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 30 * 1000,
@@ -19,6 +20,8 @@ export function createQueryClient(): QueryClient {
       mutations: { retry: false },
     },
   });
+  registerOfflineMutations(client);
+  return client;
 }
 
 /** Cached server state survives app restarts (offline-first reading). */
