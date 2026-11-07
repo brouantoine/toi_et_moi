@@ -2018,6 +2018,81 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnThisDay'
           description: ''
+  /api/v1/morning/reply/:
+    post:
+      operationId: v1_morning_reply_create
+      description: A one-tap answer to the partner's mood (3 a day at most, no read
+        receipt).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplyInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReplyInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReplyInputRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/morning/today/:
+    get:
+      operationId: v1_morning_today_retrieve
+      description: The morning weather of the couple, today.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MorningToday'
+          description: ''
+    put:
+      operationId: v1_morning_today_update
+      description: The morning weather of the couple, today.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoodInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MoodInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MoodInputRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MorningToday'
+          description: ''
+    delete:
+      operationId: v1_morning_today_destroy
+      description: Takes today's mood back (it is never mandatory).
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/notifications/devices/:
     post:
       operationId: v1_notifications_devices_create
@@ -2122,6 +2197,9 @@ components:
       - amount
       - currency
       - direction
+    BlankEnum:
+      enum:
+      - ''
     Chore:
       type: object
       properties:
@@ -2876,6 +2954,91 @@ components:
         * `place` - Lieu
         * `moment` - Moment
         * `quote` - Citation
+    Mood:
+      type: object
+      properties:
+        mood:
+          $ref: '#/components/schemas/MoodEnum'
+        need:
+          type: string
+        replies:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoodReplyEnum'
+      required:
+      - mood
+      - need
+      - replies
+    MoodEnum:
+      enum:
+      - joyful
+      - happy
+      - upset
+      - angry
+      type: string
+      description: |-
+        * `joyful` - Grande joie
+        * `happy` - Bonne humeur
+        * `upset` - Contrariété
+        * `angry` - Énervement
+    MoodInputRequest:
+      type: object
+      properties:
+        mood:
+          $ref: '#/components/schemas/MoodEnum'
+        need:
+          default: ''
+          oneOf:
+          - $ref: '#/components/schemas/NeedEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+      required:
+      - mood
+    MoodReplyEnum:
+      enum:
+      - here
+      - courage
+      - tonight
+      - thinking
+      type: string
+      description: |-
+        * `here` - Je suis là
+        * `courage` - Courage
+        * `tonight` - On en parle ce soir ?
+        * `thinking` - Je pense à toi
+    MorningToday:
+      type: object
+      description: Today for me and for the partner (each in their own time zone).
+        Null = not shared.
+      properties:
+        date:
+          type: string
+          format: date
+        mine:
+          allOf:
+          - $ref: '#/components/schemas/Mood'
+          nullable: true
+        partner:
+          allOf:
+          - $ref: '#/components/schemas/Mood'
+          nullable: true
+      required:
+      - date
+      - mine
+      - partner
+    NeedEnum:
+      enum:
+      - space
+      - hug
+      - help
+      - listen
+      - nothing
+      type: string
+      description: |-
+        * `space` - Espace
+        * `hug` - Câlin
+        * `help` - Aide
+        * `listen` - Écoute
+        * `nothing` - Rien
     Occurrence:
       type: object
       description: One day on which an event happens (yearly events have one per year).
@@ -3287,6 +3450,13 @@ components:
           maxItems: 500
       required:
       - ids
+    ReplyInputRequest:
+      type: object
+      properties:
+        reply:
+          $ref: '#/components/schemas/MoodReplyEnum'
+      required:
+      - reply
     SettleRequest:
       type: object
       properties:

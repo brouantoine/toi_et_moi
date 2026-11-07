@@ -13,7 +13,9 @@ select = ["E", "F", "W", "I", "B", "UP", "DJ", "S", "SIM", "RUF"]
 ignore = ["RUF012"]
 
 [tool.ruff.lint.per-file-ignores]
-"**/tests/**" = ["S101", "S105", "S106", "DJ008"]
+"**/tests/**" = ["S101", "S105", "S106", "DJ008", "RUF001"]
+# User-facing French texts: typographic apostrophes and non-breaking spaces are intended.
+"**/messages.py" = ["RUF001"]
 "conftest.py" = ["S101"]
 
 [tool.mypy]

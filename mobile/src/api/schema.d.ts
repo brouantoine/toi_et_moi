@@ -815,6 +815,42 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/morning/reply/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description A one-tap answer to the partner's mood (3 a day at most, no read receipt). */
+    post: operations['v1_morning_reply_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/morning/today/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description The morning weather of the couple, today. */
+    get: operations['v1_morning_today_retrieve'];
+    /** @description The morning weather of the couple, today. */
+    put: operations['v1_morning_today_update'];
+    post?: never;
+    /** @description Takes today's mood back (it is never mandatory). */
+    delete: operations['v1_morning_today_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/notifications/devices/': {
     parameters: {
       query?: never;
@@ -866,6 +902,8 @@ export interface components {
       amount: number;
       direction: components['schemas']['DirectionEnum'];
     };
+    /** @enum {unknown} */
+    BlankEnum: '';
     Chore: {
       readonly id: number;
       title: string;
@@ -1167,6 +1205,48 @@ export interface components {
      * @enum {string}
      */
     MemoryTypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
+    Mood: {
+      mood: components['schemas']['MoodEnum'];
+      need: string;
+      replies: components['schemas']['MoodReplyEnum'][];
+    };
+    /**
+     * @description * `joyful` - Grande joie
+     *     * `happy` - Bonne humeur
+     *     * `upset` - Contrariété
+     *     * `angry` - Énervement
+     * @enum {string}
+     */
+    MoodEnum: 'joyful' | 'happy' | 'upset' | 'angry';
+    MoodInputRequest: {
+      mood: components['schemas']['MoodEnum'];
+      /** @default  */
+      need: components['schemas']['NeedEnum'] | components['schemas']['BlankEnum'];
+    };
+    /**
+     * @description * `here` - Je suis là
+     *     * `courage` - Courage
+     *     * `tonight` - On en parle ce soir ?
+     *     * `thinking` - Je pense à toi
+     * @enum {string}
+     */
+    MoodReplyEnum: 'here' | 'courage' | 'tonight' | 'thinking';
+    /** @description Today for me and for the partner (each in their own time zone). Null = not shared. */
+    MorningToday: {
+      /** Format: date */
+      date: string;
+      mine: components['schemas']['Mood'] | null;
+      partner: components['schemas']['Mood'] | null;
+    };
+    /**
+     * @description * `space` - Espace
+     *     * `hug` - Câlin
+     *     * `help` - Aide
+     *     * `listen` - Écoute
+     *     * `nothing` - Rien
+     * @enum {string}
+     */
+    NeedEnum: 'space' | 'hug' | 'help' | 'listen' | 'nothing';
     /** @description One day on which an event happens (yearly events have one per year). */
     Occurrence: {
       /** Format: date */
@@ -1361,6 +1441,9 @@ export interface components {
     RelativePersonEnum: 'me' | 'you' | 'us';
     ReorderRequest: {
       ids: number[];
+    };
+    ReplyInputRequest: {
+      reply: components['schemas']['MoodReplyEnum'];
     };
     SettleRequest: {
       currency: string;
@@ -3398,6 +3481,92 @@ export interface operations {
         content: {
           'application/json': components['schemas']['OnThisDay'];
         };
+      };
+    };
+  };
+  v1_morning_reply_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ReplyInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ReplyInputRequest'];
+        'multipart/form-data': components['schemas']['ReplyInputRequest'];
+      };
+    };
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_morning_today_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MorningToday'];
+        };
+      };
+    };
+  };
+  v1_morning_today_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MoodInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['MoodInputRequest'];
+        'multipart/form-data': components['schemas']['MoodInputRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MorningToday'];
+        };
+      };
+    };
+  };
+  v1_morning_today_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

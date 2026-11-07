@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "memories",
     "organization",
     "notifications",
+    "rituals",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -160,6 +161,9 @@ SPECTACULAR_SETTINGS = {
         "ExpenseCategoryEnum": "organization.models.ExpenseCategory",
         "SplitEnum": "organization.models.Split",
         "PlatformEnum": "notifications.models.Platform",
+        "MoodEnum": "rituals.models.Mood",
+        "NeedEnum": "rituals.models.Need",
+        "MoodReplyEnum": "rituals.models.Reply",
     },
 }
 
@@ -180,7 +184,11 @@ CELERY_BROKER_URL = env_str("CELERY_BROKER_URL", REDIS_URL)
 CELERY_RESULT_BACKEND = None
 CELERY_TASK_ALWAYS_EAGER = env_bool("CELERY_TASK_ALWAYS_EAGER", False)
 CELERY_TIMEZONE = "UTC"
-CELERY_BEAT_SCHEDULE: dict[str, dict[str, object]] = {}
+CELERY_BEAT_SCHEDULE: dict[str, dict[str, object]] = {
+    # Each person is invited at their own morning time (checked every 5 minutes).
+    "morning-invitations": {"task": "rituals.tasks.send_morning_invitations", "schedule": 300.0},
+    "forget-old-moods": {"task": "rituals.tasks.forget_old_moods", "schedule": 6 * 3600.0},
+}
 
 # Expo push: optional access token (enhanced push security in the Expo dashboard).
 EXPO_ACCESS_TOKEN = env_str("EXPO_ACCESS_TOKEN", "")

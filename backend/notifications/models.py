@@ -57,6 +57,8 @@ class NotificationPreference(models.Model):
     morning_time = models.TimeField(default=time(8, 0))
     #: Discreet lock screen: say *that* something happened, not *what*.
     discreet = models.BooleanField(default=False)
+    #: Local day of the last morning invitation (sent at most once a day).
+    last_morning_invite = models.DateField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"preferences {self.user_id}"
