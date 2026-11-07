@@ -40,3 +40,6 @@ mobile/android/
 .DS_Store
 Thumbs.db
 .idea/
+
+# Local phone-trial server log
+backend/dev-server.log
