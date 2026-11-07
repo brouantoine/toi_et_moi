@@ -1,6 +1,3 @@
-import { TabPlaceholder } from '@/features/shell/TabPlaceholder';
-import { CalendarCheck } from 'lucide-react-native';
+import { OrganizeScreen } from '@/features/organize/OrganizeScreen';
 
-export default function OrganizeTab() {
-  return <TabPlaceholder icon={CalendarCheck} tab="organize" />;
-}
+export default OrganizeScreen;

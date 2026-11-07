@@ -205,3 +205,9 @@
 ## 2026-11-07 — P3.7 Mobile : synchronisation en temps réel
 - Fichiers clés : `mobile/src/api/realtime.ts` (`SyncClient`, `invalidationKeysFor`, `syncUrl`), `api/useRealtimeSync.ts` (monté dans `(tabs)/_layout.tsx`), `api/__tests__/realtime.test.ts`.
 - À savoir : authentification par premier message, ping toutes les 25 s, reconnexion 1 s → 2 s → 5 s → 10 s → 30 s ; refus 4401 → appel API (rafraîchit le jeton) puis nouvel essai. Coupé en arrière-plan (batterie), relancé au retour avec rattrapage (invalidation des données d'organisation). **Convention de clés de requête à respecter dans les écrans** : `['events', …]`, `['lists', …]` (les éléments d'une liste sous `['lists', id, 'items']`), `['chores', …]`, `['expenses', …]`.
+
+## 2026-11-07 — P3.8 Mobile : agenda
+- Fichiers clés : `mobile/src/features/organize/{OrganizeScreen,usePersonLabel}.ts(x)`, `organize/agenda/{AgendaView,EventFormScreen,eventForm,agendaDates,eventKinds,useAgenda}.ts(x)`, routes `src/app/organize/event/{new,[id]}.tsx` (modales), `ui/{TimeField,ToggleRow}.tsx`, tests `organize/__tests__/agenda.test.tsx`.
+- Onglet Organisation : en-tête éditorial, pastilles Agenda / Listes / Tâches / Budget (les trois dernières « bientôt » jusqu'à P3.9–P3.11), bandeau hors ligne.
+- Agenda : 90 prochains jours groupés par jour (« Aujourd'hui », « Demain », puis la date), une teinte par type (événement sauge, anniversaire ambre, retrouvailles rouge), heure ou « Journée », lieu, « Chaque année », pour qui (« Moi », prénom du partenaire, « Nous »). Formulaire : titre, type, date, journée entière ou heure, lieu, pour qui, chaque année, rappel ; modification et suppression avec confirmation.
+- À savoir : `useQueuedWrite(invalidateKey)` envoie tout de suite en ligne (erreurs affichées) ou met en file hors ligne (part au retour du réseau, même après redémarrage). Les heures sont envoyées en instants UTC calculés depuis l'heure locale.

@@ -283,5 +283,66 @@
       "deleteCommentTitle": "Supprimer ce mot ?",
       "commentError": "Ton mot n’a pas pu être envoyé. Il est toujours là, tu peux réessayer."
     }
+  },
+  "organize": {
+    "eyebrow": "À deux",
+    "sections": {
+      "agenda": "Agenda",
+      "lists": "Listes",
+      "chores": "Tâches",
+      "budget": "Budget"
+    },
+    "soon": "Bientôt ici",
+    "soonMessage": "Cette partie arrive très vite.",
+    "people": {
+      "me": "Moi",
+      "us": "Nous"
+    },
+    "agenda": {
+      "add": "Ajouter un événement",
+      "today": "Aujourd’hui",
+      "tomorrow": "Demain",
+      "allDay": "Journée",
+      "emptyTitle": "Rien de prévu pour l’instant",
+      "emptyMessage": "Un dîner, un anniversaire, des retrouvailles : notez-les ici, à deux.",
+      "yearly": "Chaque année",
+      "kinds": {
+        "event": "Événement",
+        "birthday": "Anniversaire",
+        "reunion": "Retrouvailles"
+      }
+    },
+    "event": {
+      "newTitle": "Nouvel événement",
+      "editTitle": "Modifier l’événement",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Dîner chez tes parents, ciné…",
+      "kindLabel": "Type",
+      "allDay": "Toute la journée",
+      "dateLabel": "Date",
+      "timeLabel": "Heure",
+      "placeLabel": "Lieu",
+      "placePlaceholder": "Facultatif",
+      "concernsLabel": "Pour qui ?",
+      "yearly": "Revient chaque année",
+      "yearlyHint": "Idéal pour les anniversaires",
+      "reminderLabel": "Rappel",
+      "reminders": {
+        "none": "Aucun",
+        "atTime": "À l’heure",
+        "hour": "1 h avant",
+        "day": "La veille"
+      },
+      "save": "Enregistrer",
+      "create": "Ajouter à l’agenda",
+      "delete": "Supprimer l’événement",
+      "deleteTitle": "Supprimer cet événement ?",
+      "deleteMessage": "Il disparaîtra de l’agenda pour vous deux.",
+      "saveError": "L’enregistrement n’a pas abouti. Réessaie dans un instant.",
+      "errors": {
+        "titleRequired": "Donne un titre à cet événement."
+      }
+    },
+    "offline": "Hors ligne : vos changements partiront tout seuls dès le retour du réseau."
   }
 }

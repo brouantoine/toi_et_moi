@@ -283,5 +283,66 @@
       "deleteCommentTitle": "Delete this word?",
       "commentError": "Your word could not be sent. It’s still here, you can try again."
     }
+  },
+  "organize": {
+    "eyebrow": "Together",
+    "sections": {
+      "agenda": "Calendar",
+      "lists": "Lists",
+      "chores": "Chores",
+      "budget": "Budget"
+    },
+    "soon": "Coming soon",
+    "soonMessage": "This part is on its way.",
+    "people": {
+      "me": "Me",
+      "us": "Us"
+    },
+    "agenda": {
+      "add": "Add an event",
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "allDay": "All day",
+      "emptyTitle": "Nothing planned yet",
+      "emptyMessage": "A dinner, a birthday, a reunion: note them here, together.",
+      "yearly": "Every year",
+      "kinds": {
+        "event": "Event",
+        "birthday": "Birthday",
+        "reunion": "Reunion"
+      }
+    },
+    "event": {
+      "newTitle": "New event",
+      "editTitle": "Edit event",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Dinner at your parents’, movies…",
+      "kindLabel": "Kind",
+      "allDay": "All day",
+      "dateLabel": "Date",
+      "timeLabel": "Time",
+      "placeLabel": "Place",
+      "placePlaceholder": "Optional",
+      "concernsLabel": "For whom?",
+      "yearly": "Every year",
+      "yearlyHint": "Perfect for birthdays",
+      "reminderLabel": "Reminder",
+      "reminders": {
+        "none": "None",
+        "atTime": "At the time",
+        "hour": "1 h before",
+        "day": "The day before"
+      },
+      "save": "Save",
+      "create": "Add to the calendar",
+      "delete": "Delete event",
+      "deleteTitle": "Delete this event?",
+      "deleteMessage": "It will disappear from the calendar for both of you.",
+      "saveError": "Saving didn’t go through. Try again in a moment.",
+      "errors": {
+        "titleRequired": "Give this event a title."
+      }
+    },
+    "offline": "Offline: your changes will leave by themselves as soon as the network is back."
   }
 }
