@@ -226,3 +226,8 @@
 - Budget : carte de solde en mots (« Tu dois 21,25 € à Sam », « Vous êtes à l'équilibre ») avec « Rembourser » après confirmation, dépenses paginées (catégorie colorée, montant, qui a payé, ta part). Formulaire : montant saisi à la française (« 12,50 »), devises sans centimes gérées (XOF), catégorie, qui a payé, 50/50 ou part personnalisée validée, date ; modification et suppression.
 - Backend : `balance` et `settle` sans pagination (le schéma OpenAPI les décrivait à tort comme paginés).
 - **Phase P3 terminée.**
+
+## 2026-11-07 — P5.1 + P5.2 Notifications : appareils, préférences, envoi Expo
+- Fichiers clés : `backend/notifications/{models,services,tasks,views,serializers,urls}.py`, `notifications/tests/test_notifications.py`.
+- Endpoints : `POST/DELETE /api/v1/notifications/devices/` (`{token, platform}`), `GET/PATCH /api/v1/notifications/preferences/` (un interrupteur par type, `morning_time`, `discreet`).
+- À savoir : `notifications.services.notify(user, kind, title, body, data, category)` est le seul point d'envoi : préférence du type, heures calmes dans le fuseau de la personne (y compris à cheval sur minuit), tous ses téléphones, tâche Celery `send_push` (API Expo via `urllib`, sans nouvelle dépendance), jetons `DeviceNotRegistered` oubliés. Un jeton appartient à la dernière personne qui l'enregistre. Variable optionnelle `EXPO_ACCESS_TOKEN`.

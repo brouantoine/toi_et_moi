@@ -2018,6 +2018,80 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnThisDay'
           description: ''
+  /api/v1/notifications/devices/:
+    post:
+      operationId: v1_notifications_devices_create
+      description: Registers this phone for push (a token always belongs to whoever
+        registers it last).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeviceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeviceRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+    delete:
+      operationId: v1_notifications_devices_destroy
+      description: Forgets this phone (sign out). Only one's own tokens can be removed.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/notifications/preferences/:
+    get:
+      operationId: v1_notifications_preferences_retrieve
+      description: My notification choices. Never visible to the partner.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Preference'
+          description: ''
+    patch:
+      operationId: v1_notifications_preferences_partial_update
+      description: My notification choices. Never visible to the partner.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPreferenceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPreferenceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPreferenceRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Preference'
+          description: ''
 components:
   schemas:
     AuthResponse:
@@ -2218,6 +2292,19 @@ components:
           minLength: 1
           default: EUR
           maxLength: 3
+    DeviceRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: ^(Exponent|Expo)PushToken\[[^\]]+\]$
+        platform:
+          $ref: '#/components/schemas/PlatformEnum'
+      required:
+      - platform
+      - token
     DirectionEnum:
       enum:
       - partner_owes_me
@@ -3014,6 +3101,30 @@ components:
             minLength: 1
             maxLength: 30
           maxItems: 50
+    PatchedPreferenceRequest:
+      type: object
+      properties:
+        morning_mood:
+          type: boolean
+        partner_mood:
+          type: boolean
+        memory_of_day:
+          type: boolean
+        daily_question:
+          type: boolean
+        check_in:
+          type: boolean
+        thinking_of_you:
+          type: boolean
+        pause:
+          type: boolean
+        organization:
+          type: boolean
+        morning_time:
+          type: string
+          format: time
+        discreet:
+          type: boolean
     PatchedSharedListRequest:
       type: object
       properties:
@@ -3087,6 +3198,38 @@ components:
           minLength: 1
       required:
       - content_type
+    PlatformEnum:
+      enum:
+      - ios
+      - android
+      type: string
+      description: |-
+        * `ios` - iOS
+        * `android` - Android
+    Preference:
+      type: object
+      properties:
+        morning_mood:
+          type: boolean
+        partner_mood:
+          type: boolean
+        memory_of_day:
+          type: boolean
+        daily_question:
+          type: boolean
+        check_in:
+          type: boolean
+        thinking_of_you:
+          type: boolean
+        pause:
+          type: boolean
+        organization:
+          type: boolean
+        morning_time:
+          type: string
+          format: time
+        discreet:
+          type: boolean
     RecurrenceEnum:
       enum:
       - none

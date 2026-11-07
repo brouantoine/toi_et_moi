@@ -815,6 +815,42 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/notifications/devices/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Registers this phone for push (a token always belongs to whoever registers it last). */
+    post: operations['v1_notifications_devices_create'];
+    /** @description Forgets this phone (sign out). Only one's own tokens can be removed. */
+    delete: operations['v1_notifications_devices_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/notifications/preferences/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description My notification choices. Never visible to the partner. */
+    get: operations['v1_notifications_preferences_retrieve'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** @description My notification choices. Never visible to the partner. */
+    patch: operations['v1_notifications_preferences_partial_update'];
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -899,6 +935,10 @@ export interface components {
       start_date?: string | null;
       /** @default EUR */
       currency: string;
+    };
+    DeviceRequest: {
+      token: string;
+      platform: components['schemas']['PlatformEnum'];
     };
     /**
      * @description * `partner_owes_me` - partner_owes_me
@@ -1231,6 +1271,19 @@ export interface components {
       type?: components['schemas']['MemoryTypeEnum'];
       tags?: string[];
     };
+    PatchedPreferenceRequest: {
+      morning_mood?: boolean;
+      partner_mood?: boolean;
+      memory_of_day?: boolean;
+      daily_question?: boolean;
+      check_in?: boolean;
+      thinking_of_you?: boolean;
+      pause?: boolean;
+      organization?: boolean;
+      /** Format: time */
+      morning_time?: string;
+      discreet?: boolean;
+    };
     PatchedSharedListRequest: {
       title?: string;
       kind?: components['schemas']['ListKindEnum'];
@@ -1263,6 +1316,25 @@ export interface components {
     };
     PhotoUploadRequestRequest: {
       content_type: string;
+    };
+    /**
+     * @description * `ios` - iOS
+     *     * `android` - Android
+     * @enum {string}
+     */
+    PlatformEnum: 'ios' | 'android';
+    Preference: {
+      morning_mood?: boolean;
+      partner_mood?: boolean;
+      memory_of_day?: boolean;
+      daily_question?: boolean;
+      check_in?: boolean;
+      thinking_of_you?: boolean;
+      pause?: boolean;
+      organization?: boolean;
+      /** Format: time */
+      morning_time?: string;
+      discreet?: boolean;
     };
     /**
      * @description * `none` - Aucune
@@ -3325,6 +3397,92 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['OnThisDay'];
+        };
+      };
+    };
+  };
+  v1_notifications_devices_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DeviceRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['DeviceRequest'];
+        'multipart/form-data': components['schemas']['DeviceRequest'];
+      };
+    };
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_notifications_devices_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_notifications_preferences_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Preference'];
+        };
+      };
+    };
+  };
+  v1_notifications_preferences_partial_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PatchedPreferenceRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PatchedPreferenceRequest'];
+        'multipart/form-data': components['schemas']['PatchedPreferenceRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Preference'];
         };
       };
     };

@@ -80,8 +80,8 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [ ] P4.19 — Cartes de conversation : paquets fr+en (« Tu préfères… », enfance, projets fous…) et mode soirée hors écran (une carte, on pose le téléphone) — catalogue validé par test + mobile — dépend de : P4.1, P1.16
 
 ## P5 — Notifications (F9)
-- [ ] P5.1 — App `notifications` : PushDevice, NotificationPreference (par type) + API — tests partenaire/étranger — dépend de : P1.4
-- [ ] P5.2 — Service d'envoi Expo Push (heures calmes dans le fuseau de chacun, préférences, aucun contenu privé, gestion des tokens invalides) — tests HTTP mockés — dépend de : P5.1
+- [x] P5.1 — App `notifications` : PushDevice, NotificationPreference (par type) + API — tests partenaire/étranger — dépend de : P1.4
+- [x] P5.2 — Service d'envoi Expo Push (heures calmes dans le fuseau de chacun, préférences, aucun contenu privé, gestion des tokens invalides) — tests HTTP mockés — dépend de : P5.1
 - [ ] P5.3 — Celery Beat : souvenir du jour quotidien à heure locale — tests eager avec horloge figée — dépend de : P5.2, P2.6
 - [ ] P5.4 — Rappels : événements, notes « À retenir », tâches — tests — dépend de : P5.2, P3.1, P3.3, P4.8
 - [ ] P5.5 — Mobile : enregistrement expo-notifications, canal Android, permission refusée sans crash, écran préférences + heures calmes — tests — dépend de : P5.1, P1.18

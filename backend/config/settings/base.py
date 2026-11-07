@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "couples",
     "memories",
     "organization",
+    "notifications",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -158,6 +159,7 @@ SPECTACULAR_SETTINGS = {
         "PayerEnum": [("me", "me"), ("you", "you")],
         "ExpenseCategoryEnum": "organization.models.ExpenseCategory",
         "SplitEnum": "organization.models.Split",
+        "PlatformEnum": "notifications.models.Platform",
     },
 }
 
@@ -179,6 +181,9 @@ CELERY_RESULT_BACKEND = None
 CELERY_TASK_ALWAYS_EAGER = env_bool("CELERY_TASK_ALWAYS_EAGER", False)
 CELERY_TIMEZONE = "UTC"
 CELERY_BEAT_SCHEDULE: dict[str, dict[str, object]] = {}
+
+# Expo push: optional access token (enhanced push security in the Expo dashboard).
+EXPO_ACCESS_TOKEN = env_str("EXPO_ACCESS_TOKEN", "")
 
 CHANNEL_LAYERS = {
     "default": {
