@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useRealtimeSync } from '@/api/useRealtimeSync';
 import { useApplyProfileLanguage } from '@/features/me/useProfile';
 import { TABS } from '@/features/shell/tabs';
 import { Icon, useTheme } from '@/ui';
@@ -13,6 +14,7 @@ export default function TabsLayout() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   useApplyProfileLanguage();
+  useRealtimeSync();
   return (
     <Tabs
       screenOptions={{
