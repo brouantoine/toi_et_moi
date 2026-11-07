@@ -51,3 +51,7 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 - [ ] Créer un compte RevenueCat, y relier l'app iOS et Android, récupérer les clés publiques (`EXPO_PUBLIC_REVENUECAT_IOS_KEY`, `EXPO_PUBLIC_REVENUECAT_ANDROID_KEY`) et le secret du webhook (`REVENUECAT_WEBHOOK_SECRET`, backend).
 - [ ] Créer les produits d'abonnement dans App Store Connect et Google Play Console (mensuel 2,99 €, annuel 19,99 € ou prix choisis), un droit « premium » dans RevenueCat.
 - [ ] Contrat « Apps payantes » signé dans App Store Connect et profil de paiement Google Play (comptes bancaires, fiscalité).
+
+## Notifications push
+- [ ] Après `npx eas-cli@latest init`, mettre l'identifiant du projet dans la variable `EAS_PROJECT_ID` (lue par `app.config.ts` → `extra.eas.projectId`) : sans lui, l'app n'enregistre pas le téléphone pour les notifications.
+- [ ] Optionnel : activer la « sécurité renforcée des notifications » dans le tableau de bord Expo et fournir `EXPO_ACCESS_TOKEN` au backend.

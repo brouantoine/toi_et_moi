@@ -50,7 +50,7 @@ def test_register_device_then_forget_it() -> None:
         client.post(DEVICES, {"token": TOKEN, "platform": "ios"}, format="json").status_code == 204
     )
     assert PushDevice.objects.get().user == user
-    assert client.delete(DEVICES, {"token": TOKEN}, format="json").status_code == 204
+    assert client.post(DEVICES + "forget/", {"token": TOKEN}, format="json").status_code == 204
     assert not PushDevice.objects.exists()
 
 
@@ -59,7 +59,7 @@ def test_a_token_belongs_to_whoever_registers_it_last_and_others_cannot_remove_i
     client_for(first).post(DEVICES, {"token": TOKEN, "platform": "android"}, format="json")
     client_for(second).post(DEVICES, {"token": TOKEN, "platform": "android"}, format="json")
     assert PushDevice.objects.get().user == second
-    client_for(first).delete(DEVICES, {"token": TOKEN}, format="json")
+    client_for(first).post(DEVICES + "forget/", {"token": TOKEN}, format="json")
     assert PushDevice.objects.exists()
 
 

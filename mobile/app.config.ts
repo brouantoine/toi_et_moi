@@ -46,6 +46,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-secure-store',
     'expo-apple-authentication',
+    ['expo-notifications', { color: '#B3132B', defaultChannel: 'default' }],
     [
       'expo-image-picker',
       {
@@ -69,6 +70,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ],
   experiments: { typedRoutes: true },
   extra: {
+    // Set by `eas init` (see docs/HUMAN_TODO.md); push registration is skipped without it.
+    ...(process.env.EAS_PROJECT_ID ? { eas: { projectId: process.env.EAS_PROJECT_ID } } : {}),
     apiUrl: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000',
   },
 });

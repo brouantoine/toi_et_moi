@@ -111,3 +111,17 @@ jest.mock('@react-native-community/netinfo', () =>
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   require('@react-native-community/netinfo/jest/netinfo-mock.js'),
 );
+
+/* Notifications: permission undetermined by default; spies set per test. */
+jest.mock('expo-notifications', () => ({
+  DEFAULT_ACTION_IDENTIFIER: 'expo.modules.notifications.actions.DEFAULT',
+  AndroidImportance: { DEFAULT: 3 },
+  setNotificationHandler: jest.fn(),
+  setNotificationChannelAsync: jest.fn(async () => null),
+  setNotificationCategoryAsync: jest.fn(async () => null),
+  getPermissionsAsync: jest.fn(async () => ({ status: 'undetermined' })),
+  requestPermissionsAsync: jest.fn(async () => ({ status: 'granted' })),
+  getExpoPushTokenAsync: jest.fn(async () => ({ data: 'ExponentPushToken[test]' })),
+  useLastNotificationResponse: jest.fn(() => null),
+}));
+jest.mock('expo-device', () => ({ isDevice: true }));

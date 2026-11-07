@@ -436,5 +436,82 @@
         }
       }
     }
+  },
+  "notifications": {
+    "channel": "Nous Deux",
+    "settings": {
+      "title": "Notifications",
+      "hint": "Morning weather, quiet hours",
+      "enable": "Turn on notifications",
+      "enableHint": "To get the morning weather and your partner’s little words.",
+      "denied": "Notifications are off in the phone settings.",
+      "openSettings": "Open Settings",
+      "unavailable": "Notifications will be available in the installed app.",
+      "morningSection": "Morning weather",
+      "morningTime": "Invitation time",
+      "discreet": "Discreet mode",
+      "discreetHint": "On the lock screen, only say there is something new, without details.",
+      "kindsSection": "What I receive",
+      "quietSection": "Quiet hours",
+      "quietHint": "No notification during these hours, in your time zone.",
+      "quietStart": "From",
+      "quietEnd": "To",
+      "saved": "Saved.",
+      "kinds": {
+        "morning_mood": "Morning invitation",
+        "partner_mood": "Partner’s weather and replies",
+        "memory_of_day": "Memory of the day",
+        "daily_question": "Daily question",
+        "check_in": "Weekly check-in",
+        "thinking_of_you": "Thinking of you",
+        "pause": "Pause",
+        "organization": "Organization"
+      }
+    }
+  },
+  "morning": {
+    "greeting": "Good morning {{name}}",
+    "question": "How do you feel this morning?",
+    "moods": {
+      "joyful": "Great joy",
+      "happy": "Good mood",
+      "upset": "Upset",
+      "angry": "Anger"
+    },
+    "needLabel": "What I need (optional)",
+    "needs": {
+      "space": "Some space",
+      "hug": "A hug",
+      "help": "Some help",
+      "listen": "To be heard",
+      "nothing": "Nothing, just telling you"
+    },
+    "replies": {
+      "here": "I’m here",
+      "courage": "Hang in there",
+      "tonight": "Talk tonight?",
+      "thinking": "Thinking of you"
+    },
+    "mine": "My weather",
+    "change": "Change",
+    "takeBack": "Take back",
+    "partnerTitle": "{{name}}’s weather",
+    "partnerWaiting": "{{name}} hasn’t shared their weather yet. No obligation.",
+    "advice": {
+      "joyful": "Share the moment with a little word.",
+      "happy": "A kind word is enough to start the day well.",
+      "upset": "A simple question: “Can I do something?”",
+      "angry": "A short word is enough, no speech.",
+      "space": "Give some space, a short word is enough.",
+      "hug": "A hug as soon as you can.",
+      "help": "Offer concrete help.",
+      "listen": "Take a moment to listen, without advice."
+    },
+    "replyTitle": "Answer in one tap",
+    "received": "{{name}}: {{reply}}",
+    "sent": "Sent.",
+    "tooMany": "You already answered a few times today.",
+    "enableTitle": "Get the morning weather",
+    "enableMessage": "Every morning, an invitation to share how you feel, and your partner’s weather as soon as it arrives."
   }
 }

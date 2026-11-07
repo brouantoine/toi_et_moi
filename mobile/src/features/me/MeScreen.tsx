@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { HeartHandshake, UserRound } from 'lucide-react-native';
+import { Bell, HeartHandshake, UserRound } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useSignOut } from '@/auth/useSignOut';
@@ -30,6 +30,13 @@ export function MeScreen() {
           label={t('me.couple')}
           hint={t('me.coupleHint')}
           onPress={() => router.push('/settings/couple')}
+        />
+        <ListRow
+          testID="me-notifications"
+          icon={Bell}
+          label={t('notifications.settings.title')}
+          hint={t('notifications.settings.hint')}
+          onPress={() => router.push('/settings/notifications')}
         />
       </Card>
       <Text variant="caption" muted>

@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { QueryProvider } from '@/api/QueryProvider';
 import { useGate } from '@/navigation/useGate';
+import { configureNotifications } from '@/notifications/setup';
 import { fonts, ThemeProvider, useTheme } from '@/ui';
 
 void SplashScreen.preventAutoHideAsync();
@@ -33,6 +34,10 @@ function GuardedStack() {
     Fraunces_600SemiBold,
   });
   const fontsReady = fontsLoaded || Boolean(fontError);
+
+  useEffect(() => {
+    void configureNotifications(t).catch(() => {});
+  }, [t]);
   const header = {
     headerShown: true,
     headerStyle: { backgroundColor: colors.background },
@@ -66,6 +71,10 @@ function GuardedStack() {
             name="settings/profile"
             // The page carries its own large title; the bar keeps only the back button.
             options={{ ...header, title: t('me.profile'), headerTitle: '' }}
+          />
+          <Stack.Screen
+            name="settings/notifications"
+            options={{ ...header, title: t('notifications.settings.title'), headerTitle: '' }}
           />
           <Stack.Screen
             name="settings/couple"

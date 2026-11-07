@@ -862,8 +862,24 @@ export interface paths {
     put?: never;
     /** @description Registers this phone for push (a token always belongs to whoever registers it last). */
     post: operations['v1_notifications_devices_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/notifications/devices/forget/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
     /** @description Forgets this phone (sign out). Only one's own tokens can be removed. */
-    delete: operations['v1_notifications_devices_destroy'];
+    post: operations['v1_notifications_devices_forget_create'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -3594,14 +3610,20 @@ export interface operations {
       };
     };
   };
-  v1_notifications_devices_destroy: {
+  v1_notifications_devices_forget_create: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody?: never;
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DeviceRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['DeviceRequest'];
+        'multipart/form-data': components['schemas']['DeviceRequest'];
+      };
+    };
     responses: {
       /** @description No response body */
       204: {

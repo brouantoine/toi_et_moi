@@ -436,5 +436,82 @@
         }
       }
     }
+  },
+  "notifications": {
+    "channel": "Nous Deux",
+    "settings": {
+      "title": "Notifications",
+      "hint": "Météo du matin, heures calmes",
+      "enable": "Activer les notifications",
+      "enableHint": "Pour recevoir la météo du matin et les petits mots de l’autre.",
+      "denied": "Les notifications sont coupées dans les réglages du téléphone.",
+      "openSettings": "Ouvrir les réglages",
+      "unavailable": "Les notifications seront disponibles dans l’application installée.",
+      "morningSection": "Météo du matin",
+      "morningTime": "Heure de l’invitation",
+      "discreet": "Mode discret",
+      "discreetHint": "Sur l’écran verrouillé, dire seulement qu’il y a du nouveau, sans le détail.",
+      "kindsSection": "Ce que je reçois",
+      "quietSection": "Heures calmes",
+      "quietHint": "Aucune notification pendant ces heures, dans ton fuseau.",
+      "quietStart": "Début",
+      "quietEnd": "Fin",
+      "saved": "C’est enregistré.",
+      "kinds": {
+        "morning_mood": "Invitation du matin",
+        "partner_mood": "Météo de l’autre et ses réponses",
+        "memory_of_day": "Souvenir du jour",
+        "daily_question": "Question du jour",
+        "check_in": "Check-in de la semaine",
+        "thinking_of_you": "Je pense à toi",
+        "pause": "Pause",
+        "organization": "Organisation"
+      }
+    }
+  },
+  "morning": {
+    "greeting": "Bonjour {{name}}",
+    "question": "Comment tu te sens ce matin ?",
+    "moods": {
+      "joyful": "Grande joie",
+      "happy": "Bonne humeur",
+      "upset": "Contrariété",
+      "angry": "Énervement"
+    },
+    "needLabel": "Ce dont j’ai besoin (facultatif)",
+    "needs": {
+      "space": "D’espace",
+      "hug": "D’un câlin",
+      "help": "D’aide",
+      "listen": "Qu’on m’écoute",
+      "nothing": "Rien, je te le dis juste"
+    },
+    "replies": {
+      "here": "Je suis là",
+      "courage": "Courage",
+      "tonight": "On en parle ce soir ?",
+      "thinking": "Je pense à toi"
+    },
+    "mine": "Ma météo",
+    "change": "Changer",
+    "takeBack": "Retirer",
+    "partnerTitle": "Météo de {{name}}",
+    "partnerWaiting": "{{name}} n’a pas encore partagé sa météo. Aucune obligation.",
+    "advice": {
+      "joyful": "Partage ce moment avec un petit mot.",
+      "happy": "Un mot doux suffit pour bien commencer la journée.",
+      "upset": "Une question simple : « Je peux faire quelque chose ? »",
+      "angry": "Un mot court suffit, pas de discours.",
+      "space": "Laisse un peu d’espace, un mot court suffit.",
+      "hug": "Un câlin dès que possible.",
+      "help": "Propose une aide concrète.",
+      "listen": "Prends un moment pour écouter, sans conseils."
+    },
+    "replyTitle": "Répondre en un geste",
+    "received": "{{name}} : {{reply}}",
+    "sent": "Envoyé.",
+    "tooMany": "Tu as déjà répondu plusieurs fois aujourd’hui.",
+    "enableTitle": "Recevoir la météo du matin",
+    "enableMessage": "Chaque matin, une invitation à partager comment tu te sens, et la météo de l’autre dès qu’elle arrive."
   }
 }

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/api';
 import { queryPersister } from '@/api/queryClient';
+import { forgetThisPhone } from '@/notifications/push';
 
 import { useAuthStore } from './authStore';
 
@@ -14,6 +15,7 @@ export function useSignOut() {
   const signOut = useAuthStore((s) => s.signOut);
   return useMutation({
     mutationFn: async () => {
+      await forgetThisPhone();
       const refresh = useAuthStore.getState().tokens?.refresh;
       if (refresh) {
         try {

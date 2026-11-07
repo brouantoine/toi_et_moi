@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRealtimeSync } from '@/api/useRealtimeSync';
+import { refreshPushRegistration } from '@/notifications/push';
+import { useNotificationResponses } from '@/notifications/responses';
 import { useApplyProfileLanguage } from '@/features/me/useProfile';
 import { TABS } from '@/features/shell/tabs';
 import { Icon, useTheme } from '@/ui';
@@ -15,6 +18,10 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   useApplyProfileLanguage();
   useRealtimeSync();
+  useNotificationResponses();
+  useEffect(() => {
+    void refreshPushRegistration();
+  }, []);
   return (
     <Tabs
       screenOptions={{

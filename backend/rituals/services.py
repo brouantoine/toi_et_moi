@@ -18,6 +18,7 @@ from .models import MoodReply, MorningMood
 MAX_REPLIES_PER_DAY = 3
 INVITE_WINDOW = dt.timedelta(minutes=15)
 CATEGORY_MOOD = "morning_mood"
+CATEGORY_PARTNER = "partner_mood"
 
 
 def today_for(user: User, now: dt.datetime | None = None) -> dt.date:
@@ -48,7 +49,7 @@ def _tell_partner(partner: User, author: User, record: MorningMood) -> None:
     title, body = messages.partner_mood(
         partner.language, author.display_name, record.mood, record.need, pref.discreet
     )
-    notify(partner, Kind.PARTNER_MOOD, title, body, {"screen": "today"})
+    notify(partner, Kind.PARTNER_MOOD, title, body, {"screen": "today"}, category=CATEGORY_PARTNER)
 
 
 def reply_to_partner(user: User, couple: Couple, code: str) -> MoodReply | None:

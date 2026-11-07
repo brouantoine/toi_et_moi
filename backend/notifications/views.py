@@ -32,9 +32,14 @@ class DeviceView(APIView):
             )
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+class ForgetDeviceView(APIView):
+    """Forgets this phone (sign out). Only one's own tokens can be removed."""
+
+    permission_classes = [IsAuthenticated]
+
     @extend_schema(request=DeviceSerializer, responses={204: None})
-    def delete(self, request: Request) -> Response:
-        """Forgets this phone (sign out). Only one's own tokens can be removed."""
+    def post(self, request: Request) -> Response:
         token = request.data.get("token") if isinstance(request.data, dict) else None
         PushDevice.objects.filter(user=current_user(request), token=token).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

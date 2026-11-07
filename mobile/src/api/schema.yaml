@@ -2117,11 +2117,24 @@ paths:
       responses:
         '204':
           description: No response body
-    delete:
-      operationId: v1_notifications_devices_destroy
+  /api/v1/notifications/devices/forget/:
+    post:
+      operationId: v1_notifications_devices_forget_create
       description: Forgets this phone (sign out). Only one's own tokens can be removed.
       tags:
       - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeviceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeviceRequest'
+        required: true
       security:
       - jwtAuth: []
       responses:

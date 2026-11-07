@@ -84,8 +84,8 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P5.2 — Service d'envoi Expo Push (heures calmes dans le fuseau de chacun, préférences, aucun contenu privé, gestion des tokens invalides) — tests HTTP mockés — dépend de : P5.1
 - [ ] P5.3 — Celery Beat : souvenir du jour quotidien à heure locale — tests eager avec horloge figée — dépend de : P5.2, P2.6
 - [ ] P5.4 — Rappels : événements, notes « À retenir », tâches — tests — dépend de : P5.2, P3.1, P3.3, P4.8
-- [ ] P5.5 — Mobile : enregistrement expo-notifications, canal Android, permission refusée sans crash, écran préférences + heures calmes — tests — dépend de : P5.1, P1.18
-- [ ] P5.6 — Mobile : ouverture d'une notification → bon écran — tests du routeur de notifications — dépend de : P5.5
+- [x] P5.5 — Mobile : enregistrement expo-notifications, canal Android, permission refusée sans crash, écran préférences + heures calmes — tests — dépend de : P5.1, P1.18
+- [x] P5.6 — Mobile : ouverture d'une notification → bon écran — tests du routeur de notifications — dépend de : P5.5
 
 ## P6 — Rituels & présence (F6)
 - [ ] P6.1 — App `rituals` : CheckIn/CheckInAnswer (3 questions fixes + humeur), jour choisi par le couple, révélation quand les deux ont répondu, historique, rappel hebdo — tests — dépend de : P5.2
