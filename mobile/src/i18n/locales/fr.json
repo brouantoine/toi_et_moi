@@ -292,8 +292,6 @@
       "chores": "Tâches",
       "budget": "Budget"
     },
-    "soon": "Bientôt ici",
-    "soonMessage": "Cette partie arrive très vite.",
     "people": {
       "me": "Moi",
       "us": "Nous"
@@ -390,6 +388,53 @@
       "groupEmpty": "Rien pour l’instant",
       "emptyTitle": "Aucune tâche cette semaine",
       "emptyMessage": "Ajoutez ce qui est à faire à la maison et partagez-le simplement."
+    },
+    "budget": {
+      "partnerOwes": "{{name}} te doit {{amount}}",
+      "iOwe": "Tu dois {{amount}} à {{name}}",
+      "settled": "Vous êtes à l’équilibre",
+      "settle": "Rembourser",
+      "settleTitle": "Marquer {{amount}} comme remboursé ?",
+      "settleMessage": "Le solde reviendra à zéro pour vous deux.",
+      "add": "Ajouter une dépense",
+      "paidBy": "Payé par {{name}}",
+      "myShare": "Ta part {{amount}}",
+      "emptyTitle": "Aucune dépense partagée",
+      "emptyMessage": "Notez une dépense commune : l’app calcule simplement qui doit combien. Aucune liaison bancaire.",
+      "categories": {
+        "groceries": "Courses",
+        "home": "Maison",
+        "outings": "Sorties",
+        "travel": "Voyages",
+        "gifts": "Cadeaux",
+        "health": "Santé",
+        "other": "Autre"
+      },
+      "form": {
+        "newTitle": "Nouvelle dépense",
+        "editTitle": "Modifier la dépense",
+        "titleLabel": "Quoi ?",
+        "titlePlaceholder": "Courses du samedi, resto…",
+        "amountLabel": "Montant ({{currency}})",
+        "categoryLabel": "Catégorie",
+        "paidByLabel": "Qui a payé ?",
+        "splitLabel": "Répartition",
+        "equal": "50/50",
+        "custom": "Personnalisée",
+        "myShareLabel": "Ta part ({{currency}})",
+        "dateLabel": "Date",
+        "create": "Ajouter la dépense",
+        "save": "Enregistrer",
+        "delete": "Supprimer la dépense",
+        "deleteTitle": "Supprimer cette dépense ?",
+        "deleteMessage": "Elle sera retirée du solde pour vous deux.",
+        "saveError": "L’enregistrement n’a pas abouti. Réessaie dans un instant.",
+        "errors": {
+          "titleRequired": "Dis ce que c’était.",
+          "amountInvalid": "Indique un montant, par exemple 12,50.",
+          "shareInvalid": "Ta part doit être entre 0 et le montant."
+        }
+      }
     }
   }
 }

@@ -1,22 +1,15 @@
 import { useRouter } from 'expo-router';
-import {
-  CalendarDays,
-  CloudOff,
-  Hourglass,
-  ListChecks,
-  Plus,
-  Sparkle,
-  Wallet,
-} from 'lucide-react-native';
+import { CalendarDays, CloudOff, ListChecks, Plus, Sparkle, Wallet } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useOnline } from '@/api/offline';
-import { Chip, EmptyState, IconButton, Notice, Text, useTheme } from '@/ui';
+import { Chip, IconButton, Notice, Text, useTheme } from '@/ui';
 
 import { AgendaView } from './agenda/AgendaView';
+import { BudgetView } from './budget/BudgetView';
 import { ChoresView } from './chores/ChoresView';
 import { ListsView } from './lists/ListsView';
 
@@ -97,12 +90,7 @@ export function OrganizeScreen() {
       ) : section === 'chores' ? (
         <ChoresView />
       ) : (
-        <EmptyState
-          testID={`organize-${section}-soon`}
-          icon={Hourglass}
-          title={t('organize.soon')}
-          message={t('organize.soonMessage')}
-        />
+        <BudgetView />
       )}
     </SafeAreaView>
   );

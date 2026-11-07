@@ -292,8 +292,6 @@
       "chores": "Chores",
       "budget": "Budget"
     },
-    "soon": "Coming soon",
-    "soonMessage": "This part is on its way.",
     "people": {
       "me": "Me",
       "us": "Us"
@@ -390,6 +388,53 @@
       "groupEmpty": "Nothing for now",
       "emptyTitle": "No chore this week",
       "emptyMessage": "Add what needs doing at home and simply share it."
+    },
+    "budget": {
+      "partnerOwes": "{{name}} owes you {{amount}}",
+      "iOwe": "You owe {{name}} {{amount}}",
+      "settled": "You’re even",
+      "settle": "Settle up",
+      "settleTitle": "Mark {{amount}} as paid back?",
+      "settleMessage": "The balance will go back to zero for both of you.",
+      "add": "Add an expense",
+      "paidBy": "Paid by {{name}}",
+      "myShare": "Your share {{amount}}",
+      "emptyTitle": "No shared expense",
+      "emptyMessage": "Note a shared expense: the app simply works out who owes how much. No bank link.",
+      "categories": {
+        "groceries": "Groceries",
+        "home": "Home",
+        "outings": "Outings",
+        "travel": "Travel",
+        "gifts": "Gifts",
+        "health": "Health",
+        "other": "Other"
+      },
+      "form": {
+        "newTitle": "New expense",
+        "editTitle": "Edit expense",
+        "titleLabel": "What?",
+        "titlePlaceholder": "Saturday groceries, dinner…",
+        "amountLabel": "Amount ({{currency}})",
+        "categoryLabel": "Category",
+        "paidByLabel": "Who paid?",
+        "splitLabel": "Split",
+        "equal": "50/50",
+        "custom": "Custom",
+        "myShareLabel": "Your share ({{currency}})",
+        "dateLabel": "Date",
+        "create": "Add the expense",
+        "save": "Save",
+        "delete": "Delete expense",
+        "deleteTitle": "Delete this expense?",
+        "deleteMessage": "It will be removed from the balance for both of you.",
+        "saveError": "Saving didn’t go through. Try again in a moment.",
+        "errors": {
+          "titleRequired": "Say what it was.",
+          "amountInvalid": "Enter an amount, e.g. 12.50.",
+          "shareInvalid": "Your share must be between 0 and the amount."
+        }
+      }
     }
   }
 }

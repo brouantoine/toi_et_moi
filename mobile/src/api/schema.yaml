@@ -1006,19 +1006,6 @@ paths:
     get:
       operationId: v1_expenses_balance_list
       description: Who owes how much, per currency. Simple and neutral.
-      parameters:
-      - name: cursor
-        required: false
-        in: query
-        description: La valeur du curseur de pagination.
-        schema:
-          type: string
-      - name: page_size
-        required: false
-        in: query
-        description: Nombre de résultats à retourner par page.
-        schema:
-          type: integer
       tags:
       - v1
       security:
@@ -1028,25 +1015,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedBalanceList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Balance'
           description: ''
   /api/v1/expenses/settle/:
     post:
       operationId: v1_expenses_settle_create
       description: Records the reimbursement of the whole balance in this currency.
-      parameters:
-      - name: cursor
-        required: false
-        in: query
-        description: La valeur du curseur de pagination.
-        schema:
-          type: string
-      - name: page_size
-        required: false
-        in: query
-        description: Nombre de résultats à retourner par page.
-        schema:
-          type: integer
       tags:
       - v1
       requestBody:
@@ -1068,7 +1044,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedBalanceList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Balance'
           description: ''
   /api/v1/health/:
     get:
@@ -2856,25 +2834,6 @@ components:
       required:
       - memory
       - years_ago
-    PaginatedBalanceList:
-      type: object
-      required:
-      - results
-      properties:
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?cursor=cD00ODY%3D"
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Balance'
     PaginatedExpenseList:
       type: object
       required:

@@ -220,3 +220,9 @@
 ## 2026-11-07 — P3.10 Mobile : tâches de la maison
 - Fichiers clés : `mobile/src/features/organize/chores/{ChoresView,useChores}.ts(x)`, tests `organize/__tests__/chores.test.tsx`.
 - Création en ligne (titre, qui s'en charge : Nous / Moi / prénom du partenaire, récurrence). « Qui porte quoi cette semaine » : trois groupes nommés, jamais de total ni de comparaison, une tâche en retard affiche simplement sa date (pas de rouge, pas de « en retard »). « Fait » et suppression instantanés (optimistes, file hors ligne).
+
+## 2026-11-07 — P3.11 Mobile : budget, P3.12 Maestro liste de courses
+- Fichiers clés : `mobile/src/features/organize/budget/{BudgetView,ExpenseFormScreen,expenseForm,money,categories,useBudget}.ts(x)`, routes `src/app/organize/expense/{new,[id]}.tsx`, tests `organize/__tests__/budget.test.tsx`, `.maestro/03_shared_grocery_list.yaml`.
+- Budget : carte de solde en mots (« Tu dois 21,25 € à Sam », « Vous êtes à l'équilibre ») avec « Rembourser » après confirmation, dépenses paginées (catégorie colorée, montant, qui a payé, ta part). Formulaire : montant saisi à la française (« 12,50 »), devises sans centimes gérées (XOF), catégorie, qui a payé, 50/50 ou part personnalisée validée, date ; modification et suppression.
+- Backend : `balance` et `settle` sans pagination (le schéma OpenAPI les décrivait à tort comme paginés).
+- **Phase P3 terminée.**

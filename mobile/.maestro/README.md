@@ -18,6 +18,7 @@ qu'aucun parcours ne référence un `testID` inexistant.
 | Fichier | Ce qu'il vérifie |
 |---|---|
 | `01_signup_couple_partner_joins.yaml` | Inscription, création du couple, le partenaire rejoint avec le code, 5 onglets. |
+| `03_shared_grocery_list.yaml` | Repart du parcours 01, crée une liste de courses, ajoute deux articles, en coche un, retire les cochés. |
 | `02_add_memory_with_photo.yaml` | Repart du parcours 01, dépose `assets/memory.jpg` dans la photothèque (`addMedia`), crée un souvenir avec cette photo, le retrouve dans la frise, ouvre le détail et met un cœur. |
 
 Le sélecteur de photos est celui du système : son interface diffère entre iOS et Android et selon

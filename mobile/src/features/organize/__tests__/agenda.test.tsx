@@ -176,13 +176,6 @@ describe('Organize tab — agenda', () => {
     expect(await screen.findByTestId('agenda-error')).toBeTruthy();
   });
 
-  it('keeps the other sections as "coming soon" for now', async () => {
-    backend();
-    await render(<OrganizeScreen />);
-    await fireEvent.press(screen.getByTestId('organize-section-budget'));
-    expect(screen.getByTestId('organize-budget-soon')).toBeTruthy();
-  });
-
   it('shows an offline banner', async () => {
     backend();
     onlineManager.setOnline(false);

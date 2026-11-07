@@ -61,6 +61,7 @@ function backend(
     });
     if (pathname === '/api/v1/me/') return jsonResponse(me);
     if (pathname === '/api/v1/couple/') return jsonResponse(couple);
+    if (pathname.endsWith('/occurrences/')) return jsonResponse([]);
     if (pathname === '/api/v1/chores/week/') return jsonResponse(state);
     const id = Number(pathname.match(/chores\/(\d+)\//)?.[1]);
     if (id) {

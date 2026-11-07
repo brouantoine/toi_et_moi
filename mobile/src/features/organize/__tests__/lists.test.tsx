@@ -72,6 +72,7 @@ function backend({
     if (pathname === '/api/v1/me/') return jsonResponse(me);
     if (pathname === '/api/v1/couple/') return jsonResponse(couple);
     if (request.method !== 'GET' && failWrites) return jsonResponse({ code: 'server' }, 500);
+    if (pathname.endsWith('/occurrences/')) return jsonResponse([]);
     if (pathname === '/api/v1/lists/' && request.method === 'GET') return jsonResponse(lists);
     if (pathname.endsWith('/items/') && request.method === 'GET') return jsonResponse(state);
     const itemId = Number(pathname.match(/items\/(\d+)\/$/)?.[1]);

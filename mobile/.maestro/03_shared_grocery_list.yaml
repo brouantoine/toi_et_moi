@@ -1,0 +1,73 @@
+# Shared grocery list: create it, add items, tick one, clear ticked items.
+# Starts from flow 01 (fresh couple), so it runs on its own.
+appId: com.changeme.nousdeux
+name: Liste de courses partagée
+---
+- runFlow: 01_signup_couple_partner_joins.yaml
+
+- tapOn:
+    id: "tabbar-organize"
+- extendedWaitUntil:
+    visible:
+      id: "tab-organize"
+    timeout: 15000
+- tapOn:
+    id: "organize-section-lists"
+- extendedWaitUntil:
+    visible:
+      id: "lists-empty"
+    timeout: 15000
+
+# Create the list.
+- tapOn:
+    id: "lists-new-title"
+- inputText: "Courses"
+- tapOn:
+    id: "lists-new-kind-groceries"
+- tapOn:
+    id: "lists-create"
+- extendedWaitUntil:
+    visible:
+      text: "Courses"
+    timeout: 10000
+- tapOn:
+    text: "Courses"
+- extendedWaitUntil:
+    visible:
+      id: "list-screen"
+    timeout: 10000
+
+# Add two items, keeping the keyboard.
+- tapOn:
+    id: "list-add-input"
+- inputText: "Pain"
+- tapOn:
+    id: "list-add"
+- inputText: "Clémentines"
+- tapOn:
+    id: "list-add"
+- hideKeyboard
+- assertVisible:
+    text: "Pain"
+- assertVisible:
+    text: "Clémentines"
+
+# Tick one, then clear ticked items.
+- tapOn:
+    text: "Pain"
+- extendedWaitUntil:
+    visible:
+      id: "list-clear-done"
+    timeout: 10000
+- tapOn:
+    id: "list-clear-done"
+- extendedWaitUntil:
+    notVisible:
+      text: "Pain"
+    timeout: 10000
+- assertVisible:
+    text: "Clémentines"
+- tapOn:
+    id: "list-back"
+- assertVisible:
+    id: "tab-organize"

@@ -1146,19 +1146,6 @@ export interface components {
       years_ago: number;
       memory: components['schemas']['Memory'];
     };
-    PaginatedBalanceList: {
-      /**
-       * Format: uri
-       * @example http://api.example.org/accounts/?cursor=cD00ODY%3D"
-       */
-      next?: string | null;
-      /**
-       * Format: uri
-       * @example http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
-       */
-      previous?: string | null;
-      results: components['schemas']['Balance'][];
-    };
     PaginatedExpenseList: {
       /**
        * Format: uri
@@ -2412,12 +2399,7 @@ export interface operations {
   };
   v1_expenses_balance_list: {
     parameters: {
-      query?: {
-        /** @description La valeur du curseur de pagination. */
-        cursor?: string;
-        /** @description Nombre de résultats à retourner par page. */
-        page_size?: number;
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
@@ -2429,19 +2411,14 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PaginatedBalanceList'];
+          'application/json': components['schemas']['Balance'][];
         };
       };
     };
   };
   v1_expenses_settle_create: {
     parameters: {
-      query?: {
-        /** @description La valeur du curseur de pagination. */
-        cursor?: string;
-        /** @description Nombre de résultats à retourner par page. */
-        page_size?: number;
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
@@ -2459,7 +2436,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['PaginatedBalanceList'];
+          'application/json': components['schemas']['Balance'][];
         };
       };
     };

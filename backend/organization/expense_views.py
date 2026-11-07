@@ -66,13 +66,13 @@ class ExpenseViewSet(CoupleContextMixin, viewsets.ModelViewSet[Expense]):
         return rows
 
     @extend_schema(responses={200: BalanceSerializer(many=True)})
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=["get"], pagination_class=None)
     def balance(self, request: Request) -> Response:
         """Who owes how much, per currency. Simple and neutral."""
         return Response(BalanceSerializer(self._balance_payload(), many=True).data)
 
     @extend_schema(request=SettleSerializer, responses={200: BalanceSerializer(many=True)})
-    @action(detail=False, methods=["post"])
+    @action(detail=False, methods=["post"], pagination_class=None)
     def settle(self, request: Request) -> Response:
         """Records the reimbursement of the whole balance in this currency."""
         payload = SettleSerializer(data=request.data)
