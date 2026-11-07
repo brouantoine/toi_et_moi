@@ -211,3 +211,8 @@
 - Onglet Organisation : en-tête éditorial, pastilles Agenda / Listes / Tâches / Budget (les trois dernières « bientôt » jusqu'à P3.9–P3.11), bandeau hors ligne.
 - Agenda : 90 prochains jours groupés par jour (« Aujourd'hui », « Demain », puis la date), une teinte par type (événement sauge, anniversaire ambre, retrouvailles rouge), heure ou « Journée », lieu, « Chaque année », pour qui (« Moi », prénom du partenaire, « Nous »). Formulaire : titre, type, date, journée entière ou heure, lieu, pour qui, chaque année, rappel ; modification et suppression avec confirmation.
 - À savoir : `useQueuedWrite(invalidateKey)` envoie tout de suite en ligne (erreurs affichées) ou met en file hors ligne (part au retour du réseau, même après redémarrage). Les heures sont envoyées en instants UTC calculés depuis l'heure locale.
+
+## 2026-11-07 — P3.9 Mobile : listes partagées
+- Fichiers clés : `mobile/src/features/organize/lists/{ListsView,ListScreen,useLists}.ts(x)`, route `src/app/organize/list/[id].tsx`, tests `organize/__tests__/lists.test.tsx`.
+- Section Listes : cartes (courses en ambre, libres en lagon) avec « N à faire » / « Tout est fait », création en ligne (titre + type). Écran d'une liste : ajout rapide qui garde le clavier, cases à cocher accessibles (`checkbox`), « Coché par Sam », retrait d'un élément, mode « Réordonner » avec boutons monter/descendre (accessible, sans glisser-déposer), « Retirer les éléments cochés », suppression de la liste avec confirmation.
+- À savoir : toutes les actions sont optimistes (`optimistic`) et passent par `useQueuedWrite` (file hors ligne) ; retour arrière si le serveur refuse. Éléments ajoutés avec un id temporaire négatif, remplacé au rechargement.

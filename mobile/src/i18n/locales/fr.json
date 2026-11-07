@@ -343,6 +343,33 @@
         "titleRequired": "Donne un titre à cet événement."
       }
     },
-    "offline": "Hors ligne : vos changements partiront tout seuls dès le retour du réseau."
+    "offline": "Hors ligne : vos changements partiront tout seuls dès le retour du réseau.",
+    "lists": {
+      "newPlaceholder": "Nouvelle liste…",
+      "create": "Créer la liste",
+      "kinds": {
+        "groceries": "Courses",
+        "free": "Libre"
+      },
+      "open_one": "{{count}} à faire",
+      "open_other": "{{count}} à faire",
+      "allDone": "Tout est fait",
+      "emptyTitle": "Aucune liste pour l’instant",
+      "emptyMessage": "Courses, films à voir, idées de cadeaux : créez votre première liste.",
+      "addItem": "Ajouter un élément",
+      "addPlaceholder": "Ajouter…",
+      "itemsEmpty": "La liste est vide. Ajoutez le premier élément.",
+      "doneBy": "Coché par {{name}}",
+      "reorder": "Réordonner",
+      "reorderDone": "Terminé",
+      "moveUp": "Monter {{text}}",
+      "moveDown": "Descendre {{text}}",
+      "clearDone": "Retirer les éléments cochés",
+      "delete": "Supprimer la liste",
+      "deleteTitle": "Supprimer cette liste ?",
+      "deleteMessage": "Elle disparaîtra pour vous deux, avec tous ses éléments.",
+      "removeItem": "Retirer {{text}}",
+      "back": "Retour"
+    }
   }
 }

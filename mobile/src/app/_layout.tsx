@@ -73,6 +73,7 @@ function GuardedStack() {
           />
           <Stack.Screen name="memories/[id]/index" />
           <Stack.Screen name="memories/new" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="organize/list/[id]" />
           <Stack.Screen name="organize/event/new" options={{ presentation: 'modal' }} />
           <Stack.Screen name="organize/event/[id]" options={{ presentation: 'modal' }} />
           <Stack.Screen name="memories/[id]/edit" options={{ presentation: 'modal' }} />

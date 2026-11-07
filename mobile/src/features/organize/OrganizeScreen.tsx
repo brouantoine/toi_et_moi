@@ -17,6 +17,7 @@ import { useOnline } from '@/api/offline';
 import { Chip, EmptyState, IconButton, Notice, Text, useTheme } from '@/ui';
 
 import { AgendaView } from './agenda/AgendaView';
+import { ListsView } from './lists/ListsView';
 
 type Section = 'agenda' | 'lists' | 'chores' | 'budget';
 const SECTIONS = [
@@ -90,6 +91,8 @@ export function OrganizeScreen() {
       )}
       {section === 'agenda' ? (
         <AgendaView />
+      ) : section === 'lists' ? (
+        <ListsView />
       ) : (
         <EmptyState
           testID={`organize-${section}-soon`}

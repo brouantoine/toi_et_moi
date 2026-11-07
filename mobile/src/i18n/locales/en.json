@@ -343,6 +343,33 @@
         "titleRequired": "Give this event a title."
       }
     },
-    "offline": "Offline: your changes will leave by themselves as soon as the network is back."
+    "offline": "Offline: your changes will leave by themselves as soon as the network is back.",
+    "lists": {
+      "newPlaceholder": "New list…",
+      "create": "Create the list",
+      "kinds": {
+        "groceries": "Groceries",
+        "free": "Free"
+      },
+      "open_one": "{{count}} to do",
+      "open_other": "{{count}} to do",
+      "allDone": "All done",
+      "emptyTitle": "No list yet",
+      "emptyMessage": "Groceries, movies to watch, gift ideas: create your first list.",
+      "addItem": "Add an item",
+      "addPlaceholder": "Add…",
+      "itemsEmpty": "The list is empty. Add the first item.",
+      "doneBy": "Ticked by {{name}}",
+      "reorder": "Reorder",
+      "reorderDone": "Done",
+      "moveUp": "Move {{text}} up",
+      "moveDown": "Move {{text}} down",
+      "clearDone": "Remove ticked items",
+      "delete": "Delete the list",
+      "deleteTitle": "Delete this list?",
+      "deleteMessage": "It will disappear for both of you, with all its items.",
+      "removeItem": "Remove {{text}}",
+      "back": "Back"
+    }
   }
 }
