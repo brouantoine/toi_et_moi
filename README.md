@@ -67,8 +67,8 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 4. **P7 Rêves et épargne.**
 5. **P8 Moments difficiles** : journal privé chiffré, pause, préparer une conversation (option IA), module « Apaiser ».
 6. **P9 Vie privée** : export ZIP, quitter le couple, suppression de compte, pages légales.
-8. **P9b Premium** : abonnement RevenueCat à petit prix, un achat pour le couple, extras uniquement.
-9. **P10 à P12** : finitions (accessibilité, animations, performances, anglais complet), préparation des stores, validation finale.
+7. **P9b Premium** : abonnement RevenueCat à petit prix, un achat pour le couple, extras uniquement.
+8. **P10 à P12** : finitions (accessibilité, animations, performances, anglais complet), préparation des stores, validation finale.
 
 ### Ce qui demande une action humaine
 Comptes Apple et Google, clés (OAuth, push, S3, Pixabay), nom et identifiant définitifs, déploiement du serveur, relecture juridique, icône par un designer, tests sur vrais téléphones. La liste détaillée, commandes comprises, est dans [`docs/HUMAN_TODO.md`](docs/HUMAN_TODO.md).
