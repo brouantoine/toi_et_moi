@@ -370,6 +370,26 @@
       "deleteMessage": "It will disappear for both of you, with all its items.",
       "removeItem": "Remove {{text}}",
       "back": "Back"
+    },
+    "chores": {
+      "weekTitle": "Who carries what this week",
+      "weekHint": "A simple split, no counting.",
+      "newPlaceholder": "New chore…",
+      "create": "Add the chore",
+      "assigneeLabel": "Who takes it?",
+      "recurrences": {
+        "none": "Once",
+        "daily": "Every day",
+        "weekly": "Every week",
+        "monthly": "Every month"
+      },
+      "noDate": "No date",
+      "due": "For {{date}}",
+      "complete": "Mark “{{title}}” as done",
+      "remove": "Delete “{{title}}”",
+      "groupEmpty": "Nothing for now",
+      "emptyTitle": "No chore this week",
+      "emptyMessage": "Add what needs doing at home and simply share it."
     }
   }
 }

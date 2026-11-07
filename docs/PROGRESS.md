@@ -216,3 +216,7 @@
 - Fichiers clés : `mobile/src/features/organize/lists/{ListsView,ListScreen,useLists}.ts(x)`, route `src/app/organize/list/[id].tsx`, tests `organize/__tests__/lists.test.tsx`.
 - Section Listes : cartes (courses en ambre, libres en lagon) avec « N à faire » / « Tout est fait », création en ligne (titre + type). Écran d'une liste : ajout rapide qui garde le clavier, cases à cocher accessibles (`checkbox`), « Coché par Sam », retrait d'un élément, mode « Réordonner » avec boutons monter/descendre (accessible, sans glisser-déposer), « Retirer les éléments cochés », suppression de la liste avec confirmation.
 - À savoir : toutes les actions sont optimistes (`optimistic`) et passent par `useQueuedWrite` (file hors ligne) ; retour arrière si le serveur refuse. Éléments ajoutés avec un id temporaire négatif, remplacé au rechargement.
+
+## 2026-11-07 — P3.10 Mobile : tâches de la maison
+- Fichiers clés : `mobile/src/features/organize/chores/{ChoresView,useChores}.ts(x)`, tests `organize/__tests__/chores.test.tsx`.
+- Création en ligne (titre, qui s'en charge : Nous / Moi / prénom du partenaire, récurrence). « Qui porte quoi cette semaine » : trois groupes nommés, jamais de total ni de comparaison, une tâche en retard affiche simplement sa date (pas de rouge, pas de « en retard »). « Fait » et suppression instantanés (optimistes, file hors ligne).

@@ -370,6 +370,26 @@
       "deleteMessage": "Elle disparaîtra pour vous deux, avec tous ses éléments.",
       "removeItem": "Retirer {{text}}",
       "back": "Retour"
+    },
+    "chores": {
+      "weekTitle": "Qui porte quoi cette semaine",
+      "weekHint": "Une simple répartition, sans compter.",
+      "newPlaceholder": "Nouvelle tâche…",
+      "create": "Ajouter la tâche",
+      "assigneeLabel": "Qui s’en charge ?",
+      "recurrences": {
+        "none": "Une fois",
+        "daily": "Chaque jour",
+        "weekly": "Chaque semaine",
+        "monthly": "Chaque mois"
+      },
+      "noDate": "Sans date",
+      "due": "Pour {{date}}",
+      "complete": "Marquer « {{title}} » comme fait",
+      "remove": "Supprimer « {{title}} »",
+      "groupEmpty": "Rien pour l’instant",
+      "emptyTitle": "Aucune tâche cette semaine",
+      "emptyMessage": "Ajoutez ce qui est à faire à la maison et partagez-le simplement."
     }
   }
 }

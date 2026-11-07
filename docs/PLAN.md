@@ -54,7 +54,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] P3.7 — Mobile : client WebSocket (reconnexion, invalidation de requêtes) — tests — dépend de : P3.5, P3.6
 - [x] P3.8 — Mobile : agenda — tests états vide/chargement/erreur — dépend de : P3.7
 - [x] P3.9 — Mobile : listes (cocher, réordonner, plusieurs listes) — tests — dépend de : P3.7
-- [ ] P3.10 — Mobile : tâches + répartition de la semaine — tests — dépend de : P3.7
+- [x] P3.10 — Mobile : tâches + répartition de la semaine — tests — dépend de : P3.7
 - [ ] P3.11 — Mobile : budget (dépenses, solde, rembourser) — tests — dépend de : P3.7
 - [ ] P3.12 — Maestro : liste de courses partagée — dépend de : P3.9
 
