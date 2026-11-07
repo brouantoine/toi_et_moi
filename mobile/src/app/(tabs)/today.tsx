@@ -1,6 +1,3 @@
-import { TabPlaceholder } from '@/features/shell/TabPlaceholder';
-import { Sun } from 'lucide-react-native';
+import { TodayScreen } from '@/features/today/TodayScreen';
 
-export default function TodayTab() {
-  return <TabPlaceholder icon={Sun} tab="today" />;
-}
+export default TodayScreen;

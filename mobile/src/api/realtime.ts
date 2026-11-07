@@ -7,7 +7,7 @@ import type { QueryKey } from '@tanstack/react-query';
 
 export type ChangedEvent = {
   type: 'changed';
-  resource: 'events' | 'lists' | 'list_items' | 'chores' | 'expenses' | string;
+  resource: 'events' | 'lists' | 'list_items' | 'chores' | 'expenses' | 'morning' | string;
   id: number;
   action: 'upsert' | 'delete' | 'reorder' | string;
   list_id?: number;
@@ -25,6 +25,8 @@ export function invalidationKeysFor(event: ChangedEvent): QueryKey[] {
       return [['chores']];
     case 'expenses':
       return [['expenses']];
+    case 'morning':
+      return [['morning']];
     default:
       return [];
   }

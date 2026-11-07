@@ -10,12 +10,12 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 
 ## État d'avancement (au 3 novembre 2026)
 
-**46 tâches terminées sur 136** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
+**53 tâches terminées sur 138** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
 
 | Côté | Tests | Contrôles |
 |---|---|---|
 | Backend (Django) | 216 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
-| Mobile (Expo) | 462 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
+| Mobile (Expo) | 502 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
 
 ### Phases
 
@@ -26,8 +26,8 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 | P2 | Souvenirs : frise, création avec photos, détail, cœur, commentaires, « il y a N ans » | Terminé |
 | P3 | Organisation : agenda, listes, tâches, budget, temps réel, hors ligne | Terminé |
 | P4 | Se connaître : question du jour, « À retenir », jeux de correspondance, envies communes, quiz, langages de l'amour, cartes de conversation | À faire (0/19) |
-| P5 | Notifications, heures calmes | À faire (0/6) |
-| P6 | Rituels et présence : check-in, idées de sorties, « Je pense à toi », distance, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget | À faire (0/17) |
+| P5 | Notifications, heures calmes | En grande partie (4/6) : souvenir du jour et rappels à faire |
+| P6 | Rituels et présence : **météo du matin** (faite), check-in, idées de sorties, « Je pense à toi », distance, « ensemble depuis », lettres à ouvrir plus tard, widget | En cours |
 | P7 | Rêves et épargne | À faire (0/4) |
 | P8 | Moments difficiles : journal privé chiffré, pause, préparer une conversation, module « Apaiser » (température, gestes de réparation, nos règles) | À faire (0/11) |
 | P9 | Vie privée : export, quitter le couple, suppression de compte, pages légales | À faire (0/7) |
@@ -58,12 +58,14 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 - Onglet Organisation : agenda (90 jours, par jour, une teinte par type), listes partagées (cocher instantané, « coché par Sam », réordonner accessible), tâches « qui porte quoi cette semaine », budget (solde en mots, rembourser, dépenses 50/50 ou personnalisées).
 - Hors ligne : les modifications sont mises en file et partent seules au retour du réseau, même après un redémarrage ; synchronisation temps réel avec reconnexion automatique.
 - Client API typé généré depuis le schéma OpenAPI, cache hors ligne persistant, jetons dans le trousseau sécurisé.
+- **Météo du matin** : chaque matin à l'heure choisie, « Bonjour Antoine, comment tu te sens ce matin ? » (réponse directe depuis la notification) ; Grande joie, Bonne humeur, Contrariété, Énervement, + besoin (espace, câlin, aide, écoute) ; l'autre est prévenu aussitôt avec un conseil court « comment lui parler » et répond en un geste. Aucun rappel, aucun historique.
+- Notifications : permission demandée au bon moment, réglages par type, heure du matin, mode discret, heures calmes.
 - Parcours E2E Maestro : inscription → couple ; ajouter un souvenir avec photo ; liste de courses partagée.
 
 ### Ce qui reste à faire (90 tâches, voir `docs/PLAN.md`)
 1. **P4 Se connaître** : question du jour (365 questions fr+en), « À retenir sur l'autre », jeux de correspondance « Notre futur » (photos Pixabay), envies communes, quiz, langages de l'amour, cartes de conversation.
-2. **P5 Notifications** : push, préférences, heures calmes, souvenir du jour.
-3. **P6 Rituels** : check-in hebdo, 150 idées de sorties, « Je pense à toi », heure de l'autre et retrouvailles, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget d'écran d'accueil.
+2. **P5 Notifications** (fin) : souvenir du jour, rappels d'agenda et de tâches.
+3. **P6 Rituels** : check-in hebdo, 150 idées de sorties, « Je pense à toi », heure de l'autre et retrouvailles, « ensemble depuis », lettres à ouvrir plus tard, widget d'écran d'accueil (avec la météo du matin).
 4. **P7 Rêves et épargne.**
 5. **P8 Moments difficiles** : journal privé chiffré, pause, préparer une conversation (option IA), module « Apaiser ».
 6. **P9 Vie privée** : export ZIP, quitter le couple, suppression de compte, pages légales.
