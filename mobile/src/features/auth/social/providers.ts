@@ -2,7 +2,6 @@
  * Native identity providers. Each returns the provider identity token (verified by
  * our backend), or null when the user cancelled. Nothing here is trusted client-side.
  */
-import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { Platform } from 'react-native';
@@ -13,8 +12,23 @@ export type SocialCredentials = { idToken: string; nonce?: string; firstName: st
 const googleWebClientId = (): string => process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? '';
 const googleIosClientId = (): string => process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID ?? '';
 
+type GoogleModule = typeof import('@react-native-google-signin/google-signin');
+
+/**
+ * Loaded on demand: the native module is absent from Expo Go (and from builds without
+ * the config plugin), where a top-level import would crash the whole app at launch.
+ */
+function loadGoogle(): GoogleModule | null {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    return require('@react-native-google-signin/google-signin') as GoogleModule;
+  } catch {
+    return null;
+  }
+}
+
 export function isGoogleConfigured(): boolean {
-  return googleWebClientId().length > 0;
+  return googleWebClientId().length > 0 && loadGoogle() !== null;
 }
 
 export async function isAppleAvailable(): Promise<boolean> {
@@ -63,6 +77,9 @@ export async function signInWithApple(): Promise<SocialCredentials | null> {
 let googleConfigured = false;
 
 export async function signInWithGoogle(): Promise<SocialCredentials | null> {
+  const google = loadGoogle();
+  if (!google) return null;
+  const { GoogleSignin, isSuccessResponse } = google;
   if (!googleConfigured) {
     GoogleSignin.configure({
       webClientId: googleWebClientId(),

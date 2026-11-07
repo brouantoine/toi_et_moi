@@ -248,3 +248,8 @@
 - Fichiers clés : `mobile/src/features/today/{TodayScreen,MorningCards,useMorning,moods}.ts(x)`, route `src/app/(tabs)/today.tsx`, tests `today/__tests__/today.test.tsx` ; backend `rituals/signals.py` (temps réel `morning`).
 - Onglet Aujourd'hui : date, proposition douce d'activer les notifications, « Bonjour Antoine / Comment tu te sens ce matin ? » avec 4 grandes tuiles d'humeur colorées (groupe radio accessible, haptique), puis besoin facultatif, réponses reçues (« Sam : Je suis là »), « Retirer ». Carte de l'autre : sa météo et son besoin, conseil « comment lui parler » (besoin sinon humeur), 4 réponses en un geste, limite expliquée ; si rien n'est partagé : « Sam n'a pas encore partagé sa météo. Aucune obligation. ». Mise à jour instantanée sur les deux téléphones.
 - Réponse directe depuis la notification : faite en P5.5/P5.6 (boutons `morning_mood` et `partner_mood`).
+
+## 2026-11-07 — Essai sur téléphone avec Expo Go
+- Connexion Google chargée à la demande (`features/auth/social/providers.ts`) : le module natif est absent d'Expo Go, un import en tête de fichier faisait planter l'app au lancement ; sans module, le bouton Google est masqué.
+- Mode serveur léger pour essayer sans Docker : `DJANGO_LOCAL_LITE=1` (`config/settings/dev.py`) → temps réel en mémoire, tâches Celery exécutées tout de suite.
+- Lancer un essai : `cd backend && DJANGO_LOCAL_LITE=1 .venv/bin/python manage.py runserver 0.0.0.0:8010`, puis `cd mobile && EXPO_PUBLIC_API_URL=http://<IP du PC>:8010 npx expo start --lan --go` et scanner le QR avec Expo Go (même Wi-Fi). Limites : pas d'envoi de photos sans MinIO, pas de notifications push dans Expo Go (Android) ni sans projet EAS.
