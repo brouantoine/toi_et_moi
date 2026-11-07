@@ -10,12 +10,12 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 
 ## État d'avancement (au 3 novembre 2026)
 
-**38 tâches terminées sur 129** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
+**46 tâches terminées sur 136** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
 
 | Côté | Tests | Contrôles |
 |---|---|---|
-| Backend (Django) | 209 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
-| Mobile (Expo) | 368 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
+| Backend (Django) | 216 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
+| Mobile (Expo) | 462 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
 
 ### Phases
 
@@ -24,13 +24,14 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 | P0 | Bootstrap : dépôt, Django, Expo, CI, docker-compose, docs | Terminé |
 | P1 | Comptes et couple : inscription, connexion, Apple/Google, invitation par code, 5 onglets, onboarding, profil | Terminé |
 | P2 | Souvenirs : frise, création avec photos, détail, cœur, commentaires, « il y a N ans » | Terminé |
-| P3 | Organisation : agenda, listes, tâches, budget, temps réel, hors ligne | **En cours** : API terminées (4/12), écrans mobiles à faire |
+| P3 | Organisation : agenda, listes, tâches, budget, temps réel, hors ligne | Terminé |
 | P4 | Se connaître : question du jour, « À retenir », jeux de correspondance, envies communes, quiz, langages de l'amour, cartes de conversation | À faire (0/19) |
 | P5 | Notifications, heures calmes | À faire (0/6) |
 | P6 | Rituels et présence : check-in, idées de sorties, « Je pense à toi », distance, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget | À faire (0/17) |
 | P7 | Rêves et épargne | À faire (0/4) |
 | P8 | Moments difficiles : journal privé chiffré, pause, préparer une conversation, module « Apaiser » (température, gestes de réparation, nos règles) | À faire (0/11) |
 | P9 | Vie privée : export, quitter le couple, suppression de compte, pages légales | À faire (0/7) |
+| P9b | Offre Premium : abonnement à petit prix, un achat pour le couple (photos illimitées, paquets de jeux, livre de souvenirs PDF, thèmes) | À faire (0/7) |
 | P10 | Finitions : accessibilité, mode sombre, animations, performances, traduction | À faire (0/6) |
 | P11 | Préparation des stores, compte de démo, documentation | À faire (0/7) |
 | P12 | Validation finale | À faire (0/6) |
@@ -47,24 +48,27 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 - Cloisonnement : un mécanisme unique et testé filtre toutes les données par couple (et par auteur pour le privé). Un étranger reçoit toujours 404.
 - Souvenirs : CRUD, filtres, recherche plein texte, jusqu'à 10 photos (upload direct S3 présigné, miniatures Celery), un cœur sans compteur, commentaires, « il y a N ans » dans le fuseau de chacun, photo de profil et de couple.
 - Organisation : agenda (événements, anniversaires annuels, retrouvailles, « pour moi / toi / nous »), listes cochables et réordonnables, tâches de la maison récurrentes avec une vue « qui porte quoi » sans aucun score, budget en centimes avec partage 50/50 ou personnalisé, solde par devise et remboursement en un geste.
+- Temps réel : WebSocket par couple (authentifié par premier message), les deux téléphones se mettent à jour instantanément.
 
 **Mobile** (`mobile/`, Expo SDK 58, Expo Router, TypeScript strict)
 - Accueil en 3 écrans, écran de bienvenue, inscription, connexion, mot de passe oublié, Apple et Google.
 - Formation du couple : créer, partager le code, rejoindre par code ou par lien.
 - Navigation à 5 onglets avec gardes de route. Profil et infos du couple.
 - Souvenirs : frise par mois avec rail de dates, recherche et filtres ; création et édition avec photos (compression, envoi direct, reprise des échecs sans doublon) ; détail avec photos plein écran, cœur, petits mots, suppression.
+- Onglet Organisation : agenda (90 jours, par jour, une teinte par type), listes partagées (cocher instantané, « coché par Sam », réordonner accessible), tâches « qui porte quoi cette semaine », budget (solde en mots, rembourser, dépenses 50/50 ou personnalisées).
+- Hors ligne : les modifications sont mises en file et partent seules au retour du réseau, même après un redémarrage ; synchronisation temps réel avec reconnexion automatique.
 - Client API typé généré depuis le schéma OpenAPI, cache hors ligne persistant, jetons dans le trousseau sécurisé.
-- Parcours E2E Maestro : inscription → couple ; ajouter un souvenir avec photo.
+- Parcours E2E Maestro : inscription → couple ; ajouter un souvenir avec photo ; liste de courses partagée.
 
-### Ce qui reste à faire (91 tâches, voir `docs/PLAN.md`)
-1. **P3 Organisation** : temps réel entre les deux téléphones (WebSocket), mode hors ligne, écrans agenda, listes, tâches et budget.
-2. **P4 Se connaître** : question du jour (365 questions fr+en), « À retenir sur l'autre », jeux de correspondance « Notre futur » (photos Pixabay), envies communes, quiz, langages de l'amour, cartes de conversation.
-3. **P5 Notifications** : push, préférences, heures calmes, souvenir du jour.
-4. **P6 Rituels** : check-in hebdo, 150 idées de sorties, « Je pense à toi », heure de l'autre et retrouvailles, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget d'écran d'accueil.
-5. **P7 Rêves et épargne.**
-6. **P8 Moments difficiles** : journal privé chiffré, pause, préparer une conversation (option IA), module « Apaiser ».
-7. **P9 Vie privée** : export ZIP, quitter le couple, suppression de compte, pages légales.
-8. **P10 à P12** : finitions (accessibilité, animations, performances, anglais complet), préparation des stores, validation finale.
+### Ce qui reste à faire (90 tâches, voir `docs/PLAN.md`)
+1. **P4 Se connaître** : question du jour (365 questions fr+en), « À retenir sur l'autre », jeux de correspondance « Notre futur » (photos Pixabay), envies communes, quiz, langages de l'amour, cartes de conversation.
+2. **P5 Notifications** : push, préférences, heures calmes, souvenir du jour.
+3. **P6 Rituels** : check-in hebdo, 150 idées de sorties, « Je pense à toi », heure de l'autre et retrouvailles, « ensemble depuis », humeur du jour, lettres à ouvrir plus tard, widget d'écran d'accueil.
+4. **P7 Rêves et épargne.**
+5. **P8 Moments difficiles** : journal privé chiffré, pause, préparer une conversation (option IA), module « Apaiser ».
+6. **P9 Vie privée** : export ZIP, quitter le couple, suppression de compte, pages légales.
+8. **P9b Premium** : abonnement RevenueCat à petit prix, un achat pour le couple, extras uniquement.
+9. **P10 à P12** : finitions (accessibilité, animations, performances, anglais complet), préparation des stores, validation finale.
 
 ### Ce qui demande une action humaine
 Comptes Apple et Google, clés (OAuth, push, S3, Pixabay), nom et identifiant définitifs, déploiement du serveur, relecture juridique, icône par un designer, tests sur vrais téléphones. La liste détaillée, commandes comprises, est dans [`docs/HUMAN_TODO.md`](docs/HUMAN_TODO.md).
