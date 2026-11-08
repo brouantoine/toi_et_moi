@@ -102,7 +102,7 @@ export function CoupleSetupScreen() {
   if (couple.isPending) return <LoadingState testID="couple-loading" />;
   if (couple.isError) {
     const code = couple.error instanceof ApiError ? couple.error.code : 'network';
-    return <ErrorState code={code} onRetry={() => void couple.refetch()} />;
+    return <ErrorState code={code} error={couple.error} onRetry={() => void couple.refetch()} />;
   }
 
   if (couple.data?.status === 'active') {
