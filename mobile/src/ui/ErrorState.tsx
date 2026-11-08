@@ -2,6 +2,8 @@ import { CloudOff, RotateCcw } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
+import { devDetail } from '@/api/errors';
+
 import { Button } from './Button';
 import { Medallion } from './Medallion';
 import { Text } from './Text';
@@ -16,19 +18,13 @@ type Props = {
   testID?: string;
 };
 
-function technicalDetail(error: unknown): string | null {
-  if (!__DEV__ || error === undefined || error === null) return null;
-  if (error instanceof Error) return `${error.name}: ${error.message}`;
-  return String(error);
-}
-
 const KNOWN = ['network', 'server', 'not_found', 'throttled', 'unauthorized'];
 
 export function ErrorState({ code, onRetry, error, testID }: Props) {
   const { t } = useTranslation();
   const { spacing } = useTheme();
   const key = code && KNOWN.includes(code) ? code : 'generic';
-  const detail = technicalDetail(error);
+  const detail = devDetail(error);
   return (
     <View testID={testID} accessibilityRole="alert" style={[styles.root, { padding: spacing.xl }]}>
       <Medallion icon={CloudOff} tone="neutral" />

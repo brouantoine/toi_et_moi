@@ -33,3 +33,11 @@ export function unwrap<T>(result: Result<T>): T {
   }
   return result.data as T;
 }
+
+/** Technical cause of an error, for development builds only (null in production). */
+export function devDetail(error: unknown): string | null {
+  if (!__DEV__ || error === undefined || error === null) return null;
+  if (error instanceof ApiError) return `ApiError ${error.status} ${error.code}`;
+  if (error instanceof Error) return `${error.name}: ${error.message}`;
+  return String(error);
+}

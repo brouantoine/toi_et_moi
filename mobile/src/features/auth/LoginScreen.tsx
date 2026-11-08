@@ -3,7 +3,7 @@ import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { ApiError } from '@/api';
+import { ApiError, devDetail } from '@/api';
 import { Button, Screen, Text } from '@/ui';
 
 import { FormField } from './FormField';
@@ -27,6 +27,8 @@ export function LoginScreen() {
             defaultValue: t('errors.generic'),
           })
         : null;
+  const badCredentials = login.error instanceof ApiError && login.error.status === 401;
+  const detail = login.error && !badCredentials ? devDetail(login.error) : null;
 
   return (
     <Screen testID="login-screen">
@@ -53,6 +55,7 @@ export function LoginScreen() {
       {serverError ? (
         <Text accessibilityRole="alert" testID="login-error">
           {serverError}
+          {detail ? `\n${detail}` : ''}
         </Text>
       ) : null}
       <Button
