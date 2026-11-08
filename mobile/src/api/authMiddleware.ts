@@ -52,6 +52,25 @@ export function refreshOnce(baseUrl: string): Promise<Tokens | null> {
   return refreshing;
 }
 
+/** What any fetch implementation returns, whatever its class. */
+type ResponseLike = {
+  status: number;
+  statusText: string;
+  headers: { forEach: (callback: (value: string, key: string) => void) => void };
+  text: () => Promise<string>;
+};
+
+/** Rebuilds a response as the global `Response` class openapi-fetch checks against. */
+export async function asResponse(response: ResponseLike): Promise<Response> {
+  if (response instanceof Response) return response;
+  const headers: Record<string, string> = {};
+  response.headers.forEach((value, key) => {
+    headers[key] = value;
+  });
+  const body = response.status === 204 || response.status === 304 ? null : await response.text();
+  return new Response(body, { status: response.status, statusText: response.statusText, headers });
+}
+
 export function authMiddleware(baseUrl: string): Middleware {
   return {
     onRequest({ request }) {
@@ -61,17 +80,20 @@ export function authMiddleware(baseUrl: string): Middleware {
       originals.set(request, request.clone());
       return request;
     },
+    // Return nothing when the response is unchanged: openapi-fetch requires a returned
+    // value to be `instanceof Response`, and on a phone (React Native) the network
+    // response is another Response class, which made every sign-in fail.
     async onResponse({ request, response }) {
-      if (response.status !== 401 || isPublic(request.url)) return response;
+      if (response.status !== 401 || isPublic(request.url)) return undefined;
       const original = originals.get(request);
       const tokens = await refreshOnce(baseUrl);
       if (!tokens || !original) {
         await useAuthStore.getState().signOut();
-        return response;
+        return undefined;
       }
       const retry = original.clone();
       retry.headers.set('Authorization', `Bearer ${tokens.access}`);
-      return fetch(retry);
+      return asResponse(await fetch(retry));
     },
   };
 }

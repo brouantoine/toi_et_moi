@@ -86,3 +86,49 @@ it('signs out when the refresh request fails on the network', async () => {
   await client().GET('/api/v1/me/');
   expect(useAuthStore.getState().status).toBe('signedOut');
 });
+
+/**
+ * On a phone, React Native's fetch returns its own Response class: not `instanceof` the
+ * global one openapi-fetch checks. Reproduced here with a look-alike object.
+ */
+function foreign(real: Response): Response {
+  const lookAlike = {
+    status: real.status,
+    statusText: real.statusText,
+    ok: real.ok,
+    headers: real.headers,
+    body: real.body,
+    bodyUsed: false,
+    json: () => real.json(),
+    text: () => real.text(),
+    blob: () => real.blob(),
+    clone: () => foreign(real.clone()),
+  };
+  return lookAlike as unknown as Response;
+}
+
+describe('with React Native responses (not instanceof Response)', () => {
+  it('signs in: a public request whose response is not modified', async () => {
+    fetchMock.mockResolvedValueOnce(foreign(json({ access: 'a', refresh: 'r' })));
+    const result = await client().POST('/api/v1/auth/token/', {
+      body: { email: 'lea@example.com', password: 'x' },
+    });
+    expect(result.data).toEqual({ access: 'a', refresh: 'r' });
+  });
+
+  it('reads an authenticated request', async () => {
+    fetchMock.mockResolvedValueOnce(foreign(json({ id: 1 })));
+    const result = await client().GET('/api/v1/me/');
+    expect(result.data).toEqual({ id: 1 });
+  });
+
+  it('refreshes on 401 and replays, returning a proper Response', async () => {
+    fetchMock
+      .mockResolvedValueOnce(foreign(json({ detail: 'expired' }, 401)))
+      .mockResolvedValueOnce(foreign(json({ access: 'new-access', refresh: 'new-refresh' })))
+      .mockResolvedValueOnce(foreign(json({ id: 1 })));
+    const result = await client().GET('/api/v1/me/');
+    expect(result.data).toEqual({ id: 1 });
+    expect(authHeader(fetchMock.mock.calls[2]![0])).toBe('Bearer new-access');
+  });
+});

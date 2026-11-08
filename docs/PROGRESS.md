@@ -253,3 +253,8 @@
 - Connexion Google chargée à la demande (`features/auth/social/providers.ts`) : le module natif est absent d'Expo Go, un import en tête de fichier faisait planter l'app au lancement ; sans module, le bouton Google est masqué.
 - Mode serveur léger pour essayer sans Docker : `DJANGO_LOCAL_LITE=1` (`config/settings/dev.py`) → temps réel en mémoire, tâches Celery exécutées tout de suite.
 - Lancer un essai : `cd backend && DJANGO_LOCAL_LITE=1 .venv/bin/python manage.py runserver 0.0.0.0:8010`, puis `cd mobile && EXPO_PUBLIC_API_URL=http://<IP du PC>:8010 npx expo start --lan --go` et scanner le QR avec Expo Go (même Wi-Fi). Limites : pas d'envoi de photos sans MinIO, pas de notifications push dans Expo Go (Android) ni sans projet EAS.
+
+## 2026-11-08 — Correctif : connexion impossible sur téléphone
+- Symptôme (essai sur iPhone avec Expo Go) : « Pas de connexion » après chaque connexion, alors que le serveur répondait 200. Cause trouvée grâce au détail d'erreur affiché en développement : `onResponse: must return new Response() when modifying the response`. Le middleware d'authentification renvoyait la réponse telle quelle ; `openapi-fetch` exige alors qu'elle soit `instanceof Response`, ce qui est vrai sous Jest mais faux sous React Native (autre classe de Response).
+- Correctif (`mobile/src/api/authMiddleware.ts`) : ne rien renvoyer quand la réponse n'est pas modifiée ; la réponse rejouée après rafraîchissement du jeton est reconstruite en `Response` global (`asResponse`). Tests qui reproduisent une réponse « d'une autre classe ».
+- Aussi : détail technique des erreurs visible en développement seulement (écran d'erreur, écran de connexion, terminal Expo).
