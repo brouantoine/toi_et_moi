@@ -1,6 +1,6 @@
 # CLAUDE.md — Nous Deux
 
-Boucle autonome : lire `PROMPT.md` (ne jamais le modifier), puis `docs/PLAN.md`, `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/BLOCKERS.md`.
+Boucle autonome : lire `PROMPT.md` (ne le modifier que sur demande explicite de l'utilisateur, tracée dans DECISIONS.md), puis `docs/PLAN.md`, `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/BLOCKERS.md`.
 
 ## Commandes (Windows PowerShell — `make` absent ; sinon voir `Makefile`)
 PATH à recharger dans chaque shell : `$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')`

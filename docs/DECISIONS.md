@@ -67,3 +67,8 @@ Format : date — choix — raison — alternative écartée.
 - IA partagée : contrairement à la reformulation (texte jamais stocké, PROMPT.md), un fil commun doit être conservé pour être vu par les deux. Il est chiffré (FIELD_ENCRYPTION_KEYS), activé seulement si les deux acceptent, supprimable à tout moment, jamais utilisé pour autre chose. Modèle configurable (défaut claude-sonnet-5-5), clé ANTHROPIC_API_KEY.
 - Messagerie « remplace WhatsApp » : toutes les fonctions sauf accusés de lecture, « en train d'écrire » et statut en ligne, interdits par PROMPT.md.
 - Capture fournie : on reprend la mise en page (avatars + distance, cartes d'activités, onglets flottants), jamais la marque, et pas la série de jours (🔥).
+
+## 2026-11-09 — Géolocalisation autorisée (PROMPT.md modifié à la demande de l'utilisateur)
+- L'utilisateur demande une distance calculée à partir des vraies positions et le retrait de l'interdiction de géolocalisation. PROMPT.md est modifié : la géolocalisation est permise pour la distance seulement, avec conditions acceptées par chacun, lecture au premier plan uniquement, seule la distance (et la ville) montrée à l'autre, désactivation immédiate. « Vu à » et accusés de lecture restent interdits.
+- IA du couple : aucun échange privé. Elle répond seulement dans le fil partagé, visible par les deux (remplace « recueillir la version de chacun en privé »).
+- Barre d'onglets : icônes de la capture (maison, cartes empilées, cœur, cloche, profil), sans libellés visibles.
