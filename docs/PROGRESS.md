@@ -268,3 +268,8 @@
 - Fichiers clés : `mobile/src/ui/motion.tsx` (`FadeIn`, `usePop`, `Celebration`), tests `ui/__tests__/motion.test.tsx`.
 - Aujourd'hui : cartes qui arrivent l'une après l'autre ; gerbe de confettis aux couleurs de l'app sur l'en-tête le jour d'un jalon ; la tuile d'humeur choisie rebondit ; une gerbe salue une réponse de l'autre arrivée pendant que l'écran est ouvert. Souvenir : le cœur rebondit quand on le donne.
 - À savoir : API Animated de React Native (pilote natif), sans nouvelle dépendance ; tout est immobile si « réduire les animations » est activé ; les confettis sont masqués au lecteur d'écran et ne captent pas le toucher.
+
+## 2026-11-09 — PV.3 Messages (API)
+- Fichiers clés : `backend/messaging/{models,services,messages,serializers,views,urls,signals}.py`, `messaging/tests/test_messages.py`, `core/storage.py` (formats audio m4a/aac/mp3, 10 Mo, `presign_upload` générique), `notifications/models.py` (type `messages`).
+- Endpoints : `GET/POST /api/v1/messages/` (curseur, plus récents d'abord, 40 par page ; envoi `{kind: text|photo|voice, text, media_key, duration_ms, width, height}`), `DELETE /api/v1/messages/<id>/` (auteur seulement, fichier réellement effacé), `POST /api/v1/messages/upload-url/` (`{content_type}` image ou audio).
+- À savoir : aucun champ de lecture (ni lu, ni vu, ni remis), aucun « en train d'écrire », aucun statut en ligne. Fichier vérifié : dans l'espace du couple, bon type selon le message, réellement envoyé, jamais réutilisé. Notification au partenaire (aperçu du texte, ou « t'a envoyé une note vocale / une photo », ou « t'a écrit » en mode discret), préférence `messages`, heures calmes. Limite d'envoi 60/min. Temps réel : ressource `messages`.

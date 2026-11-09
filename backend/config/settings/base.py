@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "organization",
     "notifications",
     "rituals",
+    "messaging",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -138,6 +139,7 @@ REST_FRAMEWORK = {
         "user": env_str("THROTTLE_USER", "600/min"),
         "auth": env_str("THROTTLE_AUTH", "10/min"),
         "join": env_str("THROTTLE_JOIN", "10/min"),
+        "messages": env_str("THROTTLE_MESSAGES", "60/min"),
     },
     "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
@@ -164,6 +166,7 @@ SPECTACULAR_SETTINGS = {
         "MoodEnum": "rituals.models.Mood",
         "NeedEnum": "rituals.models.Need",
         "MoodReplyEnum": "rituals.models.Reply",
+        "MessageKindEnum": "messaging.models.MessageKind",
     },
 }
 

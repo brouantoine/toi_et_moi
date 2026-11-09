@@ -24,7 +24,15 @@ ALLOWED_IMAGE_TYPES: dict[str, str] = {
     "image/webp": "webp",
     "image/heic": "heic",
 }
+ALLOWED_AUDIO_TYPES: dict[str, str] = {
+    "audio/mp4": "m4a",
+    "audio/x-m4a": "m4a",
+    "audio/m4a": "m4a",
+    "audio/aac": "aac",
+    "audio/mpeg": "mp3",
+}
 MAX_IMAGE_BYTES = 15 * 1024 * 1024
+MAX_AUDIO_BYTES = 10 * 1024 * 1024
 UPLOAD_URL_TTL_SECONDS = 15 * 60
 
 
@@ -55,11 +63,18 @@ def _s3_client() -> Any:
     )
 
 
-def build_key(*, owner: str, owner_id: int, kind: str, content_type: str) -> str:
+def build_key(
+    *,
+    owner: str,
+    owner_id: int,
+    kind: str,
+    content_type: str,
+    allowed: dict[str, str] = ALLOWED_IMAGE_TYPES,
+) -> str:
     """e.g. couples/12/memories/9f1c...e2.jpg (owner: "couples" or "users")."""
     if owner not in {"couples", "users"}:
         raise ValueError(f"unknown owner {owner}")
-    extension = ALLOWED_IMAGE_TYPES.get(content_type)
+    extension = allowed.get(content_type)
     if extension is None:
         raise StorageError("unsupported_type")
     return f"{owner}/{owner_id}/{kind}/{uuid.uuid4().hex}.{extension}"
@@ -74,7 +89,29 @@ def key_belongs_to(key: str, *, owner: str, owner_id: int, kind: str) -> bool:
 def presign_image_upload(
     *, owner: str, owner_id: int, kind: str, content_type: str, max_bytes: int = MAX_IMAGE_BYTES
 ) -> UploadTicket:
-    key = build_key(owner=owner, owner_id=owner_id, kind=kind, content_type=content_type)
+    return presign_upload(
+        owner=owner,
+        owner_id=owner_id,
+        kind=kind,
+        content_type=content_type,
+        allowed=ALLOWED_IMAGE_TYPES,
+        max_bytes=max_bytes,
+    )
+
+
+def presign_upload(
+    *,
+    owner: str,
+    owner_id: int,
+    kind: str,
+    content_type: str,
+    allowed: dict[str, str],
+    max_bytes: int,
+) -> UploadTicket:
+    """Presigned POST for any allowed media type (images, voice notes)."""
+    key = build_key(
+        owner=owner, owner_id=owner_id, kind=kind, content_type=content_type, allowed=allowed
+    )
     post = _s3_client().generate_presigned_post(
         Bucket=settings.AWS_STORAGE_BUCKET_NAME,
         Key=key,

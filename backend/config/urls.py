@@ -11,6 +11,7 @@ urlpatterns = [
     path("api/v1/", include("organization.urls")),
     path("api/v1/", include("notifications.urls")),
     path("api/v1/", include("rituals.urls")),
+    path("api/v1/", include("messaging.urls")),
     path("account/", include("accounts.web_urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="api-docs"),

@@ -815,6 +815,58 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/messages/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description The couple's private thread, newest first. Both read; each deletes their own. */
+    get: operations['v1_messages_list'];
+    put?: never;
+    /** @description The couple's private thread, newest first. Both read; each deletes their own. */
+    post: operations['v1_messages_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/messages/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** @description The couple's private thread, newest first. Both read; each deletes their own. */
+    delete: operations['v1_messages_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/messages/upload-url/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Ticket to upload a photo or a voice note straight to storage. */
+    post: operations['v1_messages_upload_url_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/morning/reply/': {
     parameters: {
       query?: never;
@@ -1152,6 +1204,9 @@ export interface components {
     LogoutRequest: {
       refresh: string;
     };
+    MediaUploadRequestRequest: {
+      content_type: string;
+    };
     /** @description What a partner is allowed to see about the other: no email, no birth date. */
     Member: {
       readonly id: number;
@@ -1221,6 +1276,26 @@ export interface components {
      * @enum {string}
      */
     MemoryTypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
+    /** @description `author` is `me` / `you` for the reader. No read receipt, by design. */
+    Message: {
+      readonly id: number;
+      readonly kind: components['schemas']['MessageKindEnum'];
+      readonly text: string;
+      readonly author: string | null;
+      readonly media_url: string | null;
+      readonly duration_ms: number | null;
+      readonly width: number | null;
+      readonly height: number | null;
+      /** Format: date-time */
+      readonly created_at: string;
+    };
+    /**
+     * @description * `text` - Texte
+     *     * `photo` - Photo
+     *     * `voice` - Note vocale
+     * @enum {string}
+     */
+    MessageKindEnum: 'text' | 'photo' | 'voice';
     Mood: {
       mood: components['schemas']['MoodEnum'];
       need: string;
@@ -1308,6 +1383,19 @@ export interface components {
       previous?: string | null;
       results: components['schemas']['Memory'][];
     };
+    PaginatedMessageList: {
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cD00ODY%3D"
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?cursor=cj0xJnA9NDg3
+       */
+      previous?: string | null;
+      results: components['schemas']['Message'][];
+    };
     PasswordResetConfirmRequest: {
       uid: string;
       token: string;
@@ -1376,6 +1464,7 @@ export interface components {
       thinking_of_you?: boolean;
       pause?: boolean;
       organization?: boolean;
+      messages?: boolean;
       /** Format: time */
       morning_time?: string;
       discreet?: boolean;
@@ -1428,6 +1517,7 @@ export interface components {
       thinking_of_you?: boolean;
       pause?: boolean;
       organization?: boolean;
+      messages?: boolean;
       /** Format: time */
       morning_time?: string;
       discreet?: boolean;
@@ -1460,6 +1550,15 @@ export interface components {
     };
     ReplyInputRequest: {
       reply: components['schemas']['MoodReplyEnum'];
+    };
+    SendMessageRequest: {
+      /** @default text */
+      kind: components['schemas']['MessageKindEnum'];
+      text?: string;
+      media_key?: string;
+      duration_ms?: number;
+      width?: number;
+      height?: number;
     };
     SettleRequest: {
       currency: string;
@@ -3496,6 +3595,101 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['OnThisDay'];
+        };
+      };
+    };
+  };
+  v1_messages_list: {
+    parameters: {
+      query?: {
+        /** @description La valeur du curseur de pagination. */
+        cursor?: string;
+        /** @description Nombre de résultats à retourner par page. */
+        page_size?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaginatedMessageList'];
+        };
+      };
+    };
+  };
+  v1_messages_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['SendMessageRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['SendMessageRequest'];
+        'multipart/form-data': components['schemas']['SendMessageRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Message'];
+        };
+      };
+    };
+  };
+  v1_messages_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) message. */
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_messages_upload_url_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MediaUploadRequestRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['MediaUploadRequestRequest'];
+        'multipart/form-data': components['schemas']['MediaUploadRequestRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ImageUploadTicket'];
         };
       };
     };
