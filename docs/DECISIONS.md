@@ -53,3 +53,10 @@ Format : date — choix — raison — alternative écartée.
 - 2026-11-07 — Ordre modifié à la demande de l'utilisateur : P5 (notifications), puis P6.15/P6.15b/P6.15c (météo du matin), puis reprise de P4 — la règle « première tâche disponible dans l'ordre du fichier » est suspendue pour ces tâches.
 - 2026-11-09 — **App plus vivante** (retour de l'utilisateur après essai sur iPhone : « un peu sobre ») : recherche sur les apps de couple (Paired, Between, Lovewick, Agapé) et de rencontre (Hinge, Bumble) ; l'utilisateur garde le style actuel et choisit : accueil vivant, animations et célébrations, messages avec notes vocales, jeux et question du jour. Phase PV ajoutée avant P4 (puis P4).
 - 2026-11-09 — **Messagerie** ajoutée à la demande de l'utilisateur, conforme aux règles absolues : aucun accusé de lecture, aucun « en train d'écrire », aucun statut en ligne, notifications soumises aux heures calmes et préférences — messagerie « classique » (contraire à la règle « pas de vu à »).
+
+## 2026-11-09 — Benchmark de 27 apps de couple → phase PW
+- L'utilisateur a retenu les 16 propositions, plus le widget « ensemble depuis », la roue du hasard, des positions en dessins au trait (sans vulgarité) et la distance entre les deux.
+- Appel vidéo et « regarder ensemble » : déconseillés (coût, build natif, droits des plateformes) mais retenus par l'utilisateur ; placés en fin de PW, après P6. « Regarder ensemble » se limite à YouTube synchronisé + compte à rebours commun.
+- Distance : PROMPT.md interdit la géolocalisation et le partage de position. Version retenue : chacun choisit sa ville dans une liste (aucun GPS, aucune coordonnée renvoyée à l'autre), activation par chacun, distance arrondie. Ce n'est ni un suivi ni une position en direct.
+- Positions : derrière le réglage intimité activé par les deux (P4.16), app classée 17+, dessins originaux au trait.
+- Invitation (PV.5) prioritaire : le lien `nousdeux://` ne marche pas si l'autre n'a pas encore l'app → lien HTTPS avec page d'accueil, QR code, « coller le code ».

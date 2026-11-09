@@ -63,6 +63,28 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] PV.2 — Animations et célébrations : cœur animé, petite célébration (jalon, réponse de l'autre), entrées de cartes et transitions douces, haptique ; tout coupé si « réduire les animations » — tests — dépend de : PV.1
 - [x] PV.3 — Messages (API) : fil privé du couple (texte, photo, note vocale par upload présigné), pagination, suppression de ses messages, notification au partenaire ; jamais d'accusé de lecture, de « en train d'écrire » ni de statut en ligne — tests partenaire/étranger — dépend de : P2.1, P5.2
 - [x] PV.4 — Messages (mobile) : fil, envoi texte/photo, enregistrement et lecture de notes vocales (expo-audio), temps réel, hors ligne — tests — dépend de : PV.3, P3.7
+- [ ] PV.5 — Invitation facile : bouton unique « Inviter ta moitié » (crée l'espace et ouvre le partage), copier le code, QR code à scanner, lien HTTPS `PUBLIC_WEB_URL/join/CODE` avec page d'accueil Django (code en grand, liens stores, « ouvrir l'app »), fichiers apple-app-site-association / assetlinks (identifiants dans HUMAN_TODO) ; côté invité : « Coller le code » depuis le presse-papiers, le code reçu par lien survit à l'inscription — tests — dépend de : P1.5
+
+## PW — Plus vivante, suite (benchmark de 27 apps de couple, choix de l'utilisateur)
+Ordre : PW.1–PW.13 avant P4 ; PW.14–PW.18 demandent un build de développement (après P6). Règles inchangées : ni séries, ni points, ni classement, ni position GPS.
+- [ ] PW.1 — Réactions aux messages : 6 réactions en icônes Lucide (une par personne et par message, remplaçable), temps réel — API + mobile + tests partenaire/étranger — dépend de : PV.4
+- [ ] PW.2 — « Je pense à toi » et toucher à distance (reprend P6.6) : appui → push + vibration « battement de cœur » chez l'autre, 10/jour sans compteur visible — tests — dépend de : P5.2
+- [ ] PW.3 — Roue du hasard : roues prêtes (qui cuisine, quelle sortie, quel film) et roues du couple, rotation animée (fondu si animations réduites), résultat partageable dans les messages — tests — dépend de : PV.4
+- [ ] PW.4 — Comptes à rebours : marquer un moment de l'agenda « compte à rebours », cartes « J-12 » sur l'accueil (dont les retrouvailles) — tests — dépend de : P3.8
+- [ ] PW.5 — Distance qui vous sépare : chacun choisit sa ville (recherche dans une base de villes embarquée, jamais de GPS), activation par chacun, affichage arrondi « 1 240 km vous séparent » + heure locale de l'autre ; désactivable à tout moment — tests : rien sans double accord, aucune coordonnée exposée — dépend de : P1.16
+- [ ] PW.6 — Bocal de gratitude : un merci par jour, caché jusqu'au dimanche, révélation commune animée — tests confidentialité avant révélation — dépend de : P5.2
+- [ ] PW.7 — Défis doux de la semaine : un défi à deux par semaine (catalogue fr+en), « fait » ensemble, aucun point — tests — dépend de : P4.1
+- [ ] PW.8 — Rituels guidés : bibliothèque (baiser de 6 s, merci du soir, marche sans téléphone…) avec minuteur et rappel optionnel — tests — dépend de : P5.2
+- [ ] PW.9 — Plus de paquets de cartes thématiques + favoris (étend P4.19) — catalogue validé par test — dépend de : P4.19
+- [ ] PW.10 — Liste d'envies et cadeaux : envies partagées, idées cadeaux cachées à l'autre (notes privées), lien et prix optionnels — tests : une idée cadeau n'est jamais visible par l'autre — dépend de : P3.4
+- [ ] PW.11 — Plante du couple : grandit avec les moments partagés (souvenirs, réponses, rituels), ne fane jamais, sans compteur — tests — dépend de : P4.9
+- [ ] PW.12 — Parcours de 7 jours (s'écouter, après une dispute, retrouver du temps à deux) : une étape par jour, progression privée au couple ; certains parcours Premium — tests — dépend de : P4.1, P9b
+- [ ] PW.13 — Positions : catalogue de positions en dessins au trait originaux (SVG sobres) avec leur nom et une description non vulgaire ; visible seulement si les deux activent le réglage intimité (P4.16), 17+ ; « à essayer » en mode envies communes (seuls les accords sont révélés) — tests confidentialité — dépend de : P4.16
+- [ ] PW.14 — Synchronisation des agendas de l'appareil (Google, Apple, Outlook via expo-calendar, lecture seule, opt-in) : ses propres créneaux visibles dans son agenda, rien n'est partagé sans choix explicite — tests — dépend de : P3.8
+- [ ] PW.15 — Widgets écran d'accueil (étend P6.17) : « ensemble depuis N jours », photo prise sur le vif qui apparaît chez l'autre (façon Locket), humeur du matin — dépend de : P6.17
+- [ ] PW.16 — Coach IA (Premium, désactivé par défaut, consentement explicite) : conseils via l'API Claude côté backend, textes jamais stockés ni journalisés — tests flag/consentement — dépend de : P9b
+- [ ] PW.17 — Appel vocal et vidéo à deux (WebRTC, build de développement, serveur TURN à fournir — HUMAN_TODO) — dépend de : P6.17
+- [ ] PW.18 — Regarder ensemble : lecture synchronisée de liens YouTube (lecture/pause/position par WebSocket) + compte à rebours « lancez ensemble » pour les autres plateformes — tests de synchronisation — dépend de : P3.11
 
 ## P4 — Question du jour & « À retenir » (F4)
 - [ ] P4.1 — App `connection` : modèle DailyQuestion (fr/en, catégorie, profondeur) + format de fixture + commande `seed_catalogs` + admin — tests du chargement idempotent — dépend de : P1.6
