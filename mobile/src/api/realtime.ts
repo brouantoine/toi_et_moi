@@ -63,6 +63,8 @@ export type SyncOptions = {
   onUnauthorized: () => Promise<unknown>;
   /** Called once connected and authenticated: catch up on what was missed meanwhile. */
   onReady?: () => void;
+  /** The partner started or stopped typing a message (ephemeral, never stored). */
+  onTyping?: (active: boolean) => void;
   createSocket?: (url: string) => SocketLike;
 };
 
@@ -72,6 +74,7 @@ export class SyncClient {
   private retryTimer: ReturnType<typeof setTimeout> | null = null;
   private pingTimer: ReturnType<typeof setInterval> | null = null;
   private running = false;
+  private ready = false;
 
   constructor(private readonly options: SyncOptions) {}
 
@@ -81,8 +84,14 @@ export class SyncClient {
     this.connect();
   }
 
+  /** Tells the partner I am (or stopped) typing. Dropped when not connected. */
+  sendTyping(active: boolean): void {
+    if (this.ready) this.socket?.send(JSON.stringify({ type: 'typing', active }));
+  }
+
   stop(): void {
     this.running = false;
+    this.ready = false;
     this.clearTimers();
     const socket = this.socket;
     this.socket = null;
@@ -100,6 +109,7 @@ export class SyncClient {
     socket.onclose = (event) => {
       if (this.socket !== socket) return; // replaced or stopped
       this.socket = null;
+      this.ready = false;
       this.clearTimers();
       if (!this.running) return;
       if (event.code === CLOSE_UNAUTHORIZED) {
@@ -111,7 +121,7 @@ export class SyncClient {
   }
 
   private handle(raw: unknown): void {
-    let message: Omit<Partial<ChangedEvent>, 'type'> & { type?: string };
+    let message: Omit<Partial<ChangedEvent>, 'type'> & { type?: string; active?: boolean };
     try {
       message = JSON.parse(String(raw)) as typeof message;
     } catch {
@@ -119,6 +129,7 @@ export class SyncClient {
     }
     if (message.type === 'ready') {
       this.attempt = 0;
+      this.ready = true;
       this.pingTimer = setInterval(
         () => this.socket?.send(JSON.stringify({ type: 'ping' })),
         PING_MS,
@@ -126,6 +137,8 @@ export class SyncClient {
       this.options.onReady?.();
     } else if (message.type === 'changed') {
       this.options.onChanged(message as ChangedEvent);
+    } else if (message.type === 'typing') {
+      this.options.onTyping?.(Boolean(message.active));
     }
   }
 

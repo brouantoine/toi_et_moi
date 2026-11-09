@@ -1,6 +1,7 @@
 import * as Haptics from 'expo-haptics';
+import { useFocusEffect } from 'expo-router';
 import { ImagePlus, MessageCircleHeart, Mic, Send, Square, X } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
@@ -16,6 +17,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
+import { usePartner } from '@/features/couple/usePartner';
 import { pickImages } from '@/media/images';
 import {
   EmptyState,
@@ -28,8 +30,9 @@ import {
   useTheme,
 } from '@/ui';
 
-import { formatDuration, MessageBubble } from './MessageBubbles';
-import { useMessageActions, useMessages, type Message } from './useMessages';
+import { formatDuration, MessageBubble, TypingBubble } from './MessageBubbles';
+import { reportTyping, useTypingStore } from './typing';
+import { useMarkRead, useMessageActions, useMessages, type Message } from './useMessages';
 import { useVoiceRecorder } from './useVoiceRecorder';
 
 function RecordingTimer({ startedAt }: { startedAt: number }) {
@@ -59,10 +62,18 @@ function Composer() {
     void task.catch(() => setFailed(true));
   };
 
+  const onChangeText = (value: string) => {
+    setText(value);
+    reportTyping(value.trim().length > 0);
+  };
+  // Leaving the conversation always ends "typing…" on the other phone.
+  useEffect(() => () => reportTyping(false), []);
+
   const send = () => {
     const clean = text.trim();
     if (!clean) return;
     setText('');
+    reportTyping(false);
     guard(sendText(clean));
   };
 
@@ -170,7 +181,7 @@ function Composer() {
                 placeholder={t('messages.placeholder')}
                 placeholderTextColor={colors.textMuted}
                 value={text}
-                onChangeText={setText}
+                onChangeText={onChangeText}
                 multiline
                 maxLength={2000}
                 style={[typography.body, styles.input, { color: colors.text }]}
@@ -206,6 +217,16 @@ export function MessagesScreen() {
   const { colors, radii, spacing } = useTheme();
   const thread = useMessages();
   const { remove } = useMessageActions();
+  const partner = usePartner();
+  const partnerTyping = useTypingStore((state) => state.partnerTyping);
+  const [focused, setFocused] = useState(false);
+  useFocusEffect(
+    useCallback(() => {
+      setFocused(true);
+      return () => setFocused(false);
+    }, []),
+  );
+  useMarkRead(thread.messages, focused);
 
   const confirmDelete = (message: Message) =>
     Alert.alert(t('messages.deleteTitle'), undefined, [
@@ -261,6 +282,10 @@ export function MessagesScreen() {
         onEndReached={() => {
           if (thread.hasNextPage && !thread.isFetchingNextPage) void thread.fetchNextPage();
         }}
+        // Inverted list: the header sits at the bottom, right under the newest message.
+        ListHeaderComponent={
+          partnerTyping ? <TypingBubble name={partner?.display_name ?? ''} /> : undefined
+        }
         ListFooterComponent={
           thread.isFetchingNextPage ? <ActivityIndicator color={colors.primary} /> : undefined
         }

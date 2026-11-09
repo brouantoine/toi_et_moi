@@ -574,7 +574,11 @@
     "micDenied": "For voice notes, allow the microphone in Settings.",
     "sendFailed": "The message didn’t go. Try again in a moment.",
     "emptyTitle": "Your thread, just yours",
-    "emptyMessage": "A word, a photo, a voice note. No “seen”, no “typing”: just you."
+    "emptyMessage": "A word, a photo, a voice note. No “seen”, no “typing”: just you.",
+    "statusSending": "Sending",
+    "statusSent": "Sent",
+    "statusRead": "Read",
+    "typing": "{{name}} is typing…"
   },
   "distance": {
     "pillShow": "See the distance",

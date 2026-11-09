@@ -56,6 +56,13 @@ class MessageViewSet(
             raise PermissionDenied("not_author")
         services.delete(instance)
 
+    @extend_schema(request=None, responses={204: None})
+    @action(detail=False, methods=["post"], url_path="read")
+    def read(self, request: Request) -> Response:
+        """The reader opened the conversation: the partner's messages become read."""
+        services.mark_read(self.couple, current_user(request))
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @extend_schema(
         request=MediaUploadRequestSerializer, responses={200: ImageUploadTicketSerializer}
     )

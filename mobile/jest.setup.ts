@@ -47,6 +47,8 @@ jest.mock('expo-router', () => {
       preventAutoHideAsync: jest.fn(async () => true),
       hideAsync: jest.fn(async () => true),
     },
+    // Screens are always focused in tests: the effect runs like a plain useEffect.
+    useFocusEffect: (effect: () => void | (() => void)) => React.useEffect(effect, [effect]),
     useLocalSearchParams: jest.fn(() => ({})),
     useSegments: jest.fn(() => []),
   };

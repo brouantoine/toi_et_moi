@@ -6,6 +6,7 @@ from django.db import transaction
 
 from accounts.models import User
 from core import storage
+from core.realtime import notify_changed
 from couples.models import Couple
 from notifications.models import Kind
 from notifications.services import notify, preference_for
@@ -96,3 +97,17 @@ def delete(message: Message) -> None:
     message.delete()
     if key:
         transaction.on_commit(lambda: storage.delete_file(key))
+
+
+def mark_read(couple: Couple, reader: User) -> int:
+    """Marks every message the partner sent to `reader` as read. Returns how many."""
+    from django.utils import timezone
+
+    count = (
+        Message.objects.filter(couple=couple, read_at__isnull=True)
+        .exclude(author=reader)
+        .update(read_at=timezone.now())
+    )
+    if count:
+        notify_changed(couple.pk, "messages", 0, "read")
+    return count

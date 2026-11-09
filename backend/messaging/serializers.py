@@ -9,7 +9,7 @@ from .models import Message, MessageKind
 
 
 class MessageSerializer(serializers.ModelSerializer[Message]):
-    """`author` is `me` / `you` for the reader. No read receipt, by design."""
+    """`author` is `me` / `you` for the reader; `read_at` is when the recipient saw it."""
 
     author = serializers.SerializerMethodField()
     media_url = serializers.SerializerMethodField()
@@ -26,6 +26,7 @@ class MessageSerializer(serializers.ModelSerializer[Message]):
             "width",
             "height",
             "created_at",
+            "read_at",
         ]
         read_only_fields = fields
 

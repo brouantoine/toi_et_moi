@@ -7,6 +7,8 @@ Protocol (JSON over WebSocket at /ws/v1/sync/):
 3. The server then pushes {"type": "changed", "resource": ..., "id": ..., "action": ...}.
    No content is ever pushed: the client refetches through the REST API, which remains
    the only place where access is checked.
+4. Ephemeral "typing" signal: the client sends {"type": "typing", "active": bool}; the
+   partner receives {"type": "typing", "active": bool}. Never stored, never echoed back.
 """
 
 from __future__ import annotations
@@ -34,24 +36,31 @@ def couple_group(couple_id: int) -> str:
     return f"couple.{couple_id}"
 
 
-def _couple_id_for_token(token: str) -> int | None:
+TYPING_MIN_INTERVAL = 1.0
+
+
+def _member_for_token(token: str) -> tuple[int, int] | None:
+    """(user id, active couple id) for a valid access token."""
     try:
         user_id = AccessToken(token)["user_id"]  # type: ignore[arg-type]
         user = User.objects.get(pk=user_id, is_active=True)
     except (TokenError, KeyError, User.DoesNotExist):
         return None
     couple = get_active_couple(user)
-    return couple.pk if couple else None
+    return (user.pk, couple.pk) if couple else None
 
 
-_couple_for_token = cast(
-    Callable[[str], Awaitable[int | None]], database_sync_to_async(_couple_id_for_token)
+_member_for = cast(
+    Callable[[str], Awaitable[tuple[int, int] | None]],
+    database_sync_to_async(_member_for_token),
 )
 
 
 class SyncConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
     group: str | None = None
+    user_id: int | None = None
     _auth_timer: asyncio.Task[None] | None = None
+    _last_typing: float = 0.0
 
     async def connect(self) -> None:
         await self.accept()
@@ -69,15 +78,33 @@ class SyncConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
             if content.get("type") != "auth" or not isinstance(content.get("token"), str):
                 await self.close(code=CLOSE_UNAUTHORIZED)
                 return
-            couple_id = await _couple_for_token(content["token"])
-            if couple_id is None:
+            member = await _member_for(content["token"])
+            if member is None:
                 await self.close(code=CLOSE_UNAUTHORIZED)
                 return
+            self.user_id, couple_id = member
             self.group = couple_group(couple_id)
             await self.channel_layer.group_add(self.group, self.channel_name)
             await self.send_json({"type": "ready"})
         elif content.get("type") == "ping":
             await self.send_json({"type": "pong"})
+        elif content.get("type") == "typing":
+            await self._typing(bool(content.get("active")))
+
+    async def _typing(self, active: bool) -> None:
+        now = asyncio.get_running_loop().time()
+        # "Stopped typing" always goes through; "typing" at most once a second.
+        if active and now - self._last_typing < TYPING_MIN_INTERVAL:
+            return
+        self._last_typing = now if active else 0.0
+        assert self.group is not None  # noqa: S101 - authenticated branch
+        await self.channel_layer.group_send(
+            self.group, {"type": "sync.typing", "user": self.user_id, "active": active}
+        )
+
+    async def sync_typing(self, event: dict[str, Any]) -> None:
+        if event.get("user") != self.user_id:
+            await self.send_json({"type": "typing", "active": bool(event.get("active"))})
 
     async def disconnect(self, code: int) -> None:
         if self._auth_timer:

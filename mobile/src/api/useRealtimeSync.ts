@@ -5,6 +5,7 @@ import { AppState } from 'react-native';
 import { useAuthStore } from '@/auth/authStore';
 import { API_URL } from '@/config/env';
 
+import { setTypingSender, useTypingStore } from '@/features/messages/typing';
 import { api } from './index';
 import { invalidationKeysFor, SyncClient, syncUrl } from './realtime';
 
@@ -33,9 +34,11 @@ export function useRealtimeSync(): void {
             ),
         });
       },
+      onTyping: (active) => useTypingStore.getState().setPartnerTyping(active),
       // Any authenticated call refreshes an expired access token (auth middleware).
       onUnauthorized: () => api.GET('/api/v1/me/'),
     });
+    setTypingSender((active) => client.sendTyping(active));
     if (AppState.currentState !== 'background') client.start();
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'active') client.start();
@@ -43,6 +46,7 @@ export function useRealtimeSync(): void {
     });
     return () => {
       sub.remove();
+      setTypingSender(null);
       client.stop();
     };
   }, [signedIn, queryClient]);

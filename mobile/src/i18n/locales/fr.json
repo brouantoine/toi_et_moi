@@ -574,7 +574,11 @@
     "micDenied": "Pour les notes vocales, autorise le micro dans les réglages.",
     "sendFailed": "Le message n’est pas parti. Réessaie dans un instant.",
     "emptyTitle": "Votre fil, rien qu’à vous",
-    "emptyMessage": "Un mot, une photo, une note vocale. Ici, ni « vu », ni « en train d’écrire » : juste vous."
+    "emptyMessage": "Un mot, une photo, une note vocale. Ici, ni « vu », ni « en train d’écrire » : juste vous.",
+    "statusSending": "Envoi en cours",
+    "statusSent": "Envoyé",
+    "statusRead": "Lu",
+    "typing": "{{name}} écrit…"
   },
   "distance": {
     "pillShow": "Voir la distance",

@@ -886,6 +886,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/messages/read/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description The reader opened the conversation: the partner's messages become read. */
+    post: operations['v1_messages_read_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/messages/upload-url/': {
     parameters: {
       query?: never;
@@ -1345,7 +1362,7 @@ export interface components {
      * @enum {string}
      */
     MemoryTypeEnum: 'first_time' | 'inside_joke' | 'place' | 'moment' | 'quote';
-    /** @description `author` is `me` / `you` for the reader. No read receipt, by design. */
+    /** @description `author` is `me` / `you` for the reader; `read_at` is when the recipient saw it. */
     Message: {
       readonly id: number;
       readonly kind: components['schemas']['MessageKindEnum'];
@@ -1357,6 +1374,8 @@ export interface components {
       readonly height: number | null;
       /** Format: date-time */
       readonly created_at: string;
+      /** Format: date-time */
+      readonly read_at: string | null;
     };
     /**
      * @description * `text` - Texte
@@ -3844,6 +3863,24 @@ export interface operations {
         /** @description Un(une) valeur entière unique identifiant ce(cette) message. */
         id: number;
       };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_messages_read_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
       cookie?: never;
     };
     requestBody?: never;

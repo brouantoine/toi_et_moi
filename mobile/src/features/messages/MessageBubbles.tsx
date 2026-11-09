@@ -1,10 +1,11 @@
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { Image } from 'expo-image';
-import { Pause, Play } from 'lucide-react-native';
+import { Check, CheckCheck, Clock, Pause, Play } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
 
-import { Icon, MIN_TOUCH_TARGET, Text, useTheme } from '@/ui';
+import { Icon, MIN_TOUCH_TARGET, Text, useReducedMotion, useTheme } from '@/ui';
 
 import type { Message } from './useMessages';
 
@@ -136,9 +137,95 @@ export function MessageBubble({
           <Text color={mine ? 'onPrimarySoft' : 'text'}>{message.text}</Text>
         )}
       </Pressable>
-      <Text variant="caption" muted style={{ marginTop: 2, marginHorizontal: spacing.xs }}>
-        {time}
-      </Text>
+      <View style={[styles.meta, { gap: spacing.xs, marginHorizontal: spacing.xs }]}>
+        <Text variant="caption" muted>
+          {time}
+        </Text>
+        {mine ? <Receipt message={message} /> : null}
+      </View>
+    </View>
+  );
+}
+
+/** Sending (clock), sent (one tick), read by the other (two ticks, in the couple colour). */
+function Receipt({ message }: { message: Message }) {
+  const { t } = useTranslation();
+  const status = message.id < 0 ? 'Sending' : message.read_at ? 'Read' : 'Sent';
+  const icon = status === 'Sending' ? Clock : status === 'Read' ? CheckCheck : Check;
+  return (
+    <View
+      testID={`receipt-${status.toLowerCase()}`}
+      accessible
+      accessibilityLabel={t(`messages.status${status}`)}
+    >
+      <Icon
+        icon={icon}
+        size={16}
+        color={status === 'Read' ? 'primary' : 'textMuted'}
+        strokeWidth={2.4}
+      />
+    </View>
+  );
+}
+
+const DOTS = [0, 1, 2] as const;
+
+/** "Sam is typing…": three dots breathing in a bubble on the other's side. */
+export function TypingBubble({ name }: { name: string }) {
+  const { t } = useTranslation();
+  const { colors, radii, spacing } = useTheme();
+  const reduced = useReducedMotion();
+  const [phases] = useState(() => DOTS.map(() => new Animated.Value(0)));
+
+  useEffect(() => {
+    if (reduced) return undefined;
+    const loop = Animated.loop(
+      Animated.stagger(
+        160,
+        phases.map((phase) =>
+          Animated.sequence([
+            Animated.timing(phase, { toValue: 1, duration: 280, useNativeDriver: true }),
+            Animated.timing(phase, { toValue: 0, duration: 280, useNativeDriver: true }),
+          ]),
+        ),
+      ),
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [reduced, phases]);
+
+  return (
+    <View
+      testID="typing-bubble"
+      accessible
+      accessibilityLiveRegion="polite"
+      accessibilityLabel={t('messages.typing', { name })}
+      style={[
+        styles.typing,
+        {
+          gap: spacing.xs,
+          backgroundColor: colors.surfaceMuted,
+          borderRadius: radii.lg,
+          paddingHorizontal: spacing.md,
+          marginVertical: spacing.xs,
+        },
+      ]}
+    >
+      {phases.map((phase, index) => (
+        <Animated.View
+          key={DOTS[index]}
+          style={[
+            styles.dot,
+            {
+              backgroundColor: colors.textMuted,
+              opacity: phase.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }),
+              transform: [
+                { translateY: phase.interpolate({ inputRange: [0, 1], outputRange: [0, -4] }) },
+              ],
+            },
+          ]}
+        />
+      ))}
     </View>
   );
 }
@@ -148,6 +235,16 @@ const styles = StyleSheet.create({
   right: { alignSelf: 'flex-end', alignItems: 'flex-end' },
   left: { alignSelf: 'flex-start', alignItems: 'flex-start' },
   bubble: { borderCurve: 'continuous', overflow: 'hidden' },
+  meta: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
+  typing: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    height: 40,
+    borderBottomLeftRadius: 6,
+    borderCurve: 'continuous',
+  },
+  dot: { width: 8, height: 8, borderRadius: 4 },
   photo: { width: 220 },
   voice: { flexDirection: 'row', alignItems: 'center', minWidth: 200 },
   play: {

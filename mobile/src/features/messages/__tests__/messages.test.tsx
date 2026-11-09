@@ -8,6 +8,13 @@ import { createTestQueryClient, jsonResponse, mockFetch, renderWithProviders } f
 
 import { formatDuration } from '../MessageBubbles';
 import { MessagesScreen } from '../MessagesScreen';
+import {
+  reportTyping,
+  setTypingSender,
+  TYPING_EXPIRES_MS,
+  TYPING_RESEND_MS,
+  useTypingStore,
+} from '../typing';
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'fr' }],
@@ -28,6 +35,7 @@ function message(id: number, fields: Record<string, unknown> = {}) {
     width: null,
     height: null,
     created_at: '2026-11-09T18:30:00Z',
+    read_at: null as string | null,
     ...fields,
   };
 }
@@ -56,6 +64,12 @@ function backend(initial: ReturnType<typeof message>[] = []) {
         expires_in: 60,
       });
     }
+    if (pathname.endsWith('/read/')) {
+      thread = thread.map((m) =>
+        m.author === 'you' ? { ...m, read_at: '2026-11-09T18:31:00Z' } : m,
+      );
+      return new Response(null, { status: 204 });
+    }
     if (request.method === 'POST') {
       const created = message(100 + thread.length, { ...body, author: 'me' });
       thread = [created, ...thread];
@@ -77,7 +91,9 @@ async function render() {
   await renderWithProviders(<MessagesScreen />, 'light', client);
 }
 
-const writes = (calls: Call[]) => calls.filter((c) => c.method !== 'GET');
+/** Writes made by the user (read receipts are sent on their own). */
+const writes = (calls: Call[]) =>
+  calls.filter((c) => c.method !== 'GET' && !c.path.endsWith('/read/'));
 
 beforeEach(async () => {
   jest.clearAllMocks();
@@ -89,7 +105,7 @@ it('formats durations', () => {
   expect(formatDuration(65_000)).toBe('1:05');
 });
 
-it('shows both sides of the thread, never any read state', async () => {
+it('shows both sides of the thread', async () => {
   backend([
     message(2, { text: 'Je rentre vers 19 h', author: 'me' }),
     message(1, { text: 'Tu rentres quand ?' }),
@@ -98,7 +114,70 @@ it('shows both sides of the thread, never any read state', async () => {
   expect(await screen.findByText('Tu rentres quand ?')).toBeTruthy();
   expect(screen.getByLabelText(/^Toi : Je rentre vers 19 h/)).toBeTruthy();
   expect(screen.getByLabelText(/^L’autre : Tu rentres quand \?/)).toBeTruthy();
-  expect(screen.queryByText(/\b(Lu|Vu|Distribué)\b/)).toBeNull();
+});
+
+it('shows one tick when sent and two when the other has read', async () => {
+  backend([
+    message(3, { text: 'Pas encore lu', author: 'me' }),
+    message(2, { text: 'Déjà lu', author: 'me', read_at: '2026-11-09T18:40:00Z' }),
+  ]);
+  await render();
+  expect(await screen.findByLabelText('Envoyé')).toBeTruthy();
+  expect(screen.getByLabelText('Lu')).toBeTruthy();
+  expect(screen.getAllByTestId(/^receipt-/)).toHaveLength(2);
+});
+
+it('tells the other I have read, only when there is something new from them', async () => {
+  const calls = backend([message(1, { text: 'Tu rentres quand ?' })]);
+  await render();
+  await screen.findByText('Tu rentres quand ?');
+  await waitFor(() => expect(calls.filter((c) => c.path.endsWith('/read/'))).toHaveLength(1));
+
+  jest.clearAllMocks();
+  const quiet = backend([message(5, { text: 'À moi seul', author: 'me' })]);
+  await render();
+  await screen.findAllByText('À moi seul');
+  expect(quiet.some((c) => c.path.endsWith('/read/'))).toBe(false);
+});
+
+it('shows the other typing, and reports my own typing', async () => {
+  const sent: boolean[] = [];
+  setTypingSender((active) => sent.push(active));
+  backend([message(1, { text: 'Coucou' })]);
+  await render();
+  await screen.findByText('Coucou');
+  expect(screen.queryByTestId('typing-bubble')).toBeNull();
+  await act(async () => useTypingStore.getState().setPartnerTyping(true));
+  expect(await screen.findByTestId('typing-bubble')).toBeTruthy();
+  await act(async () => useTypingStore.getState().setPartnerTyping(false));
+  await waitFor(() => expect(screen.queryByTestId('typing-bubble')).toBeNull());
+
+  await fireEvent.changeText(screen.getByTestId('message-input'), 'Je');
+  await fireEvent.changeText(screen.getByTestId('message-input'), 'Je suis');
+  expect(sent).toEqual([true]); // not re-sent on every key
+  await fireEvent.changeText(screen.getByTestId('message-input'), '');
+  expect(sent).toEqual([true, false]);
+  setTypingSender(null);
+});
+
+it('expires a lost "typing" and throttles resends', () => {
+  jest.useFakeTimers();
+  try {
+    useTypingStore.getState().setPartnerTyping(true);
+    jest.advanceTimersByTime(TYPING_EXPIRES_MS + 1);
+    expect(useTypingStore.getState().partnerTyping).toBe(false);
+    const sent: boolean[] = [];
+    setTypingSender((active) => sent.push(active));
+    reportTyping(true, 1000);
+    reportTyping(true, 2000);
+    reportTyping(true, 1000 + TYPING_RESEND_MS);
+    reportTyping(false, 9000);
+    reportTyping(false, 9500);
+    expect(sent).toEqual([true, true, false]);
+  } finally {
+    setTypingSender(null);
+    jest.useRealTimers();
+  }
 });
 
 it('sends a text at once', async () => {

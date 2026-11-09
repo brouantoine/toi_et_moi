@@ -294,3 +294,8 @@
 - Barre d'onglets flottante (pilule blanche, ombre douce) avec les icônes de la capture : maison, cartes empilées, cœur, cloche, profil ; onglet actif sur fond gris, noms annoncés aux lecteurs d'écran.
 - Distance (PW.5) : conditions versionnées (v2) acceptées par chacun, position lue avec expo-location quand l'app est ouverte (rafraîchie si elle date de plus de 15 min, jamais en arrière-plan), distance calculée côté serveur.
 - Sous le nombre de jours : pastille « 45 km » qui ouvre l'écran « Où vous êtes » : carte (Apple Plans / Google Maps) avec vos deux positions reliées en pointillés, « 4 870 km vous séparent », ville de l'autre et heure de mise à jour, mise à jour, arrêt avec effacement immédiat. Rien n'est visible tant que les deux n'ont pas partagé.
+
+## 2026-11-09 — PX.6a Accusés de lecture et « en train d'écrire »
+- `Message.read_at`, `POST messages/read/` (marque les messages de l'autre comme lus quand la conversation est à l'écran), événement temps réel `messages`/`read`.
+- Mobile : horloge (envoi), une coche (envoyé), deux coches à la couleur du couple (lu), annoncées aux lecteurs d'écran.
+- « En train d'écrire » : signal WebSocket éphémère relayé au seul partenaire (jamais stocké, limité à 1/s côté serveur, renvoyé toutes les 3 s côté app, expire seul après 6 s) ; bulle à trois points animés (fixes si animations réduites).

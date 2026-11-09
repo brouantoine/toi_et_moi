@@ -139,3 +139,27 @@ def test_user_without_active_couple_is_closed() -> None:
         assert closed_unauthorized(message)
 
     run(scenario)
+
+
+def test_typing_reaches_the_partner_only_and_is_throttled() -> None:
+    _, alice, bob = make_couple()
+    _, carol, _ = make_couple()
+
+    async def scenario() -> None:
+        ws_alice, _ = await open_socket({"type": "auth", "token": token(alice)})
+        ws_bob, _ = await open_socket({"type": "auth", "token": token(bob)})
+        ws_carol, _ = await open_socket({"type": "auth", "token": token(carol)})
+        await ws_alice.send_json_to({"type": "typing", "active": True})
+        assert await ws_bob.receive_json_from(timeout=2) == {"type": "typing", "active": True}
+        # Never echoed to the typist, never heard by another couple.
+        assert await ws_alice.receive_nothing(timeout=0.3)
+        assert await ws_carol.receive_nothing(timeout=0.3)
+        # A burst within a second is dropped; "stopped" always goes through.
+        await ws_alice.send_json_to({"type": "typing", "active": True})
+        await ws_alice.send_json_to({"type": "typing", "active": False})
+        assert await ws_bob.receive_json_from(timeout=2) == {"type": "typing", "active": False}
+        assert await ws_bob.receive_nothing(timeout=0.3)
+        for ws in (ws_alice, ws_bob, ws_carol):
+            await ws.disconnect()
+
+    run(scenario)

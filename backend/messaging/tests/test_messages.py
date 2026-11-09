@@ -69,7 +69,7 @@ def test_texts_tell_or_stay_discreet() -> None:
     assert notification("en", "Sam", "text", "x" * 300, False)[1].endswith("…")
 
 
-def test_send_text_read_by_partner_without_any_read_state(
+def test_send_text_read_by_partner_unread_at_first(
     couples, pushes, django_capture_on_commit_callbacks
 ) -> None:
     _, antoine, sam, *_ = couples
@@ -84,7 +84,7 @@ def test_send_text_read_by_partner_without_any_read_state(
         "Tu rentres à quelle heure ?",
         "me",
     )
-    assert not {"read", "read_at", "seen", "seen_at", "delivered"} & set(body)
+    assert body["read_at"] is None
     assert pushes == [
         {
             "title": "Antoine",
@@ -205,3 +205,25 @@ def test_list_query_count(couples, django_assert_max_num_queries) -> None:
     with django_assert_max_num_queries(6):
         page = client.get(LIST).json()
     assert [m["text"] for m in page["results"]][:2] == ["Message 9", "Message 8"]
+
+
+def test_read_receipts_mark_only_the_partners_messages() -> None:
+    _, alice, bob = make_couple()
+    alice_api, bob_api = client_for(alice), client_for(bob)
+    mine = alice_api.post(LIST, {"kind": "text", "text": "Coucou"}, format="json").json()
+    theirs = bob_api.post(LIST, {"kind": "text", "text": "Salut"}, format="json").json()
+    assert mine["read_at"] is None
+    # Bob opens the conversation: Alice's message becomes read, his own does not.
+    assert bob_api.post(f"{LIST}read/").status_code == 204
+    by_id = {m["id"]: m for m in alice_api.get(LIST).json()["results"]}
+    assert by_id[mine["id"]]["read_at"] is not None
+    assert by_id[theirs["id"]]["read_at"] is None
+
+
+def test_read_needs_a_couple_and_stays_inside_it() -> None:
+    _, alice, _ = make_couple()
+    _, carol, _ = make_couple()
+    sent = client_for(alice).post(LIST, {"kind": "text", "text": "Privé"}, format="json").json()
+    assert client_for(carol).post(f"{LIST}read/").status_code == 204
+    assert Message.objects.get(pk=sent["id"]).read_at is None
+    assert client_for(UserFactory()).post(f"{LIST}read/").status_code == 403

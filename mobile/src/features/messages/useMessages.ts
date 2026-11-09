@@ -5,6 +5,8 @@ import {
   type InfiniteData,
 } from '@tanstack/react-query';
 
+import { useEffect } from 'react';
+
 import { api, unwrap, type Schemas } from '@/api';
 import { OFFLINE_MUTATION_KEY, useOnline } from '@/api/offline';
 import { cursorFrom, flattenPages, type CursorPage } from '@/api/pagination';
@@ -25,6 +27,28 @@ export function useMessages() {
     getNextPageParam: (last) => cursorFrom(last.next),
   });
   return { ...query, messages: flattenPages(query.data?.pages) };
+}
+
+/** Id of the newest message from the partner that I have not read yet, if any. */
+export function newestUnread(messages: Message[]): number | null {
+  const unread = messages.find((m) => m.author !== 'me' && !m.read_at && m.id > 0);
+  return unread ? unread.id : null;
+}
+
+/**
+ * Read receipts: while the conversation is on screen, the partner's new messages are
+ * marked as read (they then see two ticks, like on WhatsApp).
+ */
+export function useMarkRead(messages: Message[], active: boolean): void {
+  const client = useQueryClient();
+  const unreadId = newestUnread(messages);
+  useEffect(() => {
+    if (!active || unreadId === null) return;
+    void api
+      .POST('/api/v1/messages/read/')
+      .then(() => client.invalidateQueries({ queryKey: messagesKey }))
+      .catch(() => {});
+  }, [active, unreadId, client]);
 }
 
 /** Puts a message at the top of the newest page (the thread is newest first). */
@@ -55,6 +79,7 @@ const draft = (fields: Partial<Message>): Message => ({
   width: null,
   height: null,
   created_at: new Date().toISOString(),
+  read_at: null,
   ...fields,
 });
 
