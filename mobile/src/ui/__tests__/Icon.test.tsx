@@ -26,3 +26,13 @@ describe('Icon', () => {
     expect(screen.getByTestId('icon').props.stroke).toBe(palettes.dark.primary);
   });
 });
+
+describe('custom icons', () => {
+  it('draws the ring (band + stone) on the Lucide grid', async () => {
+    const { Ring } = jest.requireActual<typeof import('../customIcons')>('../customIcons');
+    await render(<Ring testID="ring" size={24} />);
+    const svg = screen.getByTestId('ring', { includeHiddenElements: true });
+    expect(svg.props.width).toBe(24);
+    expect(JSON.stringify(screen.toJSON())).toContain('RNSVGCircle');
+  });
+});

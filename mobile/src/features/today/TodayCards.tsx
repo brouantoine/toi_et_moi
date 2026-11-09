@@ -9,7 +9,16 @@ import { usePartner } from '@/features/couple/usePartner';
 import { useMe } from '@/features/me/useProfile';
 import { EVENT_KIND_HUES, EVENT_KIND_ICONS } from '@/features/organize/agenda/eventKinds';
 import { relativeDay, dayTitle, timeLabel } from '@/features/organize/agenda/agendaDates';
-import { Avatar, Celebration, Icon, PressableScale, Text, useSurfaceStyle, useTheme } from '@/ui';
+import {
+  Avatar,
+  Celebration,
+  Icon,
+  PressableScale,
+  Ring,
+  Text,
+  useSurfaceStyle,
+  useTheme,
+} from '@/ui';
 
 import { daysTogether, nextMilestone } from './milestones';
 import { useNextMoment, useOnThisDay } from './useToday';
@@ -74,9 +83,18 @@ export function CoupleHero() {
         {names}
       </Text>
       {start ? (
-        <Text testID="days-together" color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}>
-          {t('today.together', { count: daysTogether(start) })}
-        </Text>
+        // Like the lock-screen widget: a ring, then the exact number of days.
+        <View style={[styles.daysRow, { gap: spacing.sm }]}>
+          <Icon
+            icon={Ring}
+            size={22}
+            color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}
+            strokeWidth={2}
+          />
+          <Text testID="days-together" color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}>
+            {t('today.together', { count: daysTogether(start) })}
+          </Text>
+        </View>
       ) : (
         <Text variant="caption" color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}>
           {t('today.togetherHint')}
@@ -245,6 +263,7 @@ export function OnThisDayCard() {
 }
 
 const styles = StyleSheet.create({
+  daysRow: { flexDirection: 'row', alignItems: 'center' },
   hero: { height: 220, overflow: 'hidden', borderCurve: 'continuous', justifyContent: 'flex-end' },
   heroText: { justifyContent: 'flex-end' },
   heroPlain: { borderCurve: 'continuous' },
