@@ -1019,9 +1019,7 @@ export interface components {
       currency?: string;
       readonly photo_url: string | null;
       readonly members: components['schemas']['Member'][];
-      readonly invitation: {
-        [key: string]: string;
-      } | null;
+      readonly invitation: components['schemas']['Invitation'] | null;
       /** Format: date-time */
       readonly activated_at: string | null;
     };
@@ -1169,6 +1167,14 @@ export interface components {
     };
     ImageUrl: {
       url: string | null;
+    };
+    Invitation: {
+      readonly code: string;
+      /** Format: date-time */
+      readonly expires_at: string;
+      readonly link: string;
+      /** @description Web page that works whether or not the app is installed (universal/app link). */
+      readonly share_url: string;
     };
     JoinCoupleRequest: {
       code: string;

@@ -1,4 +1,5 @@
 from django.conf import settings
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from accounts.models import User
@@ -23,14 +24,19 @@ class MemberSerializer(serializers.ModelSerializer[User]):
 
 class InvitationSerializer(serializers.ModelSerializer[Invitation]):
     link = serializers.SerializerMethodField()
+    share_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Invitation
-        fields = ["code", "expires_at", "link"]
+        fields = ["code", "expires_at", "link", "share_url"]
         read_only_fields = fields
 
     def get_link(self, obj: Invitation) -> str:
         return f"{settings.APP_SCHEME}://join/{obj.code}"
+
+    def get_share_url(self, obj: Invitation) -> str:
+        """Web page that works whether or not the app is installed (universal/app link)."""
+        return f"{settings.PUBLIC_BASE_URL.rstrip('/')}/join/{obj.code}/"
 
 
 class CoupleSerializer(serializers.ModelSerializer[Couple]):
@@ -55,6 +61,7 @@ class CoupleSerializer(serializers.ModelSerializer[Couple]):
     def get_photo_url(self, obj: Couple) -> str | None:
         return obj.photo.url if obj.photo else None
 
+    @extend_schema_field(InvitationSerializer(allow_null=True))
     def get_invitation(self, obj: Couple) -> dict[str, str] | None:
         if obj.status != "pending":
             return None

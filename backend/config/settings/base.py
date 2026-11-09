@@ -22,6 +22,12 @@ SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
 PUBLIC_BASE_URL = env_str("PUBLIC_BASE_URL", "http://localhost:8000")
 # Mobile deep link scheme (invitation links: <scheme>://join/<CODE>).
 APP_SCHEME = env_str("APP_SCHEME", "nousdeux")
+# Invitation links (PV.5): store pages and app identifiers for universal / app links.
+IOS_STORE_URL = env_str("IOS_STORE_URL", "")
+ANDROID_STORE_URL = env_str("ANDROID_STORE_URL", "")
+IOS_APP_IDS = env_list("IOS_APP_IDS", "")  # "TEAMID.com.example.app"
+ANDROID_PACKAGE = env_str("ANDROID_PACKAGE", "")
+ANDROID_CERT_FINGERPRINTS = env_list("ANDROID_CERT_FINGERPRINTS", "")
 DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "Nous Deux <no-reply@example.com>")
 
 # Email (Django 6.1 MAILERS). Console in dev; SMTP in prod (see prod.py).

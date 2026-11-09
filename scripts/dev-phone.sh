@@ -45,6 +45,8 @@ if [ ! -x .venv/bin/python ]; then
   .venv/bin/pip install -q -r requirements/dev.txt
 fi
 export DJANGO_SETTINGS_MODULE=config.settings.dev DJANGO_LOCAL_LITE=1
+# Invitation links shared from the phone point to this computer's web page.
+export PUBLIC_BASE_URL="$API_URL"
 .venv/bin/python manage.py migrate --noinput >/dev/null
 
 echo "Serveur : $API_URL"

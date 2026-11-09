@@ -55,3 +55,9 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 ## Notifications push
 - [ ] Après `npx eas-cli@latest init`, mettre l'identifiant du projet dans la variable `EAS_PROJECT_ID` (lue par `app.config.ts` → `extra.eas.projectId`) : sans lui, l'app n'enregistre pas le téléphone pour les notifications.
 - [ ] Optionnel : activer la « sécurité renforcée des notifications » dans le tableau de bord Expo et fournir `EXPO_ACCESS_TOKEN` au backend.
+
+## Liens d'invitation (PV.5)
+- [ ] Choisir le domaine public (ex. `nousdeux.app`) : `PUBLIC_BASE_URL=https://nousdeux.app` (backend) et `LINK_HOST=nousdeux.app` (build mobile).
+- [ ] iOS : `IOS_APP_IDS=TEAMID.<bundle id>` (Team ID du compte Apple Developer).
+- [ ] Android : `ANDROID_PACKAGE=<bundle id>` et `ANDROID_CERT_FINGERPRINTS=<SHA-256 du certificat de signature>` (Play Console → Intégrité de l'app).
+- [ ] Après publication : `IOS_STORE_URL` et `ANDROID_STORE_URL` pour afficher les boutons de téléchargement sur la page d'invitation.

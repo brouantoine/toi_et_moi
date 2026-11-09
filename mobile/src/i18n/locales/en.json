@@ -79,20 +79,25 @@
   "couple": {
     "setup": {
       "title": "Your space for two",
-      "message": "Create your space, then invite the other with a code. Or join the space they already created.",
-      "create": "Create our space",
-      "haveCode": "I have a code"
+      "message": "Invite your partner in one tap: we set up your space and you send them the link.",
+      "create": "Invite your partner",
+      "haveCode": "I received a code"
     },
     "pending": {
-      "title": "Your invitation code",
-      "explain": "Give this code to the other person, or send them the link. They just need to enter it in the app.",
+      "title": "Your invitation is ready",
+      "explain": "Send the link by message: it works even if they don’t have the app yet. Side by side? Show them the QR code.",
       "codeLabel": "Invitation code: {{code}}",
       "expires": "Valid until {{date}}",
       "share": "Send the invitation",
-      "shareMessage": "Join me on {{brand}}. Our code: {{code}} — or open this link: {{link}}",
+      "shareMessage": "Join me on {{brand}}, our space for two. Open this link: {{link}} (or enter the code {{code}} in the app).",
       "waiting": "As soon as they join, your space will open.",
       "newCode": "Generate a new code",
-      "cancel": "Cancel this space"
+      "cancel": "Cancel this space",
+      "copy": "Copy the code",
+      "copied": "Code copied",
+      "showQr": "Show the QR code",
+      "hideQr": "Hide the QR code",
+      "qrLabel": "Invitation QR code, to scan with the camera"
     },
     "active": {
       "title": "You are together",
@@ -101,10 +106,12 @@
     },
     "join": {
       "title": "Join the other",
-      "explain": "Enter the 6-character code you received.",
+      "explain": "Enter the 6-character code you received, or paste the message they sent you.",
       "codeLabel": "Invitation code",
       "invalidFormat": "The code has 6 characters (letters and digits).",
-      "submit": "Join"
+      "submit": "Join",
+      "paste": "Paste the code",
+      "pasteEmpty": "No code found in what you copied."
     },
     "errors": {
       "invalid_code": "This code does not work. Check it, or ask for a new one.",

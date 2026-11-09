@@ -151,3 +151,16 @@ jest.mock('expo-audio', () => {
     setAudioModeAsync: jest.fn(async () => {}),
   };
 });
+
+/* Clipboard (invitation code) and QR code (svg) are replaced by light fakes. */
+jest.mock('expo-clipboard', () => ({
+  setStringAsync: jest.fn(async () => true),
+  getStringAsync: jest.fn(async () => ''),
+}));
+jest.mock('react-native-qrcode-svg', () => {
+  const { createElement } = jest.requireActual('react');
+  const { View } = jest.requireActual('react-native');
+  return function QRCode(props: { value: string }) {
+    return createElement(View, { testID: 'qr-code', accessibilityValue: { text: props.value } });
+  };
+});

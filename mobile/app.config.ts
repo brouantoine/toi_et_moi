@@ -15,6 +15,13 @@ function googlePlugin(): PluginEntry[] {
   return [['@react-native-google-signin/google-signin', { iosUrlScheme }]];
 }
 
+/**
+ * Invitation links (PV.5): `https://<host>/join/CODE` opens the app when installed
+ * (universal link / verified app link), otherwise the backend's web page.
+ * Only declared once the production domain is known (LINK_HOST, see HUMAN_TODO).
+ */
+const LINK_HOST = process.env.LINK_HOST;
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: BRAND.name,
@@ -29,6 +36,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: BRAND.bundleId,
     usesAppleSignIn: true,
     config: { usesNonExemptEncryption: false },
+    ...(LINK_HOST ? { associatedDomains: [`applinks:${LINK_HOST}`] } : {}),
   },
   android: {
     package: BRAND.bundleId,
@@ -39,6 +47,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       monochromeImage: './assets/android-icon-monochrome.png',
     },
     predictiveBackGestureEnabled: false,
+    ...(LINK_HOST
+      ? {
+          intentFilters: [
+            {
+              action: 'VIEW',
+              autoVerify: true,
+              data: [{ scheme: 'https', host: LINK_HOST, pathPrefix: '/join/' }],
+              category: ['BROWSABLE', 'DEFAULT'],
+            },
+          ],
+        }
+      : {}),
   },
   web: { favicon: './assets/favicon.png' },
   plugins: [

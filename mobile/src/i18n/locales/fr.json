@@ -79,20 +79,25 @@
   "couple": {
     "setup": {
       "title": "Votre espace à deux",
-      "message": "Crée votre espace, puis invite l’autre avec un code. Ou rejoins l’espace qu’il ou elle a déjà créé.",
-      "create": "Créer notre espace",
-      "haveCode": "J’ai un code"
+      "message": "Invite ta moitié en un geste : on prépare votre espace et tu lui envoies le lien par message.",
+      "create": "Inviter ta moitié",
+      "haveCode": "J’ai reçu un code"
     },
     "pending": {
-      "title": "Ton code d’invitation",
-      "explain": "Donne ce code à l’autre, ou envoie-lui le lien. Il ou elle n’aura qu’à le saisir dans l’app.",
+      "title": "Ton invitation est prête",
+      "explain": "Envoie le lien par message : il marche même si l’autre n’a pas encore l’app. Vous êtes côte à côte ? Montre-lui le QR code.",
       "codeLabel": "Code d’invitation : {{code}}",
       "expires": "Valable jusqu’à {{date}}",
       "share": "Envoyer l’invitation",
-      "shareMessage": "Rejoins-moi sur {{brand}}. Notre code : {{code}} — ou ouvre ce lien : {{link}}",
+      "shareMessage": "Rejoins-moi sur {{brand}}, notre espace à deux. Ouvre ce lien : {{link}} (ou saisis le code {{code}} dans l’app).",
       "waiting": "Dès que l’autre aura rejoint, votre espace s’ouvrira.",
       "newCode": "Générer un nouveau code",
-      "cancel": "Annuler cet espace"
+      "cancel": "Annuler cet espace",
+      "copy": "Copier le code",
+      "copied": "Code copié",
+      "showQr": "Afficher le QR code",
+      "hideQr": "Masquer le QR code",
+      "qrLabel": "QR code de l’invitation, à scanner avec l’appareil photo"
     },
     "active": {
       "title": "Vous êtes réunis",
@@ -101,10 +106,12 @@
     },
     "join": {
       "title": "Rejoindre l’autre",
-      "explain": "Saisis le code à 6 caractères reçu de l’autre.",
+      "explain": "Saisis le code à 6 caractères reçu de l’autre, ou colle le message qu’il ou elle t’a envoyé.",
       "codeLabel": "Code d’invitation",
       "invalidFormat": "Le code fait 6 caractères (lettres et chiffres).",
-      "submit": "Rejoindre"
+      "submit": "Rejoindre",
+      "paste": "Coller le code",
+      "pasteEmpty": "Aucun code trouvé dans ce que tu as copié."
     },
     "errors": {
       "invalid_code": "Ce code ne fonctionne pas. Vérifie-le, ou demande un nouveau code.",

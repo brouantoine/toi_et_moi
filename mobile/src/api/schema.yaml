@@ -2436,9 +2436,8 @@ components:
             $ref: '#/components/schemas/Member'
           readOnly: true
         invitation:
-          type: object
-          additionalProperties:
-            type: string
+          allOf:
+          - $ref: '#/components/schemas/Invitation'
           nullable: true
           readOnly: true
         activated_at:
@@ -2780,6 +2779,29 @@ components:
           nullable: true
       required:
       - url
+    Invitation:
+      type: object
+      properties:
+        code:
+          type: string
+          readOnly: true
+        expires_at:
+          type: string
+          format: date-time
+          readOnly: true
+        link:
+          type: string
+          readOnly: true
+        share_url:
+          type: string
+          description: Web page that works whether or not the app is installed (universal/app
+            link).
+          readOnly: true
+      required:
+      - code
+      - expires_at
+      - link
+      - share_url
     JoinCoupleRequest:
       type: object
       properties:

@@ -1,4 +1,5 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
+import * as Clipboard from 'expo-clipboard';
 import { Share } from 'react-native';
 
 import {
@@ -10,7 +11,7 @@ import {
 } from '@/test-utils';
 
 import { CoupleSetupScreen } from '../CoupleSetupScreen';
-import { isValidCode, joinLink, normalizeCode, parseJoinLink } from '../inviteLink';
+import { extractCode, isValidCode, joinLink, normalizeCode, parseJoinLink } from '../inviteLink';
 import { JoinCoupleScreen } from '../JoinCoupleScreen';
 import { JoinLinkHandler } from '../JoinLinkHandler';
 import { usePendingInvite } from '../pendingInvite';
@@ -41,6 +42,7 @@ const pending = {
     code: 'ABC234',
     expires_at: '2026-11-05T10:00:00Z',
     link: 'nousdeux://join/ABC234',
+    share_url: 'https://nousdeux.example/join/ABC234/',
   },
   activated_at: null,
 };
@@ -75,6 +77,18 @@ describe('invite links and codes', () => {
     expect(joinLink('ABC234')).toBe('nousdeux://join/ABC234');
   });
 
+  it.each([
+    ['ABC234', 'ABC234'],
+    [' abc-234 ', 'ABC234'],
+    ['Rejoins-moi : https://nousdeux.example/join/ABC234/ (ou saisis le code ABC234)', 'ABC234'],
+    ['Ouvre ce lien : nousdeux://join/ABC234.', 'ABC234'],
+    ['Notre code : ABC234 dans l’app', 'ABC234'],
+    ['Viens dans notre espace demain', null],
+    ['', null],
+  ])('extractCode(%j) = %s', (text, expected) => {
+    expect(extractCode(text)).toBe(expected);
+  });
+
   it('uses the device currency', () => {
     expect(deviceCurrency()).toBe('CAD');
   });
@@ -86,8 +100,13 @@ describe('CoupleSetupScreen', () => {
       methodOf(input) === 'POST' ? jsonResponse(pending, 201) : jsonResponse({}, 404),
     );
     await renderWithProviders(<CoupleSetupScreen />);
+    const share = jest
+      .spyOn(Share, 'share')
+      .mockResolvedValue({ action: 'sharedAction', activityType: undefined });
     await fireEvent.press(await screen.findByTestId('couple-create'));
     expect(await screen.findByTestId('couple-code')).toHaveTextContent('ABC234');
+    // One tap: the share sheet opens as soon as the space exists.
+    await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
     const post = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'POST')![0];
     expect(await requestBody(post)).toEqual({ start_date: null, currency: 'CAD' });
   });
@@ -108,8 +127,22 @@ describe('CoupleSetupScreen', () => {
     await fireEvent.press(await screen.findByTestId('couple-share'));
     const message = share.mock.calls[0]![0] as { message: string };
     expect(message.message).toContain('ABC234');
-    expect(message.message).toContain('nousdeux://join/ABC234');
+    // The web link works even when the other person does not have the app yet.
+    expect(message.message).toContain('https://nousdeux.example/join/ABC234/');
     expect(message.message).toContain('Nous Deux');
+  });
+
+  it('copies the code and shows a QR code of the web link', async () => {
+    mockFetch().mockResolvedValue(jsonResponse(pending));
+    await renderWithProviders(<CoupleSetupScreen />);
+    await fireEvent.press(await screen.findByTestId('couple-copy'));
+    expect(Clipboard.setStringAsync).toHaveBeenCalledWith('ABC234');
+    expect(await screen.findByText('Code copié')).toBeTruthy();
+    expect(screen.queryByTestId('qr-code')).toBeNull();
+    await fireEvent.press(screen.getByTestId('couple-qr-toggle'));
+    expect(screen.getByTestId('qr-code').props.accessibilityValue.text).toBe(
+      'https://nousdeux.example/join/ABC234/',
+    );
   });
 
   it('can cancel a pending space', async () => {
@@ -151,6 +184,25 @@ describe('CoupleSetupScreen', () => {
 });
 
 describe('JoinCoupleScreen', () => {
+  it('pastes the code from a copied invitation message', async () => {
+    mockFetch();
+    jest
+      .mocked(Clipboard.getStringAsync)
+      .mockResolvedValueOnce('Rejoins-moi : https://nousdeux.example/join/ABC234/');
+    await renderWithProviders(<JoinCoupleScreen />);
+    await fireEvent.press(screen.getByTestId('join-paste'));
+    await waitFor(() => expect(screen.getByTestId('join-code').props.value).toBe('ABC234'));
+    expect(screen.queryByTestId('join-paste-empty')).toBeNull();
+  });
+
+  it('says so when the clipboard holds no code', async () => {
+    mockFetch();
+    jest.mocked(Clipboard.getStringAsync).mockResolvedValueOnce('bonjour');
+    await renderWithProviders(<JoinCoupleScreen />);
+    await fireEvent.press(screen.getByTestId('join-paste'));
+    expect(await screen.findByTestId('join-paste-empty')).toBeTruthy();
+  });
+
   it('validates the format before calling the API', async () => {
     const fetchMock = mockFetch();
     await renderWithProviders(<JoinCoupleScreen />);

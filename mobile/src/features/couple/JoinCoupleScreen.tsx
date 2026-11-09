@@ -1,10 +1,12 @@
+import * as Clipboard from 'expo-clipboard';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ClipboardPaste } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Input, Screen, Text } from '@/ui';
 
-import { isValidCode, normalizeCode } from './inviteLink';
+import { extractCode, isValidCode, normalizeCode } from './inviteLink';
 import { usePendingInvite } from './pendingInvite';
 import { joinErrorKey, useJoinCouple } from './useCouple';
 
@@ -16,6 +18,14 @@ export function JoinCoupleScreen() {
   const [code, setCode] = useState(() => normalizeCode(params.code ?? pending.code ?? ''));
   const [touched, setTouched] = useState(false);
   const join = useJoinCouple();
+  const [pasteEmpty, setPasteEmpty] = useState(false);
+
+  /** Accepts the bare code, the link or the whole shared message. */
+  const paste = async () => {
+    const found = extractCode(await Clipboard.getStringAsync().catch(() => ''));
+    setPasteEmpty(!found);
+    if (found) setCode(found);
+  };
 
   const invalid = touched && !isValidCode(code);
 
@@ -45,6 +55,18 @@ export function JoinCoupleScreen() {
         maxLength={7}
         error={invalid ? t('couple.join.invalidFormat') : undefined}
       />
+      <Button
+        testID="join-paste"
+        variant="soft"
+        icon={ClipboardPaste}
+        label={t('couple.join.paste')}
+        onPress={() => void paste()}
+      />
+      {pasteEmpty ? (
+        <Text variant="caption" muted testID="join-paste-empty">
+          {t('couple.join.pasteEmpty')}
+        </Text>
+      ) : null}
       {join.isError ? (
         <Text accessibilityRole="alert" testID="join-error">
           {t(joinErrorKey(join.error))}

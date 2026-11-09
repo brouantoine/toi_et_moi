@@ -1,14 +1,28 @@
+import * as Clipboard from 'expo-clipboard';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { HeartHandshake, PartyPopper } from 'lucide-react-native';
+import type { TFunction } from 'i18next';
+import { Check, Copy, HeartHandshake, PartyPopper, QrCode, Send } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Share, StyleSheet } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
+import QRCodeSvg from 'react-native-qrcode-svg';
 
 import { ApiError } from '@/api';
 import { useSignOut } from '@/auth/useSignOut';
 import { BRAND } from '@/config/brand';
-import { Button, Card, EmptyState, ErrorState, LoadingState, Screen, Text, useTheme } from '@/ui';
+import {
+  Button,
+  Card,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  palettes,
+  Screen,
+  Text,
+  useTheme,
+} from '@/ui';
 
-import { joinLink } from './inviteLink';
 import {
   useCancelPendingCouple,
   useCouple,
@@ -17,12 +31,31 @@ import {
   type Couple,
 } from './useCouple';
 
+/** Scanners need dark-on-white whatever the theme: always the light ink and paper. */
+const QR_INK = palettes.light.text;
+const QR_PAPER = palettes.light.surface;
+
+type Invitation = NonNullable<Couple['invitation']>;
+
+/** Opens the system share sheet with the web link (works even without the app). */
+function shareInvitation(invitation: Invitation, t: TFunction) {
+  void Share.share({
+    message: t('couple.pending.shareMessage', {
+      code: invitation.code,
+      link: invitation.share_url,
+      brand: BRAND.name,
+    }),
+  }).catch(() => {});
+}
+
 function InvitationCard({ couple }: { couple: Couple }) {
   const { t, i18n } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, radii, spacing } = useTheme();
   const renew = useNewInvitation();
   const cancel = useCancelPendingCouple();
-  const invitation = couple.invitation as { code: string; expires_at: string } | null;
+  const [copied, setCopied] = useState(false);
+  const [showQr, setShowQr] = useState(false);
+  const invitation = couple.invitation;
 
   if (!invitation) {
     return (
@@ -40,7 +73,12 @@ function InvitationCard({ couple }: { couple: Couple }) {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(invitation.expires_at));
-  const link = joinLink(invitation.code);
+
+  const copy = async () => {
+    await Clipboard.setStringAsync(invitation.code).catch(() => false);
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    setCopied(true);
+  };
 
   return (
     <>
@@ -59,20 +97,57 @@ function InvitationCard({ couple }: { couple: Couple }) {
         <Text variant="caption" muted>
           {t('couple.pending.expires', { date: expires })}
         </Text>
+        {showQr ? (
+          <View
+            testID="couple-qr"
+            accessible
+            accessibilityLabel={t('couple.pending.qrLabel')}
+            style={[
+              styles.qr,
+              {
+                backgroundColor: QR_PAPER,
+                borderRadius: radii.lg,
+                padding: spacing.md,
+                marginTop: spacing.sm,
+              },
+            ]}
+          >
+            <QRCodeSvg
+              value={invitation.share_url}
+              size={184}
+              color={QR_INK}
+              backgroundColor={QR_PAPER}
+            />
+          </View>
+        ) : null}
       </Card>
       <Button
         testID="couple-share"
+        icon={Send}
+        size="lg"
         label={t('couple.pending.share')}
-        onPress={() =>
-          void Share.share({
-            message: t('couple.pending.shareMessage', {
-              code: invitation.code,
-              link,
-              brand: BRAND.name,
-            }),
-          })
-        }
+        onPress={() => shareInvitation(invitation, t)}
       />
+      <View style={[styles.row, { gap: spacing.sm }]}>
+        <View style={styles.flex}>
+          <Button
+            testID="couple-copy"
+            variant="soft"
+            icon={copied ? Check : Copy}
+            label={copied ? t('couple.pending.copied') : t('couple.pending.copy')}
+            onPress={() => void copy()}
+          />
+        </View>
+        <View style={styles.flex}>
+          <Button
+            testID="couple-qr-toggle"
+            variant="soft"
+            icon={QrCode}
+            label={showQr ? t('couple.pending.hideQr') : t('couple.pending.showQr')}
+            onPress={() => setShowQr((value) => !value)}
+          />
+        </View>
+      </View>
       <Text muted>{t('couple.pending.waiting')}</Text>
       <Button
         testID="couple-new-code"
@@ -132,9 +207,21 @@ export function CoupleSetupScreen() {
           />
           <Button
             testID="couple-create"
+            icon={Send}
+            size="lg"
             label={t('couple.setup.create')}
             loading={create.isPending}
-            onPress={() => create.mutate({})}
+            onPress={() =>
+              create.mutate(
+                {},
+                {
+                  // One tap: the space is created and the share sheet opens right away.
+                  onSuccess: (created) => {
+                    if (created?.invitation) shareInvitation(created.invitation, t);
+                  },
+                },
+              )
+            }
           />
           <Button
             testID="couple-have-code"
@@ -158,4 +245,7 @@ export function CoupleSetupScreen() {
 
 const styles = StyleSheet.create({
   code: { fontSize: 40, lineHeight: 52, fontWeight: '700', letterSpacing: 8, textAlign: 'center' },
+  qr: { alignSelf: 'center', borderCurve: 'continuous' },
+  row: { flexDirection: 'row' },
+  flex: { flex: 1 },
 });
