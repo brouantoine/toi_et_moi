@@ -79,7 +79,7 @@ describe('GateRedirect', () => {
 
 describe('tabs', () => {
   it('has exactly the 5 tabs of the product, translated in both languages', () => {
-    expect(TABS.map((t) => t.name)).toEqual(['today', 'memories', 'organize', 'us', 'me']);
+    expect(TABS.map((t) => t.name)).toEqual(['today', 'memories', 'us', 'organize', 'me']);
     for (const locale of [fr, en] as unknown as Record<
       string,
       Record<string, Record<string, string>>
