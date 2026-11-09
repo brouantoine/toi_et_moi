@@ -76,6 +76,9 @@
     "setupFiles": [
       "<rootDir>/jest.setup.ts"
     ],
-    "clearMocks": true
+    "clearMocks": true,
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.after-env.ts"
+    ]
   }
 }

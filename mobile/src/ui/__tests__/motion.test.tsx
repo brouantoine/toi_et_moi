@@ -42,12 +42,17 @@ describe('FadeIn', () => {
 
 describe('Celebration', () => {
   it('plays a decorative burst, hidden from screen readers', async () => {
-    jest.spyOn(AccessibilityInfo, 'isReduceMotionEnabled').mockResolvedValue(false);
-    await withTheme(<Celebration testID="burst" play="milestone" />);
-    await settle();
-    const burst = screen.getByTestId('burst', { includeHiddenElements: true });
-    expect(burst.props.importantForAccessibility).toBe('no-hide-descendants');
-    expect(burst.props.pointerEvents).toBe('none');
+    // Frozen clock: the burst (under a second) cannot end before it is checked.
+    jest.useFakeTimers();
+    try {
+      jest.spyOn(AccessibilityInfo, 'isReduceMotionEnabled').mockResolvedValue(false);
+      await withTheme(<Celebration testID="burst" play="milestone" />);
+      const burst = screen.getByTestId('burst', { includeHiddenElements: true });
+      expect(burst.props.importantForAccessibility).toBe('no-hide-descendants');
+      expect(burst.props.pointerEvents).toBe('none');
+    } finally {
+      jest.useRealTimers();
+    }
   });
 
   it('does nothing without a reason to celebrate', async () => {
