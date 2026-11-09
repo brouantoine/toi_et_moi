@@ -11,7 +11,12 @@ from core.auth import current_user
 from core.permissions import HasActiveCouple, request_couple
 
 from . import services
-from .serializers import ConsentInputSerializer, DistanceSerializer, PositionInputSerializer
+from .serializers import (
+    ConsentInputSerializer,
+    ContinuousInputSerializer,
+    DistanceSerializer,
+    PositionInputSerializer,
+)
 
 
 def _overview(request: Request) -> Response:
@@ -69,4 +74,24 @@ class DistanceConsentView(APIView):
             services.accept_terms(current_user(request), payload.validated_data["terms_version"])
         except services.OutdatedTerms as exc:
             raise ValidationError({"terms_version": "outdated_terms"}) from exc
+        return _overview(request)
+
+
+class DistanceContinuousView(APIView):
+    """Turns sharing while the app is closed on or off (separate, explicit opt-in)."""
+
+    permission_classes = [IsAuthenticated, HasActiveCouple]
+
+    @extend_schema(request=ContinuousInputSerializer, responses={200: DistanceSerializer})
+    def put(self, request: Request) -> Response:
+        payload = ContinuousInputSerializer(data=request.data)
+        payload.is_valid(raise_exception=True)
+        couple = request_couple(request)
+        assert couple is not None  # noqa: S101 - HasActiveCouple
+        try:
+            services.set_continuous(
+                current_user(request), couple, payload.validated_data["enabled"]
+            )
+        except services.ConsentRequired as exc:
+            raise PermissionDenied("consent_required") from exc
         return _overview(request)

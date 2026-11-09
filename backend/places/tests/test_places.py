@@ -10,7 +10,7 @@ from places.services import TERMS_VERSION
 
 pytestmark = pytest.mark.django_db
 
-NOTHING = {"sharing": False, "city": None, "position": None}
+NOTHING = {"sharing": False, "continuous": False, "city": None, "position": None}
 
 DISTANCE = reverse("couple-distance")
 CONSENT = reverse("couple-distance-consent")
@@ -85,7 +85,7 @@ def test_nothing_about_the_partner_until_both_share() -> None:
     assert data["km"] is None
     # The partner (not sharing) sees that I share, but neither my city nor a distance.
     theirs = client_for(partner).get(DISTANCE).json()
-    assert theirs["partner"] == {"sharing": True, "city": None, "position": None}
+    assert theirs["partner"] == {**NOTHING, "sharing": True}
     assert theirs["km"] is None
 
 
@@ -144,3 +144,131 @@ def test_one_sided_sharing_never_exposes_my_position() -> None:
     assert client_for(partner).get(DISTANCE).json()["partner"]["position"] is None
     _, stranger, _ = make_couple()
     assert "48.85" not in str(client_for(stranger).get(DISTANCE).json())
+
+
+# --- continuous sharing and proximity ------------------------------------------
+
+NEAR_PARIS = (48.8606, 2.3522)  # about 450 m north of PARIS
+FAR_PARIS = (48.8866, 2.3522)  # about 3.3 km north
+
+
+@pytest.fixture
+def pushes(monkeypatch) -> list[dict[str, object]]:
+    from notifications import tasks
+
+    sent: list[dict[str, object]] = []
+    monkeypatch.setattr(
+        tasks.send_push,
+        "delay",
+        lambda tokens, title, body, data, category=None: sent.append(
+            {"tokens": tokens, "title": title, "body": body, "data": data}
+        ),
+    )
+    return sent
+
+
+def both_share(a, b, point_a, point_b) -> None:
+    for user, point in ((a, point_a), (b, point_b)):
+        client = client_for(user)
+        consent(client)
+        share(client, point)
+
+
+def give_phone(user, token: str) -> None:
+    from notifications.models import PushDevice
+
+    user.quiet_hours_start = None
+    user.quiet_hours_end = None
+    user.save()
+    PushDevice.objects.create(user=user, token=token, platform="ios")
+
+
+def test_under_one_km_both_are_told_once(pushes) -> None:
+    _, me, partner = make_couple()
+    give_phone(me, "ExponentPushToken[me]")
+    give_phone(partner, "ExponentPushToken[partner]")
+    both_share(me, partner, PARIS, MONTREAL)
+    assert pushes == []
+    share(client_for(partner), NEAR_PARIS)
+    assert len(pushes) == 2
+    assert {p["tokens"][0] for p in pushes} == {
+        "ExponentPushToken[me]",
+        "ExponentPushToken[partner]",
+    }
+    assert all(p["data"] == {"kind": "proximity", "screen": "distance"} for p in pushes)
+    assert any(partner.display_name in p["title"] for p in pushes)
+    # Still near: no second alert.
+    share(client_for(me), PARIS)
+    share(client_for(partner), NEAR_PARIS)
+    assert len(pushes) == 2
+
+
+def test_alert_is_rearmed_only_after_being_apart_and_not_within_three_hours(pushes) -> None:
+    from django.utils import timezone
+
+    from places.models import Proximity
+    from places.services import ALERT_MIN_INTERVAL
+
+    couple, me, partner = make_couple()
+    give_phone(me, "ExponentPushToken[me]")
+    both_share(me, partner, PARIS, NEAR_PARIS)
+    assert len(pushes) == 1
+    # Apart again, then back within the hour: quiet.
+    share(client_for(partner), FAR_PARIS)
+    share(client_for(partner), NEAR_PARIS)
+    assert len(pushes) == 1
+    # Apart again, and the last alert is old: told again.
+    share(client_for(partner), FAR_PARIS)
+    Proximity.objects.filter(couple=couple).update(alerted_at=timezone.now() - ALERT_MIN_INTERVAL)
+    share(client_for(partner), NEAR_PARIS)
+    assert len(pushes) == 2
+
+
+def test_no_alert_from_a_stale_position_or_when_turned_off(pushes) -> None:
+    from django.utils import timezone
+
+    from notifications.models import NotificationPreference
+    from places.services import FRESH_FOR
+
+    _, me, partner = make_couple()
+    give_phone(me, "ExponentPushToken[me]")
+    both_share(me, partner, PARIS, MONTREAL)
+    LocationShare.objects.filter(user=me).update(located_at=timezone.now() - FRESH_FOR - FRESH_FOR)
+    share(client_for(partner), NEAR_PARIS)
+    assert pushes == []
+
+    _, a, b = make_couple()
+    give_phone(a, "ExponentPushToken[a]")
+    NotificationPreference.objects.update_or_create(user=a, defaults={"proximity": False})
+    both_share(a, b, PARIS, NEAR_PARIS)
+    assert pushes == []
+
+
+def test_continuous_sharing_needs_consent_and_is_shown_to_the_partner() -> None:
+    continuous = reverse("couple-distance-continuous")
+    _, me, partner = make_couple()
+    assert client_for(me).put(continuous, {"enabled": True}, format="json").status_code == 403
+    both_share(me, partner, PARIS, MONTREAL)
+    data = client_for(me).put(continuous, {"enabled": True}, format="json").json()
+    assert data["mine"]["continuous"] is True
+    assert client_for(partner).get(DISTANCE).json()["partner"]["continuous"] is True
+    off = client_for(me).put(continuous, {"enabled": False}, format="json").json()
+    assert off["mine"]["continuous"] is False
+
+
+def test_continuous_sharers_are_reminded_every_thirty_days(pushes) -> None:
+    from django.utils import timezone
+
+    from places import services
+
+    _, me, partner = make_couple()
+    give_phone(me, "ExponentPushToken[me]")
+    both_share(me, partner, PARIS, MONTREAL)
+    client_for(me).put(reverse("couple-distance-continuous"), {"enabled": True}, format="json")
+    assert services.send_continuous_reminders() == 0
+    LocationShare.objects.filter(user=me).update(
+        continuous_since=timezone.now() - services.REMIND_EVERY
+    )
+    assert services.send_continuous_reminders() == 1
+    assert partner.display_name in pushes[-1]["body"]
+    assert services.send_continuous_reminders() == 0  # not again before 30 more days

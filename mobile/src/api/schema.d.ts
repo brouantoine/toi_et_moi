@@ -303,6 +303,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/couple/distance/continuous/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** @description Turns sharing while the app is closed on or off (separate, explicit opt-in). */
+    put: operations['v1_couple_distance_continuous_update'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/couple/invitation/': {
     parameters: {
       query?: never;
@@ -1083,6 +1100,9 @@ export interface components {
     ConsentInputRequest: {
       terms_version: number;
     };
+    ContinuousInputRequest: {
+      enabled: boolean;
+    };
     Couple: {
       readonly id: number;
       readonly status: components['schemas']['CoupleStatusEnum'];
@@ -1426,6 +1446,8 @@ export interface components {
       /** Format: date-time */
       located_at: string | null;
       position: components['schemas']['Position'] | null;
+      /** @description Also shares while the app is closed. */
+      continuous: boolean;
     };
     /**
      * @description * `space` - Espace
@@ -1496,6 +1518,7 @@ export interface components {
     };
     PartnerLocation: {
       sharing: boolean;
+      continuous: boolean;
       /** @description Only when both of you share. */
       city: components['schemas']['City'] | null;
       /** @description Last shared position, for the map. Only when both share. */
@@ -1571,6 +1594,7 @@ export interface components {
       pause?: boolean;
       organization?: boolean;
       messages?: boolean;
+      proximity?: boolean;
       /** Format: time */
       morning_time?: string;
       discreet?: boolean;
@@ -1638,6 +1662,7 @@ export interface components {
       pause?: boolean;
       organization?: boolean;
       messages?: boolean;
+      proximity?: boolean;
       /** Format: time */
       morning_time?: string;
       discreet?: boolean;
@@ -2404,6 +2429,31 @@ export interface operations {
         'application/json': components['schemas']['ConsentInputRequest'];
         'application/x-www-form-urlencoded': components['schemas']['ConsentInputRequest'];
         'multipart/form-data': components['schemas']['ConsentInputRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Distance'];
+        };
+      };
+    };
+  };
+  v1_couple_distance_continuous_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ContinuousInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ContinuousInputRequest'];
+        'multipart/form-data': components['schemas']['ContinuousInputRequest'];
       };
     };
     responses: {

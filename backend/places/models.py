@@ -19,6 +19,11 @@ class LocationShare(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     city_id = models.PositiveIntegerField(null=True, blank=True)
     located_at = models.DateTimeField(null=True, blank=True)
+    #: "Continuous sharing": the phone also sends positions while the app is closed.
+    continuous = models.BooleanField(default=False)
+    continuous_since = models.DateTimeField(null=True, blank=True)
+    #: Last "you are sharing continuously" reminder (sent every 30 days).
+    reminded_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"location of {self.user_id}"
@@ -26,3 +31,16 @@ class LocationShare(models.Model):
     @property
     def located(self) -> bool:
         return self.latitude is not None and self.longitude is not None
+
+
+class Proximity(models.Model):
+    """Whether the two partners are currently "near" (under 1 km), to alert only once."""
+
+    couple = models.OneToOneField(
+        "couples.Couple", on_delete=models.CASCADE, related_name="proximity"
+    )
+    near = models.BooleanField(default=False)
+    alerted_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"proximity of couple {self.couple_id}"

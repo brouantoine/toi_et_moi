@@ -147,7 +147,7 @@ REST_FRAMEWORK = {
         "auth": env_str("THROTTLE_AUTH", "10/min"),
         "join": env_str("THROTTLE_JOIN", "10/min"),
         "messages": env_str("THROTTLE_MESSAGES", "60/min"),
-        "places": env_str("THROTTLE_PLACES", "60/min"),
+        "places": env_str("THROTTLE_PLACES", "120/min"),
     },
     "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
@@ -199,6 +199,11 @@ CELERY_BEAT_SCHEDULE: dict[str, dict[str, object]] = {
     # Each person is invited at their own morning time (checked every 5 minutes).
     "morning-invitations": {"task": "rituals.tasks.send_morning_invitations", "schedule": 300.0},
     "forget-old-moods": {"task": "rituals.tasks.forget_old_moods", "schedule": 6 * 3600.0},
+    # People who share their position continuously are reminded every 30 days.
+    "continuous-sharing-reminders": {
+        "task": "places.tasks.send_continuous_reminders",
+        "schedule": 24 * 3600.0,
+    },
 }
 
 # Expo push: optional access token (enhanced push security in the Expo dashboard).

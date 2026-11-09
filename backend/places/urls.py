@@ -9,4 +9,9 @@ urlpatterns = [
         views.DistanceConsentView.as_view(),
         name="couple-distance-consent",
     ),
+    path(
+        "couple/distance/continuous/",
+        views.DistanceContinuousView.as_view(),
+        name="couple-distance-continuous",
+    ),
 ]

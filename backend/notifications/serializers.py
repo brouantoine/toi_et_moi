@@ -23,6 +23,7 @@ class PreferenceSerializer(serializers.ModelSerializer[NotificationPreference]):
             "pause",
             "organization",
             "messages",
+            "proximity",
             "morning_time",
             "discreet",
         ]

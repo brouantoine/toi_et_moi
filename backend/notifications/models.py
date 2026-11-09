@@ -38,6 +38,7 @@ class Kind(models.TextChoices):
     PAUSE = "pause", "Pause"
     ORGANIZATION = "organization", "Organisation"
     MESSAGES = "messages", "Messages"
+    PROXIMITY = "proximity", "Proximité"
 
 
 class NotificationPreference(models.Model):
@@ -55,6 +56,7 @@ class NotificationPreference(models.Model):
     pause = models.BooleanField(default=True)
     organization = models.BooleanField(default=True)
     messages = models.BooleanField(default=True)
+    proximity = models.BooleanField(default=True)
     #: Local time of the morning check-in invitation.
     morning_time = models.TimeField(default=time(8, 0))
     #: Discreet lock screen: say *that* something happened, not *what*.
