@@ -1,8 +1,7 @@
-"""Offline city search (GeoNames cities15000, CC-BY 4.0) and great-circle distance.
+"""Offline city index (GeoNames cities15000, CC-BY 4.0) and great-circle distance.
 
-The index is loaded lazily once per process. Coordinates are rounded to 0.01 degree
-(about 1 km) and never leave the backend: the API only returns names, country codes
-and a rounded distance.
+Used to name the city nearest to a shared position, without any third-party geocoder.
+The index is loaded lazily once per process.
 """
 
 import gzip
@@ -110,8 +109,40 @@ def search(query: str, limit: int = 8) -> list[tuple[City, str]]:
     return [(index.cities[city_id], label) for city_id, (_, label) in ranked[:limit]]
 
 
+AREA_KM = 12.0
+
+
+def nearest(lat: float, lon: float) -> City | None:
+    """The city to name for a position: the biggest one within AREA_KM, else the closest.
+
+    Avoids district names ("Paris 04 Hotel-de-Ville") and stays deliberately coarse.
+    """
+    cos_lat = math.cos(math.radians(lat))
+    closest: City | None = None
+    closest_km = math.inf
+    biggest: City | None = None
+    for city in _index().cities.values():
+        d_lon = (city.lon - lon + 180) % 360 - 180
+        km = 111.2 * math.hypot(city.lat - lat, d_lon * cos_lat)
+        if km < closest_km:
+            closest, closest_km = city, km
+        if km <= AREA_KM and (biggest is None or city.population > biggest.population):
+            biggest = city
+    return biggest or closest
+
+
+def km_between(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle (haversine) distance between two points, in km."""
+    lat1, lon1, lat2, lon2 = map(math.radians, (lat1, lon1, lat2, lon2))
+    h = (
+        math.sin((lat2 - lat1) / 2) ** 2
+        + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2
+    )
+    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(h))
+
+
 def distance_km(a: City, b: City) -> float:
-    """Great-circle (haversine) distance."""
+    """Great-circle (haversine) distance between two cities."""
     lat1, lon1, lat2, lon2 = map(math.radians, (a.lat, a.lon, b.lat, b.lon))
     h = (
         math.sin((lat2 - lat1) / 2) ** 2

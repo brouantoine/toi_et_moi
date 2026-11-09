@@ -537,8 +537,8 @@ paths:
   /api/v1/couple/distance/:
     get:
       operationId: v1_couple_distance_retrieve
-      description: How far apart you are, city to city, only if both of you choose
-        to share.
+      description: How far apart you are, from your real positions, only if both of
+        you agree.
       tags:
       - v1
       security:
@@ -552,21 +552,57 @@ paths:
           description: ''
     put:
       operationId: v1_couple_distance_update
-      description: How far apart you are, city to city, only if both of you choose
-        to share.
+      description: Shares the current position (sent by the app while it is open).
       tags:
       - v1
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DistanceInputRequest'
+              $ref: '#/components/schemas/PositionInputRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/DistanceInputRequest'
+              $ref: '#/components/schemas/PositionInputRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/DistanceInputRequest'
+              $ref: '#/components/schemas/PositionInputRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distance'
+          description: ''
+    delete:
+      operationId: v1_couple_distance_destroy
+      description: 'Stops sharing: consent withdrawn and position erased at once.'
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/couple/distance/consent/:
+    post:
+      operationId: v1_couple_distance_consent_create
+      description: Accepts the location terms (the version shown in the app).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConsentInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConsentInputRequest'
         required: true
       security:
       - jwtAuth: []
@@ -2324,29 +2360,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Preference'
           description: ''
-  /api/v1/places/search/:
-    get:
-      operationId: v1_places_search_list
-      description: 'Offline city search: nothing is sent to a third-party geocoder.'
-      parameters:
-      - in: query
-        name: q
-        schema:
-          type: string
-        required: true
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/City'
-          description: ''
 components:
   schemas:
     AccentEnum:
@@ -2496,18 +2509,22 @@ components:
     City:
       type: object
       properties:
-        id:
-          type: integer
         name:
           type: string
-          description: Spelling chosen or matched ("Londres").
         country:
           type: string
           description: ISO 3166-1 alpha-2 code.
       required:
       - country
-      - id
       - name
+    ConsentInputRequest:
+      type: object
+      properties:
+        terms_version:
+          type: integer
+          minimum: 1
+      required:
+      - terms_version
     Couple:
       type: object
       properties:
@@ -2610,33 +2627,21 @@ components:
     Distance:
       type: object
       properties:
+        terms_version:
+          type: integer
         mine:
-          $ref: '#/components/schemas/MyCity'
+          $ref: '#/components/schemas/MyLocation'
         partner:
-          $ref: '#/components/schemas/PartnerCity'
+          $ref: '#/components/schemas/PartnerLocation'
         km:
           type: integer
           nullable: true
-          description: Rounded; 0 means the same city. Null unless both share.
+          description: Rounded; 0 means less than 1 km. Null unless both share.
       required:
       - km
       - mine
       - partner
-    DistanceInputRequest:
-      type: object
-      properties:
-        city_id:
-          type: integer
-          minimum: 1
-          nullable: true
-        name:
-          type: string
-          maxLength: 80
-        sharing:
-          type: boolean
-      required:
-      - city_id
-      - sharing
+      - terms_version
     EmailRequest:
       type: object
       properties:
@@ -3358,17 +3363,27 @@ components:
       - date
       - mine
       - partner
-    MyCity:
+    MyLocation:
       type: object
       properties:
+        consented:
+          type: boolean
+          description: Current terms accepted.
+        sharing:
+          type: boolean
+          description: A position has been shared.
         city:
           allOf:
           - $ref: '#/components/schemas/City'
           nullable: true
-        sharing:
-          type: boolean
+        located_at:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - city
+      - consented
+      - located_at
       - sharing
     NeedEnum:
       enum:
@@ -3486,7 +3501,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
-    PartnerCity:
+    PartnerLocation:
       type: object
       properties:
         sharing:
@@ -3750,6 +3765,22 @@ components:
       description: |-
         * `ios` - iOS
         * `android` - Android
+    PositionInputRequest:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+          maximum: 90
+          minimum: -90
+        longitude:
+          type: number
+          format: double
+          maximum: 180
+          minimum: -180
+      required:
+      - latitude
+      - longitude
     Preference:
       type: object
       properties:

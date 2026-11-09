@@ -5,15 +5,16 @@ from rest_framework.test import APIClient
 from accounts.tests.factories import UserFactory
 from couples.tests.factories import make_couple
 from places import cities
-from places.models import HomeCity
+from places.models import LocationShare
+from places.services import TERMS_VERSION
 
 pytestmark = pytest.mark.django_db
 
-SEARCH = reverse("places-search")
 DISTANCE = reverse("couple-distance")
-PARIS = 2988507
-MONTREAL = 6077243
-LONDON = 2643743
+CONSENT = reverse("couple-distance-consent")
+PARIS = (48.8566, 2.3522)
+MONTREAL = (45.5019, -73.5674)
+ABIDJAN = (5.3600, -4.0083)
 
 
 def client_for(user) -> APIClient:
@@ -22,123 +23,111 @@ def client_for(user) -> APIClient:
     return client
 
 
-@pytest.fixture
-def couple():
-    return make_couple()
+def consent(client: APIClient) -> None:
+    assert client.post(CONSENT, {"terms_version": TERMS_VERSION}, format="json").status_code == 200
 
 
-def members(couple):
-    _, first, second = couple
-    return first, second
+def share(client: APIClient, point: tuple[float, float]):
+    lat, lon = point
+    return client.put(DISTANCE, {"latitude": lat, "longitude": lon}, format="json")
 
 
-# --- index -----------------------------------------------------------------
+# --- geometry ----------------------------------------------------------------
 
 
-@pytest.mark.parametrize(
-    ("query", "expected_id", "label"),
-    [
-        ("Paris", PARIS, "Paris"),
-        ("montreal", MONTREAL, "Montréal"),
-        ("Londres", LONDON, "Londres"),
-        ("  MONTRÉ ", MONTREAL, "Montréal"),
-    ],
-)
-def test_search_finds_names_and_translations(query: str, expected_id: int, label: str) -> None:
-    city, matched = cities.search(query)[0]
-    assert (city.id, matched) == (expected_id, label)
-
-
-def test_search_needs_two_letters() -> None:
-    assert cities.search("p") == []
-    assert cities.search("") == []
-
-
-def test_distance_and_rounding() -> None:
-    paris, montreal = cities.get(PARIS), cities.get(MONTREAL)
-    assert paris and montreal
-    assert 5400 < cities.distance_km(paris, montreal) < 5600
-    assert cities.distance_km(paris, paris) == 0
+def test_nearest_city_and_distance() -> None:
+    assert cities.nearest(*PARIS).name == "Paris"  # type: ignore[union-attr]
+    assert cities.nearest(*ABIDJAN).name == "Abidjan"  # type: ignore[union-attr]
+    assert 5480 < cities.km_between(*PARIS, *MONTREAL) < 5540
+    assert cities.km_between(*PARIS, *PARIS) == 0
     assert [cities.rounded_km(km) for km in (0.4, 7.4, 23, 1238)] == [0, 7, 25, 1240]
 
 
-# --- API ---------------------------------------------------------------------
+# --- consent -------------------------------------------------------------------
 
 
-def test_search_api_returns_labels_without_coordinates() -> None:
-    data = client_for(UserFactory()).get(SEARCH, {"q": "londres"}).json()
-    assert data[0] == {"id": LONDON, "name": "Londres", "country": "GB"}
-    assert APIClient().get(SEARCH, {"q": "paris"}).status_code == 401
+def test_position_refused_without_consent() -> None:
+    _, me, _ = make_couple()
+    response = share(client_for(me), PARIS)
+    assert response.status_code == 403
+    assert not LocationShare.objects.filter(user=me).exists()
 
 
-def test_nothing_is_revealed_until_both_share(couple) -> None:
-    me, partner = members(couple)
-    mine = client_for(me).put(
-        DISTANCE, {"city_id": PARIS, "name": "Paris", "sharing": True}, format="json"
-    )
-    assert mine.status_code == 200
-    # The partner chose a city but does not share: no city, no distance.
-    client_for(partner).put(DISTANCE, {"city_id": MONTREAL, "sharing": False}, format="json")
+def test_outdated_terms_are_refused() -> None:
+    _, me, _ = make_couple()
+    response = client_for(me).post(CONSENT, {"terms_version": 99}, format="json")
+    assert response.status_code == 400
+
+
+def test_consent_alone_reveals_nothing() -> None:
+    _, me, partner = make_couple()
+    consent(client_for(me))
     data = client_for(me).get(DISTANCE).json()
-    assert data["mine"] == {
-        "city": {"id": PARIS, "name": "Paris", "country": "FR"},
-        "sharing": True,
-    }
+    assert data["mine"]["consented"] is True
+    assert data["mine"]["sharing"] is False
+    assert data["km"] is None
+    assert client_for(partner).get(DISTANCE).json()["partner"] == {"sharing": False, "city": None}
+
+
+# --- distance ------------------------------------------------------------------
+
+
+def test_nothing_about_the_partner_until_both_share() -> None:
+    _, me, partner = make_couple()
+    mine = client_for(me)
+    consent(mine)
+    assert share(mine, PARIS).status_code == 200
+    data = mine.get(DISTANCE).json()
+    assert data["mine"]["city"] == {"name": "Paris", "country": "FR"}
     assert data["partner"] == {"sharing": False, "city": None}
     assert data["km"] is None
-    # I see nothing either from the partner's side while I do not share.
-    client_for(me).put(DISTANCE, {"city_id": PARIS, "sharing": False}, format="json")
-    client_for(partner).put(DISTANCE, {"city_id": MONTREAL, "sharing": True}, format="json")
+    # The partner (not sharing) sees that I share, but neither my city nor a distance.
     theirs = client_for(partner).get(DISTANCE).json()
-    assert theirs["partner"] == {"sharing": False, "city": None}
+    assert theirs["partner"] == {"sharing": True, "city": None}
     assert theirs["km"] is None
 
 
-def test_both_sharing_shows_city_and_rounded_distance(couple) -> None:
-    me, partner = members(couple)
-    client_for(me).put(DISTANCE, {"city_id": PARIS, "sharing": True}, format="json")
-    client_for(partner).put(
-        DISTANCE, {"city_id": MONTREAL, "name": "Montréal", "sharing": True}, format="json"
-    )
+def test_both_sharing_gives_rounded_distance_and_cities_never_coordinates() -> None:
+    _, me, partner = make_couple()
+    for user, point in ((me, PARIS), (partner, MONTREAL)):
+        client = client_for(user)
+        consent(client)
+        share(client, point)
     data = client_for(me).get(DISTANCE).json()
-    assert data["partner"]["city"] == {"id": MONTREAL, "name": "Montréal", "country": "CA"}
-    assert data["km"] % 10 == 0 and 5400 < data["km"] < 5600
-    assert "lat" not in str(data) and "lon" not in str(data)
+    assert data["partner"]["city"] == {"name": "Montréal", "country": "CA"}
+    assert data["km"] % 10 == 0 and 5480 <= data["km"] <= 5540
+    body = str(data)
+    assert "48.85" not in body and "45.50" not in body and "latitude" not in body
 
 
-def test_label_must_belong_to_the_city(couple) -> None:
-    me, _ = members(couple)
-    client_for(me).put(
-        DISTANCE, {"city_id": PARIS, "name": "Chez moi rue X", "sharing": True}, format="json"
-    )
-    assert HomeCity.objects.get(user=me).label == "Paris"
+def test_stopping_erases_the_position_at_once() -> None:
+    _, me, partner = make_couple()
+    for user, point in ((me, PARIS), (partner, MONTREAL)):
+        client = client_for(user)
+        consent(client)
+        share(client, point)
+    assert client_for(me).delete(DISTANCE).status_code == 204
+    assert not LocationShare.objects.filter(user=me).exists()
+    data = client_for(partner).get(DISTANCE).json()
+    assert data["partner"] == {"sharing": False, "city": None}
+    assert data["km"] is None
 
 
-def test_unknown_city_and_clearing(couple) -> None:
-    me, _ = members(couple)
+def test_invalid_coordinates_rejected() -> None:
+    _, me, _ = make_couple()
     client = client_for(me)
-    bad = client.put(DISTANCE, {"city_id": 999_999_999, "sharing": True}, format="json")
-    assert bad.status_code == 400
-    assert bad.json()["city_id"] == "unknown_city" or "unknown_city" in str(bad.json())
-    client.put(DISTANCE, {"city_id": PARIS, "sharing": True}, format="json")
-    cleared = client.put(DISTANCE, {"city_id": None, "sharing": False}, format="json").json()
-    assert cleared["mine"] == {"city": None, "sharing": False}
-    assert not HomeCity.objects.filter(user=me).exists()
+    consent(client)
+    assert share(client, (91.0, 0.0)).status_code == 400
+    assert share(client, (0.0, 181.0)).status_code == 400
 
 
-def test_distance_needs_an_active_couple() -> None:
-    stranger = client_for(UserFactory())
-    assert stranger.get(DISTANCE).status_code == 403
-    assert (
-        stranger.put(DISTANCE, {"city_id": PARIS, "sharing": True}, format="json").status_code
-        == 403
-    )
-
-
-def test_another_couple_never_sees_our_cities(couple) -> None:
-    me, _ = members(couple)
-    client_for(me).put(DISTANCE, {"city_id": PARIS, "sharing": True}, format="json")
-    other = make_couple()
-    someone, _ = members(other)
-    data = client_for(someone).get(DISTANCE).json()
+def test_needs_an_active_couple_and_strangers_see_nothing() -> None:
+    lonely = client_for(UserFactory())
+    assert lonely.get(DISTANCE).status_code == 403
+    assert lonely.post(CONSENT, {"terms_version": TERMS_VERSION}, format="json").status_code == 403
+    _, me, _ = make_couple()
+    consent(client_for(me))
+    share(client_for(me), PARIS)
+    _, stranger, _ = make_couple()
+    data = client_for(stranger).get(DISTANCE).json()
     assert data["partner"] == {"sharing": False, "city": None}

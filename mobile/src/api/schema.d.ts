@@ -274,11 +274,29 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** @description How far apart you are, city to city, only if both of you choose to share. */
+    /** @description How far apart you are, from your real positions, only if both of you agree. */
     get: operations['v1_couple_distance_retrieve'];
-    /** @description How far apart you are, city to city, only if both of you choose to share. */
+    /** @description Shares the current position (sent by the app while it is open). */
     put: operations['v1_couple_distance_update'];
     post?: never;
+    /** @description Stops sharing: consent withdrawn and position erased at once. */
+    delete: operations['v1_couple_distance_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/couple/distance/consent/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Accepts the location terms (the version shown in the app). */
+    post: operations['v1_couple_distance_consent_create'];
     delete?: never;
     options?: never;
     head?: never;
@@ -973,23 +991,6 @@ export interface paths {
     patch: operations['v1_notifications_preferences_partial_update'];
     trace?: never;
   };
-  '/api/v1/places/search/': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Offline city search: nothing is sent to a third-party geocoder. */
-    get: operations['v1_places_search_list'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1058,11 +1059,12 @@ export interface components {
       us: components['schemas']['Chore'][];
     };
     City: {
-      id: number;
-      /** @description Spelling chosen or matched ("Londres"). */
       name: string;
       /** @description ISO 3166-1 alpha-2 code. */
       country: string;
+    };
+    ConsentInputRequest: {
+      terms_version: number;
     };
     Couple: {
       readonly id: number;
@@ -1106,15 +1108,11 @@ export interface components {
      */
     DirectionEnum: 'partner_owes_me' | 'i_owe_partner' | 'settled';
     Distance: {
-      mine: components['schemas']['MyCity'];
-      partner: components['schemas']['PartnerCity'];
-      /** @description Rounded; 0 means the same city. Null unless both share. */
+      terms_version: number;
+      mine: components['schemas']['MyLocation'];
+      partner: components['schemas']['PartnerLocation'];
+      /** @description Rounded; 0 means less than 1 km. Null unless both share. */
       km: number | null;
-    };
-    DistanceInputRequest: {
-      city_id: number | null;
-      name?: string;
-      sharing: boolean;
     };
     EmailRequest: {
       /** Format: email */
@@ -1400,9 +1398,14 @@ export interface components {
       mine: components['schemas']['Mood'] | null;
       partner: components['schemas']['Mood'] | null;
     };
-    MyCity: {
-      city: components['schemas']['City'] | null;
+    MyLocation: {
+      /** @description Current terms accepted. */
+      consented: boolean;
+      /** @description A position has been shared. */
       sharing: boolean;
+      city: components['schemas']['City'] | null;
+      /** Format: date-time */
+      located_at: string | null;
     };
     /**
      * @description * `space` - Espace
@@ -1471,7 +1474,7 @@ export interface components {
       previous?: string | null;
       results: components['schemas']['Message'][];
     };
-    PartnerCity: {
+    PartnerLocation: {
       sharing: boolean;
       /** @description Only when both of you share. */
       city: components['schemas']['City'] | null;
@@ -1589,6 +1592,12 @@ export interface components {
      * @enum {string}
      */
     PlatformEnum: 'ios' | 'android';
+    PositionInputRequest: {
+      /** Format: double */
+      latitude: number;
+      /** Format: double */
+      longitude: number;
+    };
     Preference: {
       morning_mood?: boolean;
       partner_mood?: boolean;
@@ -2319,9 +2328,52 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['DistanceInputRequest'];
-        'application/x-www-form-urlencoded': components['schemas']['DistanceInputRequest'];
-        'multipart/form-data': components['schemas']['DistanceInputRequest'];
+        'application/json': components['schemas']['PositionInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['PositionInputRequest'];
+        'multipart/form-data': components['schemas']['PositionInputRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Distance'];
+        };
+      };
+    };
+  };
+  v1_couple_distance_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_couple_distance_consent_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ConsentInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ConsentInputRequest'];
+        'multipart/form-data': components['schemas']['ConsentInputRequest'];
       };
     };
     responses: {
@@ -3993,27 +4045,6 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Preference'];
-        };
-      };
-    };
-  };
-  v1_places_search_list: {
-    parameters: {
-      query: {
-        q: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['City'][];
         };
       };
     };

@@ -116,7 +116,7 @@ def test_join_is_throttled() -> None:
 
 
 def test_couple_colour_is_shared_and_validated() -> None:
-    couple, a, b = make_couple()
+    _, a, b = make_couple()
     response = client_for(a).patch(COUPLE, {"accent": "lagon"}, format="json")
     assert response.status_code == 200
     assert response.json()["accent"] == "lagon"
@@ -125,5 +125,5 @@ def test_couple_colour_is_shared_and_validated() -> None:
 
 
 def test_new_couples_start_in_red() -> None:
-    couple, a, _ = make_couple()
+    _, a, _ = make_couple()
     assert client_for(a).get(COUPLE).json()["accent"] == "rouge"

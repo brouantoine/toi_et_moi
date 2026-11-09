@@ -2,30 +2,35 @@ from rest_framework import serializers
 
 
 class CitySerializer(serializers.Serializer[dict[str, object]]):
-    id = serializers.IntegerField()
-    name = serializers.CharField(help_text='Spelling chosen or matched ("Londres").')
+    name = serializers.CharField()
     country = serializers.CharField(help_text="ISO 3166-1 alpha-2 code.")
 
 
-class MyCitySerializer(serializers.Serializer[dict[str, object]]):
+class MyLocationSerializer(serializers.Serializer[dict[str, object]]):
+    consented = serializers.BooleanField(help_text="Current terms accepted.")
+    sharing = serializers.BooleanField(help_text="A position has been shared.")
     city = CitySerializer(allow_null=True)
-    sharing = serializers.BooleanField()
+    located_at = serializers.DateTimeField(allow_null=True)
 
 
-class PartnerCitySerializer(serializers.Serializer[dict[str, object]]):
+class PartnerLocationSerializer(serializers.Serializer[dict[str, object]]):
     sharing = serializers.BooleanField()
     city = CitySerializer(allow_null=True, help_text="Only when both of you share.")
 
 
 class DistanceSerializer(serializers.Serializer[dict[str, object]]):
-    mine = MyCitySerializer()
-    partner = PartnerCitySerializer()
+    terms_version = serializers.IntegerField()
+    mine = MyLocationSerializer()
+    partner = PartnerLocationSerializer()
     km = serializers.IntegerField(
-        allow_null=True, help_text="Rounded; 0 means the same city. Null unless both share."
+        allow_null=True, help_text="Rounded; 0 means less than 1 km. Null unless both share."
     )
 
 
-class DistanceInputSerializer(serializers.Serializer[dict[str, object]]):
-    city_id = serializers.IntegerField(allow_null=True, min_value=1)
-    name = serializers.CharField(required=False, allow_blank=True, max_length=80)
-    sharing = serializers.BooleanField()
+class PositionInputSerializer(serializers.Serializer[dict[str, object]]):
+    latitude = serializers.FloatField(min_value=-90, max_value=90)
+    longitude = serializers.FloatField(min_value=-180, max_value=180)
+
+
+class ConsentInputSerializer(serializers.Serializer[dict[str, object]]):
+    terms_version = serializers.IntegerField(min_value=1)

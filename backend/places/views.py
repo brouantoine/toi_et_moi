@@ -1,5 +1,6 @@
-from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_framework.exceptions import ValidationError
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -9,60 +10,63 @@ from rest_framework.views import APIView
 from core.auth import current_user
 from core.permissions import HasActiveCouple, request_couple
 
-from . import cities, services
-from .serializers import CitySerializer, DistanceInputSerializer, DistanceSerializer
+from . import services
+from .serializers import ConsentInputSerializer, DistanceSerializer, PositionInputSerializer
 
 
-class CitySearchView(APIView):
-    """Offline city search: nothing is sent to a third-party geocoder."""
-
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = "places"
-
-    @extend_schema(
-        parameters=[OpenApiParameter("q", str, required=True)],
-        responses={200: CitySerializer(many=True)},
-    )
-    def get(self, request: Request) -> Response:
-        query = request.query_params.get("q", "")[:60]
-        results = [
-            {"id": city.id, "name": label, "country": city.country}
-            for city, label in cities.search(query)
-        ]
-        return Response(results)
+def _overview(request: Request) -> Response:
+    couple = request_couple(request)
+    assert couple is not None  # noqa: S101 - HasActiveCouple
+    return Response(DistanceSerializer(services.overview(current_user(request), couple)).data)
 
 
 class DistanceView(APIView):
-    """How far apart you are, city to city, only if both of you choose to share."""
+    """How far apart you are, from your real positions, only if both of you agree."""
 
     permission_classes = [IsAuthenticated, HasActiveCouple]
-
-    def _payload(self, request: Request) -> Response:
-        couple = request_couple(request)
-        assert couple is not None  # noqa: S101 - HasActiveCouple
-        data = services.overview(current_user(request), couple)
-        return Response(DistanceSerializer(data).data)
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "places"
 
     @extend_schema(responses={200: DistanceSerializer})
     def get(self, request: Request) -> Response:
-        return self._payload(request)
+        return _overview(request)
 
-    @extend_schema(request=DistanceInputSerializer, responses={200: DistanceSerializer})
+    @extend_schema(request=PositionInputSerializer, responses={200: DistanceSerializer})
     def put(self, request: Request) -> Response:
-        payload = DistanceInputSerializer(data=request.data)
+        """Shares the current position (sent by the app while it is open)."""
+        payload = PositionInputSerializer(data=request.data)
         payload.is_valid(raise_exception=True)
-        data = payload.validated_data
         couple = request_couple(request)
         assert couple is not None  # noqa: S101 - HasActiveCouple
         try:
-            services.set_home(
+            services.update_position(
                 current_user(request),
                 couple,
-                data["city_id"],
-                data.get("name"),
-                data["sharing"],
+                payload.validated_data["latitude"],
+                payload.validated_data["longitude"],
             )
-        except services.UnknownCity as exc:
-            raise ValidationError({"city_id": "unknown_city"}) from exc
-        return self._payload(request)
+        except services.ConsentRequired as exc:
+            raise PermissionDenied("consent_required") from exc
+        return _overview(request)
+
+    @extend_schema(responses={204: None})
+    def delete(self, request: Request) -> Response:
+        """Stops sharing: consent withdrawn and position erased at once."""
+        services.stop(current_user(request), request_couple(request))
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DistanceConsentView(APIView):
+    """Accepts the location terms (the version shown in the app)."""
+
+    permission_classes = [IsAuthenticated, HasActiveCouple]
+
+    @extend_schema(request=ConsentInputSerializer, responses={200: DistanceSerializer})
+    def post(self, request: Request) -> Response:
+        payload = ConsentInputSerializer(data=request.data)
+        payload.is_valid(raise_exception=True)
+        try:
+            services.accept_terms(current_user(request), payload.validated_data["terms_version"])
+        except services.OutdatedTerms as exc:
+            raise ValidationError({"terms_version": "outdated_terms"}) from exc
+        return _overview(request)

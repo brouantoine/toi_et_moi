@@ -2,20 +2,27 @@ from django.conf import settings
 from django.db import models
 
 
-class HomeCity(models.Model):
-    """The city a person chose to compare with their partner (never a GPS position).
+class LocationShare(models.Model):
+    """A person's consented position, used ONLY to compute the distance to their partner.
 
-    `label` keeps the spelling they picked ("Londres"); coordinates are looked up in
-    the offline city index and never stored nor sent to the partner.
+    Read from the phone while the app is open (never in the background). The partner only
+    ever receives the rounded distance and the nearest city name, never the coordinates.
+    Stopping erases the coordinates at once.
     """
 
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="home_city"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="location_share"
     )
-    city_id = models.PositiveIntegerField()
-    label = models.CharField(max_length=80)
-    sharing = models.BooleanField(default=False)
-    updated_at = models.DateTimeField(auto_now=True)
+    terms_version = models.PositiveSmallIntegerField()
+    consented_at = models.DateTimeField()
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    city_id = models.PositiveIntegerField(null=True, blank=True)
+    located_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.user_id}: {self.label}"
+        return f"location of {self.user_id}"
+
+    @property
+    def located(self) -> bool:
+        return self.latitude is not None and self.longitude is not None
