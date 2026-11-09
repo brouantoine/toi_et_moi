@@ -267,6 +267,24 @@ export interface paths {
     patch: operations['v1_couple_partial_update'];
     trace?: never;
   };
+  '/api/v1/couple/distance/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description How far apart you are, city to city, only if both of you choose to share. */
+    get: operations['v1_couple_distance_retrieve'];
+    /** @description How far apart you are, city to city, only if both of you choose to share. */
+    put: operations['v1_couple_distance_update'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/couple/invitation/': {
     parameters: {
       query?: never;
@@ -955,6 +973,23 @@ export interface paths {
     patch: operations['v1_notifications_preferences_partial_update'];
     trace?: never;
   };
+  '/api/v1/places/search/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Offline city search: nothing is sent to a third-party geocoder. */
+    get: operations['v1_places_search_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1011,6 +1046,13 @@ export interface components {
       you: components['schemas']['Chore'][];
       us: components['schemas']['Chore'][];
     };
+    City: {
+      id: number;
+      /** @description Spelling chosen or matched ("Londres"). */
+      name: string;
+      /** @description ISO 3166-1 alpha-2 code. */
+      country: string;
+    };
     Couple: {
       readonly id: number;
       readonly status: components['schemas']['CoupleStatusEnum'];
@@ -1051,6 +1093,17 @@ export interface components {
      * @enum {string}
      */
     DirectionEnum: 'partner_owes_me' | 'i_owe_partner' | 'settled';
+    Distance: {
+      mine: components['schemas']['MyCity'];
+      partner: components['schemas']['PartnerCity'];
+      /** @description Rounded; 0 means the same city. Null unless both share. */
+      km: number | null;
+    };
+    DistanceInputRequest: {
+      city_id: number | null;
+      name?: string;
+      sharing: boolean;
+    };
     EmailRequest: {
       /** Format: email */
       email: string;
@@ -1335,6 +1388,10 @@ export interface components {
       mine: components['schemas']['Mood'] | null;
       partner: components['schemas']['Mood'] | null;
     };
+    MyCity: {
+      city: components['schemas']['City'] | null;
+      sharing: boolean;
+    };
     /**
      * @description * `space` - Espace
      *     * `hug` - Câlin
@@ -1401,6 +1458,11 @@ export interface components {
        */
       previous?: string | null;
       results: components['schemas']['Message'][];
+    };
+    PartnerCity: {
+      sharing: boolean;
+      /** @description Only when both of you share. */
+      city: components['schemas']['City'] | null;
     };
     PasswordResetConfirmRequest: {
       uid: string;
@@ -2213,6 +2275,50 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  v1_couple_distance_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Distance'];
+        };
+      };
+    };
+  };
+  v1_couple_distance_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DistanceInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['DistanceInputRequest'];
+        'multipart/form-data': components['schemas']['DistanceInputRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Distance'];
+        };
       };
     };
   };
@@ -3874,6 +3980,27 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Preference'];
+        };
+      };
+    };
+  };
+  v1_places_search_list: {
+    parameters: {
+      query: {
+        q: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['City'][];
         };
       };
     };

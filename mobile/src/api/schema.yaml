@@ -534,6 +534,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/CoupleError'
           description: ''
+  /api/v1/couple/distance/:
+    get:
+      operationId: v1_couple_distance_retrieve
+      description: How far apart you are, city to city, only if both of you choose
+        to share.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distance'
+          description: ''
+    put:
+      operationId: v1_couple_distance_update
+      description: How far apart you are, city to city, only if both of you choose
+        to share.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DistanceInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DistanceInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DistanceInputRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distance'
+          description: ''
   /api/v1/couple/invitation/:
     post:
       operationId: v1_couple_invitation_create
@@ -2281,6 +2324,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/Preference'
           description: ''
+  /api/v1/places/search/:
+    get:
+      operationId: v1_places_search_list
+      description: 'Offline city search: nothing is sent to a third-party geocoder.'
+      parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/City'
+          description: ''
 components:
   schemas:
     AuthResponse:
@@ -2409,6 +2475,21 @@ components:
       - start
       - us
       - you
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: Spelling chosen or matched ("Londres").
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 code.
+      required:
+      - country
+      - id
+      - name
     Couple:
       type: object
       properties:
@@ -2506,6 +2587,36 @@ components:
         * `partner_owes_me` - partner_owes_me
         * `i_owe_partner` - i_owe_partner
         * `settled` - settled
+    Distance:
+      type: object
+      properties:
+        mine:
+          $ref: '#/components/schemas/MyCity'
+        partner:
+          $ref: '#/components/schemas/PartnerCity'
+        km:
+          type: integer
+          nullable: true
+          description: Rounded; 0 means the same city. Null unless both share.
+      required:
+      - km
+      - mine
+      - partner
+    DistanceInputRequest:
+      type: object
+      properties:
+        city_id:
+          type: integer
+          minimum: 1
+          nullable: true
+        name:
+          type: string
+          maxLength: 80
+        sharing:
+          type: boolean
+      required:
+      - city_id
+      - sharing
     EmailRequest:
       type: object
       properties:
@@ -3227,6 +3338,18 @@ components:
       - date
       - mine
       - partner
+    MyCity:
+      type: object
+      properties:
+        city:
+          allOf:
+          - $ref: '#/components/schemas/City'
+          nullable: true
+        sharing:
+          type: boolean
+      required:
+      - city
+      - sharing
     NeedEnum:
       enum:
       - space
@@ -3343,6 +3466,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
+    PartnerCity:
+      type: object
+      properties:
+        sharing:
+          type: boolean
+        city:
+          allOf:
+          - $ref: '#/components/schemas/City'
+          nullable: true
+          description: Only when both of you share.
+      required:
+      - city
+      - sharing
     PasswordResetConfirmRequest:
       type: object
       properties:

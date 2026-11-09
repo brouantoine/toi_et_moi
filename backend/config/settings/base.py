@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "notifications",
     "rituals",
     "messaging",
+    "places",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -146,6 +147,7 @@ REST_FRAMEWORK = {
         "auth": env_str("THROTTLE_AUTH", "10/min"),
         "join": env_str("THROTTLE_JOIN", "10/min"),
         "messages": env_str("THROTTLE_MESSAGES", "60/min"),
+        "places": env_str("THROTTLE_PLACES", "60/min"),
     },
     "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
