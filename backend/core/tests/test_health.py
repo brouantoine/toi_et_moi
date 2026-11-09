@@ -7,7 +7,7 @@ from rest_framework.test import APIClient
 def test_health_is_public_and_returns_brand() -> None:
     response = APIClient().get(reverse("health"))
     assert response.status_code == 200
-    assert response.json() == {"status": "ok", "brand": "Nous Deux"}
+    assert response.json() == {"status": "ok", "brand": "Bolingo"}
 
 
 @pytest.mark.django_db

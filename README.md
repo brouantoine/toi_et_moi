@@ -1,10 +1,10 @@
-# Nous Deux
+# Bolingo
 
 L'app de couple qui fait **moins regarder son téléphone et plus regarder l'autre**.
 Application iOS + Android (React Native / Expo) avec un backend Django, construite par itérations
 à partir du cahier des charges reproduit en bas de cette page (« Prompt d'origine »).
 
-> Nom provisoire, identifiant d'app provisoire (`com.changeme.nousdeux`) : voir `docs/HUMAN_TODO.md`.
+> Nom provisoire, identifiant d'app provisoire (`com.bolingo.app`) : voir `docs/HUMAN_TODO.md`.
 
 ---
 
@@ -44,7 +44,7 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 
 **Backend** (`backend/`, Django 6.1 + DRF, API `/api/v1/`, documentation `/api/docs/`)
 - Comptes : inscription, connexion JWT (rotation et liste noire), vérification de l'email, mot de passe oublié (emails et pages web fr/en), profil, connexion Apple et Google vérifiée côté serveur.
-- Couple : création, code d'invitation lisible valable 48 h, lien `nousdeux://join/CODE`, un seul couple actif par personne.
+- Couple : création, code d'invitation lisible valable 48 h, lien `bolingo://join/CODE`, un seul couple actif par personne.
 - Cloisonnement : un mécanisme unique et testé filtre toutes les données par couple (et par auteur pour le privé). Un étranger reçoit toujours 404.
 - Souvenirs : CRUD, filtres, recherche plein texte, jusqu'à 10 photos (upload direct S3 présigné, miniatures Celery), un cœur sans compteur, commentaires, « il y a N ans » dans le fuseau de chacun, photo de profil et de couple.
 - Organisation : agenda (événements, anniversaires annuels, retrouvailles, « pour moi / toi / nous »), listes cochables et réordonnables, tâches de la maison récurrentes avec une vue « qui porte quoi » sans aucun score, budget en centimes avec partage 50/50 ou personnalisé, solde par devise et remboursement en un geste.
@@ -127,7 +127,7 @@ Le cahier des charges complet qui guide la construction (aussi dans [`PROMPT.md`
 <summary>Afficher le prompt d'origine</summary>
 
 
-# PROMPT.md — Boucle de construction de l'app de couple « Nous Deux »
+# PROMPT.md — Boucle de construction de l'app de couple « Bolingo »
 
 > Ce fichier est relu au début de **chaque** itération. Ne le modifie jamais.
 
@@ -168,9 +168,9 @@ Tu ne fais jamais : `git push`, déploiement, `eas build`, `eas submit`, créati
 L'app de couple qui fait **moins regarder son téléphone et plus regarder l'autre**. Le succès se mesure au temps passé ensemble hors écran, pas à l'engagement. Chaque fonctionnalité doit répondre « oui » à : *est-ce que ça rapproche vraiment deux personnes ?*
 
 ### Nom et identité
-- Nom provisoire : **« Nous Deux »**, centralisé à un seul endroit par côté (`mobile/src/config/brand.ts` + `app.config.ts`, et `BRAND_NAME` dans les settings Django) pour être changé en une minute.
-- Bundle ID / package Android : `com.changeme.nousdeux` (placeholder en config, listé dans `HUMAN_TODO.md`).
-- Schéma de deep link : `nousdeux://`.
+- Nom provisoire : **« Bolingo »**, centralisé à un seul endroit par côté (`mobile/src/config/brand.ts` + `app.config.ts`, et `BRAND_NAME` dans les settings Django) pour être changé en une minute.
+- Bundle ID / package Android : `com.bolingo.app` (placeholder en config, listé dans `HUMAN_TODO.md`).
+- Schéma de deep link : `bolingo://`.
 - Langues : **français par défaut** (tutoiement, chaleureux, jamais mièvre, jamais culpabilisant), anglais en seconde langue. Toutes les chaînes passent par l'i18n, aucune chaîne en dur.
 - Identité visuelle : chaleureuse et sobre, sans clichés (pas de cœurs roses partout). Palette douce (terracotta, crème, vert sauge, encre), mode sombre complet, typographie très lisible, beaucoup d'espace.
 
@@ -197,7 +197,7 @@ L'app de couple qui fait **moins regarder son téléphone et plus regarder l'aut
 - Inscription email + mot de passe avec vérification email, mot de passe oublié.
 - Connexion Google et **Sign in with Apple** (obligatoire sur l'App Store dès qu'un login tiers existe). Tokens vérifiés côté serveur.
 - Profil : prénom, surnom (visible par l'autre), photo, date de naissance optionnelle, langue, fuseau horaire.
-- Créer un couple → code d'invitation (6 caractères lisibles, expire après 48 h) + lien d'invitation partageable (deep link `nousdeux://join/CODE`, fallback saisie manuelle). Le partenaire rejoint → couple actif. Un utilisateur = un seul couple actif.
+- Créer un couple → code d'invitation (6 caractères lisibles, expire après 48 h) + lien d'invitation partageable (deep link `bolingo://join/CODE`, fallback saisie manuelle). Le partenaire rejoint → couple actif. Un utilisateur = un seul couple actif.
 - Infos du couple : date de début (anniversaire), photo de couple, devise (par défaut celle de la locale de l'appareil, modifiable).
 - Onboarding de 3 écrans maximum qui explique la philosophie (dont ce que l'app ne fera jamais).
 

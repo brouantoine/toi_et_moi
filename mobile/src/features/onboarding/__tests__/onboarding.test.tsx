@@ -16,7 +16,7 @@ beforeEach(async () => {
 describe('OnboardingScreen', () => {
   it('walks through 3 screens max and ends on what the app will never do', async () => {
     await renderWithProviders(<OnboardingScreen />);
-    expect(screen.getByText('Bienvenue dans Nous Deux')).toBeTruthy();
+    expect(screen.getByText('Bienvenue dans Bolingo')).toBeTruthy();
     expect(screen.getByLabelText('Étape 1 sur 3')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('onboarding-next'));
     expect(screen.getByTestId('onboarding-gentle')).toBeTruthy();

@@ -5,7 +5,7 @@ import { isValidCode, normalizeCode } from './inviteLink';
 import { usePendingInvite } from './pendingInvite';
 
 /**
- * Target of `nousdeux://join/CODE`. The code is kept aside (the user may first need to
+ * Target of `bolingo://join/CODE`. The code is kept aside (the user may first need to
  * sign up), then the join screen opens prefilled.
  */
 export function JoinLinkHandler() {

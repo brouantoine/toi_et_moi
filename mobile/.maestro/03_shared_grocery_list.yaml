@@ -1,6 +1,6 @@
 # Shared grocery list: create it, add items, tick one, clear ticked items.
 # Starts from flow 01 (fresh couple), so it runs on its own.
-appId: com.changeme.nousdeux
+appId: com.bolingo.app
 name: Liste de courses partagée
 ---
 - runFlow: 01_signup_couple_partner_joins.yaml

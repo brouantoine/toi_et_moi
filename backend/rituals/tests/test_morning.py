@@ -61,7 +61,7 @@ def test_messages_tell_how_to_speak_or_stay_discreet() -> None:
         "pas de discours."
     )
     assert partner_mood("fr", "Antoine", "joyful", "", discreet=True) == (
-        "Nous Deux",
+        "Bolingo",
         "Antoine a partagé sa météo du matin.",
     )
     assert partner_mood("en", "Sam", "happy", "hug", discreet=False)[1].startswith(

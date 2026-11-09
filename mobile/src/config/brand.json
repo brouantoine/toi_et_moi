@@ -1,6 +1,6 @@
 {
-  "name": "Nous Deux",
-  "slug": "nous-deux",
-  "scheme": "nousdeux",
-  "bundleId": "com.changeme.nousdeux"
+  "name": "Bolingo",
+  "slug": "bolingo",
+  "scheme": "bolingo",
+  "bundleId": "com.bolingo.app"
 }

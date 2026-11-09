@@ -37,7 +37,7 @@ def test_full_flow_create_then_partner_joins() -> None:
     body = created.json()
     assert body["status"] == "pending"
     code = body["invitation"]["code"]
-    assert body["invitation"]["link"] == f"nousdeux://join/{code}"
+    assert body["invitation"]["link"] == f"bolingo://join/{code}"
 
     joined = client_for(bob).post(JOIN, {"code": code.lower()})
     assert joined.status_code == 200

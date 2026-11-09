@@ -14,21 +14,21 @@ django_stubs_ext.monkeypatch()
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Brand: change the product name here (mobile side: mobile/src/config/brand.ts).
-BRAND_NAME = env_str("BRAND_NAME", "Nous Deux")
+BRAND_NAME = env_str("BRAND_NAME", "Bolingo")
 
 SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
 
 # Public URL of this backend (used in email links).
 PUBLIC_BASE_URL = env_str("PUBLIC_BASE_URL", "http://localhost:8000")
 # Mobile deep link scheme (invitation links: <scheme>://join/<CODE>).
-APP_SCHEME = env_str("APP_SCHEME", "nousdeux")
+APP_SCHEME = env_str("APP_SCHEME", "bolingo")
 # Invitation links (PV.5): store pages and app identifiers for universal / app links.
 IOS_STORE_URL = env_str("IOS_STORE_URL", "")
 ANDROID_STORE_URL = env_str("ANDROID_STORE_URL", "")
 IOS_APP_IDS = env_list("IOS_APP_IDS", "")  # "TEAMID.com.example.app"
 ANDROID_PACKAGE = env_str("ANDROID_PACKAGE", "")
 ANDROID_CERT_FINGERPRINTS = env_list("ANDROID_CERT_FINGERPRINTS", "")
-DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "Nous Deux <no-reply@example.com>")
+DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "Bolingo <no-reply@example.com>")
 
 # Email (Django 6.1 MAILERS). Console in dev; SMTP in prod (see prod.py).
 MAILERS: dict[str, dict[str, object]] = {
@@ -236,7 +236,7 @@ STORAGES = {
 
 # --- Social sign-in: accepted audiences (client ids) ---
 # Apple: iOS bundle id(s). Google: OAuth client ids (iOS, Android, web). Empty = disabled.
-APPLE_AUDIENCES = env_list("APPLE_AUDIENCES", "com.changeme.nousdeux")
+APPLE_AUDIENCES = env_list("APPLE_AUDIENCES", "com.bolingo.app")
 GOOGLE_CLIENT_IDS = env_list("GOOGLE_CLIENT_IDS", "")
 
 # --- Feature flags ---

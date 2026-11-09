@@ -41,7 +41,7 @@ const pending = {
   invitation: {
     code: 'ABC234',
     expires_at: '2026-11-05T10:00:00Z',
-    link: 'nousdeux://join/ABC234',
+    link: 'bolingo://join/ABC234',
     share_url: 'https://nousdeux.example/join/ABC234/',
   },
   activated_at: null,
@@ -59,13 +59,13 @@ beforeEach(() => usePendingInvite.setState({ code: null }));
 
 describe('invite links and codes', () => {
   it.each([
-    ['nousdeux://join/ABC234', 'ABC234'],
-    ['nousdeux://join/abc234/', 'ABC234'],
-    ['nousdeux:///join/ABC-234?utm=x', 'ABC234'],
+    ['bolingo://join/ABC234', 'ABC234'],
+    ['bolingo://join/abc234/', 'ABC234'],
+    ['bolingo:///join/ABC-234?utm=x', 'ABC234'],
     ['https://example.com/join/ABC234', 'ABC234'],
-    ['nousdeux://join/ABC0IL', null],
-    ['nousdeux://join/', null],
-    ['nousdeux://memories/1', null],
+    ['bolingo://join/ABC0IL', null],
+    ['bolingo://join/', null],
+    ['bolingo://memories/1', null],
   ])('parseJoinLink(%s) = %s', (url, expected) => {
     expect(parseJoinLink(url)).toBe(expected);
   });
@@ -74,14 +74,14 @@ describe('invite links and codes', () => {
     expect(normalizeCode(' abc-234 ')).toBe('ABC234');
     expect(isValidCode('abc 234')).toBe(true);
     expect(isValidCode('ABC23')).toBe(false);
-    expect(joinLink('ABC234')).toBe('nousdeux://join/ABC234');
+    expect(joinLink('ABC234')).toBe('bolingo://join/ABC234');
   });
 
   it.each([
     ['ABC234', 'ABC234'],
     [' abc-234 ', 'ABC234'],
     ['Rejoins-moi : https://nousdeux.example/join/ABC234/ (ou saisis le code ABC234)', 'ABC234'],
-    ['Ouvre ce lien : nousdeux://join/ABC234.', 'ABC234'],
+    ['Ouvre ce lien : bolingo://join/ABC234.', 'ABC234'],
     ['Notre code : ABC234 dans l’app', 'ABC234'],
     ['Viens dans notre espace demain', null],
     ['', null],
@@ -129,7 +129,7 @@ describe('CoupleSetupScreen', () => {
     expect(message.message).toContain('ABC234');
     // The web link works even when the other person does not have the app yet.
     expect(message.message).toContain('https://nousdeux.example/join/ABC234/');
-    expect(message.message).toContain('Nous Deux');
+    expect(message.message).toContain('Bolingo');
   });
 
   it('copies the code and shows a QR code of the web link', async () => {

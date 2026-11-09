@@ -23,7 +23,7 @@ pytestmark = pytest.mark.django_db
 KEY = rsa.generate_private_key(public_exponent=65537, key_size=2048)
 OTHER_KEY = rsa.generate_private_key(public_exponent=65537, key_size=2048)
 REAL_SIGNING_KEY = social.signing_key  # captured before the autouse stub
-APPLE_AUD = "com.changeme.nousdeux"
+APPLE_AUD = "com.bolingo.app"
 GOOGLE_AUD = "google-client-ios"
 
 

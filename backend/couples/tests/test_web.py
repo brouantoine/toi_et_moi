@@ -14,7 +14,7 @@ def test_join_page_shows_code_without_database_lookup(django_assert_num_queries)
     assert response.status_code == 200
     body = response.content.decode()
     assert "ABCDEF" in body
-    assert "nousdeux://join/ABCDEF" in body
+    assert "bolingo://join/ABCDEF" in body
     assert response["Content-Type"].startswith("text/html")
 
 

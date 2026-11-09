@@ -1,4 +1,4 @@
-# CLAUDE.md — Nous Deux
+# CLAUDE.md — Bolingo
 
 Boucle autonome : lire `PROMPT.md` (ne le modifier que sur demande explicite de l'utilisateur, tracée dans DECISIONS.md), puis `docs/PLAN.md`, `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/BLOCKERS.md`.
 

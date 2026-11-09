@@ -78,3 +78,7 @@ Format : date — choix — raison — alternative écartée.
 - À la demande de l'utilisateur, PROMPT.md autorise les accusés de lecture (une coche envoyé, deux coches lu) et l'indicateur « en train d'écrire » (événement WebSocket éphémère, jamais stocké).
 - Suivi permanent : la position est aussi lue app fermée (expo-task-manager, mises à jour par déplacement de 200 m pour la batterie) si la personne active le « partage en continu » : consentement séparé (conditions v3), permission « Toujours » du téléphone, arrêt immédiat possible, rappel tous les 30 jours « tu partages ta position en continu avec X » pour éviter un partage oublié ou imposé. Ne fonctionne pas dans Expo Go (build de développement requis).
 - Proximité : quand vous passez sous 1 km l'un de l'autre, notification qui vibre chez les deux (« Sam est près de toi ») et vibration dans l'app si elle est ouverte ; réarmée seulement au-delà de 2 km et au plus une fois toutes les 3 heures, pour ne pas vibrer en boucle.
+
+## 2026-11-09 — L'app s'appelle Bolingo
+- Nom choisi par l'utilisateur : « Bolingo » (« amour » en lingala), à la place de « Nous Deux » (titre d'un magazine français, risque de marque). Marque, lien `bolingo://`, slug et identifiant `com.bolingo.app` mis à jour ; l'identifiant reste modifiable jusqu'au premier envoi sur les stores. Noms techniques internes (base, bucket, comptes de test `@nousdeux.test`) inchangés.
+- Disponibilité du nom sur les stores et en marque : non vérifiée (HUMAN_TODO).

@@ -37,7 +37,7 @@ TEXTS: dict[str, dict[str, object]] = {
         },
         "partner_title": "Météo de {name}",
         "partner_line": "{mood} ce matin",
-        "discreet_title": "Nous Deux",
+        "discreet_title": "Bolingo",
         "discreet_body": "{name} a partagé sa météo du matin.",
         "reply_title": "{name}",
         "reply": {
@@ -72,7 +72,7 @@ TEXTS: dict[str, dict[str, object]] = {
         },
         "partner_title": "{name}’s weather",
         "partner_line": "{mood} this morning",
-        "discreet_title": "Nous Deux",
+        "discreet_title": "Bolingo",
         "discreet_body": "{name} shared their morning weather.",
         "reply_title": "{name}",
         "reply": {

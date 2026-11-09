@@ -68,3 +68,7 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 ## Partage de position en continu (PW.5b)
 - [ ] Faire un build de développement (`npx eas-cli build --profile development`) : l'arrière-plan ne marche pas dans Expo Go. À tester sur deux vrais téléphones (déplacement de plus de 200 m, passage sous 1 km).
 - [ ] Stores : justifier la localisation en arrière-plan (Apple : texte de permission « Toujours » ; Google Play : formulaire « Accès à la position en arrière-plan » avec une courte vidéo de la fonction).
+
+## Nom « Bolingo »
+- [ ] Vérifier que « Bolingo » est libre sur l'App Store et Google Play, et qu'aucune marque déposée ne le bloque dans les pays visés.
+- [ ] Confirmer l'identifiant `com.bolingo.app` (définitif dès le premier envoi sur les stores).

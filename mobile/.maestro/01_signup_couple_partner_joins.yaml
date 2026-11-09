@@ -1,6 +1,6 @@
 # Sign up -> create the couple -> the partner joins with the code.
 # Both people use the same device one after the other (sign out in between).
-appId: com.changeme.nousdeux
+appId: com.bolingo.app
 name: Inscription, création du couple, le partenaire rejoint
 ---
 - launchApp:

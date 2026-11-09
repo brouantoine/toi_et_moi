@@ -22,7 +22,7 @@ it('renders the welcome copy in French with the brand name', async () => {
       </ThemeProvider>
     </SafeAreaProvider>,
   );
-  expect(screen.getByText('Bienvenue dans Nous Deux')).toBeTruthy();
+  expect(screen.getByText('Bienvenue dans Bolingo')).toBeTruthy();
   expect(screen.getByRole('button', { name: 'Commencer' })).toBeTruthy();
 });
 

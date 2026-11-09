@@ -63,7 +63,7 @@ def test_texts_tell_or_stay_discreet() -> None:
         == "Antoine t’a envoyé une note vocale."
     )
     assert notification("fr", "Antoine", "text", "secret", True) == (
-        "Nous Deux",
+        "Bolingo",
         "Antoine t’a écrit.",
     )
     assert notification("en", "Sam", "text", "x" * 300, False)[1].endswith("…")

@@ -20,7 +20,7 @@ PREVIEW = 120
 def notification(language: str, name: str, kind: str, text: str, discreet: bool) -> tuple[str, str]:
     t = TEXTS.get(language, TEXTS["fr"])
     if discreet:
-        return "Nous Deux", t["discreet"].format(name=name)
+        return "Bolingo", t["discreet"].format(name=name)
     if kind == "text":
         body = text if len(text) <= PREVIEW else f"{text[: PREVIEW - 1]}…"
         return name, body

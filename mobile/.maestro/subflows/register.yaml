@@ -1,5 +1,5 @@
 # Registers a new account. Inputs: FIRST_NAME, EMAIL, PASSWORD (env).
-appId: com.changeme.nousdeux
+appId: com.bolingo.app
 tags:
   - subflow
 ---

@@ -12,7 +12,7 @@ export function isValidCode(raw: string): boolean {
   return CODE_RE.test(normalizeCode(raw));
 }
 
-/** Extracts the code from `nousdeux://join/CODE` (or a path ending in /join/CODE). */
+/** Extracts the code from `bolingo://join/CODE` (or a path ending in /join/CODE). */
 export function parseJoinLink(url: string): string | null {
   const match = url.match(/\/\/?join\/([A-Za-z0-9-]+)\/?(?:[?#].*)?$/);
   if (!match?.[1]) return null;

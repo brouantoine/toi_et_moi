@@ -16,7 +16,7 @@ describe('createApiClient', () => {
   });
 
   it('calls the typed health endpoint on the configured base URL', async () => {
-    fetchMock.mockResolvedValue(jsonResponse({ status: 'ok', brand: 'Nous Deux' }));
+    fetchMock.mockResolvedValue(jsonResponse({ status: 'ok', brand: 'Bolingo' }));
     const api = createApiClient('https://api.example.com');
     const { data, error } = await api.GET('/api/v1/health/');
     expect(error).toBeUndefined();
