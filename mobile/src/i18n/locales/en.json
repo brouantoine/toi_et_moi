@@ -158,7 +158,9 @@
     "profile": "Profile",
     "profileHint": "First name, nickname, language",
     "couple": "Our couple",
-    "coupleHint": "Start date, currency"
+    "coupleHint": "Start date, currency",
+    "distance": "Distance and map",
+    "distanceHint": "Share your location with your partner"
   },
   "onboarding": {
     "together": {
@@ -573,5 +575,31 @@
     "sendFailed": "The message didn’t go. Try again in a moment.",
     "emptyTitle": "Your thread, just yours",
     "emptyMessage": "A word, a photo, a voice note. No “seen”, no “typing”: just you."
+  },
+  "distance": {
+    "pillShow": "See the distance",
+    "pillLabel": "{{km}} apart, see the map",
+    "title": "Where you are",
+    "termsTitle": "Share your location with {{name}}",
+    "accept": "I accept these terms",
+    "share": "Share my location",
+    "refresh": "Update my location",
+    "stop": "Stop and erase my location",
+    "stopTitle": "Stop sharing?",
+    "stopMessage": "Your location will be erased and {{name}} will no longer see the distance.",
+    "stopConfirm": "Stop",
+    "km": "{{km}} apart",
+    "under1": "Less than 1 km apart",
+    "partnerAt": "{{name}} · {{city}}",
+    "updated": "Updated {{when}}",
+    "waiting": "Waiting for {{name}}: the map shows once you both share.",
+    "you": "You",
+    "denied": "Location is turned off for the app. You can allow it in your phone settings.",
+    "openSettings": "Open settings",
+    "error": "Your location can’t be read right now.",
+    "term1": "Your location is read only while the app is open, never in the background.",
+    "term2": "{{name}} sees the distance between you and your last location on a map, with the time.",
+    "term3": "Nothing shows until you have both agreed. Nobody else ever sees it.",
+    "term4": "You can stop at any time: your location is erased right away."
   }
 }

@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { Bell, HeartHandshake, UserRound } from 'lucide-react-native';
+import { Bell, HeartHandshake, MapPin, UserRound } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useSignOut } from '@/auth/useSignOut';
@@ -30,6 +30,13 @@ export function MeScreen() {
           label={t('me.couple')}
           hint={t('me.coupleHint')}
           onPress={() => router.push('/settings/couple')}
+        />
+        <ListRow
+          testID="me-distance"
+          icon={MapPin}
+          label={t('me.distance')}
+          hint={t('me.distanceHint')}
+          onPress={() => router.push('/distance')}
         />
         <ListRow
           testID="me-notifications"

@@ -49,7 +49,7 @@ L'app de couple qui fait **moins regarder son téléphone et plus regarder l'aut
 - Pas de séries/streaks, de points, de badges, de classements, ni de messages du type « vous n'avez pas répondu depuis X jours ».
 - Pas de comparaison avec d'autres couples, pas de « score de couple ».
 - Pas de « vu à », pas d'accusés de lecture : **aucune fonction de contrôle**.
-- Géolocalisation autorisée (décision de l'utilisateur du 2026-11-09) uniquement pour la **distance entre les deux** : conditions acceptées explicitement par chacun, position lue seulement quand l'app est ouverte (jamais en arrière-plan), désactivable à tout moment, et seule la distance est montrée à l'autre (jamais la position exacte ni une carte).
+- Géolocalisation autorisée (décision de l'utilisateur du 2026-11-09) uniquement pour la **distance entre les deux** : conditions acceptées explicitement par chacun, position lue seulement quand l'app est ouverte (jamais en arrière-plan), désactivable à tout moment, et l'autre voit la distance et la dernière position partagée sur une carte, uniquement quand les deux ont accepté (personne d'autre).
 - Pas de publicité, pas de SDK de tracking ou d'analytics tiers, pas d'App Tracking Transparency.
 - Les données privées d'un membre ne sont **jamais** lisibles par l'autre (prouvé par des tests de permission).
 - Pas de dark patterns (suppression de compte difficile, notifications insistantes, culpabilisation).

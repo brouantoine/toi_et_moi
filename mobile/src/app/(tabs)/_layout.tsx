@@ -6,6 +6,7 @@ import { useRealtimeSync } from '@/api/useRealtimeSync';
 import { refreshPushRegistration } from '@/notifications/push';
 import { useNotificationResponses } from '@/notifications/responses';
 import { useApplyProfileLanguage } from '@/features/me/useProfile';
+import { useRefreshPositionOnOpen } from '@/features/distance/useDistance';
 import { FloatingTabBar } from '@/features/shell/FloatingTabBar';
 import { TABS } from '@/features/shell/tabs';
 import { useTheme } from '@/ui';
@@ -16,6 +17,7 @@ export default function TabsLayout() {
   useApplyProfileLanguage();
   useRealtimeSync();
   useNotificationResponses();
+  useRefreshPositionOnOpen();
   useEffect(() => {
     void refreshPushRegistration();
   }, []);

@@ -78,6 +78,10 @@ function GuardedStack() {
             options={{ ...header, title: t('notifications.settings.title'), headerTitle: '' }}
           />
           <Stack.Screen
+            name="distance"
+            options={{ ...header, title: t('distance.title'), headerTitle: '' }}
+          />
+          <Stack.Screen
             name="settings/couple"
             options={{ ...header, title: t('me.couple'), headerTitle: '' }}
           />

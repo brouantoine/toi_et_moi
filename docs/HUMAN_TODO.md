@@ -61,3 +61,6 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 - [ ] iOS : `IOS_APP_IDS=TEAMID.<bundle id>` (Team ID du compte Apple Developer).
 - [ ] Android : `ANDROID_PACKAGE=<bundle id>` et `ANDROID_CERT_FINGERPRINTS=<SHA-256 du certificat de signature>` (Play Console → Intégrité de l'app).
 - [ ] Après publication : `IOS_STORE_URL` et `ANDROID_STORE_URL` pour afficher les boutons de téléchargement sur la page d'invitation.
+
+## Carte de la distance (PW.5)
+- [ ] Android en production : créer une clé Google Maps SDK for Android (Google Cloud), la restreindre au paquet de l'app, et la fournir dans `GOOGLE_MAPS_API_KEY` au moment du build. (Inutile dans Expo Go et sur iPhone, qui utilise Apple Plans.)

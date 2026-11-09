@@ -74,6 +74,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     [
+      'expo-location',
+      {
+        // Foreground only: the distance is refreshed while the app is open, never behind.
+        locationWhenInUsePermission: `${BRAND.name} utilise ta position, quand l'app est ouverte, pour la distance et la carte que tu partages avec l'autre.`,
+        isIosBackgroundLocationEnabled: false,
+        isAndroidBackgroundLocationEnabled: false,
+      },
+    ],
+    // Android maps need a Google Maps key in production builds (HUMAN_TODO).
+    ['react-native-maps', { androidGoogleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY ?? '' }],
+    [
       'expo-image-picker',
       {
         // Library only: no camera permission. The microphone is declared by expo-audio

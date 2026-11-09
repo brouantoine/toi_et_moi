@@ -3380,10 +3380,15 @@ components:
           type: string
           format: date-time
           nullable: true
+        position:
+          allOf:
+          - $ref: '#/components/schemas/Position'
+          nullable: true
       required:
       - city
       - consented
       - located_at
+      - position
       - sharing
     NeedEnum:
       enum:
@@ -3511,8 +3516,14 @@ components:
           - $ref: '#/components/schemas/City'
           nullable: true
           description: Only when both of you share.
+        position:
+          allOf:
+          - $ref: '#/components/schemas/Position'
+          nullable: true
+          description: Last shared position, for the map. Only when both share.
       required:
       - city
+      - position
       - sharing
     PasswordResetConfirmRequest:
       type: object
@@ -3765,6 +3776,22 @@ components:
       description: |-
         * `ios` - iOS
         * `android` - Android
+    Position:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        located_at:
+          type: string
+          format: date-time
+      required:
+      - latitude
+      - located_at
+      - longitude
     PositionInputRequest:
       type: object
       properties:

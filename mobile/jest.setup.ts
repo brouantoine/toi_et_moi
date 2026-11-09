@@ -164,3 +164,27 @@ jest.mock('react-native-qrcode-svg', () => {
     return createElement(View, { testID: 'qr-code', accessibilityValue: { text: props.value } });
   };
 });
+
+/* Location (distance) and maps: permission/position spies and plain views. */
+jest.mock('expo-location', () => ({
+  Accuracy: { Balanced: 3 },
+  requestForegroundPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  getForegroundPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  getCurrentPositionAsync: jest.fn(async () => ({
+    coords: { latitude: 48.8566, longitude: 2.3522 },
+  })),
+}));
+jest.mock('react-native-maps', () => {
+  const { createElement } = jest.requireActual('react');
+  const { View } = jest.requireActual('react-native');
+  const make =
+    (name: string) =>
+    ({ children, testID }: { children?: unknown; testID?: string }) =>
+      createElement(View, { testID: testID ?? `map-${name}` }, children);
+  return {
+    __esModule: true,
+    default: make('view'),
+    Marker: make('marker'),
+    Polyline: make('line'),
+  };
+});

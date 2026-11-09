@@ -6,16 +6,26 @@ class CitySerializer(serializers.Serializer[dict[str, object]]):
     country = serializers.CharField(help_text="ISO 3166-1 alpha-2 code.")
 
 
+class PositionSerializer(serializers.Serializer[dict[str, object]]):
+    latitude = serializers.FloatField()
+    longitude = serializers.FloatField()
+    located_at = serializers.DateTimeField()
+
+
 class MyLocationSerializer(serializers.Serializer[dict[str, object]]):
     consented = serializers.BooleanField(help_text="Current terms accepted.")
     sharing = serializers.BooleanField(help_text="A position has been shared.")
     city = CitySerializer(allow_null=True)
     located_at = serializers.DateTimeField(allow_null=True)
+    position = PositionSerializer(allow_null=True)
 
 
 class PartnerLocationSerializer(serializers.Serializer[dict[str, object]]):
     sharing = serializers.BooleanField()
     city = CitySerializer(allow_null=True, help_text="Only when both of you share.")
+    position = PositionSerializer(
+        allow_null=True, help_text="Last shared position, for the map. Only when both share."
+    )
 
 
 class DistanceSerializer(serializers.Serializer[dict[str, object]]):

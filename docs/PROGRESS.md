@@ -289,3 +289,8 @@
 - Distance (API) : app `places`, index GeoNames hors ligne (34 208 villes, noms traduits : « Londres », « Bruxelles »), recherche `places/search/`, `couple/distance/` (ville et distance arrondie visibles seulement si les deux partagent, jamais de coordonnées).
 - Thème : fond blanc pur, gris de remplissage, titres en police système grasse (façon Apple Music), ombres neutres ; sombre en noir pur. Sérif conservé pour les citations.
 - Couleur du couple : 7 accents (rouge, ambre, sauge, lagon, bleu, violet, encre ; pas de rose), contrastes AA testés en clair et sombre, choisis dans Réglages > Notre couple, appliqués aussitôt (optimiste) et chez l'autre en temps réel (ressource `couple`).
+
+## 2026-11-09 — Onglets façon capture, distance et carte par géolocalisation
+- Barre d'onglets flottante (pilule blanche, ombre douce) avec les icônes de la capture : maison, cartes empilées, cœur, cloche, profil ; onglet actif sur fond gris, noms annoncés aux lecteurs d'écran.
+- Distance (PW.5) : conditions versionnées (v2) acceptées par chacun, position lue avec expo-location quand l'app est ouverte (rafraîchie si elle date de plus de 15 min, jamais en arrière-plan), distance calculée côté serveur.
+- Sous le nombre de jours : pastille « 45 km » qui ouvre l'écran « Où vous êtes » : carte (Apple Plans / Google Maps) avec vos deux positions reliées en pointillés, « 4 870 km vous séparent », ville de l'autre et heure de mise à jour, mise à jour, arrêt avec effacement immédiat. Rien n'est visible tant que les deux n'ont pas partagé.

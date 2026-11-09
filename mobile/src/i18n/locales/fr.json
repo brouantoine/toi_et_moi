@@ -158,7 +158,9 @@
     "profile": "Profil",
     "profileHint": "Prénom, surnom, langue",
     "couple": "Notre couple",
-    "coupleHint": "Date de début, devise"
+    "coupleHint": "Date de début, devise",
+    "distance": "Distance et carte",
+    "distanceHint": "Partager ta position avec l’autre"
   },
   "onboarding": {
     "together": {
@@ -573,5 +575,31 @@
     "sendFailed": "Le message n’est pas parti. Réessaie dans un instant.",
     "emptyTitle": "Votre fil, rien qu’à vous",
     "emptyMessage": "Un mot, une photo, une note vocale. Ici, ni « vu », ni « en train d’écrire » : juste vous."
+  },
+  "distance": {
+    "pillShow": "Voir la distance",
+    "pillLabel": "{{km}} entre vous, voir la carte",
+    "title": "Où vous êtes",
+    "termsTitle": "Partager ta position avec {{name}}",
+    "accept": "J’accepte ces conditions",
+    "share": "Partager ma position",
+    "refresh": "Mettre à jour ma position",
+    "stop": "Arrêter et effacer ma position",
+    "stopTitle": "Arrêter le partage ?",
+    "stopMessage": "Ta position sera effacée et {{name}} ne verra plus la distance.",
+    "stopConfirm": "Arrêter",
+    "km": "{{km}} vous séparent",
+    "under1": "Moins d’1 km vous sépare",
+    "partnerAt": "{{name}} · {{city}}",
+    "updated": "Mis à jour {{when}}",
+    "waiting": "En attente de {{name}} : la carte apparaîtra quand vous partagerez tous les deux.",
+    "you": "Toi",
+    "denied": "La localisation est refusée pour l’app. Tu peux l’autoriser dans les réglages du téléphone.",
+    "openSettings": "Ouvrir les réglages",
+    "error": "Impossible de lire ta position pour le moment.",
+    "term1": "Ta position est lue seulement quand l’app est ouverte, jamais en arrière-plan.",
+    "term2": "{{name}} voit la distance entre vous et ta dernière position sur une carte, avec l’heure.",
+    "term3": "Rien n’apparaît tant que vous n’avez pas accepté tous les deux. Personne d’autre ne la voit.",
+    "term4": "Tu peux arrêter à tout moment : ta position est effacée aussitôt."
   }
 }

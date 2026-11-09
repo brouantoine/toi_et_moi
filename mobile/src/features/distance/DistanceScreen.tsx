@@ -1,0 +1,245 @@
+import { MapPinned, Navigation, ShieldCheck } from 'lucide-react-native';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, Linking, ScrollView, StyleSheet, View } from 'react-native';
+import MapView, { Marker, Polyline } from 'react-native-maps';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { ApiError } from '@/api';
+import { usePartner } from '@/features/couple/usePartner';
+import {
+  Button,
+  Card,
+  ErrorState,
+  Icon,
+  LoadingState,
+  Notice,
+  Text,
+  ToggleRow,
+  useTheme,
+} from '@/ui';
+
+import { formatAgo, formatKm } from './format';
+import {
+  LocationDeniedError,
+  useAcceptTerms,
+  useDistance,
+  useSharePosition,
+  useStopSharing,
+  type Distance,
+} from './useDistance';
+
+type Point = { latitude: number; longitude: number };
+
+/** Region showing both points with some margin (or one point, zoomed on its city). */
+export function regionFor(points: Point[]) {
+  const lats = points.map((p) => p.latitude);
+  const lons = points.map((p) => p.longitude);
+  const minLat = Math.min(...lats);
+  const maxLat = Math.max(...lats);
+  const minLon = Math.min(...lons);
+  const maxLon = Math.max(...lons);
+  return {
+    latitude: (minLat + maxLat) / 2,
+    longitude: (minLon + maxLon) / 2,
+    latitudeDelta: Math.max((maxLat - minLat) * 1.6, 0.08),
+    longitudeDelta: Math.max((maxLon - minLon) * 1.6, 0.08),
+  };
+}
+
+function Terms({ version, name }: { version: number; name: string }) {
+  const { t } = useTranslation();
+  const { spacing } = useTheme();
+  const [accepted, setAccepted] = useState(false);
+  const accept = useAcceptTerms();
+  const share = useSharePosition();
+  const busy = accept.isPending || share.isPending;
+  return (
+    <Card testID="distance-terms">
+      <View style={[styles.row, { gap: spacing.sm }]}>
+        <Icon icon={ShieldCheck} size={22} color="primary" />
+        <Text variant="heading" style={styles.flex}>
+          {t('distance.termsTitle', { name })}
+        </Text>
+      </View>
+      {[1, 2, 3, 4].map((n) => (
+        <Text key={n} muted>
+          {`${n}. ${t(`distance.term${n}`, { name })}`}
+        </Text>
+      ))}
+      <ToggleRow
+        testID="distance-accept"
+        label={t('distance.accept')}
+        value={accepted}
+        onChange={setAccepted}
+      />
+      <ShareError error={share.error} />
+      <Button
+        testID="distance-share"
+        icon={Navigation}
+        label={t('distance.share')}
+        disabled={!accepted}
+        loading={busy}
+        onPress={() => accept.mutate(version, { onSuccess: () => share.mutate() })}
+      />
+    </Card>
+  );
+}
+
+function ShareError({ error }: { error: Error | null }) {
+  const { t } = useTranslation();
+  if (!error) return null;
+  if (error instanceof LocationDeniedError) {
+    return (
+      <Notice
+        testID="distance-denied"
+        tone="warning"
+        message={t('distance.denied')}
+        actionLabel={t('distance.openSettings')}
+        onAction={() => void Linking.openSettings()}
+      />
+    );
+  }
+  return <Notice testID="distance-error" tone="warning" message={t('distance.error')} />;
+}
+
+function Shared({ data, name }: { data: Distance; name: string }) {
+  const { t, i18n } = useTranslation();
+  const { colors, radii, spacing } = useTheme();
+  const share = useSharePosition();
+  const stop = useStopSharing();
+  const mine = data.mine.position;
+  const theirs = data.partner.position;
+  const points = [mine, theirs].filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+  const confirmStop = () =>
+    Alert.alert(t('distance.stopTitle'), t('distance.stopMessage', { name }), [
+      { text: t('common.cancel'), style: 'cancel' },
+      { text: t('distance.stopConfirm'), style: 'destructive', onPress: () => stop.mutate() },
+    ]);
+
+  return (
+    <>
+      {points.length ? (
+        <View
+          testID="distance-map"
+          style={[styles.map, { borderRadius: radii.xl, backgroundColor: colors.surfaceMuted }]}
+        >
+          <MapView style={StyleSheet.absoluteFill} initialRegion={regionFor(points)}>
+            {mine ? (
+              <Marker coordinate={mine} title={t('distance.you')} pinColor={colors.secondary} />
+            ) : null}
+            {theirs ? (
+              <Marker
+                testID="distance-partner-marker"
+                coordinate={theirs}
+                title={name}
+                description={formatAgo(theirs.located_at, i18n.language)}
+                pinColor={colors.primary}
+              />
+            ) : null}
+            {mine && theirs ? (
+              <Polyline
+                coordinates={[mine, theirs]}
+                strokeColor={colors.primary}
+                strokeWidth={3}
+                lineDashPattern={[8, 8]}
+                geodesic
+              />
+            ) : null}
+          </MapView>
+        </View>
+      ) : null}
+
+      <Card testID="distance-summary">
+        {data.km != null ? (
+          <Text variant="title" testID="distance-km">
+            {data.km === 0
+              ? t('distance.under1')
+              : t('distance.km', { km: formatKm(data.km, i18n.language) })}
+          </Text>
+        ) : (
+          <Text muted testID="distance-waiting">
+            {t('distance.waiting', { name })}
+          </Text>
+        )}
+        {data.partner.city && theirs ? (
+          <View style={{ gap: spacing.xxs }}>
+            <Text variant="label">
+              {t('distance.partnerAt', { name, city: data.partner.city.name })}
+            </Text>
+            <Text variant="caption" muted>
+              {t('distance.updated', { when: formatAgo(theirs.located_at, i18n.language) })}
+            </Text>
+          </View>
+        ) : null}
+      </Card>
+
+      <ShareError error={share.error} />
+      <Button
+        testID="distance-refresh"
+        variant="soft"
+        icon={Navigation}
+        label={t('distance.refresh')}
+        loading={share.isPending}
+        onPress={() => share.mutate()}
+      />
+      <Button
+        testID="distance-stop"
+        variant="ghost"
+        label={t('distance.stop')}
+        loading={stop.isPending}
+        onPress={confirmStop}
+      />
+    </>
+  );
+}
+
+/** Distance and map between the two of you, after both accepted the terms. */
+export function DistanceScreen() {
+  const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+  const { colors, spacing } = useTheme();
+  const query = useDistance();
+  const partner = usePartner();
+  const name = partner?.display_name ?? '';
+
+  if (query.isPending) return <LoadingState testID="distance-loading" />;
+  if (query.isError) {
+    return (
+      <ErrorState
+        testID="distance-load-error"
+        code={query.error instanceof ApiError ? query.error.code : 'network'}
+        onRetry={() => void query.refetch()}
+      />
+    );
+  }
+  const data = query.data;
+  return (
+    <ScrollView
+      testID="distance-screen"
+      style={{ backgroundColor: colors.background }}
+      contentContainerStyle={{
+        padding: spacing.lg,
+        gap: spacing.lg,
+        paddingBottom: insets.bottom + spacing.xl,
+      }}
+    >
+      <View style={[styles.row, { gap: spacing.sm }]}>
+        <Icon icon={MapPinned} size={28} color="primary" />
+        <Text variant="title">{t('distance.title')}</Text>
+      </View>
+      {data.mine.consented && data.mine.sharing ? (
+        <Shared data={data} name={name} />
+      ) : (
+        <Terms version={data.terms_version} name={name} />
+      )}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center' },
+  flex: { flex: 1 },
+  map: { height: 360, overflow: 'hidden', borderCurve: 'continuous' },
+});

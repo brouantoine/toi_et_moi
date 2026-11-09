@@ -1,9 +1,10 @@
-"""Distance between partners from their real positions, with explicit consent.
+"""Distance and map between partners from their real positions, with explicit consent.
 
-- Each person accepts the terms (versioned) before anything is read.
+- Each person accepts the terms (versioned) before anything is read. Version 2 says the
+  partner sees the position on a map.
 - Positions are sent by the app while it is open; never in the background.
-- The partner sees nothing unless BOTH share; then only the rounded distance and the
-  name of the nearest city. Coordinates never leave the backend.
+- The partner sees nothing unless BOTH share; then the distance, the nearest city and
+  the last shared position (for the map). Nobody else ever does.
 - Stopping erases the coordinates immediately.
 """
 
@@ -18,7 +19,7 @@ from couples.models import Couple
 from . import cities
 from .models import LocationShare
 
-TERMS_VERSION = 1
+TERMS_VERSION = 2
 
 
 class ConsentRequired(PermissionError):
@@ -40,6 +41,16 @@ def _city(share: LocationShare | None) -> dict[str, str] | None:
     return {"name": city.name, "country": city.country} if city else None
 
 
+def _position(share: LocationShare | None) -> dict[str, Any] | None:
+    if share is None or not share.located:
+        return None
+    return {
+        "latitude": share.latitude,
+        "longitude": share.longitude,
+        "located_at": share.located_at,
+    }
+
+
 def overview(user: User, couple: Couple) -> dict[str, Any]:
     mine = _share(user)
     theirs = _share(couple.partner_of(user))
@@ -58,10 +69,12 @@ def overview(user: User, couple: Couple) -> dict[str, Any]:
             "sharing": bool(mine and mine.located),
             "city": _city(mine),
             "located_at": mine.located_at if mine else None,
+            "position": _position(mine),
         },
         "partner": {
             "sharing": bool(theirs and theirs.located),
             "city": _city(theirs) if both else None,
+            "position": _position(theirs) if both else None,
         },
         "km": km,
     }

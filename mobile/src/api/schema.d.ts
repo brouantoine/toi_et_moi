@@ -1406,6 +1406,7 @@ export interface components {
       city: components['schemas']['City'] | null;
       /** Format: date-time */
       located_at: string | null;
+      position: components['schemas']['Position'] | null;
     };
     /**
      * @description * `space` - Espace
@@ -1478,6 +1479,8 @@ export interface components {
       sharing: boolean;
       /** @description Only when both of you share. */
       city: components['schemas']['City'] | null;
+      /** @description Last shared position, for the map. Only when both share. */
+      position: components['schemas']['Position'] | null;
     };
     PasswordResetConfirmRequest: {
       uid: string;
@@ -1592,6 +1595,14 @@ export interface components {
      * @enum {string}
      */
     PlatformEnum: 'ios' | 'android';
+    Position: {
+      /** Format: double */
+      latitude: number;
+      /** Format: double */
+      longitude: number;
+      /** Format: date-time */
+      located_at: string;
+    };
     PositionInputRequest: {
       /** Format: double */
       latitude: number;
