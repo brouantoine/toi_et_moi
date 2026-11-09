@@ -10,6 +10,8 @@ import { AppState } from 'react-native';
 
 import { api, unwrap, type Schemas } from '@/api';
 
+import { startBackgroundUpdates, stopBackgroundUpdates, type StartResult } from './background';
+
 export type Distance = Schemas['Distance'];
 export const distanceKey = ['distance'] as const;
 /** A shared position older than this is refreshed when the app comes back. */
@@ -73,10 +75,35 @@ export function useStopSharing() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: async () => {
+      await stopBackgroundUpdates();
       const result = await api.DELETE('/api/v1/couple/distance/');
       if (!result.response.ok) unwrap(result);
     },
     onSuccess: () => void client.invalidateQueries({ queryKey: distanceKey }),
+  });
+}
+
+export class ContinuousError extends Error {
+  constructor(readonly reason: Exclude<StartResult, 'started'>) {
+    super(`continuous_${reason}`);
+    this.name = 'ContinuousError';
+  }
+}
+
+/** Turns sharing while the app is closed on (system permission first) or off. */
+export function useSetContinuous() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async (enabled: boolean) => {
+      if (enabled) {
+        const started = await startBackgroundUpdates();
+        if (started !== 'started') throw new ContinuousError(started);
+      } else {
+        await stopBackgroundUpdates();
+      }
+      return unwrap(await api.PUT('/api/v1/couple/distance/continuous/', { body: { enabled } }));
+    },
+    onSuccess: (data) => client.setQueryData(distanceKey, data),
   });
 }
 
@@ -95,6 +122,12 @@ export function useRefreshPositionOnOpen(): void {
   const { data } = useDistance();
   const consented = Boolean(data?.mine.consented && data.mine.sharing);
   const locatedAt = data?.mine.located_at ?? null;
+  const continuous = Boolean(consented && data?.mine.continuous);
+
+  // After a reinstall or a reboot, continuous sharing resumes without asking again.
+  useEffect(() => {
+    if (continuous) void startBackgroundUpdates(false);
+  }, [continuous]);
 
   useEffect(() => {
     if (!consented) return undefined;

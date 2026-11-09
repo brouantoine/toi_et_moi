@@ -175,7 +175,14 @@ jest.mock('expo-location', () => ({
   getCurrentPositionAsync: jest.fn(async () => ({
     coords: { latitude: 48.8566, longitude: 2.3522 },
   })),
+  ActivityType: { Other: 1 },
+  requestBackgroundPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  getBackgroundPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  hasStartedLocationUpdatesAsync: jest.fn(async () => false),
+  startLocationUpdatesAsync: jest.fn(async () => {}),
+  stopLocationUpdatesAsync: jest.fn(async () => {}),
 }));
+jest.mock('expo-task-manager', () => ({ defineTask: jest.fn() }));
 jest.mock('react-native-maps', () => {
   const { createElement } = jest.requireActual('react');
   const { View } = jest.requireActual('react-native');

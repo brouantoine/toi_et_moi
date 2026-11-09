@@ -29,6 +29,7 @@ const KINDS = [
   'thinking_of_you',
   'pause',
   'organization',
+  'proximity',
 ] as const satisfies readonly (keyof Preferences)[];
 
 function PermissionCard() {

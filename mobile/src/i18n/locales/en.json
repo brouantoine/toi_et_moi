@@ -485,9 +485,11 @@
         "check_in": "Weekly check-in",
         "thinking_of_you": "Thinking of you",
         "pause": "Pause",
-        "organization": "Organization"
+        "organization": "Organization",
+        "proximity": "Proximity and location sharing"
       }
-    }
+    },
+    "proximityChannel": "Proximity"
   },
   "morning": {
     "greeting": "Good morning {{name}}",
@@ -604,6 +606,16 @@
     "term1": "Your location is read only while the app is open, never in the background.",
     "term2": "{{name}} sees the distance between you and your last location on a map, with the time.",
     "term3": "Nothing shows until you have both agreed. Nobody else ever sees it.",
-    "term4": "You can stop at any time: your location is erased right away."
+    "term4": "You can stop at any time: your location is erased right away.",
+    "term5": "When you are less than 1 km apart, both your phones vibrate to let you know.",
+    "continuous": "Continuous sharing",
+    "continuousHint": "Your location is also sent while the app is closed. You get a reminder every 30 days.",
+    "continuousDenied": "For continuous sharing, choose “Always allow” in your phone’s location settings.",
+    "continuousUnavailable": "Continuous sharing needs the installed app: it does not work in Expo Go.",
+    "partnerContinuous": "{{name}} shares their location continuously.",
+    "serviceTitle": "Location shared",
+    "serviceBody": "Your location is shared with your partner.",
+    "nearTitle": "{{name}} is near you",
+    "nearBody": "You are less than a kilometre apart."
   }
 }

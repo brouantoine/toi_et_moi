@@ -14,6 +14,7 @@ export const MOODS = ['joyful', 'happy', 'upset', 'angry'] as const;
 export const QUICK_REPLIES = ['here', 'courage', 'thinking'] as const;
 
 /** Action ids are prefixed so a tap can be routed without ambiguity. */
+export const PROXIMITY_CHANNEL = 'proximity';
 export const moodAction = (mood: string) => `mood:${mood}`;
 export const replyAction = (reply: string) => `reply:${reply}`;
 
@@ -30,6 +31,13 @@ export async function configureNotifications(t: TFunction): Promise<void> {
     await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL, {
       name: t('notifications.channel'),
       importance: AndroidImportance.DEFAULT,
+    });
+    // "Your partner is near you" must be felt: its own channel, with vibration.
+    await Notifications.setNotificationChannelAsync(PROXIMITY_CHANNEL, {
+      name: t('notifications.proximityChannel'),
+      importance: AndroidImportance.HIGH,
+      vibrationPattern: [0, 400, 150, 400, 150, 200],
+      enableVibrate: true,
     });
   }
   await Notifications.setNotificationCategoryAsync(

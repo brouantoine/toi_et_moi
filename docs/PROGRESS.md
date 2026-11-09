@@ -299,3 +299,8 @@
 - `Message.read_at`, `POST messages/read/` (marque les messages de l'autre comme lus quand la conversation est à l'écran), événement temps réel `messages`/`read`.
 - Mobile : horloge (envoi), une coche (envoyé), deux coches à la couleur du couple (lu), annoncées aux lecteurs d'écran.
 - « En train d'écrire » : signal WebSocket éphémère relayé au seul partenaire (jamais stocké, limité à 1/s côté serveur, renvoyé toutes les 3 s côté app, expire seul après 6 s) ; bulle à trois points animés (fixes si animations réduites).
+
+## 2026-11-09 — PW.5b Partage en continu et proximité
+- Conditions v3 (5 points, dont la vibration de proximité). « Partage en continu » : option séparée dans « Où vous êtes », permission « Toujours », tâche d'arrière-plan (expo-task-manager, tous les 200 m, indicateur système visible), reprise après redémarrage, arrêt à la déconnexion ou au retrait du consentement, rappel tous les 30 jours (tâche Celery quotidienne). L'autre voit que tu partages en continu.
+- Proximité : sous 1 km (positions de moins de 24 h), notification qui vibre chez les deux (canal Android dédié) + vibration dans l'app ouverte (événement temps réel `distance`/`near`) ; réarmée au-delà de 2 km, au plus toutes les 3 h ; désactivable dans les notifications (« Proximité et partage de position »).
+- Non vérifié sur appareil : l'arrière-plan ne fonctionne pas dans Expo Go (build de développement requis).

@@ -21,9 +21,11 @@ import {
 
 import { formatAgo, formatKm } from './format';
 import {
+  ContinuousError,
   LocationDeniedError,
   useAcceptTerms,
   useDistance,
+  useSetContinuous,
   useSharePosition,
   useStopSharing,
   type Distance,
@@ -62,7 +64,7 @@ function Terms({ version, name }: { version: number; name: string }) {
           {t('distance.termsTitle', { name })}
         </Text>
       </View>
-      {[1, 2, 3, 4].map((n) => (
+      {[1, 2, 3, 4, 5].map((n) => (
         <Text key={n} muted>
           {`${n}. ${t(`distance.term${n}`, { name })}`}
         </Text>
@@ -108,6 +110,7 @@ function Shared({ data, name }: { data: Distance; name: string }) {
   const { colors, radii, spacing } = useTheme();
   const share = useSharePosition();
   const stop = useStopSharing();
+  const continuous = useSetContinuous();
   const mine = data.mine.position;
   const theirs = data.partner.position;
   const points = [mine, theirs].filter((p): p is NonNullable<typeof p> => Boolean(p));
@@ -172,6 +175,38 @@ function Shared({ data, name }: { data: Distance; name: string }) {
               {t('distance.updated', { when: formatAgo(theirs.located_at, i18n.language) })}
             </Text>
           </View>
+        ) : null}
+      </Card>
+
+      <Card>
+        <ToggleRow
+          testID="distance-continuous"
+          label={t('distance.continuous')}
+          hint={t('distance.continuousHint')}
+          value={data.mine.continuous}
+          onChange={(enabled) => continuous.mutate(enabled)}
+        />
+        {continuous.error instanceof ContinuousError ? (
+          <Notice
+            testID={`distance-continuous-${continuous.error.reason}`}
+            tone="warning"
+            message={t(
+              continuous.error.reason === 'denied'
+                ? 'distance.continuousDenied'
+                : 'distance.continuousUnavailable',
+            )}
+            actionLabel={
+              continuous.error.reason === 'denied' ? t('distance.openSettings') : undefined
+            }
+            onAction={
+              continuous.error.reason === 'denied' ? () => void Linking.openSettings() : undefined
+            }
+          />
+        ) : null}
+        {data.partner.continuous ? (
+          <Text variant="caption" muted testID="distance-partner-continuous">
+            {t('distance.partnerContinuous', { name })}
+          </Text>
         ) : null}
       </Card>
 

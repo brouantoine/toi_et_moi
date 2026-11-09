@@ -12,6 +12,7 @@ import {
   routerMock,
 } from '@/test-utils';
 
+import { handleLocations, LOCATION_TASK } from '../background';
 import { DistancePill } from '../DistancePill';
 import { DistanceScreen, regionFor } from '../DistanceScreen';
 import { formatAgo, formatKm } from '../format';
@@ -25,23 +26,32 @@ const urlOf = (arg: Request | string) => (typeof arg === 'string' ? arg : arg.ur
 const methodOf = (arg: Request | string) => (typeof arg === 'string' ? 'GET' : arg.method);
 
 const nobody = {
-  terms_version: 2,
-  mine: { consented: false, sharing: false, city: null, located_at: null, position: null },
-  partner: { sharing: false, city: null, position: null },
+  terms_version: 3,
+  mine: {
+    consented: false,
+    sharing: false,
+    city: null,
+    located_at: null,
+    position: null,
+    continuous: false,
+  },
+  partner: { sharing: false, continuous: false, city: null, position: null },
   km: null,
 };
 const now = new Date().toISOString();
 const both = {
-  terms_version: 2,
+  terms_version: 3,
   mine: {
     consented: true,
     sharing: true,
     city: { name: 'Paris', country: 'FR' },
     located_at: now,
     position: { latitude: 48.85, longitude: 2.35, located_at: now },
+    continuous: false,
   },
   partner: {
     sharing: true,
+    continuous: false,
     city: { name: 'Abidjan', country: 'CI' },
     position: { latitude: 5.36, longitude: -4.0, located_at: now },
   },
@@ -116,7 +126,7 @@ describe('DistanceScreen', () => {
     expect(await screen.findByTestId('distance-map')).toBeTruthy();
     const writes = fetchMock.mock.calls.filter(([i]) => methodOf(i) !== 'GET').map(([i]) => i);
     expect(urlOf(writes[0]!)).toContain('/couple/distance/consent/');
-    expect(await requestBody(writes[0]!)).toEqual({ terms_version: 2 });
+    expect(await requestBody(writes[0]!)).toEqual({ terms_version: 3 });
     expect(await requestBody(writes[1]!)).toEqual({ latitude: 48.8566, longitude: 2.3522 });
   });
 
@@ -129,7 +139,7 @@ describe('DistanceScreen', () => {
   });
 
   it('waits for the other before showing a distance', async () => {
-    routes({ ...both, partner: { sharing: false, city: null, position: null }, km: null });
+    routes({ ...both, partner: nobody.partner, km: null });
     await renderWithProviders(<DistanceScreen />);
     expect(await screen.findByTestId('distance-waiting')).toBeTruthy();
     expect(screen.queryByTestId('distance-partner-marker')).toBeNull();
@@ -155,5 +165,62 @@ describe('DistanceScreen', () => {
     await waitFor(() =>
       expect(fetchMock.mock.calls.some(([i]) => methodOf(i) === 'DELETE')).toBe(true),
     );
+  });
+});
+
+describe('continuous sharing', () => {
+  const continuousOn = { ...both, mine: { ...both.mine, continuous: true } };
+
+  it('asks the "always" permission, starts the background task and saves the choice', async () => {
+    const fetchMock = routes(both, () => jsonResponse(continuousOn));
+    await renderWithProviders(<DistanceScreen />);
+    await fireEvent(await screen.findByTestId('distance-continuous'), 'valueChange', true);
+    await waitFor(() => expect(Location.startLocationUpdatesAsync).toHaveBeenCalledTimes(1));
+    expect(Location.requestBackgroundPermissionsAsync).toHaveBeenCalled();
+    const [task, options] = jest.mocked(Location.startLocationUpdatesAsync).mock.calls[0]!;
+    expect(task).toBe(LOCATION_TASK);
+    expect(options).toMatchObject({
+      distanceInterval: 200,
+      showsBackgroundLocationIndicator: true,
+    });
+    await waitFor(() =>
+      expect(fetchMock.mock.calls.some(([i]) => urlOf(i).includes('/continuous/'))).toBe(true),
+    );
+  });
+
+  it('explains when "always" is refused, and saves nothing', async () => {
+    jest.mocked(Location.requestBackgroundPermissionsAsync).mockResolvedValueOnce({
+      granted: false,
+    } as Awaited<ReturnType<typeof Location.requestBackgroundPermissionsAsync>>);
+    const fetchMock = routes(both, () => jsonResponse(continuousOn));
+    await renderWithProviders(<DistanceScreen />);
+    await fireEvent(await screen.findByTestId('distance-continuous'), 'valueChange', true);
+    expect(await screen.findByTestId('distance-continuous-denied')).toBeTruthy();
+    expect(fetchMock.mock.calls.some(([i]) => methodOf(i) !== 'GET')).toBe(false);
+  });
+
+  it('says when the partner shares continuously', async () => {
+    routes({ ...both, partner: { ...both.partner, continuous: true } });
+    await renderWithProviders(<DistanceScreen />);
+    expect(await screen.findByTestId('distance-partner-continuous')).toBeTruthy();
+  });
+
+  it('sends the newest background position, and stops when signed out', async () => {
+    const { useAuthStore } =
+      jest.requireActual<typeof import('@/auth/authStore')>('@/auth/authStore');
+    await useAuthStore.getState().signIn({ access: 'a', refresh: 'r' });
+    const fetchMock = routes(both, () => jsonResponse(both));
+    const locations = [
+      { coords: { latitude: 1, longitude: 1 } },
+      { coords: { latitude: 5.36, longitude: -4.0 } },
+    ] as Location.LocationObject[];
+    await handleLocations({ data: { locations } });
+    const put = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'PUT')![0];
+    expect(await requestBody(put)).toEqual({ latitude: 5.36, longitude: -4.0 });
+
+    await useAuthStore.getState().signOut();
+    jest.mocked(Location.hasStartedLocationUpdatesAsync).mockResolvedValueOnce(true);
+    await handleLocations({ data: { locations } });
+    expect(Location.stopLocationUpdatesAsync).toHaveBeenCalledWith(LOCATION_TASK);
   });
 });

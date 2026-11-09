@@ -1,4 +1,6 @@
 import '@/i18n';
+// Registers the background location task (must exist before the system wakes the app).
+import '@/features/distance/background';
 
 import {
   Fraunces_400Regular_Italic,

@@ -76,10 +76,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-location',
       {
-        // Foreground only: the distance is refreshed while the app is open, never behind.
-        locationWhenInUsePermission: `${BRAND.name} utilise ta position, quand l'app est ouverte, pour la distance et la carte que tu partages avec l'autre.`,
-        isIosBackgroundLocationEnabled: false,
-        isAndroidBackgroundLocationEnabled: false,
+        locationWhenInUsePermission: `${BRAND.name} utilise ta position pour la distance et la carte que tu partages avec l'autre.`,
+        // "Continuous sharing" is a separate opt-in inside the app (PW.5b).
+        locationAlwaysAndWhenInUsePermission: `${BRAND.name} peut partager ta position avec l'autre même app fermée, si tu actives le partage en continu.`,
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true,
+        isAndroidForegroundServiceEnabled: true,
       },
     ],
     // Android maps need a Google Maps key in production builds (HUMAN_TODO).

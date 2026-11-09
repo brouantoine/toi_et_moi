@@ -485,9 +485,11 @@
         "check_in": "Check-in de la semaine",
         "thinking_of_you": "Je pense à toi",
         "pause": "Pause",
-        "organization": "Organisation"
+        "organization": "Organisation",
+        "proximity": "Proximité et partage de position"
       }
-    }
+    },
+    "proximityChannel": "Proximité"
   },
   "morning": {
     "greeting": "Bonjour {{name}}",
@@ -604,6 +606,16 @@
     "term1": "Ta position est lue seulement quand l’app est ouverte, jamais en arrière-plan.",
     "term2": "{{name}} voit la distance entre vous et ta dernière position sur une carte, avec l’heure.",
     "term3": "Rien n’apparaît tant que vous n’avez pas accepté tous les deux. Personne d’autre ne la voit.",
-    "term4": "Tu peux arrêter à tout moment : ta position est effacée aussitôt."
+    "term4": "Tu peux arrêter à tout moment : ta position est effacée aussitôt.",
+    "term5": "À moins d’1 km l’un de l’autre, vos deux téléphones vibrent pour vous prévenir.",
+    "continuous": "Partage en continu",
+    "continuousHint": "Ta position est aussi envoyée quand l’app est fermée. Tu reçois un rappel tous les 30 jours.",
+    "continuousDenied": "Pour le partage en continu, choisis « Toujours autoriser » dans les réglages de localisation du téléphone.",
+    "continuousUnavailable": "Le partage en continu demande la version installée de l’app : il ne fonctionne pas dans Expo Go.",
+    "partnerContinuous": "{{name}} partage sa position en continu.",
+    "serviceTitle": "Position partagée",
+    "serviceBody": "Ta position est partagée avec ta moitié.",
+    "nearTitle": "{{name}} est près de toi",
+    "nearBody": "Vous êtes à moins d’un kilomètre l’un de l’autre."
   }
 }

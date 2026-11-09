@@ -86,7 +86,8 @@ def build_messages(
             "body": body,
             "data": data,
             "sound": "default",
-            "channelId": ANDROID_CHANNEL,
+            # Proximity has its own Android channel, set to vibrate.
+            "channelId": "proximity" if data.get("kind") == "proximity" else ANDROID_CHANNEL,
         }
         if category:
             message["categoryId"] = category

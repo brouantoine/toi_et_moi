@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Vibration } from 'react-native';
 
 import { useAuthStore } from '@/auth/authStore';
 import { API_URL } from '@/config/env';
@@ -8,6 +8,9 @@ import { API_URL } from '@/config/env';
 import { setTypingSender, useTypingStore } from '@/features/messages/typing';
 import { api } from './index';
 import { invalidationKeysFor, SyncClient, syncUrl } from './realtime';
+
+/** Two long pulses then a short one, in ms (wait, vibrate, wait, vibrate…). */
+export const NEAR_PATTERN = [0, 400, 150, 400, 150, 200];
 
 /**
  * Keeps the couple's shared data live while the app is in the foreground.
@@ -22,10 +25,15 @@ export function useRealtimeSync(): void {
     const client = new SyncClient({
       url: syncUrl(API_URL),
       getToken: () => useAuthStore.getState().tokens?.access ?? null,
-      onChanged: (event) =>
+      onChanged: (event) => {
+        // "Your partner is near you": both phones vibrate (heartbeat-like pattern).
+        if (event.resource === 'distance' && event.action === 'near') {
+          Vibration.vibrate(NEAR_PATTERN);
+        }
         invalidationKeysFor(event).forEach((queryKey) => {
           void queryClient.invalidateQueries({ queryKey });
-        }),
+        });
+      },
       onReady: () => {
         void queryClient.invalidateQueries({
           predicate: (q) =>

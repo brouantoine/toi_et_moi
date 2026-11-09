@@ -64,3 +64,7 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 
 ## Carte de la distance (PW.5)
 - [ ] Android en production : créer une clé Google Maps SDK for Android (Google Cloud), la restreindre au paquet de l'app, et la fournir dans `GOOGLE_MAPS_API_KEY` au moment du build. (Inutile dans Expo Go et sur iPhone, qui utilise Apple Plans.)
+
+## Partage de position en continu (PW.5b)
+- [ ] Faire un build de développement (`npx eas-cli build --profile development`) : l'arrière-plan ne marche pas dans Expo Go. À tester sur deux vrais téléphones (déplacement de plus de 200 m, passage sous 1 km).
+- [ ] Stores : justifier la localisation en arrière-plan (Apple : texte de permission « Toujours » ; Google Play : formulaire « Accès à la position en arrière-plan » avec une courte vidéo de la fonction).
