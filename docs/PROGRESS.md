@@ -258,3 +258,8 @@
 - Symptôme (essai sur iPhone avec Expo Go) : « Pas de connexion » après chaque connexion, alors que le serveur répondait 200. Cause trouvée grâce au détail d'erreur affiché en développement : `onResponse: must return new Response() when modifying the response`. Le middleware d'authentification renvoyait la réponse telle quelle ; `openapi-fetch` exige alors qu'elle soit `instanceof Response`, ce qui est vrai sous Jest mais faux sous React Native (autre classe de Response).
 - Correctif (`mobile/src/api/authMiddleware.ts`) : ne rien renvoyer quand la réponse n'est pas modifiée ; la réponse rejouée après rafraîchissement du jeton est reconstruite en `Response` global (`asResponse`). Tests qui reproduisent une réponse « d'une autre classe ».
 - Aussi : détail technique des erreurs visible en développement seulement (écran d'erreur, écran de connexion, terminal Expo).
+
+## 2026-11-09 — PV.1 Accueil vivant
+- Fichiers clés : `mobile/src/features/today/{TodayCards,milestones,useToday,TodayScreen}.ts(x)`, tests `today/__tests__/home.test.tsx`.
+- Aujourd'hui s'ouvre sur le couple : photo du couple en grand (voile + texte) ou les deux avatars qui se chevauchent sur fond rouge doux, « Antoine & Sam », « Ensemble depuis N jours », pastille du prochain jalon (anniversaire ou 100/200/500/1000 jours puis tous les 500 ; « C'est aujourd'hui » en rouge plein). Sans date de début : invitation à la renseigner. Puis la météo du matin, « Prochain moment » (agenda, teinte du type) et « Il y a N ans aujourd'hui » (souvenir avec photo), chaque carte ouvrant la bonne section.
+- À savoir : jalons calculés sur les jours civils locaux, 29 février fêté le 28.

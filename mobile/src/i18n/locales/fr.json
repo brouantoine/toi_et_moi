@@ -513,5 +513,24 @@
     "tooMany": "Tu as déjà répondu plusieurs fois aujourd’hui.",
     "enableTitle": "Recevoir la météo du matin",
     "enableMessage": "Chaque matin, une invitation à partager comment tu te sens, et la météo de l’autre dès qu’elle arrive."
+  },
+  "today": {
+    "couple": "{{me}} & {{partner}}",
+    "together_one": "Ensemble depuis {{count}} jour",
+    "together_other": "Ensemble depuis {{count}} jours",
+    "togetherHint": "Ajoute votre date de début dans Moi → Notre couple.",
+    "milestoneTodayYears_one": "C’est aujourd’hui : {{count}} an ensemble",
+    "milestoneTodayYears_other": "C’est aujourd’hui : {{count}} ans ensemble",
+    "milestoneTodayDays": "C’est aujourd’hui : {{value}} jours ensemble",
+    "milestoneYears_one": "Dans {{days}} j : {{count}} an ensemble",
+    "milestoneYears_other": "Dans {{days}} j : {{count}} ans ensemble",
+    "milestoneDays": "Dans {{days}} j : {{value}} jours ensemble",
+    "nextMoment": "Prochain moment",
+    "nextEmpty": "Rien de prévu. Une idée de sortie ?",
+    "nextOpen": "Voir l’agenda",
+    "onThisDay_one": "Il y a {{count}} an aujourd’hui",
+    "onThisDay_other": "Il y a {{count}} ans aujourd’hui",
+    "today": "Aujourd’hui",
+    "tomorrow": "Demain"
   }
 }

@@ -37,6 +37,8 @@ function backend(initial: { mine: Mood; partner: Mood }, replyStatus = 204) {
     calls.push({ method: request.method, path: pathname, body });
     if (pathname === '/api/v1/me/') return jsonResponse(me);
     if (pathname === '/api/v1/couple/') return jsonResponse(couple);
+    if (pathname.endsWith('/occurrences/')) return jsonResponse([]);
+    if (pathname.endsWith('/on-this-day/')) return jsonResponse({ date: '2026-11-07', items: [] });
     if (pathname === '/api/v1/morning/reply/') {
       if (replyStatus !== 204) return jsonResponse({ detail: 'too_many_replies' }, replyStatus);
       state.partner.replies.push(body.reply);

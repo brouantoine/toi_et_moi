@@ -513,5 +513,24 @@
     "tooMany": "You already answered a few times today.",
     "enableTitle": "Get the morning weather",
     "enableMessage": "Every morning, an invitation to share how you feel, and your partner’s weather as soon as it arrives."
+  },
+  "today": {
+    "couple": "{{me}} & {{partner}}",
+    "together_one": "Together for {{count}} day",
+    "together_other": "Together for {{count}} days",
+    "togetherHint": "Add your start date in Me → Our couple.",
+    "milestoneTodayYears_one": "Today: {{count}} year together",
+    "milestoneTodayYears_other": "Today: {{count}} years together",
+    "milestoneTodayDays": "Today: {{value}} days together",
+    "milestoneYears_one": "In {{days}} d: {{count}} year together",
+    "milestoneYears_other": "In {{days}} d: {{count}} years together",
+    "milestoneDays": "In {{days}} d: {{value}} days together",
+    "nextMoment": "Next moment",
+    "nextEmpty": "Nothing planned. A date idea?",
+    "nextOpen": "Open the calendar",
+    "onThisDay_one": "{{count}} year ago today",
+    "onThisDay_other": "{{count}} years ago today",
+    "today": "Today",
+    "tomorrow": "Tomorrow"
   }
 }

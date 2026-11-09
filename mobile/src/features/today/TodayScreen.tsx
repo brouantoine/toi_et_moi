@@ -9,6 +9,7 @@ import { enablePush, pushStatus } from '@/notifications/push';
 import { Button, Card, ErrorState, Skeleton, Text, useTheme } from '@/ui';
 
 import { MyMorningCard, PartnerMorningCard } from './MorningCards';
+import { CoupleHero, NextMomentCard, OnThisDayCard } from './TodayCards';
 import { useMorning } from './useMorning';
 
 function EnablePushCard() {
@@ -67,6 +68,8 @@ export function TodayScreen() {
       <>
         <MyMorningCard today={morning.data} />
         <PartnerMorningCard today={morning.data} />
+        <NextMomentCard />
+        <OnThisDayCard />
       </>
     );
   }
@@ -94,6 +97,7 @@ export function TodayScreen() {
           </Text>
           <Text variant="title">{t('tabs.today.title')}</Text>
         </View>
+        <CoupleHero />
         <EnablePushCard />
         {body}
       </ScrollView>
