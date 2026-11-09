@@ -98,7 +98,8 @@ Ordre : PW.1–PW.13 avant P4 ; PW.14–PW.18 demandent un build de développeme
 - [ ] PW.14 — Synchronisation des agendas de l'appareil (Google, Apple, Outlook via expo-calendar, lecture seule, opt-in) : ses propres créneaux visibles dans son agenda, rien n'est partagé sans choix explicite — tests — dépend de : P3.8
 - [ ] PW.15 — Widgets écran d'accueil (étend P6.17) : « ensemble depuis N jours », photo prise sur le vif qui apparaît chez l'autre (façon Locket), humeur du matin — dépend de : P6.17
 - [ ] PW.16 — Coach IA (fusionné dans PX.7) (Premium, désactivé par défaut, consentement explicite) : conseils via l'API Claude côté backend, textes jamais stockés ni journalisés — tests flag/consentement — dépend de : P9b
-- [ ] PW.17 — Appel vocal et vidéo à deux (WebRTC, build de développement, serveur TURN à fournir — HUMAN_TODO) — dépend de : P6.17
+- [ ] PW.17 — Appels vocaux et vidéo dans l'app (WebRTC pair à pair, signalisation par le WebSocket existant, serveur STUN/TURN à fournir — HUMAN_TODO ; build de développement, pas Expo Go) : sonnerie et écran d'appel entrant (CallKit / ConnectionService), micro/caméra/haut-parleur, bascule caméra, reprise réseau, qualité adaptative — tests de signalisation — dépend de : PX.8
+- [ ] PW.17b — Messages pendant l'appel vidéo : les messages reçus s'affichent par-dessus la vidéo dans un panneau flou translucide mais lisible (façon widget de conversation), réponse sans quitter l'appel, fermeture d'un geste, réapparition automatique au message suivant — tests — dépend de : PW.17, PX.6a
 - [ ] PW.18 — Regarder ensemble : lecture synchronisée de liens YouTube (lecture/pause/position par WebSocket) + compte à rebours « lancez ensemble » pour les autres plateformes — tests de synchronisation — dépend de : P3.11
 
 ## P4 — Question du jour & « À retenir » (F4)
