@@ -994,6 +994,17 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /**
+     * @description * `rouge` - Rouge
+     *     * `ambre` - Ambre
+     *     * `sauge` - Sauge
+     *     * `lagon` - Lagon
+     *     * `bleu` - Bleu
+     *     * `violet` - Violet
+     *     * `encre` - Encre
+     * @enum {string}
+     */
+    AccentEnum: 'rouge' | 'ambre' | 'sauge' | 'lagon' | 'bleu' | 'violet' | 'encre';
     AuthResponse: {
       access: string;
       refresh: string;
@@ -1059,6 +1070,7 @@ export interface components {
       /** Format: date */
       start_date?: string | null;
       currency?: string;
+      accent?: components['schemas']['AccentEnum'];
       readonly photo_url: string | null;
       readonly members: components['schemas']['Member'][];
       readonly invitation: components['schemas']['Invitation'] | null;
@@ -1480,6 +1492,7 @@ export interface components {
       /** Format: date */
       start_date?: string | null;
       currency?: string;
+      accent?: components['schemas']['AccentEnum'];
     };
     PatchedEventRequest: {
       title?: string;

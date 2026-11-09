@@ -51,6 +51,7 @@ class CoupleSerializer(serializers.ModelSerializer[Couple]):
             "status",
             "start_date",
             "currency",
+            "accent",
             "photo_url",
             "members",
             "invitation",

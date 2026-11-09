@@ -1,5 +1,5 @@
 import { contrastRatio } from '../contrast';
-import { hues, palettes, type ColorScheme } from '../tokens';
+import { ACCENT_IDS, hues, paletteFor, palettes, type ColorScheme } from '../tokens';
 
 const AA_TEXT = 4.5;
 const schemes: ColorScheme[] = ['light', 'dark'];
@@ -40,5 +40,17 @@ describe.each(schemes)('%s category hues meet WCAG AA', (scheme) => {
     // Body text stays readable on a hue-tinted card (quotes).
     expect(contrastRatio(palettes[scheme].text, bg)).toBeGreaterThanOrEqual(AA_TEXT);
     expect(contrastRatio(palettes[scheme].textMuted, bg)).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+});
+
+describe.each(schemes)('%s couple accents meet WCAG AA', (scheme) => {
+  it.each(ACCENT_IDS)('%s', (accent) => {
+    const p = paletteFor(scheme, accent);
+    expect(contrastRatio(p.onPrimary, p.primary)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(p.primary, p.background)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(p.primary, p.surface)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(p.onPrimarySoft, p.primarySoft)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(p.text, p.primarySoft)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(p.textMuted, p.primarySoft)).toBeGreaterThanOrEqual(AA_TEXT);
   });
 });

@@ -2,13 +2,15 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { AccessibilityInfo, useColorScheme } from 'react-native';
 
 import {
+  DEFAULT_ACCENT,
   elevations,
   hues,
   motion,
-  palettes,
+  paletteFor,
   radii,
   spacing,
   typography,
+  type AccentId,
   type ColorScheme,
   type Elevation,
   type Hue,
@@ -18,6 +20,7 @@ import {
 
 export type Theme = {
   scheme: ColorScheme;
+  accent: AccentId;
   colors: Palette;
   hues: Record<Hue, HueColors>;
   elevation: Elevation;
@@ -27,10 +30,11 @@ export type Theme = {
   motion: typeof motion;
 };
 
-export function buildTheme(scheme: ColorScheme): Theme {
+export function buildTheme(scheme: ColorScheme, accent: AccentId = DEFAULT_ACCENT): Theme {
   return {
     scheme,
-    colors: palettes[scheme],
+    accent,
+    colors: paletteFor(scheme, accent),
     hues: hues[scheme],
     elevation: elevations[scheme],
     spacing,
@@ -46,12 +50,14 @@ type Props = {
   children: ReactNode;
   /** Force a scheme (tests, user preference). Defaults to the system setting. */
   scheme?: ColorScheme;
+  /** The couple's colour (Settings). */
+  accent?: AccentId;
 };
 
-export function ThemeProvider({ children, scheme }: Props) {
+export function ThemeProvider({ children, scheme, accent = DEFAULT_ACCENT }: Props) {
   const system = useColorScheme();
   const resolved: ColorScheme = scheme ?? (system === 'dark' ? 'dark' : 'light');
-  const theme = useMemo(() => buildTheme(resolved), [resolved]);
+  const theme = useMemo(() => buildTheme(resolved, accent), [resolved, accent]);
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 }
 

@@ -199,7 +199,18 @@
     "startDate": "Our start date",
     "currency": "Budget currency",
     "currencyHint": "3-letter code, for example EUR, CAD, XOF.",
-    "currencyInvalid": "Enter a 3-letter code (EUR, CAD…)."
+    "currencyInvalid": "Enter a 3-letter code (EUR, CAD…).",
+    "colorTitle": "Your colour",
+    "colorHint": "It colours the app for both of you.",
+    "colors": {
+      "rouge": "Red",
+      "ambre": "Amber",
+      "sauge": "Sage",
+      "lagon": "Lagoon",
+      "bleu": "Blue",
+      "violet": "Violet",
+      "encre": "Ink"
+    }
   },
   "memories": {
     "all": "All",

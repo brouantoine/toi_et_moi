@@ -113,3 +113,17 @@ def test_join_is_throttled() -> None:
     client = client_for(UserFactory())
     statuses = [client.post(JOIN, {"code": "ZZZZZZ"}).status_code for _ in range(12)]
     assert 429 in statuses
+
+
+def test_couple_colour_is_shared_and_validated() -> None:
+    couple, a, b = make_couple()
+    response = client_for(a).patch(COUPLE, {"accent": "lagon"}, format="json")
+    assert response.status_code == 200
+    assert response.json()["accent"] == "lagon"
+    assert client_for(b).get(COUPLE).json()["accent"] == "lagon"
+    assert client_for(a).patch(COUPLE, {"accent": "rose"}, format="json").status_code == 400
+
+
+def test_new_couples_start_in_red() -> None:
+    couple, a, _ = make_couple()
+    assert client_for(a).get(COUPLE).json()["accent"] == "rouge"

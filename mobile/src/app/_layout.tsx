@@ -8,14 +8,15 @@ import {
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { QueryProvider } from '@/api/QueryProvider';
+import { useCoupleAccent } from '@/features/couple/useCouple';
 import { useGate } from '@/navigation/useGate';
 import { configureNotifications } from '@/notifications/setup';
-import { fonts, ThemeProvider, useTheme } from '@/ui';
+import { ThemeProvider, useTheme } from '@/ui';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -42,7 +43,7 @@ function GuardedStack() {
     headerShown: true,
     headerStyle: { backgroundColor: colors.background },
     headerTintColor: colors.primary,
-    headerTitleStyle: { color: colors.text, fontFamily: fonts.displayMedium },
+    headerTitleStyle: { color: colors.text, fontWeight: '700' as const },
     headerShadowVisible: false,
   };
 
@@ -94,13 +95,18 @@ function GuardedStack() {
   );
 }
 
+/** The whole app takes the couple's colour (Settings > Our couple). */
+function CoupleThemeProvider({ children }: { children: ReactNode }) {
+  return <ThemeProvider accent={useCoupleAccent()}>{children}</ThemeProvider>;
+}
+
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <QueryProvider>
-        <ThemeProvider>
+        <CoupleThemeProvider>
           <GuardedStack />
-        </ThemeProvider>
+        </CoupleThemeProvider>
       </QueryProvider>
     </SafeAreaProvider>
   );

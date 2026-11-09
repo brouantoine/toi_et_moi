@@ -1,12 +1,8 @@
 /**
- * Design tokens. Passion red, warm cream, sage and ink: lively but never pink
- * (pink is the couple-app cliché the brief rules out, see docs/DECISIONS.md).
+ * Design tokens. White-dominant, Apple Music-like: pure white canvas, quiet grey fills,
+ * bold system titles and ONE accent colour, chosen by each couple (see `accents`).
+ * Pink stays out of the accent set (couple-app cliché, docs/DECISIONS.md).
  * Every text/background pair is checked for WCAG AA contrast in tests.
- *
- * Direction: a warm editorial journal. Serif display type (Fraunces) for titles,
- * the platform sans for everything read at length, paper-like surfaces with soft
- * warm shadows, tinted fills instead of hard borders. Light tints lean peach, so
- * the red stays red and never turns pink.
  */
 export type ColorScheme = 'light' | 'dark';
 
@@ -19,7 +15,7 @@ export type Palette = {
   textMuted: string;
   primary: string;
   onPrimary: string;
-  /** Tinted red fill and the text that sits on it. */
+  /** Tinted accent fill and the text that sits on it. */
   primarySoft: string;
   onPrimarySoft: string;
   secondary: string;
@@ -35,46 +31,158 @@ export type Palette = {
   onScrim: string;
 };
 
+/** The four accent-driven slots of the palette. */
+export type AccentColors = Pick<Palette, 'primary' | 'onPrimary' | 'primarySoft' | 'onPrimarySoft'>;
+
+export const ACCENT_IDS = ['rouge', 'ambre', 'sauge', 'lagon', 'bleu', 'violet', 'encre'] as const;
+export type AccentId = (typeof ACCENT_IDS)[number];
+export const DEFAULT_ACCENT: AccentId = 'rouge';
+
+/** Couple colours, chosen in Settings. Each set is AA on white (light) and black (dark). */
+export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
+  rouge: {
+    light: {
+      primary: '#D0112B',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#FDE4DC',
+      onPrimarySoft: '#86101E',
+    },
+    dark: {
+      primary: '#FF5A62',
+      onPrimary: '#140405',
+      primarySoft: '#4A1A1C',
+      onPrimarySoft: '#FFB9B3',
+    },
+  },
+  ambre: {
+    light: {
+      primary: '#A34E00',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#FDEBD3',
+      onPrimarySoft: '#6E3300',
+    },
+    dark: {
+      primary: '#FFB35C',
+      onPrimary: '#1A0E00',
+      primarySoft: '#42300F',
+      onPrimarySoft: '#FFD9A0',
+    },
+  },
+  sauge: {
+    light: {
+      primary: '#3F6B47',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#E2EEE0',
+      onPrimarySoft: '#2C4A33',
+    },
+    dark: {
+      primary: '#8FD19A',
+      onPrimary: '#0B1A0E',
+      primarySoft: '#1F3324',
+      onPrimarySoft: '#BFE5C4',
+    },
+  },
+  lagon: {
+    light: {
+      primary: '#0A6E78',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#D6EEF0',
+      onPrimarySoft: '#0B4C53',
+    },
+    dark: {
+      primary: '#5ED6E0',
+      onPrimary: '#04191B',
+      primarySoft: '#0F3A3E',
+      onPrimarySoft: '#A8EEF3',
+    },
+  },
+  bleu: {
+    light: {
+      primary: '#1F5FD1',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#DFE9FB',
+      onPrimarySoft: '#163F8C',
+    },
+    dark: {
+      primary: '#7FA8FF',
+      onPrimary: '#08142E',
+      primarySoft: '#182A4D',
+      onPrimarySoft: '#C3D5FF',
+    },
+  },
+  violet: {
+    light: {
+      primary: '#6A3FC1',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#ECE4F9',
+      onPrimarySoft: '#482A86',
+    },
+    dark: {
+      primary: '#B79BFF',
+      onPrimary: '#160B33',
+      primarySoft: '#2E2550',
+      onPrimarySoft: '#DCCFFF',
+    },
+  },
+  encre: {
+    light: {
+      primary: '#1C1C1E',
+      onPrimary: '#FFFFFF',
+      primarySoft: '#EBEBEF',
+      onPrimarySoft: '#1C1C1E',
+    },
+    dark: {
+      primary: '#F2F2F7',
+      onPrimary: '#1C1C1E',
+      primarySoft: '#2C2C2E',
+      onPrimarySoft: '#F2F2F7',
+    },
+  },
+};
+
+export function isAccentId(value: unknown): value is AccentId {
+  return typeof value === 'string' && (ACCENT_IDS as readonly string[]).includes(value);
+}
+
+/** Static palettes use the default accent; the theme swaps in the couple's accent. */
 export const palettes: Record<ColorScheme, Palette> = {
   light: {
-    background: '#FFF8F2', // warm cream
-    surface: '#FFFFFF', // paper
-    surfaceMuted: '#F7ECE3',
-    text: '#231A16', // ink
-    textMuted: '#62564F',
-    primary: '#B3132B', // passion red
-    onPrimary: '#FFFFFF',
-    primarySoft: '#FCE3D8', // peach-leaning, never pink
-    onPrimarySoft: '#7D0A1C',
+    background: '#FFFFFF',
+    surface: '#FFFFFF',
+    surfaceMuted: '#F2F2F5',
+    text: '#1C1C1E',
+    textMuted: '#636368',
+    ...accents[DEFAULT_ACCENT].light,
     secondary: '#4F6B52', // sage (deep)
     onSecondary: '#FFFFFF',
-    secondarySoft: '#E2ECDF',
-    onSecondarySoft: '#32493A',
-    border: '#EEDFD4',
-    danger: '#9F1D1D',
-    scrim: 'rgba(20, 12, 10, 0.45)',
+    secondarySoft: '#E2EEE0',
+    onSecondarySoft: '#2C4A33',
+    border: '#E5E5EA',
+    danger: '#B3261E',
+    scrim: 'rgba(0, 0, 0, 0.42)',
     onScrim: '#FFFFFF',
   },
   dark: {
-    background: '#16120F',
-    surface: '#211B17',
-    surfaceMuted: '#2E2620',
-    text: '#F6EEE7',
-    textMuted: '#C2B6AC',
-    primary: '#FF5C5C',
-    onPrimary: '#2E0505',
-    primarySoft: '#4A1A16',
-    onPrimarySoft: '#FFB7AC',
+    background: '#000000',
+    surface: '#1C1C1E',
+    surfaceMuted: '#2C2C2E',
+    text: '#FFFFFF',
+    textMuted: '#AEAEB4',
+    ...accents[DEFAULT_ACCENT].dark,
     secondary: '#9DBBA0',
     onSecondary: '#14201A',
-    secondarySoft: '#223027',
-    onSecondarySoft: '#BCD5BE',
-    border: '#3A2F28',
+    secondarySoft: '#1F3324',
+    onSecondarySoft: '#BFE5C4',
+    border: '#38383A',
     danger: '#FF8A80',
     scrim: 'rgba(0, 0, 0, 0.5)',
     onScrim: '#FFFFFF',
   },
 };
+
+export function paletteFor(scheme: ColorScheme, accent: AccentId = DEFAULT_ACCENT): Palette {
+  return { ...palettes[scheme], ...accents[accent][scheme] };
+}
 
 /**
  * Category hues: a small family of warm-to-cool accents (no pink) used to tell kinds
@@ -101,15 +209,15 @@ export const hues: Record<ColorScheme, Record<Hue, HueColors>> = {
 };
 
 /**
- * Elevation as `boxShadow` strings. Warm-tinted, very diffuse in light mode; in dark
+ * Elevation as `boxShadow` strings. Neutral and very diffuse in light mode; in dark
  * mode shadows are invisible, so surfaces separate by tone and a hairline instead.
  */
 export type Elevation = { card: string; raised: string; hairline: boolean };
 
 export const elevations: Record<ColorScheme, Elevation> = {
   light: {
-    card: '0 1px 2px rgba(74, 46, 26, 0.05), 0 6px 20px rgba(74, 46, 26, 0.06)',
-    raised: '0 2px 6px rgba(74, 46, 26, 0.08), 0 14px 36px rgba(74, 46, 26, 0.12)',
+    card: '0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.07)',
+    raised: '0 2px 6px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.12)',
     hairline: false,
   },
   dark: {
@@ -131,11 +239,11 @@ export const fonts = {
 } as const;
 
 export const typography = {
-  /** Hero moments only: onboarding, welcome, on-this-day. */
-  display: { fontSize: 36, lineHeight: 42, fontFamily: fonts.display, letterSpacing: -0.6 },
-  title: { fontSize: 30, lineHeight: 36, fontFamily: fonts.display, letterSpacing: -0.4 },
-  heading: { fontSize: 22, lineHeight: 28, fontFamily: fonts.displayMedium, letterSpacing: -0.2 },
-  /** Quotes and gentle asides. */
+  /** Hero moments only: onboarding, welcome, on-this-day. Bold system type, Apple-like. */
+  display: { fontSize: 34, lineHeight: 41, fontWeight: '800', letterSpacing: -0.6 },
+  title: { fontSize: 28, lineHeight: 34, fontWeight: '800', letterSpacing: -0.4 },
+  heading: { fontSize: 20, lineHeight: 25, fontWeight: '700', letterSpacing: -0.3 },
+  /** Quotes and gentle asides: the one serif touch left (Fraunces italic). */
   quote: { fontSize: 20, lineHeight: 28, fontFamily: fonts.displayItalic },
   /** Long reading: a memory's story. */
   lead: { fontSize: 18, lineHeight: 29, fontWeight: '400' },

@@ -7,6 +7,7 @@ from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
 from accounts.models import User
+from core.realtime import notify_changed
 
 from . import services
 from .models import Couple
@@ -64,6 +65,8 @@ class CoupleView(APIView):
         serializer = CoupleSerializer(couple, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        # The partner's phone refreshes too (colour, start date, currency).
+        notify_changed(couple.pk, "couple", couple.pk, "updated")
         return _couple_response(couple)
 
     @extend_schema(responses={204: None, 400: CoupleErrorSerializer})

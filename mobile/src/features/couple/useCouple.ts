@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getLocales } from 'expo-localization';
 
 import { api, ApiError, unwrap, type Schemas } from '@/api';
+import { DEFAULT_ACCENT, isAccentId, type AccentId } from '@/ui/tokens';
 
 export type Couple = Schemas['Couple'];
 export const coupleKey = ['couple'] as const;
@@ -86,4 +87,24 @@ export function useUpdateCouple() {
   return useCoupleMutation(async (patch: CoupleUpdate) =>
     unwrap(await api.PATCH('/api/v1/couple/', { body: patch })),
   );
+}
+
+/**
+ * The couple's colour, read from the (persisted) couple cache without fetching:
+ * the theme follows it instantly, including after a change made by the partner.
+ */
+export function useCoupleAccent(): AccentId {
+  const { data } = useQuery({ queryKey: coupleKey, queryFn: fetchCouple, enabled: false });
+  return isAccentId(data?.accent) ? data.accent : DEFAULT_ACCENT;
+}
+
+/** Applies the colour at once (optimistic), then saves it for both partners. */
+export function useSetAccent() {
+  const client = useQueryClient();
+  const update = useUpdateCouple();
+  return (accent: AccentId) => {
+    const previous = client.getQueryData<Couple | null>(coupleKey);
+    if (previous) client.setQueryData(coupleKey, { ...previous, accent });
+    update.mutate({ accent }, { onError: () => client.setQueryData(coupleKey, previous) });
+  };
 }

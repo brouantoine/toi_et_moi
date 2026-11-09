@@ -4,7 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { ApiError } from '@/api';
 import { Button, DateField, ErrorState, Input, LoadingState, Screen, Text } from '@/ui';
 
-import { useCouple, useUpdateCouple, type Couple } from './useCouple';
+import { AccentPicker } from './AccentPicker';
+import {
+  useCouple,
+  useCoupleAccent,
+  useSetAccent,
+  useUpdateCouple,
+  type Couple,
+} from './useCouple';
 
 const CURRENCY_RE = /^[A-Z]{3}$/;
 
@@ -16,11 +23,14 @@ function CoupleInfoForm({ couple }: { couple: Couple }) {
   const currencyError = CURRENCY_RE.test(currency) ? undefined : t('coupleInfo.currencyInvalid');
 
   const partners = couple.members.map((m) => m.display_name).join(' & ');
+  const accent = useCoupleAccent();
+  const setAccent = useSetAccent();
 
   return (
     <Screen testID="couple-info-screen">
       <Text variant="title">{t('coupleInfo.title')}</Text>
       <Text muted>{partners}</Text>
+      <AccentPicker value={accent} onChange={setAccent} />
       <DateField
         testID="couple-start-date"
         label={t('coupleInfo.startDate')}

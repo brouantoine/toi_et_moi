@@ -2349,6 +2349,24 @@ paths:
           description: ''
 components:
   schemas:
+    AccentEnum:
+      enum:
+      - rouge
+      - ambre
+      - sauge
+      - lagon
+      - bleu
+      - violet
+      - encre
+      type: string
+      description: |-
+        * `rouge` - Rouge
+        * `ambre` - Ambre
+        * `sauge` - Sauge
+        * `lagon` - Lagon
+        * `bleu` - Bleu
+        * `violet` - Violet
+        * `encre` - Encre
     AuthResponse:
       type: object
       properties:
@@ -2507,6 +2525,8 @@ components:
         currency:
           type: string
           maxLength: 3
+        accent:
+          $ref: '#/components/schemas/AccentEnum'
         photo_url:
           type: string
           nullable: true
@@ -3521,6 +3541,8 @@ components:
           type: string
           minLength: 1
           maxLength: 3
+        accent:
+          $ref: '#/components/schemas/AccentEnum'
     PatchedEventRequest:
       type: object
       properties:

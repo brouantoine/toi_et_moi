@@ -143,6 +143,25 @@ describe('ProfileScreen', () => {
 });
 
 describe('CoupleInfoScreen', () => {
+  it('applies the couple colour at once and saves it for both', async () => {
+    const fetchMock = mockFetch().mockImplementation(async (input) =>
+      methodOf(input) === 'PATCH'
+        ? jsonResponse({ ...couple, accent: 'lagon' })
+        : jsonResponse({ ...couple, accent: 'rouge' }),
+    );
+    await renderWithProviders(<CoupleInfoScreen />);
+    const red = await screen.findByTestId('accent-rouge');
+    expect(red.props.accessibilityState).toMatchObject({ selected: true });
+    await fireEvent.press(screen.getByTestId('accent-lagon'));
+    await waitFor(() =>
+      expect(screen.getByTestId('accent-lagon').props.accessibilityState).toMatchObject({
+        selected: true,
+      }),
+    );
+    const patch = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'PATCH')![0];
+    expect(await requestBody(patch)).toEqual({ accent: 'lagon' });
+  });
+
   it('shows both partners and saves start date and currency', async () => {
     const fetchMock = mockFetch().mockImplementation(async (input) =>
       methodOf(input) === 'PATCH'

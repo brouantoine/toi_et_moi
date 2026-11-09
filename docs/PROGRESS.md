@@ -284,3 +284,8 @@
 - Côté invité : « Coller le code » accepte le code seul, le lien ou le message entier.
 - Liens universels / app links : `/.well-known/apple-app-site-association` et `/.well-known/assetlinks.json` servis par le backend dès que les identifiants sont fournis ; `app.config.ts` les déclare si `LINK_HOST` est défini. `scripts/dev-phone.sh` règle `PUBLIC_BASE_URL` sur ce PC.
 - Tests : page web (sans requête SQL, codes mal formés, langue, stores), fichiers d'association, `share_url` ; mobile : partage immédiat, copie, QR, extraction du code, collage.
+
+## 2026-11-09 — PW.5 (API), PX.1 thème blanc, PX.2 couleur du couple
+- Distance (API) : app `places`, index GeoNames hors ligne (34 208 villes, noms traduits : « Londres », « Bruxelles »), recherche `places/search/`, `couple/distance/` (ville et distance arrondie visibles seulement si les deux partagent, jamais de coordonnées).
+- Thème : fond blanc pur, gris de remplissage, titres en police système grasse (façon Apple Music), ombres neutres ; sombre en noir pur. Sérif conservé pour les citations.
+- Couleur du couple : 7 accents (rouge, ambre, sauge, lagon, bleu, violet, encre ; pas de rose), contrastes AA testés en clair et sombre, choisis dans Réglages > Notre couple, appliqués aussitôt (optimiste) et chez l'autre en temps réel (ressource `couple`).
