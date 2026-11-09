@@ -48,13 +48,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-apple-authentication',
     ['expo-notifications', { color: '#B3132B', defaultChannel: 'default' }],
     [
+      'expo-audio',
+      {
+        microphonePermission: `${BRAND.name} utilise le micro pour enregistrer tes notes vocales.`,
+      },
+    ],
+    [
       'expo-image-picker',
       {
-        // Library only: no camera nor microphone permission is requested.
-        // Localized permission texts come with P11.1.
+        // Library only: no camera permission. The microphone is declared by expo-audio
+        // (voice notes); localized permission texts come with P11.1.
         photosPermission: `${BRAND.name} a besoin de tes photos pour les ajouter à vos souvenirs.`,
         cameraPermission: false,
-        microphonePermission: false,
       },
     ],
     [

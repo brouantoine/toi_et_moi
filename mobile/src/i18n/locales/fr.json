@@ -532,5 +532,28 @@
     "onThisDay_other": "Il y a {{count}} ans aujourd’hui",
     "today": "Aujourd’hui",
     "tomorrow": "Demain"
+  },
+  "messages": {
+    "eyebrow": "Rien que vous deux",
+    "placeholder": "Écrire à l’autre…",
+    "inputLabel": "Message",
+    "send": "Envoyer",
+    "record": "Enregistrer une note vocale",
+    "recording": "Enregistrement…",
+    "stopAndSend": "Arrêter et envoyer",
+    "cancelRecording": "Annuler l’enregistrement",
+    "addPhoto": "Envoyer une photo",
+    "play": "Écouter la note vocale ({{duration}})",
+    "pause": "Mettre en pause",
+    "voiceLabel": "Note vocale de {{duration}}",
+    "photoLabel": "Photo",
+    "fromMe": "Toi",
+    "fromPartner": "L’autre",
+    "deleteHint": "Appui long pour supprimer",
+    "deleteTitle": "Supprimer ce message ?",
+    "micDenied": "Pour les notes vocales, autorise le micro dans les réglages.",
+    "sendFailed": "Le message n’est pas parti. Réessaie dans un instant.",
+    "emptyTitle": "Votre fil, rien qu’à vous",
+    "emptyMessage": "Un mot, une photo, une note vocale. Ici, ni « vu », ni « en train d’écrire » : juste vous."
   }
 }

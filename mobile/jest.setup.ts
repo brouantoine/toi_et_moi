@@ -125,3 +125,29 @@ jest.mock('expo-notifications', () => ({
   useLastNotificationResponse: jest.fn(() => null),
 }));
 jest.mock('expo-device', () => ({ isDevice: true }));
+
+/* Audio (voice notes): recorder and player spies, configured per test. */
+jest.mock('expo-audio', () => {
+  const recorder = {
+    uri: 'file:///note.m4a',
+    prepareToRecordAsync: jest.fn(async () => {}),
+    record: jest.fn(),
+    stop: jest.fn(async () => {}),
+  };
+  const player = { play: jest.fn(), pause: jest.fn(), seekTo: jest.fn(async () => {}) };
+  return {
+    __recorder: recorder,
+    __player: player,
+    RecordingPresets: { HIGH_QUALITY: {} },
+    useAudioRecorder: () => recorder,
+    useAudioPlayer: () => player,
+    useAudioPlayerStatus: () => ({
+      playing: false,
+      currentTime: 0,
+      duration: 0,
+      didJustFinish: false,
+    }),
+    requestRecordingPermissionsAsync: jest.fn(async () => ({ granted: true })),
+    setAudioModeAsync: jest.fn(async () => {}),
+  };
+});

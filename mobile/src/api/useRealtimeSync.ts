@@ -28,7 +28,9 @@ export function useRealtimeSync(): void {
       onReady: () => {
         void queryClient.invalidateQueries({
           predicate: (q) =>
-            ['events', 'lists', 'chores', 'expenses', 'morning'].includes(String(q.queryKey[0])),
+            ['events', 'lists', 'chores', 'expenses', 'morning', 'messages'].includes(
+              String(q.queryKey[0]),
+            ),
         });
       },
       // Any authenticated call refreshes an expired access token (auth middleware).

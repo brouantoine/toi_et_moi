@@ -1,0 +1,191 @@
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
+import * as Audio from 'expo-audio';
+import { Alert, type AlertButton } from 'react-native';
+
+import { registerOfflineMutations } from '@/api/offline';
+import i18n from '@/i18n';
+import { createTestQueryClient, jsonResponse, mockFetch, renderWithProviders } from '@/test-utils';
+
+import { formatDuration } from '../MessageBubbles';
+import { MessagesScreen } from '../MessagesScreen';
+
+jest.mock('expo-localization', () => ({
+  getLocales: () => [{ languageCode: 'fr' }],
+  getCalendars: () => [{ timeZone: 'Europe/Paris' }],
+}));
+jest.mock('expo-haptics', () => ({ selectionAsync: jest.fn(async () => {}) }));
+
+const audio = jest.mocked(Audio);
+
+function message(id: number, fields: Record<string, unknown> = {}) {
+  return {
+    id,
+    kind: 'text',
+    text: '',
+    author: 'you',
+    media_url: null,
+    duration_ms: null,
+    width: null,
+    height: null,
+    created_at: '2026-11-09T18:30:00Z',
+    ...fields,
+  };
+}
+
+type Call = { method: string; path: string; body?: unknown };
+
+function backend(initial: ReturnType<typeof message>[] = []) {
+  const calls: Call[] = [];
+  let thread = [...initial];
+  mockFetch().mockImplementation(async (arg, init) => {
+    if (typeof arg === 'string') {
+      calls.push({ method: init?.method ?? 'GET', path: arg });
+      return new Response(null, { status: 204 });
+    }
+    const request = arg as Request;
+    const { pathname } = new URL(request.url);
+    const text = request.method === 'POST' ? await request.clone().text() : '';
+    const body = text ? JSON.parse(text) : undefined;
+    calls.push({ method: request.method, path: pathname, body });
+    if (pathname.endsWith('/upload-url/')) {
+      return jsonResponse({
+        key: `couples/3/messages/k.${body.content_type.startsWith('audio') ? 'm4a' : 'jpg'}`,
+        url: 'https://s3.test/bucket',
+        form_fields: {},
+        max_bytes: 1,
+        expires_in: 60,
+      });
+    }
+    if (request.method === 'POST') {
+      const created = message(100 + thread.length, { ...body, author: 'me' });
+      thread = [created, ...thread];
+      return jsonResponse(created, 201);
+    }
+    if (request.method === 'DELETE') {
+      const id = Number(pathname.match(/messages\/(\d+)\//)?.[1]);
+      thread = thread.filter((m) => m.id !== id);
+      return new Response(null, { status: 204 });
+    }
+    return jsonResponse({ next: null, previous: null, results: thread });
+  });
+  return calls;
+}
+
+async function render() {
+  const client = createTestQueryClient();
+  registerOfflineMutations(client);
+  await renderWithProviders(<MessagesScreen />, 'light', client);
+}
+
+const writes = (calls: Call[]) => calls.filter((c) => c.method !== 'GET');
+
+beforeEach(async () => {
+  jest.clearAllMocks();
+  await i18n.changeLanguage('fr');
+});
+
+it('formats durations', () => {
+  expect(formatDuration(4200)).toBe('0:04');
+  expect(formatDuration(65_000)).toBe('1:05');
+});
+
+it('shows both sides of the thread, never any read state', async () => {
+  backend([
+    message(2, { text: 'Je rentre vers 19 h', author: 'me' }),
+    message(1, { text: 'Tu rentres quand ?' }),
+  ]);
+  await render();
+  expect(await screen.findByText('Tu rentres quand ?')).toBeTruthy();
+  expect(screen.getByLabelText(/^Toi : Je rentre vers 19 h/)).toBeTruthy();
+  expect(screen.getByLabelText(/^L’autre : Tu rentres quand \?/)).toBeTruthy();
+  expect(screen.queryByText(/\b(Lu|Vu|Distribué)\b/)).toBeNull();
+});
+
+it('sends a text at once', async () => {
+  const calls = backend();
+  await render();
+  expect(await screen.findByTestId('messages-empty')).toBeTruthy();
+  await fireEvent.changeText(screen.getByTestId('message-input'), '  Surprise ce soir  ');
+  await fireEvent.press(screen.getByTestId('message-send'));
+  expect(await screen.findByText('Surprise ce soir')).toBeTruthy();
+  await waitFor(() =>
+    expect(writes(calls)[0]).toEqual({
+      method: 'POST',
+      path: '/api/v1/messages/',
+      body: { kind: 'text', text: 'Surprise ce soir' },
+    }),
+  );
+  expect(screen.getByTestId('message-input').props.value).toBe('');
+});
+
+it('records a voice note: tap to start, tap to send through storage', async () => {
+  const calls = backend();
+  await render();
+  await screen.findByTestId('messages-empty');
+  await fireEvent.press(screen.getByTestId('message-record'));
+  expect(await screen.findByTestId('recording-timer')).toBeTruthy();
+  expect(audio.setAudioModeAsync).toHaveBeenCalledWith({
+    allowsRecording: true,
+    playsInSilentMode: true,
+  });
+  await act(async () => {
+    await new Promise((r) => setTimeout(r, 700));
+  });
+  await fireEvent.press(screen.getByTestId('recording-send'));
+  await waitFor(() =>
+    expect(writes(calls).map((c) => `${c.method} ${c.path}`)).toEqual([
+      'POST /api/v1/messages/upload-url/',
+      'POST https://s3.test/bucket',
+      'POST /api/v1/messages/',
+    ]),
+  );
+  expect(writes(calls)[0]?.body).toEqual({ content_type: 'audio/mp4' });
+  expect(writes(calls)[2]?.body).toMatchObject({
+    kind: 'voice',
+    media_key: 'couples/3/messages/k.m4a',
+  });
+});
+
+it('explains a refused microphone without crashing', async () => {
+  backend();
+  audio.requestRecordingPermissionsAsync.mockResolvedValueOnce({ granted: false } as never);
+  await render();
+  await screen.findByTestId('messages-empty');
+  await fireEvent.press(screen.getByTestId('message-record'));
+  expect(await screen.findByTestId('mic-denied')).toBeTruthy();
+  expect(screen.queryByTestId('recording-timer')).toBeNull();
+});
+
+it('plays a voice note', async () => {
+  backend([message(3, { kind: 'voice', media_url: 'https://s3.test/n.m4a', duration_ms: 4200 })]);
+  await render();
+  await fireEvent.press(
+    await screen.findByRole('button', { name: 'Écouter la note vocale (0:04)' }),
+  );
+  expect(
+    (jest.requireMock('expo-audio') as { __player: { play: jest.Mock } }).__player.play,
+  ).toHaveBeenCalled();
+});
+
+it('deletes my own message after confirmation, never the other’s', async () => {
+  const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  const calls = backend([
+    message(2, { text: 'Oups', author: 'me' }),
+    message(1, { text: 'Coucou' }),
+  ]);
+  await render();
+  await fireEvent(await screen.findByTestId('message-1'), 'longPress');
+  expect(alert).not.toHaveBeenCalled();
+  await fireEvent(screen.getByTestId('message-2'), 'longPress');
+  (alert.mock.calls[0]?.[2] as AlertButton[]).find((b) => b.style === 'destructive')?.onPress?.();
+  await waitFor(() => expect(screen.queryByText('Oups')).toBeNull());
+  expect(writes(calls)).toEqual([
+    { method: 'DELETE', path: '/api/v1/messages/2/', body: undefined },
+  ]);
+});
+
+it('has calm loading and error states', async () => {
+  mockFetch().mockReturnValue(new Promise(() => {}));
+  await render();
+  expect(screen.getByTestId('messages-loading')).toBeTruthy();
+});

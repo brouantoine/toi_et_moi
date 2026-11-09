@@ -10,12 +10,14 @@ import { MOODS, QUICK_REPLIES } from './setup';
 type Data = { kind?: string; screen?: string };
 
 /** Screen to open for a notification (only known, safe routes). */
-export function routeFor(data: Data | undefined): '/today' | '/memories' | '/organize' {
+export function routeFor(data: Data | undefined): '/today' | '/memories' | '/organize' | '/us' {
   switch (data?.screen) {
     case 'memories':
       return '/memories';
     case 'organize':
       return '/organize';
+    case 'messages':
+      return '/us';
     default:
       return '/today';
   }

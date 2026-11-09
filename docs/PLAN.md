@@ -62,7 +62,7 @@ Règle : prendre la première tâche `[ ]` dont toutes les dépendances sont `[x
 - [x] PV.1 — Accueil vivant : en-tête du couple (photo ou avatars, « Antoine & Sam », « ensemble depuis N jours », prochain jalon), météo du matin, prochain moment de l'agenda, « il y a N ans » (souvenir du jour), en cartes colorées — tests des calculs de jalons et des états — dépend de : P6.15c, P3.8, P2.6
 - [x] PV.2 — Animations et célébrations : cœur animé, petite célébration (jalon, réponse de l'autre), entrées de cartes et transitions douces, haptique ; tout coupé si « réduire les animations » — tests — dépend de : PV.1
 - [x] PV.3 — Messages (API) : fil privé du couple (texte, photo, note vocale par upload présigné), pagination, suppression de ses messages, notification au partenaire ; jamais d'accusé de lecture, de « en train d'écrire » ni de statut en ligne — tests partenaire/étranger — dépend de : P2.1, P5.2
-- [ ] PV.4 — Messages (mobile) : fil, envoi texte/photo, enregistrement et lecture de notes vocales (expo-audio), temps réel, hors ligne — tests — dépend de : PV.3, P3.7
+- [x] PV.4 — Messages (mobile) : fil, envoi texte/photo, enregistrement et lecture de notes vocales (expo-audio), temps réel, hors ligne — tests — dépend de : PV.3, P3.7
 
 ## P4 — Question du jour & « À retenir » (F4)
 - [ ] P4.1 — App `connection` : modèle DailyQuestion (fr/en, catégorie, profondeur) + format de fixture + commande `seed_catalogs` + admin — tests du chargement idempotent — dépend de : P1.6

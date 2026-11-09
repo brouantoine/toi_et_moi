@@ -1,6 +1,3 @@
-import { TabPlaceholder } from '@/features/shell/TabPlaceholder';
-import { HeartHandshake } from 'lucide-react-native';
+import { MessagesScreen } from '@/features/messages/MessagesScreen';
 
-export default function UsTab() {
-  return <TabPlaceholder icon={HeartHandshake} tab="us" />;
-}
+export default MessagesScreen;

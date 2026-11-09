@@ -532,5 +532,28 @@
     "onThisDay_other": "{{count}} years ago today",
     "today": "Today",
     "tomorrow": "Tomorrow"
+  },
+  "messages": {
+    "eyebrow": "Just the two of you",
+    "placeholder": "Write to your partner…",
+    "inputLabel": "Message",
+    "send": "Send",
+    "record": "Record a voice note",
+    "recording": "Recording…",
+    "stopAndSend": "Stop and send",
+    "cancelRecording": "Cancel recording",
+    "addPhoto": "Send a photo",
+    "play": "Play the voice note ({{duration}})",
+    "pause": "Pause",
+    "voiceLabel": "Voice note, {{duration}}",
+    "photoLabel": "Photo",
+    "fromMe": "You",
+    "fromPartner": "Your partner",
+    "deleteHint": "Long press to delete",
+    "deleteTitle": "Delete this message?",
+    "micDenied": "For voice notes, allow the microphone in Settings.",
+    "sendFailed": "The message didn’t go. Try again in a moment.",
+    "emptyTitle": "Your thread, just yours",
+    "emptyMessage": "A word, a photo, a voice note. No “seen”, no “typing”: just you."
   }
 }

@@ -10,12 +10,12 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 
 ## État d'avancement (au 3 novembre 2026)
 
-**53 tâches terminées sur 138** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
+**57 tâches terminées sur 142** dans le plan (`docs/PLAN.md`). Toutes les validations passent :
 
 | Côté | Tests | Contrôles |
 |---|---|---|
 | Backend (Django) | 216 tests verts | ruff, ruff format, mypy strict, migrations à jour, schéma OpenAPI sans avertissement, `check --deploy` |
-| Mobile (Expo) | 502 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
+| Mobile (Expo) | 538 tests verts | TypeScript strict, ESLint + Prettier, expo-doctor 20/20, export iOS et Android OK |
 
 ### Phases
 
@@ -58,6 +58,8 @@ Application iOS + Android (React Native / Expo) avec un backend Django, construi
 - Onglet Organisation : agenda (90 jours, par jour, une teinte par type), listes partagées (cocher instantané, « coché par Sam », réordonner accessible), tâches « qui porte quoi cette semaine », budget (solde en mots, rembourser, dépenses 50/50 ou personnalisées).
 - Hors ligne : les modifications sont mises en file et partent seules au retour du réseau, même après un redémarrage ; synchronisation temps réel avec reconnexion automatique.
 - Client API typé généré depuis le schéma OpenAPI, cache hors ligne persistant, jetons dans le trousseau sécurisé.
+- **Accueil vivant** : en-tête du couple (photo ou avatars, « ensemble depuis N jours », prochain jalon avec confettis le jour J), météo du matin, prochain moment, souvenir du jour ; animations douces partout (respectent « réduire les animations »).
+- **Messages** (onglet Nous) : fil privé à deux avec texte, photos et notes vocales ; ni « vu », ni « en train d'écrire », ni « en ligne ».
 - **Météo du matin** : chaque matin à l'heure choisie, « Bonjour Antoine, comment tu te sens ce matin ? » (réponse directe depuis la notification) ; Grande joie, Bonne humeur, Contrariété, Énervement, + besoin (espace, câlin, aide, écoute) ; l'autre est prévenu aussitôt avec un conseil court « comment lui parler » et répond en un geste. Aucun rappel, aucun historique.
 - Notifications : permission demandée au bon moment, réglages par type, heure du matin, mode discret, heures calmes.
 - Parcours E2E Maestro : inscription → couple ; ajouter un souvenir avec photo ; liste de courses partagée.

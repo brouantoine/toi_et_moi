@@ -75,16 +75,20 @@ export async function compressImage(image: LocalImage): Promise<LocalImage> {
   return { uri: saved.uri, width: saved.width, height: saved.height };
 }
 
-/** Sends the file straight to storage with the presigned POST fields. */
-export async function uploadToTicket(ticket: UploadTicket, image: LocalImage): Promise<void> {
+/** Sends any local file straight to storage with the presigned POST fields. */
+export async function uploadFile(
+  ticket: UploadTicket,
+  file: { uri: string; name: string; type: string },
+): Promise<void> {
   const form = new FormData();
   Object.entries(ticket.form_fields).forEach(([name, value]) => form.append(name, value));
   // React Native FormData file part. `file` must be the last field for S3.
-  form.append('file', {
-    uri: image.uri,
-    name: 'photo.jpg',
-    type: UPLOAD_CONTENT_TYPE,
-  } as unknown as Blob);
+  form.append('file', file as unknown as Blob);
   const response = await fetch(ticket.url, { method: 'POST', body: form });
   if (!response.ok) throw new UploadError(response.status);
+}
+
+/** Sends a compressed photo straight to storage with the presigned POST fields. */
+export async function uploadToTicket(ticket: UploadTicket, image: LocalImage): Promise<void> {
+  await uploadFile(ticket, { uri: image.uri, name: 'photo.jpg', type: UPLOAD_CONTENT_TYPE });
 }
