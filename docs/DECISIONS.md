@@ -60,3 +60,10 @@ Format : date — choix — raison — alternative écartée.
 - Distance : PROMPT.md interdit la géolocalisation et le partage de position. Version retenue : chacun choisit sa ville dans une liste (aucun GPS, aucune coordonnée renvoyée à l'autre), activation par chacun, distance arrondie. Ce n'est ni un suivi ni une position en direct.
 - Positions : derrière le réglage intimité activé par les deux (P4.16), app classée 17+, dessins originaux au trait.
 - Invitation (PV.5) prioritaire : le lien `nousdeux://` ne marche pas si l'autre n'a pas encore l'app → lien HTTPS avec page d'accueil, QR code, « coller le code ».
+
+## 2026-11-09 — Refonte blanche, couleur du couple, IA partagée (phase PX)
+- Fond blanc dominant (façon Apple Music) ; l'accent rouge reste la couleur par défaut, chaque couple peut choisir la sienne dans Réglages (palette fermée, contrastes vérifiés).
+- Icônes : l'utilisateur demande les mêmes illustrations que sur sa capture (emoji 3D). La règle « jamais d'emoji » visait le rendu Twemoji refusé : on utilise des images 3D Fluent Emoji (Microsoft, MIT), identiques sur iOS et Android, pour les cartes, humeurs et activités. Les caractères emoji restent interdits dans le texte ; Lucide reste pour les contrôles.
+- IA partagée : contrairement à la reformulation (texte jamais stocké, PROMPT.md), un fil commun doit être conservé pour être vu par les deux. Il est chiffré (FIELD_ENCRYPTION_KEYS), activé seulement si les deux acceptent, supprimable à tout moment, jamais utilisé pour autre chose. Modèle configurable (défaut claude-sonnet-5-5), clé ANTHROPIC_API_KEY.
+- Messagerie « remplace WhatsApp » : toutes les fonctions sauf accusés de lecture, « en train d'écrire » et statut en ligne, interdits par PROMPT.md.
+- Capture fournie : on reprend la mise en page (avatars + distance, cartes d'activités, onglets flottants), jamais la marque, et pas la série de jours (🔥).
