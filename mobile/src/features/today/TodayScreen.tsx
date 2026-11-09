@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
 import { enablePush, pushStatus } from '@/notifications/push';
-import { Button, Card, ErrorState, Skeleton, Text, useTheme } from '@/ui';
+import { Button, Card, ErrorState, FadeIn, Skeleton, Text, useTheme } from '@/ui';
 
 import { MyMorningCard, PartnerMorningCard } from './MorningCards';
 import { CoupleHero, NextMomentCard, OnThisDayCard } from './TodayCards';
@@ -66,10 +66,18 @@ export function TodayScreen() {
   } else {
     body = (
       <>
-        <MyMorningCard today={morning.data} />
-        <PartnerMorningCard today={morning.data} />
-        <NextMomentCard />
-        <OnThisDayCard />
+        <FadeIn delay={80}>
+          <MyMorningCard today={morning.data} />
+        </FadeIn>
+        <FadeIn delay={160}>
+          <PartnerMorningCard today={morning.data} />
+        </FadeIn>
+        <FadeIn delay={240}>
+          <NextMomentCard />
+        </FadeIn>
+        <FadeIn delay={320}>
+          <OnThisDayCard />
+        </FadeIn>
       </>
     );
   }
@@ -97,7 +105,9 @@ export function TodayScreen() {
           </Text>
           <Text variant="title">{t('tabs.today.title')}</Text>
         </View>
-        <CoupleHero />
+        <FadeIn>
+          <CoupleHero />
+        </FadeIn>
         <EnablePushCard />
         {body}
       </ScrollView>

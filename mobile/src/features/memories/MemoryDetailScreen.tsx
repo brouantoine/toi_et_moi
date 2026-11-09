@@ -2,7 +2,15 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { ChevronLeft, Heart, MapPin, Pencil, Quote, Trash2 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
@@ -17,6 +25,7 @@ import {
   Notice,
   PressableScale,
   Text,
+  usePop,
   useTheme,
 } from '@/ui';
 
@@ -32,6 +41,7 @@ function HeartRow({ memory }: { memory: Memory }) {
   const partner = usePartner();
   const toggle = useToggleHeart(memory.id);
   const on = memory.my_heart;
+  const { style: popStyle, pop } = usePop();
 
   const partnerLine = memory.partner_heart
     ? on
@@ -48,6 +58,7 @@ function HeartRow({ memory }: { memory: Memory }) {
         accessibilityState={{ checked: on }}
         onPress={() => {
           void Haptics.selectionAsync().catch(() => {});
+          if (!on) pop();
           toggle.mutate(!on);
         }}
         scaleTo={0.94}
@@ -62,13 +73,15 @@ function HeartRow({ memory }: { memory: Memory }) {
           },
         ]}
       >
-        <Icon
-          icon={Heart}
-          size={20}
-          color={on ? 'primary' : 'textMuted'}
-          filled={on}
-          strokeWidth={2}
-        />
+        <Animated.View style={popStyle}>
+          <Icon
+            icon={Heart}
+            size={20}
+            color={on ? 'primary' : 'textMuted'}
+            filled={on}
+            strokeWidth={2}
+          />
+        </Animated.View>
         <Text variant="caption" color={on ? 'onPrimarySoft' : 'text'} style={styles.heartText}>
           {on ? t('memories.detail.heartOn') : t('memories.detail.heartOff')}
         </Text>

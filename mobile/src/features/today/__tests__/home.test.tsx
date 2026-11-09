@@ -161,3 +161,20 @@ it('suggests a plan when nothing is coming, and hides the memory card when there
   expect(await screen.findByText('Rien de prévu. Une idée de sortie ?')).toBeTruthy();
   expect(screen.queryByTestId('on-this-day')).toBeNull();
 });
+
+it('celebrates a milestone on its very day', async () => {
+  const start = new Date();
+  start.setDate(start.getDate() - 1000);
+  const couple = {
+    id: 3,
+    status: 'active',
+    start_date: toIsoDate(start),
+    photo_url: null,
+    members: [member(1, 'Antoine'), member(2, 'Sam')],
+  };
+  backend({ couple });
+  await render(couple);
+  expect(await screen.findByTestId('milestone')).toHaveTextContent(
+    /C’est aujourd’hui\s: 1000 jours ensemble/,
+  );
+});

@@ -9,7 +9,7 @@ import { usePartner } from '@/features/couple/usePartner';
 import { useMe } from '@/features/me/useProfile';
 import { EVENT_KIND_HUES, EVENT_KIND_ICONS } from '@/features/organize/agenda/eventKinds';
 import { relativeDay, dayTitle, timeLabel } from '@/features/organize/agenda/agendaDates';
-import { Avatar, Icon, PressableScale, Text, useSurfaceStyle, useTheme } from '@/ui';
+import { Avatar, Celebration, Icon, PressableScale, Text, useSurfaceStyle, useTheme } from '@/ui';
 
 import { daysTogether, nextMilestone } from './milestones';
 import { useNextMoment, useOnThisDay } from './useToday';
@@ -66,6 +66,7 @@ export function CoupleHero() {
     partner: partner?.display_name ?? '',
   });
   const start = data.start_date;
+  const milestoneToday = start ? nextMilestone(start)?.inDays === 0 : false;
 
   const text = (
     <View style={{ gap: spacing.xs }}>
@@ -96,6 +97,10 @@ export function CoupleHero() {
         />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.scrim }]} />
         <View style={[styles.heroText, { padding: spacing.lg }]}>{text}</View>
+        <Celebration
+          testID="milestone-celebration"
+          play={milestoneToday ? `milestone-${start}` : false}
+        />
       </View>
     );
   }
@@ -125,6 +130,10 @@ export function CoupleHero() {
         </View>
       </View>
       {text}
+      <Celebration
+        testID="milestone-celebration"
+        play={milestoneToday ? `milestone-${start}` : false}
+      />
     </View>
   );
 }

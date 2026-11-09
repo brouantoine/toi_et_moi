@@ -1,11 +1,23 @@
 import * as Haptics from 'expo-haptics';
 import { Check, Lightbulb } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 
 import { usePartner } from '@/features/couple/usePartner';
 import { useMe } from '@/features/me/useProfile';
-import { Button, Chip, Icon, Notice, PressableScale, Text, useSurfaceStyle, useTheme } from '@/ui';
+import {
+  Button,
+  Celebration,
+  Chip,
+  Icon,
+  Notice,
+  PressableScale,
+  Text,
+  usePop,
+  useSurfaceStyle,
+  useTheme,
+} from '@/ui';
 
 import { MOOD_HUES, MOOD_ICONS } from './moods';
 import {
@@ -32,13 +44,17 @@ function MoodTile({
   const { t } = useTranslation();
   const { colors, hues, radii, spacing } = useTheme();
   const hue = hues[MOOD_HUES[mood]];
+  const { style: popStyle, pop } = usePop();
   return (
     <PressableScale
       testID={`mood-${mood}`}
       accessibilityRole="radio"
       accessibilityState={{ checked: selected }}
       accessibilityLabel={t(`morning.moods.${mood}`)}
-      onPress={onPress}
+      onPress={() => {
+        pop();
+        onPress();
+      }}
       style={[
         styles.tile,
         {
@@ -50,7 +66,9 @@ function MoodTile({
         },
       ]}
     >
-      <Icon icon={MOOD_ICONS[mood]} size={30} tint={hue.fg} strokeWidth={1.75} />
+      <Animated.View style={popStyle}>
+        <Icon icon={MOOD_ICONS[mood]} size={30} tint={hue.fg} strokeWidth={1.75} />
+      </Animated.View>
       <Text variant="label" style={{ color: hue.fg }}>
         {t(`morning.moods.${mood}`)}
       </Text>
@@ -73,6 +91,9 @@ export function MyMorningCard({ today }: { today: MorningToday }) {
   const share = useShareMood();
   const takeBack = useTakeBackMood();
   const mine = today.mine;
+  // Celebrate replies that arrive while the screen is open (not those already seen).
+  const replyCount = mine?.replies.length ?? 0;
+  const [seenReplies] = useState(replyCount);
 
   const choose = (mood: Mood) => {
     void Haptics.selectionAsync().catch(() => {});
@@ -84,6 +105,10 @@ export function MyMorningCard({ today }: { today: MorningToday }) {
       testID="my-morning"
       style={[surface, { borderRadius: radii.xl, padding: spacing.lg, gap: spacing.md }]}
     >
+      <Celebration
+        testID="reply-celebration"
+        play={replyCount > seenReplies ? replyCount : false}
+      />
       <View style={{ gap: spacing.xs }}>
         <Text variant="title">{t('morning.greeting', { name: me.data?.display_name ?? '' })}</Text>
         <Text variant="lead" muted>

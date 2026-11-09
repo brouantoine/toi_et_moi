@@ -263,3 +263,8 @@
 - Fichiers clés : `mobile/src/features/today/{TodayCards,milestones,useToday,TodayScreen}.ts(x)`, tests `today/__tests__/home.test.tsx`.
 - Aujourd'hui s'ouvre sur le couple : photo du couple en grand (voile + texte) ou les deux avatars qui se chevauchent sur fond rouge doux, « Antoine & Sam », « Ensemble depuis N jours », pastille du prochain jalon (anniversaire ou 100/200/500/1000 jours puis tous les 500 ; « C'est aujourd'hui » en rouge plein). Sans date de début : invitation à la renseigner. Puis la météo du matin, « Prochain moment » (agenda, teinte du type) et « Il y a N ans aujourd'hui » (souvenir avec photo), chaque carte ouvrant la bonne section.
 - À savoir : jalons calculés sur les jours civils locaux, 29 février fêté le 28.
+
+## 2026-11-09 — PV.2 Animations et célébrations
+- Fichiers clés : `mobile/src/ui/motion.tsx` (`FadeIn`, `usePop`, `Celebration`), tests `ui/__tests__/motion.test.tsx`.
+- Aujourd'hui : cartes qui arrivent l'une après l'autre ; gerbe de confettis aux couleurs de l'app sur l'en-tête le jour d'un jalon ; la tuile d'humeur choisie rebondit ; une gerbe salue une réponse de l'autre arrivée pendant que l'écran est ouvert. Souvenir : le cœur rebondit quand on le donne.
+- À savoir : API Animated de React Native (pilote natif), sans nouvelle dépendance ; tout est immobile si « réduire les animations » est activé ; les confettis sont masqués au lecteur d'écran et ne captent pas le toucher.
