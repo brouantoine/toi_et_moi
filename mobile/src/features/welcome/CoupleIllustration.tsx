@@ -8,26 +8,31 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
+import { Image } from 'expo-image';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
-import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
-import { Icon, illustration, Ring, useReducedMotion, useTheme, type Hue } from '@/ui';
+import { Icon, Ring, useReducedMotion, useTheme, type Hue } from '@/ui';
 
-const WIDTH = 320;
+/** The couple's caricature supplied by the owner (1080x744, on the ink background). */
+
+const COUPLE = require('../../../assets/welcome/couple.png');
+
+const WIDTH = 340;
 const HEIGHT = 300;
-const CENTER = { x: WIDTH / 2, y: HEIGHT / 2 + 10 };
+const IMAGE_HEIGHT = Math.round((WIDTH * 744) / 1080);
+const CENTER = { x: WIDTH / 2, y: HEIGHT / 2 + 20 };
 
 type Bubble = { icon: LucideIcon; hue: Hue; size: number; x: number; y: number; filled?: boolean };
 
 /** Little moments of a life together, scattered around the couple. */
 const BUBBLES: readonly Bubble[] = [
-  { icon: Heart, hue: 'red', size: 54, x: 44, y: 62, filled: true },
-  { icon: MessageCircle, hue: 'lagoon', size: 46, x: 268, y: 48 },
-  { icon: Camera, hue: 'amber', size: 44, x: 150, y: 30 },
-  { icon: MapPin, hue: 'sage', size: 42, x: 292, y: 150 },
-  { icon: Ring, hue: 'violet', size: 46, x: 26, y: 168 },
-  { icon: Music, hue: 'lagoon', size: 36, x: 84, y: 24 },
-  { icon: Gift, hue: 'amber', size: 38, x: 226, y: 26 },
+  { icon: Heart, hue: 'red', size: 50, x: 30, y: 96, filled: true },
+  { icon: MessageCircle, hue: 'lagoon', size: 44, x: 306, y: 84 },
+  { icon: Camera, hue: 'amber', size: 42, x: 170, y: 26 },
+  { icon: MapPin, hue: 'sage', size: 38, x: 318, y: 190 },
+  { icon: Ring, hue: 'violet', size: 44, x: 22, y: 200 },
+  { icon: Music, hue: 'lagoon', size: 34, x: 88, y: 34 },
+  { icon: Gift, hue: 'amber', size: 36, x: 252, y: 24 },
 ];
 
 function FloatingBubble({ bubble, index }: { bubble: Bubble; index: number }) {
@@ -113,52 +118,6 @@ function FloatingBubble({ bubble, index }: { bubble: Bubble; index: number }) {
   );
 }
 
-/** Original drawing: two people leaning on each other, in the couple's colours. */
-function Couple() {
-  const { colors } = useTheme();
-  const face = {
-    stroke: illustration.line,
-    strokeWidth: 3,
-    strokeLinecap: 'round',
-    fill: 'none',
-  } as const;
-  return (
-    <Svg width={WIDTH} height={HEIGHT} viewBox="0 0 320 300">
-      <Circle cx="160" cy="176" r="116" fill={illustration.halo} />
-      {/* Her hair, behind */}
-      <Path
-        d="M160 166c0-32 17-52 42-52s42 20 42 52v66c0 8-6 14-14 14h-56c-8 0-14-6-14-14Z"
-        fill={illustration.hair}
-      />
-      {/* Necks */}
-      <Rect x="113" y="186" width="28" height="52" rx="13" fill={illustration.skinA} />
-      <Rect x="190" y="192" width="24" height="50" rx="12" fill={illustration.skinB} />
-      {/* Shoulders, leaning together */}
-      <Path d="M58 300c0-52 28-82 68-82s68 30 68 82Z" fill={colors.primary} />
-      <Path d="M140 300c0-47 26-74 62-74s62 27 62 74Z" fill={colors.secondary} />
-      {/* Heads */}
-      <Circle cx="127" cy="154" r="40" fill={illustration.skinA} />
-      <Circle cx="201" cy="166" r="35" fill={illustration.skinB} />
-      {/* Hair */}
-      <Path
-        d="M87 150c0-26 17-43 40-43s40 17 40 43c-9-11-22-17-40-17s-31 6-40 17Z"
-        fill={illustration.hair}
-      />
-      <Path
-        d="M166 162c2-21 15-34 35-34s33 13 35 34c-10-9-22-13-35-13s-25 4-35 13Z"
-        fill={illustration.hair}
-      />
-      {/* Happy closed eyes and smiles */}
-      <Path d="M110 156q6-6 12 0M134 156q6-6 12 0" {...face} />
-      <Path d="M115 172q12 10 24 0" {...face} />
-      <Path d="M186 168q5-5 10 0M207 168q5-5 10 0" {...face} />
-      <Path d="M191 181q10 8 20 0" {...face} />
-      <Circle cx="105" cy="168" r="6" fill={illustration.blush} opacity="0.45" />
-      <Circle cx="222" cy="178" r="5.5" fill={illustration.blush} opacity="0.45" />
-    </Svg>
-  );
-}
-
 type Props = { accessibilityLabel: string };
 
 export function CoupleIllustration({ accessibilityLabel }: Props) {
@@ -170,7 +129,7 @@ export function CoupleIllustration({ accessibilityLabel }: Props) {
       accessibilityLabel={accessibilityLabel}
       style={styles.frame}
     >
-      <Couple />
+      <Image source={COUPLE} style={styles.image} contentFit="contain" transition={200} />
       {BUBBLES.map((bubble, index) => (
         <FloatingBubble key={`${bubble.x}-${bubble.y}`} bubble={bubble} index={index} />
       ))}
@@ -179,11 +138,11 @@ export function CoupleIllustration({ accessibilityLabel }: Props) {
 }
 
 const styles = StyleSheet.create({
-  frame: { width: WIDTH, height: HEIGHT },
+  frame: { width: WIDTH, height: HEIGHT, justifyContent: 'flex-end' },
+  image: { width: WIDTH, height: IMAGE_HEIGHT },
   bubble: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
   },
 });

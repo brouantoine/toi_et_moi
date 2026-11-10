@@ -1,26 +1,37 @@
 import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BRAND } from '@/config/brand';
-import { Button, FadeIn, Text, useTheme } from '@/ui';
+import { Button, FadeIn, palettes, Text, ThemeProvider, useTheme } from '@/ui';
 
 import { CoupleIllustration } from './CoupleIllustration';
+
+/** The caricature and the logo are drawn on ink: this one screen is dark, on purpose. */
+const INK = palettes.light.text;
 
 /**
  * First screen for signed-out people: the couple and their little moments floating
  * around, what the app is in one line, then create an account or sign in.
  */
 export function WelcomeScreen() {
+  const { accent } = useTheme();
+  return (
+    <ThemeProvider scheme="dark" accent={accent}>
+      <WelcomeContent />
+    </ThemeProvider>
+  );
+}
+
+function WelcomeContent() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors, spacing } = useTheme();
+  const { spacing } = useTheme();
   return (
-    <SafeAreaView
-      testID="welcome-screen"
-      style={[styles.root, { backgroundColor: colors.background }]}
-    >
+    <SafeAreaView testID="welcome-screen" style={[styles.root, { backgroundColor: INK }]}>
+      <StatusBar style="light" />
       <ScrollView
         bounces={false}
         contentContainerStyle={[styles.content, { padding: spacing.lg, gap: spacing.xl }]}
