@@ -513,6 +513,72 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/games/adult/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** @description Adults-only topics: each partner turns them on for themselves. */
+    put: operations['v1_games_adult_update'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/games/answers/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_games_answers_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/games/home/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Everything the home and the games tab show: today's pair, your turn, progress. */
+    get: operations['v1_games_home_retrieve'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/games/questions/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['v1_games_questions_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/health/': {
     parameters: {
       query?: never;
@@ -973,6 +1039,41 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/notes/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Sticky notes of the couple. Both read and add; each removes their own. */
+    get: operations['v1_notes_list'];
+    put?: never;
+    /** @description Sticky notes of the couple. Both read and add; each removes their own. */
+    post: operations['v1_notes_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/notes/{id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** @description Sticky notes of the couple. Both read and add; each removes their own. */
+    delete: operations['v1_notes_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/notifications/devices/': {
     parameters: {
       query?: never;
@@ -1040,6 +1141,18 @@ export interface components {
      * @enum {string}
      */
     AccentEnum: 'rouge' | 'ambre' | 'sauge' | 'lagon' | 'bleu' | 'violet' | 'encre';
+    Adult: {
+      mine: boolean;
+      partner: boolean;
+    };
+    AdultInputRequest: {
+      enabled: boolean;
+    };
+    AnswerInputRequest: {
+      question: string;
+      choice?: number | null;
+      text?: string;
+    };
     AuthResponse: {
       access: string;
       refresh: string;
@@ -1097,6 +1210,15 @@ export interface components {
       /** @description ISO 3166-1 alpha-2 code. */
       country: string;
     };
+    /**
+     * @description * `red` - Red
+     *     * `amber` - Amber
+     *     * `sage` - Sage
+     *     * `lagoon` - Lagoon
+     *     * `violet` - Violet
+     * @enum {string}
+     */
+    ColorEnum: 'red' | 'amber' | 'sage' | 'lagoon' | 'violet';
     ConsentInputRequest: {
       terms_version: number;
     };
@@ -1242,6 +1364,19 @@ export interface components {
       split?: components['schemas']['SplitEnum'];
       my_share?: number;
     };
+    GamesHome: {
+      daily: components['schemas']['Question'][];
+      your_turn: components['schemas']['Question'][];
+      your_turn_count: number;
+      topics: components['schemas']['Topic'][];
+      kinds: components['schemas']['Kind'][];
+      adult: components['schemas']['Adult'];
+      stats: components['schemas']['Stats'];
+    };
+    GivenAnswer: {
+      choice: number | null;
+      text: string;
+    };
     Health: {
       status: string;
       brand: string;
@@ -1278,6 +1413,11 @@ export interface components {
     };
     JoinCoupleRequest: {
       code: string;
+    };
+    Kind: {
+      slug: string;
+      name: string;
+      total: number;
     };
     /**
      * @description * `fr` - Français
@@ -1458,6 +1598,18 @@ export interface components {
      * @enum {string}
      */
     NeedEnum: 'space' | 'hug' | 'help' | 'listen' | 'nothing';
+    Note: {
+      readonly id: number;
+      text: string;
+      color?: components['schemas']['ColorEnum'];
+      readonly author: components['schemas']['PayerEnum'];
+      /** Format: date-time */
+      readonly created_at: string;
+    };
+    NoteRequest: {
+      text: string;
+      color?: components['schemas']['ColorEnum'];
+    };
     /** @description One day on which an event happens (yearly events have one per year). */
     Occurrence: {
       /** Format: date */
@@ -1667,6 +1819,30 @@ export interface components {
       morning_time?: string;
       discreet?: boolean;
     };
+    Question: {
+      id: string;
+      topic: string;
+      kind: components['schemas']['QuestionKindEnum'];
+      text: string;
+      options: string[];
+      adult: boolean;
+      state: components['schemas']['StateEnum'];
+      mine: components['schemas']['GivenAnswer'] | null;
+      /** @description Only once I answered too. */
+      theirs: components['schemas']['GivenAnswer'] | null;
+      match: boolean | null;
+    };
+    /**
+     * @description * `this_or_that` - this_or_that
+     *     * `agree` - agree
+     *     * `never` - never
+     *     * `rather` - rather
+     *     * `most_likely` - most_likely
+     *     * `conversation` - conversation
+     * @enum {string}
+     */
+    QuestionKindEnum:
+      'this_or_that' | 'agree' | 'never' | 'rather' | 'most_likely' | 'conversation';
     /**
      * @description * `none` - Aucune
      *     * `yearly` - Chaque année
@@ -1743,6 +1919,23 @@ export interface components {
      * @enum {string}
      */
     SplitEnum: 'equal' | 'custom';
+    /**
+     * @description * `new` - new
+     *     * `your_turn` - your_turn
+     *     * `waiting` - waiting
+     *     * `done` - done
+     * @enum {string}
+     */
+    StateEnum: 'new' | 'your_turn' | 'waiting' | 'done';
+    Stats: {
+      days_together: number | null;
+      answered_percent: number;
+      answered: number;
+      memories: number;
+      events: number;
+      messages: number;
+      notes: number;
+    };
     TokenObtainPair: {
       readonly access: string;
       readonly refresh: string;
@@ -1760,6 +1953,15 @@ export interface components {
     };
     TokenRequest: {
       token: string;
+    };
+    Topic: {
+      slug: string;
+      name: string;
+      adult: boolean;
+      locked: boolean;
+      total: number;
+      done: number;
+      percent: number;
     };
     /** @description The authenticated user's own profile. */
     User: {
@@ -2968,6 +3170,97 @@ export interface operations {
       };
     };
   };
+  v1_games_adult_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AdultInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['AdultInputRequest'];
+        'multipart/form-data': components['schemas']['AdultInputRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['GamesHome'];
+        };
+      };
+    };
+  };
+  v1_games_answers_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AnswerInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['AnswerInputRequest'];
+        'multipart/form-data': components['schemas']['AnswerInputRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Question'];
+        };
+      };
+    };
+  };
+  v1_games_home_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['GamesHome'];
+        };
+      };
+    };
+  };
+  v1_games_questions_list: {
+    parameters: {
+      query?: {
+        kind?: string;
+        topic?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Question'][];
+        };
+      };
+    };
+  };
   v1_health_retrieve: {
     parameters: {
       query?: never;
@@ -4042,6 +4335,71 @@ export interface operations {
       query?: never;
       header?: never;
       path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_notes_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Note'][];
+        };
+      };
+    };
+  };
+  v1_notes_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['NoteRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['NoteRequest'];
+        'multipart/form-data': components['schemas']['NoteRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Note'];
+        };
+      };
+    };
+  };
+  v1_notes_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Un(une) valeur entière unique identifiant ce(cette) note. */
+        id: number;
+      };
       cookie?: never;
     };
     requestBody?: never;

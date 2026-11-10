@@ -1,0 +1,66 @@
+from django.conf import settings
+from django.db import models
+
+
+class Answer(models.Model):
+    """One person's answer to one catalogue question. Final once given."""
+
+    couple = models.ForeignKey(
+        "couples.Couple", on_delete=models.CASCADE, related_name="game_answers"
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="game_answers"
+    )
+    question = models.CharField(max_length=40)
+    choice = models.PositiveSmallIntegerField(null=True, blank=True)
+    text = models.TextField(blank=True, max_length=600)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["couple", "user", "question"], name="one_answer_per_person"
+            )
+        ]
+        indexes = [models.Index(fields=["couple", "question"])]
+
+    def __str__(self) -> str:
+        return f"{self.user_id} -> {self.question}"
+
+
+class GamePreference(models.Model):
+    """Adults-only topics stay hidden until BOTH partners turn them on."""
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="game_preference"
+    )
+    adult = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"game preferences of {self.user_id}"
+
+
+class NoteColor(models.TextChoices):
+    RED = "red"
+    AMBER = "amber"
+    SAGE = "sage"
+    LAGOON = "lagoon"
+    VIOLET = "violet"
+
+
+class Note(models.Model):
+    """A sticky note both partners see on the home screen."""
+
+    couple = models.ForeignKey("couples.Couple", on_delete=models.CASCADE, related_name="notes")
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notes"
+    )
+    text = models.CharField(max_length=280)
+    color = models.CharField(max_length=8, choices=NoteColor.choices, default=NoteColor.AMBER)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at", "-id")
+
+    def __str__(self) -> str:
+        return self.text[:40]

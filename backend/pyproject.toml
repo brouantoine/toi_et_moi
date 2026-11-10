@@ -16,6 +16,7 @@ ignore = ["RUF012"]
 "**/tests/**" = ["S101", "S105", "S106", "DJ008", "RUF001"]
 # User-facing French texts: typographic apostrophes and non-breaking spaces are intended.
 "**/messages.py" = ["RUF001"]
+"**/catalog.py" = ["RUF001", "E501"]
 "conftest.py" = ["S101"]
 
 [tool.mypy]
