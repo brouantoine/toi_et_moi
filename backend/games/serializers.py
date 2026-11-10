@@ -59,6 +59,11 @@ class StatsSerializer(serializers.Serializer[Dict]):
     notes = serializers.IntegerField()
 
 
+class StreakSerializer(serializers.Serializer[Dict]):
+    count = serializers.IntegerField(help_text="Days in a row you both played.")
+    today_done = serializers.BooleanField()
+
+
 class GamesHomeSerializer(serializers.Serializer[Dict]):
     daily = QuestionSerializer(many=True)
     your_turn = QuestionSerializer(many=True)
@@ -67,6 +72,7 @@ class GamesHomeSerializer(serializers.Serializer[Dict]):
     kinds = KindSerializer(many=True)
     adult = AdultSerializer()
     stats = StatsSerializer()
+    streak = StreakSerializer()
 
 
 class AnswerInputSerializer(serializers.Serializer[Dict]):

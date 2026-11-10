@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "messaging",
     "places",
     "games",
+    "coach",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -149,6 +150,7 @@ REST_FRAMEWORK = {
         "join": env_str("THROTTLE_JOIN", "10/min"),
         "messages": env_str("THROTTLE_MESSAGES", "60/min"),
         "places": env_str("THROTTLE_PLACES", "120/min"),
+        "coach": env_str("THROTTLE_COACH", "20/min"),
     },
     "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
@@ -243,6 +245,8 @@ GOOGLE_CLIENT_IDS = env_list("GOOGLE_CLIENT_IDS", "")
 # --- Feature flags ---
 AI_REFORMULATION_ENABLED = env_bool("AI_REFORMULATION_ENABLED", False)
 ANTHROPIC_API_KEY = env_str("ANTHROPIC_API_KEY", "")
+# Shared couple coach (coach app). Without the key above the coach shows as unavailable.
+COACH_MODEL = env_str("COACH_MODEL", "claude-opus-5-5")
 
 # --- Field encryption key for private data (Fernet, urlsafe base64, 32 bytes) ---
 FIELD_ENCRYPTION_KEYS = env_list("FIELD_ENCRYPTION_KEYS", "")

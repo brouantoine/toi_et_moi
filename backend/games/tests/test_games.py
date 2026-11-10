@@ -151,3 +151,43 @@ def test_notes_are_shared_and_only_the_author_removes() -> None:
     assert (
         client_for(me).post(NOTES, {"text": "x", "color": "pink"}, format="json").status_code == 400
     )
+
+
+# --- streak ----------------------------------------------------------------------
+
+
+def test_streak_counts_days_both_played_and_survives_until_tonight() -> None:
+    from datetime import timedelta
+
+    from django.utils import timezone
+
+    _, me, partner = make_couple()
+    assert client_for(me).get(HOME).json()["streak"] == {"count": 0, "today_done": False}
+
+    def played(question: str, days_ago: int, users=(me, partner)) -> None:
+        for user in users:
+            answer(user, question, choice=0)
+            Answer.objects.filter(user=user, question=question).update(
+                created_at=timezone.now() - timedelta(days=days_ago)
+            )
+
+    played("travel-1", 2)
+    played("travel-2", 1)
+    # Not played today yet: the two previous days still count.
+    assert client_for(me).get(HOME).json()["streak"] == {"count": 2, "today_done": False}
+    played("food-1", 0, users=(me,))  # only one of us today: not a shared day yet
+    assert client_for(me).get(HOME).json()["streak"]["today_done"] is False
+    played("food-1", 0, users=(partner,))
+    assert client_for(partner).get(HOME).json()["streak"] == {"count": 3, "today_done": True}
+
+
+def test_streak_restarts_after_a_missed_day() -> None:
+    from datetime import timedelta
+
+    from django.utils import timezone
+
+    _, me, partner = make_couple()
+    for user in (me, partner):
+        answer(user, "travel-1", choice=0)
+    Answer.objects.update(created_at=timezone.now() - timedelta(days=3))
+    assert client_for(me).get(HOME).json()["streak"] == {"count": 0, "today_done": False}

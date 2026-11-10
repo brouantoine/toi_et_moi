@@ -46,7 +46,7 @@ L'app de couple qui fait **moins regarder son téléphone et plus regarder l'aut
 - Identité visuelle : chaleureuse et sobre, sans clichés (pas de cœurs roses partout). Palette douce (terracotta, crème, vert sauge, encre), mode sombre complet, typographie très lisible, beaucoup d'espace.
 
 ### Règles absolues — anti-fonctionnalités à ne JAMAIS implémenter
-- Pas de séries/streaks, de points, de badges, de classements, ni de messages du type « vous n'avez pas répondu depuis X jours ».
+- Série de jours autorisée (décision de l'utilisateur du 2026-11-10) : compteur des jours d'affilée où les deux ont joué. Pas de points, de badges ni de classements, et aucun message culpabilisant du type « vous n'avez pas répondu depuis X jours ».
 - Pas de comparaison avec d'autres couples, pas de « score de couple ».
 - Accusés de lecture et indicateur « en train d'écrire » autorisés dans la messagerie (décision de l'utilisateur du 2026-11-09), comme sur WhatsApp ou Messenger.
 - Géolocalisation autorisée (décision de l'utilisateur du 2026-11-09) uniquement pour la **distance entre les deux** : conditions acceptées explicitement par chacun, position lue quand l'app est ouverte, et aussi app fermée si chacun active le « partage en continu » (consentement séparé, rappel tous les 30 jours), proximité signalée par une vibration sous 1 km, désactivable à tout moment, et l'autre voit la distance et la dernière position partagée sur une carte, uniquement quand les deux ont accepté (personne d'autre).

@@ -16,3 +16,4 @@ redis==8.1.0
 cryptography==50.0.2
 django-stubs-ext==6.1.2
 pillow==13.0.0
+anthropic==2.7.0

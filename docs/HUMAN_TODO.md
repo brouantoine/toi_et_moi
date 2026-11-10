@@ -75,3 +75,6 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 
 ## Premium
 - [ ] Confirmer les prix (proposés : 1,99 €/mois et 9,99 €/an pour deux) et créer les abonnements dans App Store Connect et Google Play.
+
+## Coach IA
+- [ ] Créer une clé API sur console.anthropic.com et la fournir au backend : `ANTHROPIC_API_KEY=...` (jamais dans le dépôt). En production, définir aussi `FIELD_ENCRYPTION_KEYS` (clé Fernet) pour chiffrer le fil.

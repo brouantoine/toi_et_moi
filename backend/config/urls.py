@@ -16,6 +16,7 @@ urlpatterns = [
     path("api/v1/", include("messaging.urls")),
     path("api/v1/", include("places.urls")),
     path("api/v1/", include("games.urls")),
+    path("api/v1/", include("coach.urls")),
     path("account/", include("accounts.web_urls")),
     path("join/<str:code>/", couple_web.join_page, name="web-join"),
     path(

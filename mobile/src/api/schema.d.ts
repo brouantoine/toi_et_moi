@@ -247,6 +247,56 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/coach/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description The couple's shared conversation with the AI coach. */
+    get: operations['v1_coach_retrieve'];
+    put?: never;
+    post?: never;
+    /** @description Erases the whole conversation, for both. */
+    delete: operations['v1_coach_destroy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/coach/consent/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['v1_coach_consent_update'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/coach/messages/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_coach_messages_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/couple/': {
     parameters: {
       query?: never;
@@ -1210,6 +1260,41 @@ export interface components {
       /** @description ISO 3166-1 alpha-2 code. */
       country: string;
     };
+    CoachConsent: {
+      mine: boolean;
+      partner: boolean;
+    };
+    CoachConsentInputRequest: {
+      enabled: boolean;
+    };
+    CoachMessage: {
+      id: number;
+      author: components['schemas']['CoachMessageAuthorEnum'];
+      text: string;
+      /** Format: date-time */
+      created_at: string;
+    };
+    /**
+     * @description * `me` - me
+     *     * `you` - you
+     *     * `coach` - coach
+     *     * `notice` - notice
+     * @enum {string}
+     */
+    CoachMessageAuthorEnum: 'me' | 'you' | 'coach' | 'notice';
+    CoachPostRequest: {
+      text: string;
+    };
+    CoachThread: {
+      /** @description The server can reach the AI. */
+      available: boolean;
+      consent: components['schemas']['CoachConsent'];
+      /** @description Both partners turned the coach on. */
+      active: boolean;
+      /** @description The coach is writing its answer. */
+      thinking: boolean;
+      messages: components['schemas']['CoachMessage'][];
+    };
     /**
      * @description * `red` - Red
      *     * `amber` - Amber
@@ -1372,6 +1457,7 @@ export interface components {
       kinds: components['schemas']['Kind'][];
       adult: components['schemas']['Adult'];
       stats: components['schemas']['Stats'];
+      streak: components['schemas']['Streak'];
     };
     GivenAnswer: {
       choice: number | null;
@@ -1936,6 +2022,11 @@ export interface components {
       messages: number;
       notes: number;
     };
+    Streak: {
+      /** @description Days in a row you both played. */
+      count: number;
+      today_done: boolean;
+    };
     TokenObtainPair: {
       readonly access: string;
       readonly refresh: string;
@@ -2436,6 +2527,93 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ChoreWeek'];
+        };
+      };
+    };
+  };
+  v1_coach_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CoachThread'];
+        };
+      };
+    };
+  };
+  v1_coach_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  v1_coach_consent_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CoachConsentInputRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['CoachConsentInputRequest'];
+        'multipart/form-data': components['schemas']['CoachConsentInputRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CoachThread'];
+        };
+      };
+    };
+  };
+  v1_coach_messages_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CoachPostRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['CoachPostRequest'];
+        'multipart/form-data': components['schemas']['CoachPostRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CoachThread'];
         };
       };
     };

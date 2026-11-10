@@ -1,13 +1,14 @@
 """Questions and games: answer each on your own, discover both answers together.
 
 The partner's answer is NEVER shown before you have answered yourself. Adults-only
-topics appear only when both partners turned them on. No score, no streak.
+topics appear only when both partners turned them on. A gentle day streak counts the
+days you both played (allowed by the owner, see docs/DECISIONS.md); no score.
 """
 
 from __future__ import annotations
 
 import random
-from datetime import date
+from datetime import date, timedelta
 from typing import Any
 
 from django.utils import timezone
@@ -124,6 +125,27 @@ def _daily(
     return merged[:DAILY_COUNT]
 
 
+def streak(couple: Couple, user: User, today: date) -> dict[str, Any]:
+    """Days in a row on which BOTH partners answered at least one question.
+
+    Today not played yet does not break the streak: it still counts up to yesterday.
+    """
+    partner = couple.partner_of(user)
+    days: dict[int, set[date]] = {}
+    for user_id, created_at in Answer.objects.filter(couple=couple).values_list(
+        "user_id", "created_at"
+    ):
+        days.setdefault(user_id, set()).add(timezone.localdate(created_at))
+    both = days.get(user.pk, set()) & days.get(partner.pk, set()) if partner else set()
+    today_done = today in both
+    cursor = today if today_done else today - timedelta(days=1)
+    count = 0
+    while cursor in both:
+        count += 1
+        cursor -= timedelta(days=1)
+    return {"count": count, "today_done": today_done}
+
+
 def home(couple: Couple, user: User) -> dict[str, Any]:
     partner = couple.partner_of(user)
     given = _answers(couple)
@@ -172,6 +194,7 @@ def home(couple: Couple, user: User) -> dict[str, Any]:
             "partner": bool(partner and adult_enabled(partner)),
         },
         "stats": stats(couple, done, len(visible)),
+        "streak": streak(couple, user, timezone.localdate()),
     }
 
 
