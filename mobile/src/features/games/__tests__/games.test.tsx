@@ -65,6 +65,7 @@ const home = {
   ],
   kinds: [{ slug: 'this_or_that', name: 'Ça ou ça ?', total: 20 }],
   adult: { mine: false, partner: false },
+  streak: { count: 4, today_done: false },
   stats: {
     days_together: 100,
     answered_percent: 4,
@@ -136,6 +137,7 @@ describe('GamesScreen', () => {
     expect(screen.getByLabelText('Voyage, 3 sur 6 terminées')).toBeTruthy();
     expect(screen.getByLabelText('Sexe et amour, Verrouillé')).toBeTruthy();
     expect(screen.getByText('À toi de jouer (1)')).toBeTruthy();
+    expect(screen.getByLabelText(/^Série de 4 jours\. Jouez tous les deux/)).toBeTruthy();
     await fireEvent.press(screen.getByTestId('topic-travel'));
     expect(routerMock().push).toHaveBeenCalledWith('/games/list?topic=travel');
     await fireEvent.press(screen.getByTestId('question-travel-1'));
@@ -210,6 +212,8 @@ describe('home sections', () => {
     expect(await screen.findByText('Je t’aime')).toBeTruthy();
     expect(screen.getByTestId('stat-days_together')).toHaveTextContent(/100/);
     expect(screen.getByLabelText('40 Messages échangés')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('shortcut-coach'));
+    expect(routerMock().push).toHaveBeenCalledWith('/coach');
     await fireEvent.press(screen.getByTestId('shortcut-journal'));
     expect(routerMock().push).toHaveBeenCalledWith('/memories');
     await fireEvent.press(screen.getByTestId('home-premium'));

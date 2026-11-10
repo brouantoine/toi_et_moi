@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ApiError } from '@/api';
 import { Chip, ErrorState, FadeIn, Icon, PressableScale, Skeleton, Text, useTheme } from '@/ui';
 
-import { kindArt, topicArt } from './art';
+import { EMOJI, kindArt, topicArt } from './art';
 import { QuestionCard } from './QuestionCard';
 import { useGamesHome, type GamesHome, type Topic } from './useGames';
 
@@ -23,6 +23,37 @@ export function SectionTitle({ title, hint }: { title: string; hint?: string }) 
           {hint}
         </Text>
       ) : null}
+    </View>
+  );
+}
+
+/** Days in a row you both played. Shown as a fact, never as a reproach. */
+export function StreakBadge({ streak }: { streak: GamesHome['streak'] }) {
+  const { t } = useTranslation();
+  const { hues, radii, spacing } = useTheme();
+  const hue = hues.amber;
+  return (
+    <View
+      testID="streak-badge"
+      accessible
+      accessibilityLabel={`${t('games.streak', { count: streak.count })}. ${t(
+        streak.today_done ? 'games.streakDone' : 'games.streakHint',
+      )}`}
+      style={[
+        styles.streak,
+        {
+          backgroundColor: hue.bg,
+          borderRadius: radii.pill,
+          paddingHorizontal: spacing.smd,
+          gap: spacing.xs,
+          opacity: streak.today_done || streak.count === 0 ? 1 : 0.75,
+        },
+      ]}
+    >
+      <Text variant="label" style={[styles.percent, { color: hue.fg, minWidth: 0 }]}>
+        {streak.count}
+      </Text>
+      <Image source={EMOJI.fire} style={styles.streakArt} contentFit="contain" />
     </View>
   );
 }
@@ -164,7 +195,12 @@ export function GamesScreen() {
         </FadeIn>
         <FadeIn delay={80}>
           <View style={{ gap: spacing.smd }}>
-            <SectionTitle title={t('games.dailyTitle')} hint={t('games.dailyHint')} />
+            <View style={[styles.row, { gap: spacing.sm }]}>
+              <View style={styles.flex}>
+                <SectionTitle title={t('games.dailyTitle')} hint={t('games.dailyHint')} />
+              </View>
+              <StreakBadge streak={home.streak} />
+            </View>
             {home.daily.map((question) => (
               <QuestionCard key={question.id} question={question} />
             ))}
@@ -213,6 +249,8 @@ const styles = StyleSheet.create({
   kindArt: { width: 56, height: 56 },
   topic: { flexDirection: 'row', alignItems: 'center', borderCurve: 'continuous' },
   topicArt: { width: 52, height: 52 },
+  streak: { flexDirection: 'row', alignItems: 'center', height: 36 },
+  streakArt: { width: 20, height: 20 },
   track: { flex: 1, height: 6, borderRadius: 3, overflow: 'hidden' },
   fill: { height: 6, borderRadius: 3 },
   percent: { fontWeight: '700', fontVariant: ['tabular-nums'], minWidth: 44, textAlign: 'right' },

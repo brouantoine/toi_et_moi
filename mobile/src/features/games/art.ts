@@ -10,6 +10,7 @@ const E = {
   warmup: require('../../../assets/emoji/warmup.png'),
   relationship: require('../../../assets/emoji/relationship.png'),
   intimacy: require('../../../assets/emoji/intimacy.png'),
+  fire: require('../../../assets/emoji/intimacy.png'),
   food: require('../../../assets/emoji/food.png'),
   money: require('../../../assets/emoji/money.png'),
   knowyou: require('../../../assets/emoji/knowyou.png'),

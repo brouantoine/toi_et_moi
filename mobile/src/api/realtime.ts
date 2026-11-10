@@ -37,6 +37,8 @@ export function invalidationKeysFor(event: ChangedEvent): QueryKey[] {
       return [['games']];
     case 'notes':
       return [['notes']];
+    case 'coach':
+      return [['coach']];
     default:
       return [];
   }

@@ -15,7 +15,7 @@ export const notesKey = ['notes'] as const;
 /** A well-formed home payload (guards against partial or foreign responses). */
 export function isGamesHome(data: unknown): data is GamesHome {
   const d = data as Partial<GamesHome> | null | undefined;
-  return Boolean(d && Array.isArray(d.daily) && Array.isArray(d.topics) && d.stats);
+  return Boolean(d && Array.isArray(d.daily) && Array.isArray(d.topics) && d.stats && d.streak);
 }
 
 export function useGamesHome() {

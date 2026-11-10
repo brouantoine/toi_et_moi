@@ -10,7 +10,7 @@ import { usePartner } from '@/features/couple/usePartner';
 import { formatKm } from '@/features/distance/format';
 import { useDistance } from '@/features/distance/useDistance';
 import { EMOJI } from '@/features/games/art';
-import { SectionTitle } from '@/features/games/GamesScreen';
+import { SectionTitle, StreakBadge } from '@/features/games/GamesScreen';
 import { QuestionCard } from '@/features/games/QuestionCard';
 import {
   useGamesHome,
@@ -97,7 +97,7 @@ type Shortcut = { id: string; image: number; hue: Hue; route?: string; soon?: st
 const SHORTCUTS: readonly Shortcut[] = [
   { id: 'journal', image: EMOJI.camera, hue: 'amber', route: '/memories' },
   { id: 'messages', image: EMOJI.conversation, hue: 'violet', route: '/us' },
-  { id: 'coach', image: EMOJI.robot, hue: 'lagoon', soon: 'home.coachSoon' },
+  { id: 'coach', image: EMOJI.robot, hue: 'lagoon', route: '/coach' },
   { id: 'calls', image: EMOJI.phone, hue: 'sage', soon: 'home.callsSoon' },
   { id: 'organize', image: EMOJI.calendar, hue: 'red', route: '/organize' },
 ];
@@ -440,7 +440,12 @@ export function HomeSections() {
       {home?.daily.length ? (
         <FadeIn delay={120}>
           <View testID="home-daily" style={{ gap: spacing.smd }}>
-            <SectionTitle title={t('games.dailyTitle')} hint={t('games.dailyHint')} />
+            <View style={[styles.row, { gap: spacing.sm }]}>
+              <View style={styles.flex}>
+                <SectionTitle title={t('games.dailyTitle')} hint={t('games.dailyHint')} />
+              </View>
+              <StreakBadge streak={home.streak} />
+            </View>
             {home.daily.map((question) => (
               <QuestionCard key={question.id} question={question} />
             ))}

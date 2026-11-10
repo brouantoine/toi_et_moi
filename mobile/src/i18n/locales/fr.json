@@ -679,7 +679,11 @@
       "rather": "Tu préfères",
       "most_likely": "Qui est le plus",
       "conversation": "Conversation"
-    }
+    },
+    "streak_one": "Série de {{count}} jour",
+    "streak_other": "Série de {{count}} jours",
+    "streakHint": "Jouez tous les deux aujourd’hui pour la continuer.",
+    "streakDone": "Fait pour aujourd’hui."
   },
   "home": {
     "whatsNew": "Quoi de neuf ?",
@@ -691,7 +695,6 @@
     "organize": "Agenda",
     "soon": "Bientôt",
     "soonTitle": "Bientôt disponible",
-    "coachSoon": "Le coach IA partagé arrive dans une prochaine version.",
     "callsSoon": "Les appels vocaux et vidéo demandent la version installée de l’app : ils arrivent avec elle.",
     "togetherSince": "Ensemble depuis",
     "unitDays": "jours",
@@ -744,5 +747,30 @@
     "feature3": "Parcours guidés de 7 jours",
     "feature4": "Coach IA partagé",
     "feature5": "Widgets de l’écran d’accueil"
+  },
+  "coach": {
+    "title": "Coach",
+    "subtitle": "Une seule conversation, lue par vous deux",
+    "introTitle": "Un coach pour vous deux",
+    "intro1": "Vous lui parlez dans une seule conversation : chacun lit tout, il n’y a aucun échange privé.",
+    "intro2": "Il écoute les deux, puis donne son avis et des conseils concrets.",
+    "intro3": "La conversation est chiffrée et vous pouvez l’effacer à tout moment.",
+    "intro4": "C’est une intelligence artificielle : elle ne remplace ni un thérapeute ni les secours.",
+    "enable": "Activer pour moi",
+    "disable": "Désactiver pour moi",
+    "waiting": "En attente de {{name}} : le coach s’ouvre quand vous l’avez activé tous les deux.",
+    "unavailable": "Le coach n’est pas encore activé sur le serveur. Il répondra dès que la clé sera configurée.",
+    "placeholder": "Écrire au coach, devant vous deux…",
+    "inputLabel": "Message au coach",
+    "send": "Envoyer",
+    "coachName": "Coach",
+    "you": "Toi",
+    "empty": "Racontez-lui ce qui vous occupe : un désaccord, une envie, une idée de sortie.",
+    "sendError": "Ton message n’a pas pu être envoyé.",
+    "erase": "Effacer la conversation",
+    "eraseTitle": "Effacer toute la conversation ?",
+    "eraseMessage": "Elle sera effacée pour vous deux.",
+    "eraseConfirm": "Effacer",
+    "writing": "Le coach écrit…"
   }
 }

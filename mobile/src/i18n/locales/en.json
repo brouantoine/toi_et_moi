@@ -679,7 +679,11 @@
       "rather": "Would you rather",
       "most_likely": "Who is most likely",
       "conversation": "Conversation"
-    }
+    },
+    "streak_one": "{{count}}-day streak",
+    "streak_other": "{{count}}-day streak",
+    "streakHint": "Both play today to keep it going.",
+    "streakDone": "Done for today."
   },
   "home": {
     "whatsNew": "What’s new?",
@@ -691,7 +695,6 @@
     "organize": "Calendar",
     "soon": "Soon",
     "soonTitle": "Coming soon",
-    "coachSoon": "The shared AI coach arrives in an upcoming version.",
     "callsSoon": "Voice and video calls need the installed app: they arrive with it.",
     "togetherSince": "Together for",
     "unitDays": "days",
@@ -744,5 +747,30 @@
     "feature3": "7-day guided journeys",
     "feature4": "Shared AI coach",
     "feature5": "Home screen widgets"
+  },
+  "coach": {
+    "title": "Coach",
+    "subtitle": "One conversation, read by both of you",
+    "introTitle": "A coach for the two of you",
+    "intro1": "You talk to it in a single conversation: each of you reads everything, there is no private exchange.",
+    "intro2": "It listens to both of you, then gives its view and concrete advice.",
+    "intro3": "The conversation is encrypted and you can erase it at any time.",
+    "intro4": "It is an artificial intelligence: it replaces neither a therapist nor emergency services.",
+    "enable": "Turn on for me",
+    "disable": "Turn off for me",
+    "waiting": "Waiting for {{name}}: the coach opens once you have both turned it on.",
+    "unavailable": "The coach is not turned on on the server yet. It will answer as soon as the key is configured.",
+    "placeholder": "Write to the coach, in front of both of you…",
+    "inputLabel": "Message to the coach",
+    "send": "Send",
+    "coachName": "Coach",
+    "you": "You",
+    "empty": "Tell it what is on your minds: a disagreement, a wish, an idea for a date.",
+    "sendError": "Your message could not be sent.",
+    "erase": "Erase the conversation",
+    "eraseTitle": "Erase the whole conversation?",
+    "eraseMessage": "It will be erased for both of you.",
+    "eraseConfirm": "Erase",
+    "writing": "The coach is writing…"
   }
 }

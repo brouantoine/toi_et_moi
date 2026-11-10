@@ -309,3 +309,7 @@
 - Backend `games` : accueil des jeux (paire du jour commune, « à ton tour », progression par sujet, types), réponses, réglage adulte, notes partagées, chiffres du couple. Illustrations Fluent Emoji 3D.
 - Mobile : onglet Jeux (catégories, activités du jour, sujets), listes, écran de question (choix ou texte, attente, révélation des deux réponses), accueil (vos deux avatars reliés par la distance, accès rapide, activités du jour, premium, notes, à ton tour, compteur en direct, chiffres), écran Premium, icône et écran d'ouverture avec le logo et la caricature fournis.
 - Pas encore faits : coach IA partagé, appels, widget, galerie par mois, « répondre avec une photo », « dessiner ».
+
+## 2026-11-10 — Coach IA partagé et série de jours (mobile)
+- Écran « Coach » (accueil › Accès rapide) : présentation et activation par chacun, fil commun (Toi / prénom de l'autre / Coach), bulle « le coach écrit », message calme en cas d'échec, effacement pour les deux, désactivation. Sans clé serveur : bandeau « pas encore activé » et saisie bloquée.
+- Série de jours : badge (nombre + flamme) sur les activités du jour, à l'accueil et dans l'onglet Jeux.
