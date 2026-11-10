@@ -5,7 +5,7 @@ export { Chip } from './Chip';
 export { DateField, fromIsoDate, toIsoDate } from './DateField';
 export { EmptyState } from './EmptyState';
 export { ErrorState } from './ErrorState';
-export { Ring } from './customIcons';
+export { Cards, HomeArch, Ring } from './customIcons';
 export { Icon } from './Icon';
 export { IconButton } from './IconButton';
 export { Input } from './Input';

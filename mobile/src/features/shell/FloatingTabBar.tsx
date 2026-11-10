@@ -1,9 +1,9 @@
 import * as Haptics from 'expo-haptics';
 import type { Tabs } from 'expo-router';
-import type { ComponentProps } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState, type ComponentProps } from 'react';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
 
-import { Icon, PressableScale, useTheme } from '@/ui';
+import { Icon, useReducedMotion, useTheme } from '@/ui';
 
 import { TABS } from './tabs';
 
@@ -11,12 +11,79 @@ import { TABS } from './tabs';
 type BottomTabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
 export const FLOATING_BAR_HEIGHT = 64;
-const ITEM_HEIGHT = 48;
+/** A press already handled on touch-down is not handled again on release. */
+const PRESS_DEDUPE_MS = 700;
+
+type ItemProps = {
+  name: string;
+  label: string | undefined;
+  focused: boolean;
+  onSelect: () => void;
+  onLongPress: () => void;
+};
 
 /**
- * Floating pill tab bar (reference capture): white rounded bar with a soft shadow,
- * icons only, the active tab sits on a soft grey pill. Names are announced to
- * screen readers through each tab's title.
+ * One tab: no background shape. Selected = the icon fills in and pops slightly.
+ * It reacts on touch-DOWN, so switching tabs feels instant and never needs a second tap.
+ */
+function TabItem({ name, label, focused, onSelect, onLongPress }: ItemProps) {
+  const reduced = useReducedMotion();
+  const tab = TABS.find((item) => item.name === name);
+  const [pop] = useState(() => new Animated.Value(focused ? 1 : 0));
+  const handledAt = useRef(0);
+
+  useEffect(() => {
+    if (reduced) {
+      pop.setValue(focused ? 1 : 0);
+      return;
+    }
+    Animated.spring(pop, {
+      toValue: focused ? 1 : 0,
+      useNativeDriver: true,
+      speed: 28,
+      bounciness: 10,
+    }).start();
+  }, [focused, pop, reduced]);
+
+  if (!tab) return null;
+  return (
+    <Pressable
+      testID={`tabbar-${name}`}
+      accessibilityRole="tab"
+      accessibilityLabel={label}
+      accessibilityState={{ selected: focused }}
+      onPressIn={() => {
+        handledAt.current = Date.now();
+        onSelect();
+      }}
+      // Screen readers and switch controls activate with "press": same action, once.
+      onPress={() => {
+        if (Date.now() - handledAt.current > PRESS_DEDUPE_MS) onSelect();
+      }}
+      onLongPress={onLongPress}
+      hitSlop={{ top: 12, bottom: 12 }}
+      style={styles.item}
+    >
+      <Animated.View
+        style={{
+          transform: [{ scale: pop.interpolate({ inputRange: [0, 1], outputRange: [1, 1.12] }) }],
+        }}
+      >
+        <Icon
+          icon={tab.icon}
+          size={27}
+          color={focused ? 'text' : 'textMuted'}
+          filled={focused}
+          strokeWidth={focused ? 2 : 1.9}
+        />
+      </Animated.View>
+    </Pressable>
+  );
+}
+
+/**
+ * Floating pill tab bar (reference capture): rounded bar with a soft shadow and icons
+ * only. Names are announced to screen readers through each tab's title.
  */
 export function FloatingTabBar({
   state,
@@ -28,15 +95,12 @@ export function FloatingTabBar({
   const { colors, elevation, radii, spacing } = useTheme();
   return (
     <View
-      style={[
-        styles.wrap,
-        {
-          backgroundColor: colors.background,
-          paddingHorizontal: spacing.lg,
-          paddingTop: spacing.sm,
-          paddingBottom: Math.max(insets.bottom, spacing.md),
-        },
-      ]}
+      style={{
+        backgroundColor: colors.background,
+        paddingHorizontal: spacing.lg,
+        paddingTop: spacing.sm,
+        paddingBottom: Math.max(insets.bottom, spacing.md),
+      }}
     >
       <View
         accessibilityRole="tablist"
@@ -48,53 +112,32 @@ export function FloatingTabBar({
             backgroundColor: colors.surface,
             boxShadow: elevation.raised,
             borderColor: colors.border,
-            borderWidth: elevation.hairline ? StyleSheet.hairlineWidth : 0,
+            borderWidth: StyleSheet.hairlineWidth,
             paddingHorizontal: spacing.sm,
           },
         ]}
       >
         {state.routes.map((route, index) => {
           const focused = state.index === index;
-          const tab = TABS.find((item) => item.name === route.name);
-          const options = descriptors[route.key]?.options;
-          if (!tab || !options) return null;
-          const onPress = () => {
-            const event = emitter.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-            if (!focused && !event.defaultPrevented) {
-              void Haptics.selectionAsync().catch(() => {});
-              navigateToTab(route.key);
-            }
-          };
           return (
-            <PressableScale
+            <TabItem
               key={route.key}
-              testID={`tabbar-${route.name}`}
-              accessibilityRole="tab"
-              accessibilityLabel={options.title}
-              accessibilityState={{ selected: focused }}
-              onPress={onPress}
+              name={route.name}
+              label={descriptors[route.key]?.options.title}
+              focused={focused}
+              onSelect={() => {
+                const event = emitter.emit({
+                  type: 'tabPress',
+                  target: route.key,
+                  canPreventDefault: true,
+                });
+                if (!focused && !event.defaultPrevented) {
+                  void Haptics.selectionAsync().catch(() => {});
+                  navigateToTab(route.key);
+                }
+              }}
               onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
-              scaleTo={0.9}
-              style={[
-                styles.item,
-                {
-                  borderRadius: radii.pill,
-                  backgroundColor: focused ? colors.surfaceMuted : 'transparent',
-                },
-              ]}
-            >
-              <Icon
-                icon={tab.icon}
-                size={26}
-                color={focused ? 'text' : 'textMuted'}
-                filled={focused && route.name !== 'memories'}
-                strokeWidth={focused ? 2.2 : 1.9}
-              />
-            </PressableScale>
+            />
           );
         })}
       </View>
@@ -103,18 +146,6 @@ export function FloatingTabBar({
 }
 
 const styles = StyleSheet.create({
-  wrap: {},
-  bar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderCurve: 'continuous',
-  },
-  item: {
-    flex: 1,
-    height: ITEM_HEIGHT,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderCurve: 'continuous',
-  },
+  bar: { flexDirection: 'row', alignItems: 'stretch', borderCurve: 'continuous' },
+  item: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });

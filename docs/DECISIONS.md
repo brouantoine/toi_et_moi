@@ -82,3 +82,8 @@ Format : date — choix — raison — alternative écartée.
 ## 2026-11-09 — L'app s'appelle Bolingo
 - Nom choisi par l'utilisateur : « Bolingo » (« amour » en lingala), à la place de « Nous Deux » (titre d'un magazine français, risque de marque). Marque, lien `bolingo://`, slug et identifiant `com.bolingo.app` mis à jour ; l'identifiant reste modifiable jusqu'au premier envoi sur les stores. Noms techniques internes (base, bucket, comptes de test `@nousdeux.test`) inchangés.
 - Disponibilité du nom sur les stores et en marque : non vérifiée (HUMAN_TODO).
+
+## 2026-11-10 — Retours du premier essai Bolingo
+- Thème clair forcé : l'app reste blanche même si le téléphone est en mode sombre (demande répétée de l'utilisateur). La palette sombre reste dans les tokens pour un éventuel réglage.
+- Barre d'onglets : plus de fond ovale sur l'onglet actif ; l'icône se remplit et grossit légèrement. Réaction dès le toucher (plus besoin d'appuyer deux fois). Icônes maison et cartes dessinées pour coller à la capture.
+- Écran d'ouverture : illustration originale d'un couple (dessin vectoriel maison) entouré de bulles qui s'éparpillent puis flottent, une phrase, « Créer mon compte » / « J'ai déjà un compte ». Inspiré de l'app de référence sans reprendre ses dessins, ses phrases ni sa disposition.

@@ -1,9 +1,10 @@
 {
   "welcome": {
-    "title": "Welcome to {{brand}}",
-    "subtitle": "The app that helps you look at your phones less, and at each other more.",
-    "start": "Get started",
-    "login": "I already have an account"
+    "title": "{{brand}}",
+    "subtitle": "The companion for couples who want to grow a little closer every day.",
+    "start": "Create my account",
+    "login": "I already have an account",
+    "illustration": "Illustration: a couple holding each other, with little bubbles of memories around them"
   },
   "common": {
     "loading": "Just a moment…",

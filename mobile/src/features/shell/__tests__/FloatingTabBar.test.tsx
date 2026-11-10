@@ -43,7 +43,10 @@ describe('FloatingTabBar', () => {
   it('navigates to another tab unless the press is prevented', async () => {
     const { props, emitter, navigateToTab } = makeProps(0);
     await render(<FloatingTabBar {...props} />);
+    // Reacts on touch-down; the release that follows does not navigate twice.
+    await fireEvent(screen.getByTestId('tabbar-us'), 'pressIn');
     await fireEvent.press(screen.getByTestId('tabbar-us'));
+    expect(navigateToTab).toHaveBeenCalledTimes(1);
     expect(emitter.emit).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'tabPress', target: 'us-key' }),
     );
@@ -51,7 +54,7 @@ describe('FloatingTabBar', () => {
 
     const prevented = makeProps(0, true);
     await render(<FloatingTabBar {...prevented.props} />);
-    await fireEvent.press(screen.getByTestId('tabbar-me'));
+    await fireEvent(screen.getByTestId('tabbar-me'), 'pressIn');
     expect(prevented.navigateToTab).not.toHaveBeenCalled();
   });
 });

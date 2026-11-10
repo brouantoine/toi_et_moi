@@ -22,8 +22,11 @@ it('renders the welcome copy in French with the brand name', async () => {
       </ThemeProvider>
     </SafeAreaProvider>,
   );
-  expect(screen.getByText('Bienvenue dans Bolingo')).toBeTruthy();
-  expect(screen.getByRole('button', { name: 'Commencer' })).toBeTruthy();
+  expect(screen.getByText('Bolingo')).toBeTruthy();
+  expect(screen.getByRole('button', { name: 'Créer mon compte' })).toBeTruthy();
+  // The couple, with their little moments floating around them.
+  expect(screen.getByRole('image', { name: /un couple enlacé/ })).toBeTruthy();
+  expect(screen.getAllByTestId('welcome-bubble', { includeHiddenElements: true })).toHaveLength(7);
 });
 
 it('offers sign up first, and sign in for people who already have an account', async () => {
@@ -40,7 +43,7 @@ it('offers sign up first, and sign in for people who already have an account', a
       </ThemeProvider>
     </SafeAreaProvider>,
   );
-  await fireEvent.press(screen.getByRole('button', { name: 'Commencer' }));
+  await fireEvent.press(screen.getByRole('button', { name: 'Créer mon compte' }));
   expect(router.push).toHaveBeenLastCalledWith('/register');
   await fireEvent.press(screen.getByRole('button', { name: 'J’ai déjà un compte' }));
   expect(router.push).toHaveBeenLastCalledWith('/login');

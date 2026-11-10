@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { AccessibilityInfo, useColorScheme } from 'react-native';
+import { AccessibilityInfo } from 'react-native';
 
 import {
   DEFAULT_ACCENT,
@@ -48,15 +48,17 @@ const ThemeContext = createContext<Theme>(buildTheme('light'));
 
 type Props = {
   children: ReactNode;
-  /** Force a scheme (tests, user preference). Defaults to the system setting. */
+  /**
+   * Force a scheme (tests, a future setting). Defaults to LIGHT whatever the phone says:
+   * the app is white-dominant by decision of the user (docs/DECISIONS.md).
+   */
   scheme?: ColorScheme;
   /** The couple's colour (Settings). */
   accent?: AccentId;
 };
 
 export function ThemeProvider({ children, scheme, accent = DEFAULT_ACCENT }: Props) {
-  const system = useColorScheme();
-  const resolved: ColorScheme = scheme ?? (system === 'dark' ? 'dark' : 'light');
+  const resolved: ColorScheme = scheme ?? 'light';
   const theme = useMemo(() => buildTheme(resolved, accent), [resolved, accent]);
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 }

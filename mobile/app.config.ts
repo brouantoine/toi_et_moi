@@ -30,7 +30,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: '0.1.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
-  userInterfaceStyle: 'automatic',
+  // White-dominant app: system dialogs, pickers and the keyboard stay light too.
+  userInterfaceStyle: 'light',
   ios: {
     supportsTablet: false,
     bundleIdentifier: BRAND.bundleId,

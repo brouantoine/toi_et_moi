@@ -1,9 +1,10 @@
 {
   "welcome": {
-    "title": "Bienvenue dans {{brand}}",
-    "subtitle": "L'app qui vous aide à moins regarder vos téléphones, et plus à vous regarder.",
-    "start": "Commencer",
-    "login": "J’ai déjà un compte"
+    "title": "{{brand}}",
+    "subtitle": "Le compagnon des couples qui veulent se rapprocher un peu plus chaque jour.",
+    "start": "Créer mon compte",
+    "login": "J’ai déjà un compte",
+    "illustration": "Illustration : un couple enlacé, entouré de petites bulles de souvenirs"
   },
   "common": {
     "loading": "Un instant…",

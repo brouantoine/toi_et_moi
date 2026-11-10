@@ -227,6 +227,20 @@ export const elevations: Record<ColorScheme, Elevation> = {
   },
 };
 
+/**
+ * Colours of the welcome illustration (the couple). Fixed in both schemes: it is a
+ * drawing, not UI, and never carries text.
+ */
+export const illustration = {
+  skinA: '#8D5A3B',
+  skinB: '#B97A56',
+  hair: '#1F1512',
+  blush: '#D9614E',
+  shirtB: '#F2F2F5',
+  line: '#1C1C1E',
+  halo: '#FFF1EC',
+} as const;
+
 export const spacing = { xxs: 2, xs: 4, sm: 8, smd: 12, md: 16, lg: 24, xl: 32, xxl: 48 } as const;
 
 export const radii = { sm: 8, md: 14, lg: 22, xl: 28, pill: 999 } as const;
