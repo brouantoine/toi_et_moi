@@ -3,18 +3,16 @@ import { MapPin } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
-import { Icon, PressableScale, Text, useTheme, type Palette } from '@/ui';
+import { Icon, PressableScale, Text, useTheme } from '@/ui';
 
 import { formatKm } from './format';
 import { useDistance } from './useDistance';
 
-type Props = { tone: keyof Palette };
-
-/** Under the days together: "45 km", opens the map screen. */
-export function DistancePill({ tone }: Props) {
+/** "6 km" between the two avatars: a white capsule that opens the map. */
+export function DistancePill() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const { radii, spacing } = useTheme();
+  const { colors, elevation, radii, spacing } = useTheme();
   const { data } = useDistance();
   const km = data?.km;
   const label = km == null ? t('distance.pillShow') : formatKm(km, i18n.language);
@@ -24,11 +22,20 @@ export function DistancePill({ tone }: Props) {
       accessibilityRole="button"
       accessibilityLabel={km == null ? label : t('distance.pillLabel', { km: label })}
       onPress={() => router.push('/distance')}
-      hitSlop={{ top: 8, bottom: 8 }}
-      style={[styles.pill, { gap: spacing.xs, borderRadius: radii.pill }]}
+      hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
+      style={[
+        styles.pill,
+        {
+          gap: spacing.xs,
+          borderRadius: radii.pill,
+          paddingHorizontal: spacing.smd,
+          backgroundColor: colors.surface,
+          boxShadow: elevation.card,
+        },
+      ]}
     >
-      <Icon icon={MapPin} size={16} color={tone} strokeWidth={2.2} />
-      <Text variant="caption" color={tone} style={styles.text}>
+      <Icon icon={MapPin} size={14} color="primary" strokeWidth={2.4} />
+      <Text variant="caption" style={styles.text} numberOfLines={1}>
         {label}
       </Text>
     </PressableScale>
@@ -36,6 +43,6 @@ export function DistancePill({ tone }: Props) {
 }
 
 const styles = StyleSheet.create({
-  pill: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start' },
-  text: { fontWeight: '700' },
+  pill: { flexDirection: 'row', alignItems: 'center', height: 32 },
+  text: { fontWeight: '700', fontVariant: ['tabular-nums'] },
 });

@@ -1,10 +1,11 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { CalendarHeart, ChevronRight, History, PartyPopper } from 'lucide-react-native';
+import { CalendarHeart, ChevronRight, History, PartyPopper, Pencil } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { useCouple } from '@/features/couple/useCouple';
+import { DistancePill } from '@/features/distance/DistancePill';
 import { usePartner } from '@/features/couple/usePartner';
 import { useMe } from '@/features/me/useProfile';
 import { EVENT_KIND_HUES, EVENT_KIND_ICONS } from '@/features/organize/agenda/eventKinds';
@@ -60,7 +61,59 @@ function MilestonePill({ start }: { start: string }) {
   );
 }
 
-/** The couple, first: photo or both avatars, names, days together, next milestone. */
+const AVATAR = 76;
+const DASHES = Array.from({ length: 6 }, (_, index) => index);
+
+/** Both of you, linked by the distance between you. My avatar opens the avatar picker. */
+function LinkedAvatars({ tone }: { tone: 'onScrim' | 'onPrimarySoft' }) {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { colors } = useTheme();
+  const couple = useCouple({ enabled: false });
+  const me = useMe();
+  const partner = usePartner();
+  if (!me.data) return null;
+  const myMember = couple.data?.members.find((m) => m.id === me.data?.id);
+  return (
+    <View testID="couple-link" style={styles.link}>
+      <PressableScale
+        testID="hero-my-avatar"
+        accessibilityRole="button"
+        accessibilityLabel={t('avatar.edit')}
+        onPress={() => router.push('/settings/avatar')}
+        scaleTo={0.94}
+      >
+        <Avatar
+          name={me.data.display_name}
+          uri={myMember?.avatar_url ?? me.data.avatar_url}
+          preset={me.data.avatar_preset}
+          size={AVATAR}
+          ring
+        />
+        <View style={[styles.edit, { backgroundColor: colors.text, borderColor: colors.surface }]}>
+          <Icon icon={Pencil} size={11} color="background" strokeWidth={2.6} />
+        </View>
+      </PressableScale>
+      <View style={styles.bridge}>
+        <View style={styles.dashes} importantForAccessibility="no-hide-descendants">
+          {DASHES.map((dash) => (
+            <View key={dash} style={[styles.dash, { backgroundColor: colors[tone] }]} />
+          ))}
+        </View>
+        <DistancePill />
+      </View>
+      <Avatar
+        name={partner?.display_name ?? '?'}
+        uri={partner?.avatar_url}
+        preset={partner?.avatar_preset}
+        size={AVATAR}
+        ring
+      />
+    </View>
+  );
+}
+
+/** The couple, first: both of you and the distance, names, days together, next milestone. */
 export function CoupleHero() {
   const { t } = useTranslation();
   const { colors, radii, spacing } = useTheme();
@@ -69,89 +122,66 @@ export function CoupleHero() {
   const partner = usePartner();
   const data = couple.data;
   if (!data || !me.data) return null;
-  const myMember = data.members.find((m) => m.id === me.data?.id);
   const names = t('today.couple', {
     me: me.data.display_name,
     partner: partner?.display_name ?? '',
   });
   const start = data.start_date;
   const milestoneToday = start ? nextMilestone(start)?.inDays === 0 : false;
+  const tone = data.photo_url ? 'onScrim' : 'onPrimarySoft';
 
-  const text = (
-    <View style={{ gap: spacing.xs }}>
-      <Text variant="title" color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}>
-        {names}
-      </Text>
-      {start ? (
-        // Like the lock-screen widget: a ring, then the exact number of days.
-        <View style={[styles.daysRow, { gap: spacing.sm }]}>
-          <Icon
-            icon={Ring}
-            size={22}
-            color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}
-            strokeWidth={2}
-          />
-          <Text testID="days-together" color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}>
-            {t('today.together', { count: daysTogether(start) })}
-          </Text>
-        </View>
-      ) : (
-        <Text variant="caption" color={data.photo_url ? 'onScrim' : 'onPrimarySoft'}>
-          {t('today.togetherHint')}
+  const content = (
+    <View style={[styles.heroContent, { gap: spacing.md, padding: spacing.lg }]}>
+      <LinkedAvatars tone={tone} />
+      <View style={[styles.heroText, { gap: spacing.xs }]}>
+        <Text variant="title" color={tone} style={styles.textCenter}>
+          {names}
         </Text>
-      )}
-      {start ? <MilestonePill start={start} /> : null}
-    </View>
-  );
-
-  if (data.photo_url) {
-    return (
-      <View testID="couple-hero" style={[styles.hero, { borderRadius: radii.xl }]}>
-        <Image
-          source={{ uri: data.photo_url }}
-          style={StyleSheet.absoluteFill}
-          contentFit="cover"
-          transition={200}
-        />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.scrim }]} />
-        <View style={[styles.heroText, { padding: spacing.lg }]}>{text}</View>
-        <Celebration
-          testID="milestone-celebration"
-          play={milestoneToday ? `milestone-${start}` : false}
-        />
+        {start ? (
+          // Like the lock-screen widget: a ring, then the exact number of days.
+          <View style={[styles.daysRow, { gap: spacing.sm }]}>
+            <Icon icon={Ring} size={20} color={tone} strokeWidth={2} />
+            <Text testID="days-together" color={tone}>
+              {t('today.together', { count: daysTogether(start) })}
+            </Text>
+          </View>
+        ) : (
+          <Text variant="caption" color={tone} style={styles.textCenter}>
+            {t('today.togetherHint')}
+          </Text>
+        )}
+        {start ? <MilestonePill start={start} /> : null}
       </View>
-    );
-  }
-  return (
-    <View
-      testID="couple-hero"
-      style={[
-        styles.heroPlain,
-        {
-          backgroundColor: colors.primarySoft,
-          borderRadius: radii.xl,
-          padding: spacing.lg,
-          gap: spacing.md,
-        },
-      ]}
-    >
-      <View
-        style={styles.avatars}
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-      >
-        <View style={[styles.ring, { borderColor: colors.primarySoft }]}>
-          <Avatar name={me.data.display_name} uri={myMember?.avatar_url} size={60} />
-        </View>
-        <View style={[styles.ring, styles.overlap, { borderColor: colors.primarySoft }]}>
-          <Avatar name={partner?.display_name ?? '?'} uri={partner?.avatar_url} size={60} />
-        </View>
-      </View>
-      {text}
       <Celebration
         testID="milestone-celebration"
         play={milestoneToday ? `milestone-${start}` : false}
       />
+    </View>
+  );
+
+  return (
+    <View
+      testID="couple-hero"
+      style={[
+        styles.hero,
+        {
+          borderRadius: radii.xl,
+          backgroundColor: data.photo_url ? undefined : colors.primarySoft,
+        },
+      ]}
+    >
+      {data.photo_url ? (
+        <>
+          <Image
+            source={{ uri: data.photo_url }}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+            transition={200}
+          />
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.scrim }]} />
+        </>
+      ) : null}
+      {content}
     </View>
   );
 }
@@ -264,14 +294,37 @@ export function OnThisDayCard() {
 
 const styles = StyleSheet.create({
   daysRow: { flexDirection: 'row', alignItems: 'center' },
-  hero: { height: 220, overflow: 'hidden', borderCurve: 'continuous', justifyContent: 'flex-end' },
-  heroText: { justifyContent: 'flex-end' },
-  heroPlain: { borderCurve: 'continuous' },
-  avatars: { flexDirection: 'row' },
-  ring: { borderWidth: 3, borderRadius: 40 },
-  overlap: { marginLeft: -16 },
+  hero: { overflow: 'hidden', borderCurve: 'continuous' },
+  heroContent: { alignItems: 'stretch' },
+  heroText: { alignItems: 'center' },
+  textCenter: { textAlign: 'center' },
+  link: { flexDirection: 'row', alignItems: 'center' },
+  bridge: { flex: 1, alignItems: 'center', justifyContent: 'center', marginHorizontal: -6 },
+  dashes: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    opacity: 0.35,
+  },
+  dash: { width: 8, height: 2, borderRadius: 1 },
+  edit: {
+    position: 'absolute',
+    right: -2,
+    bottom: -2,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   pill: {
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     height: 30,

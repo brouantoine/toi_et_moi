@@ -1,14 +1,11 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { ChevronRight, MapPin, Plus } from 'lucide-react-native';
+import { ChevronRight, Plus } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 
 import { useCouple } from '@/features/couple/useCouple';
-import { usePartner } from '@/features/couple/usePartner';
-import { formatKm } from '@/features/distance/format';
-import { useDistance } from '@/features/distance/useDistance';
 import { EMOJI } from '@/features/games/art';
 import { SectionTitle, StreakBadge } from '@/features/games/GamesScreen';
 import { QuestionCard } from '@/features/games/QuestionCard';
@@ -19,9 +16,7 @@ import {
   type GamesHome,
   type Note,
 } from '@/features/games/useGames';
-import { useMe } from '@/features/me/useProfile';
 import {
-  Avatar,
   Button,
   FadeIn,
   Icon,
@@ -33,64 +28,6 @@ import {
   useTheme,
   type Hue,
 } from '@/ui';
-
-const AVATAR = 84;
-const DOTS = Array.from({ length: 7 }, (_, index) => index);
-
-/** The two of you, linked by the distance between you (tap: the map). */
-export function CoupleLink() {
-  const { t, i18n } = useTranslation();
-  const router = useRouter();
-  const { colors, radii, spacing } = useTheme();
-  const me = useMe();
-  const couple = useCouple({ enabled: false });
-  const partner = usePartner();
-  const { data } = useDistance();
-  if (!me.data || !partner) return null;
-  const myAvatar = couple.data?.members.find((m) => m.id === me.data?.id)?.avatar_url;
-  const km = data?.km;
-  const label = km == null ? t('distance.pillShow') : formatKm(km, i18n.language);
-  const dots = (
-    <View style={[styles.dots, { gap: spacing.xs }]}>
-      {DOTS.map((dot) => (
-        <View key={dot} style={[styles.dot, { backgroundColor: colors.border }]} />
-      ))}
-    </View>
-  );
-  return (
-    <View testID="couple-link" style={{ gap: spacing.sm }}>
-      <View
-        style={[styles.bubble, { backgroundColor: colors.surfaceMuted, borderRadius: radii.lg }]}
-      >
-        <Text variant="caption" style={styles.bold}>
-          {t('home.whatsNew')}
-        </Text>
-      </View>
-      <View style={styles.row}>
-        <Avatar name={me.data.display_name} uri={myAvatar} size={AVATAR} />
-        {dots}
-        <PressableScale
-          testID="distance-pill"
-          accessibilityRole="button"
-          accessibilityLabel={km == null ? label : t('distance.pillLabel', { km: label })}
-          onPress={() => router.push('/distance')}
-          hitSlop={{ top: 12, bottom: 12 }}
-          style={[
-            styles.pill,
-            { backgroundColor: colors.primarySoft, borderRadius: radii.pill, gap: spacing.xs },
-          ]}
-        >
-          <Icon icon={MapPin} size={14} color="onPrimarySoft" strokeWidth={2.4} />
-          <Text variant="caption" color="onPrimarySoft" style={styles.bold}>
-            {label}
-          </Text>
-        </PressableScale>
-        {dots}
-        <Avatar name={partner.display_name} uri={partner.avatar_url} size={AVATAR} />
-      </View>
-    </View>
-  );
-}
 
 type Shortcut = { id: string; image: number; hue: Hue; route?: string; soon?: string };
 
@@ -105,7 +42,7 @@ const SHORTCUTS: readonly Shortcut[] = [
 function Shortcuts() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors, hues, radii, spacing } = useTheme();
+  const { hues, radii, spacing } = useTheme();
   return (
     <ScrollView
       horizontal
@@ -136,11 +73,9 @@ function Shortcuts() {
             {t(`home.${item.id}`)}
           </Text>
           {item.soon ? (
-            <View style={[styles.soon, { backgroundColor: colors.surface }]}>
-              <Text variant="overline" style={{ color: hues[item.hue].fg }}>
-                {t('home.soon')}
-              </Text>
-            </View>
+            <Text variant="caption" style={{ color: hues[item.hue].fg }} numberOfLines={1}>
+              {t('home.soon')}
+            </Text>
           ) : null}
         </PressableScale>
       ))}
@@ -492,7 +427,6 @@ const styles = StyleSheet.create({
   pill: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, height: 32 },
   shortcut: { width: 96, height: 104, justifyContent: 'space-between', borderCurve: 'continuous' },
   shortcutArt: { width: 44, height: 44 },
-  soon: { position: 'absolute', top: 8, right: 8, borderRadius: 6, paddingHorizontal: 5 },
   premium: { flexDirection: 'row', alignItems: 'center', borderCurve: 'continuous' },
   premiumCta: {
     flexDirection: 'row',

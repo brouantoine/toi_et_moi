@@ -96,7 +96,7 @@ describe('helpers', () => {
 describe('DistancePill', () => {
   it('shows the distance under the days and opens the map', async () => {
     routes(both);
-    await renderWithProviders(<DistancePill tone="text" />);
+    await renderWithProviders(<DistancePill />);
     expect(await screen.findByText(/4\s870 km/)).toBeTruthy();
     await fireEvent.press(screen.getByTestId('distance-pill'));
     expect(routerMock().push).toHaveBeenCalledWith('/distance');
@@ -104,7 +104,7 @@ describe('DistancePill', () => {
 
   it('invites to see the distance when not shared yet', async () => {
     routes(nobody);
-    await renderWithProviders(<DistancePill tone="text" />);
+    await renderWithProviders(<DistancePill />);
     expect(await screen.findByText('Voir la distance')).toBeTruthy();
   });
 });

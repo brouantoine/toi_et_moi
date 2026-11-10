@@ -15,7 +15,15 @@ class MemberSerializer(serializers.ModelSerializer[User]):
 
     class Meta:
         model = User
-        fields = ["id", "first_name", "nickname", "display_name", "avatar_url", "timezone"]
+        fields = [
+            "id",
+            "first_name",
+            "nickname",
+            "display_name",
+            "avatar_url",
+            "avatar_preset",
+            "timezone",
+        ]
         read_only_fields = fields
 
     def get_avatar_url(self, obj: User) -> str | None:

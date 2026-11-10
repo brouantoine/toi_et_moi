@@ -1,4 +1,5 @@
 export { Avatar, initials } from './Avatar';
+export { AVATAR_PEOPLE, AVATAR_PRESETS, AVATAR_TONES, presetId } from './avatarPresets';
 export { Button } from './Button';
 export { Card, useSurfaceStyle } from './Card';
 export { Chip } from './Chip';

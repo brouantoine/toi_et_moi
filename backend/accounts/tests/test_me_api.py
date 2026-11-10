@@ -68,3 +68,24 @@ def test_user_only_ever_edits_themselves(api_client: APIClient) -> None:
     api_client.patch(ME, {"nickname": "Changed"})
     bob.refresh_from_db()
     assert bob.nickname == ""
+
+
+def test_avatar_preset_is_chosen_from_the_shipped_list(user_client: APIClient, user: User) -> None:
+    ok = user_client.patch("/api/v1/me/", {"avatar_preset": "woman-curly-hair-dark"}, format="json")
+    assert ok.status_code == 200 and ok.json()["avatar_preset"] == "woman-curly-hair-dark"
+    bad = user_client.patch("/api/v1/me/", {"avatar_preset": "../secret"}, format="json")
+    assert bad.status_code == 400
+    cleared = user_client.patch("/api/v1/me/", {"avatar_preset": ""}, format="json")
+    assert cleared.json()["avatar_preset"] == ""
+
+
+def test_partner_sees_my_avatar_preset() -> None:
+    from couples.tests.factories import make_couple
+
+    _, me, partner = make_couple()
+    me.avatar_preset = "man-beard-medium-dark"
+    me.save()
+    client = APIClient()
+    client.force_authenticate(partner)
+    members = client.get("/api/v1/couple/").json()["members"]
+    assert {m["avatar_preset"] for m in members} == {"man-beard-medium-dark", ""}

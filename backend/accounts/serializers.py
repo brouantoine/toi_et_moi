@@ -24,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
             "nickname",
             "display_name",
             "avatar_url",
+            "avatar_preset",
             "birth_date",
             "language",
             "timezone",

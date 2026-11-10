@@ -16,10 +16,12 @@ import type { Question } from './useGames';
 function Answerer({
   name,
   uri,
+  preset,
   answered,
 }: {
   name: string;
   uri?: string | null;
+  preset?: string | null;
   answered: boolean;
 }) {
   const { t } = useTranslation();
@@ -29,7 +31,7 @@ function Answerer({
       accessible
       accessibilityLabel={t(answered ? 'games.answeredBy' : 'games.notAnsweredBy', { name })}
     >
-      <Avatar name={name} uri={uri} size={32} />
+      <Avatar name={name} uri={uri} preset={preset} size={34} ring />
       {answered ? (
         <View
           style={[styles.tick, { backgroundColor: colors.secondary, borderColor: colors.surface }]}
@@ -96,7 +98,12 @@ export function QuestionCard({ question, width }: Props) {
       </View>
       <View style={[styles.row, styles.between]}>
         <View style={[styles.row, { gap: -8 }]}>
-          <Answerer name={me.data?.display_name ?? ''} uri={myAvatar} answered={mine} />
+          <Answerer
+            name={me.data?.display_name ?? ''}
+            uri={myAvatar}
+            preset={me.data?.avatar_preset}
+            answered={mine}
+          />
           <Answerer
             name={partner?.display_name ?? ''}
             uri={partner?.avatar_url}

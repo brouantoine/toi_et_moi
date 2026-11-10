@@ -47,6 +47,36 @@ def avatar_upload_to(instance: User, filename: str) -> str:
     return f"avatars/{instance.pk}/{filename}"
 
 
+#: Illustrated avatars shipped in the app (mobile/assets/avatars/<id>.png). A photo, when
+#: set, takes precedence; without either the app shows initials.
+AVATAR_PRESETS = (
+    "man-beard-dark",
+    "man-beard-light",
+    "man-beard-medium",
+    "man-beard-medium-dark",
+    "man-curly-hair-dark",
+    "man-curly-hair-light",
+    "man-curly-hair-medium",
+    "man-curly-hair-medium-dark",
+    "man-dark",
+    "man-light",
+    "man-medium",
+    "man-medium-dark",
+    "woman-curly-hair-dark",
+    "woman-curly-hair-light",
+    "woman-curly-hair-medium",
+    "woman-curly-hair-medium-dark",
+    "woman-dark",
+    "woman-light",
+    "woman-medium",
+    "woman-medium-dark",
+    "woman-with-headscarf-dark",
+    "woman-with-headscarf-light",
+    "woman-with-headscarf-medium",
+    "woman-with-headscarf-medium-dark",
+)
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     """A person. Login by email. Nickname is what the partner sees."""
 
@@ -54,6 +84,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("prénom"), max_length=60)
     nickname = models.CharField(_("surnom"), max_length=60, blank=True)
     avatar = models.FileField(upload_to=avatar_upload_to, blank=True, max_length=512)
+    avatar_preset = models.CharField(
+        max_length=40, blank=True, choices=[(p, p) for p in AVATAR_PRESETS]
+    )
     birth_date = models.DateField(null=True, blank=True)
     language = models.CharField(max_length=2, choices=Language.choices, default=Language.FR)
     timezone = models.CharField(max_length=64, default="UTC", validators=[validate_timezone])

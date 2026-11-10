@@ -8,7 +8,7 @@ import { ApiError } from '@/api';
 import { enablePush, pushStatus } from '@/notifications/push';
 import { Button, Card, ErrorState, FadeIn, Skeleton, Text, useTheme } from '@/ui';
 
-import { CoupleLink, HomeSections } from '@/features/home/HomeSections';
+import { HomeSections } from '@/features/home/HomeSections';
 
 import { MyMorningCard, PartnerMorningCard } from './MorningCards';
 import { CoupleHero, NextMomentCard, OnThisDayCard } from './TodayCards';
@@ -102,14 +102,9 @@ export function TodayScreen() {
         }
       >
         <View>
-          <Text variant="overline" color="primary">
-            {date.charAt(0).toLocaleUpperCase(i18n.language) + date.slice(1)}
-          </Text>
           <Text variant="title">{t('tabs.today.title')}</Text>
+          <Text muted>{date.charAt(0).toLocaleUpperCase(i18n.language) + date.slice(1)}</Text>
         </View>
-        <FadeIn>
-          <CoupleLink />
-        </FadeIn>
         <FadeIn>
           <CoupleHero />
         </FadeIn>

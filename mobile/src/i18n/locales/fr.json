@@ -167,7 +167,9 @@
     "couple": "Notre couple",
     "coupleHint": "Date de début, devise",
     "distance": "Distance et carte",
-    "distanceHint": "Partager ta position avec l’autre"
+    "distanceHint": "Partager ta position avec l’autre",
+    "avatar": "Ta photo de profil",
+    "avatarHint": "Personnage ou photo"
   },
   "onboarding": {
     "together": {
@@ -772,5 +774,25 @@
     "eraseMessage": "Elle sera effacée pour vous deux.",
     "eraseConfirm": "Effacer",
     "writing": "Le coach écrit…"
+  },
+  "avatar": {
+    "title": "Ta photo de profil",
+    "hint": "Elle s’affiche pour toi et pour l’autre partout dans l’app.",
+    "illustrations": "Choisis un personnage",
+    "photo": "Utiliser une photo",
+    "changePhoto": "Changer de photo",
+    "removePhoto": "Retirer la photo",
+    "saved": "C’est fait.",
+    "error": "Ton choix n’a pas pu être enregistré. Réessaie.",
+    "uploadError": "La photo n’a pas pu être envoyée. Vérifie ta connexion et réessaie.",
+    "denied": "L’accès à tes photos est refusé. Tu peux l’autoriser dans les réglages du téléphone.",
+    "presetLabel": "Personnage {{index}}",
+    "edit": "Changer ma photo de profil",
+    "tones": {
+      "dark": "Peau foncée",
+      "medium-dark": "Peau mate",
+      "medium": "Peau métissée",
+      "light": "Peau claire"
+    }
   }
 }

@@ -313,3 +313,8 @@
 ## 2026-11-10 — Coach IA partagé et série de jours (mobile)
 - Écran « Coach » (accueil › Accès rapide) : présentation et activation par chacun, fil commun (Toi / prénom de l'autre / Coach), bulle « le coach écrit », message calme en cas d'échec, effacement pour les deux, désactivation. Sans clé serveur : bandeau « pas encore activé » et saisie bloquée.
 - Série de jours : badge (nombre + flamme) sur les activités du jour, à l'accueil et dans l'onglet Jeux.
+
+## 2026-11-10 — En-tête du couple et photos de profil
+- Une seule carte du couple en haut de l'accueil : vos deux avatars (anneau blanc, ombre douce) reliés par un pointillé, la distance au milieu dans une capsule blanche (ouvre la carte), puis vos prénoms, la bague et les jours, le prochain jalon. Le crayon sur mon avatar ouvre le choix de photo. Fini le doublon d'avatars et la bulle « Quoi de neuf ? ».
+- Choix de la photo de profil (Moi › en-tête ou « Ta photo de profil ») : 24 personnages illustrés (6 personnages × 4 teintes de peau, Fluent Emoji 3D, MIT) choisis en un geste, ou une photo de la galerie. `User.avatar_preset` côté serveur, visible par l'autre.
+- Initiales qui ne sont plus coupées ; tuiles « Bientôt » lisibles ; date du jour sous le titre au lieu d'un surtitre.

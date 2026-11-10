@@ -167,7 +167,9 @@
     "couple": "Our couple",
     "coupleHint": "Start date, currency",
     "distance": "Distance and map",
-    "distanceHint": "Share your location with your partner"
+    "distanceHint": "Share your location with your partner",
+    "avatar": "Your profile picture",
+    "avatarHint": "Character or photo"
   },
   "onboarding": {
     "together": {
@@ -772,5 +774,25 @@
     "eraseMessage": "It will be erased for both of you.",
     "eraseConfirm": "Erase",
     "writing": "The coach is writing…"
+  },
+  "avatar": {
+    "title": "Your profile picture",
+    "hint": "It shows for you and your partner everywhere in the app.",
+    "illustrations": "Pick a character",
+    "photo": "Use a photo",
+    "changePhoto": "Change photo",
+    "removePhoto": "Remove photo",
+    "saved": "Done.",
+    "error": "Your choice could not be saved. Try again.",
+    "uploadError": "The photo could not be sent. Check your connection and try again.",
+    "denied": "Access to your photos is denied. You can allow it in your phone settings.",
+    "presetLabel": "Character {{index}}",
+    "edit": "Change my profile picture",
+    "tones": {
+      "dark": "Dark skin",
+      "medium-dark": "Medium-dark skin",
+      "medium": "Medium skin",
+      "light": "Light skin"
+    }
   }
 }

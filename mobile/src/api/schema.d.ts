@@ -1208,6 +1208,58 @@ export interface components {
       refresh: string;
       user: components['schemas']['User'];
     };
+    /**
+     * @description * `man-beard-dark` - man-beard-dark
+     *     * `man-beard-light` - man-beard-light
+     *     * `man-beard-medium` - man-beard-medium
+     *     * `man-beard-medium-dark` - man-beard-medium-dark
+     *     * `man-curly-hair-dark` - man-curly-hair-dark
+     *     * `man-curly-hair-light` - man-curly-hair-light
+     *     * `man-curly-hair-medium` - man-curly-hair-medium
+     *     * `man-curly-hair-medium-dark` - man-curly-hair-medium-dark
+     *     * `man-dark` - man-dark
+     *     * `man-light` - man-light
+     *     * `man-medium` - man-medium
+     *     * `man-medium-dark` - man-medium-dark
+     *     * `woman-curly-hair-dark` - woman-curly-hair-dark
+     *     * `woman-curly-hair-light` - woman-curly-hair-light
+     *     * `woman-curly-hair-medium` - woman-curly-hair-medium
+     *     * `woman-curly-hair-medium-dark` - woman-curly-hair-medium-dark
+     *     * `woman-dark` - woman-dark
+     *     * `woman-light` - woman-light
+     *     * `woman-medium` - woman-medium
+     *     * `woman-medium-dark` - woman-medium-dark
+     *     * `woman-with-headscarf-dark` - woman-with-headscarf-dark
+     *     * `woman-with-headscarf-light` - woman-with-headscarf-light
+     *     * `woman-with-headscarf-medium` - woman-with-headscarf-medium
+     *     * `woman-with-headscarf-medium-dark` - woman-with-headscarf-medium-dark
+     * @enum {string}
+     */
+    AvatarPresetEnum:
+      | 'man-beard-dark'
+      | 'man-beard-light'
+      | 'man-beard-medium'
+      | 'man-beard-medium-dark'
+      | 'man-curly-hair-dark'
+      | 'man-curly-hair-light'
+      | 'man-curly-hair-medium'
+      | 'man-curly-hair-medium-dark'
+      | 'man-dark'
+      | 'man-light'
+      | 'man-medium'
+      | 'man-medium-dark'
+      | 'woman-curly-hair-dark'
+      | 'woman-curly-hair-light'
+      | 'woman-curly-hair-medium'
+      | 'woman-curly-hair-medium-dark'
+      | 'woman-dark'
+      | 'woman-light'
+      | 'woman-medium'
+      | 'woman-medium-dark'
+      | 'woman-with-headscarf-dark'
+      | 'woman-with-headscarf-light'
+      | 'woman-with-headscarf-medium'
+      | 'woman-with-headscarf-medium-dark';
     /** @description Per currency. `amount` is always positive; `direction` says who owes whom. */
     Balance: {
       currency: string;
@@ -1548,6 +1600,7 @@ export interface components {
       readonly nickname: string;
       readonly display_name: string;
       readonly avatar_url: string | null;
+      readonly avatar_preset: components['schemas']['AvatarPresetEnum'];
       readonly timezone: string;
     };
     /** @description A shared memory. Hearts are booleans only: never a counter. */
@@ -1847,6 +1900,8 @@ export interface components {
       first_name?: string;
       /** Surnom */
       nickname?: string;
+      avatar_preset?:
+        components['schemas']['AvatarPresetEnum'] | components['schemas']['BlankEnum'];
       /** Format: date */
       birth_date?: string | null;
       language?: components['schemas']['LanguageEnum'];
@@ -2065,6 +2120,8 @@ export interface components {
       nickname?: string;
       readonly display_name: string;
       readonly avatar_url: string | null;
+      avatar_preset?:
+        components['schemas']['AvatarPresetEnum'] | components['schemas']['BlankEnum'];
       /** Format: date */
       birth_date?: string | null;
       language?: components['schemas']['LanguageEnum'];
