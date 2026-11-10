@@ -35,6 +35,9 @@ const E = {
   crown: require('../../../assets/emoji/crown.png'),
   compass: require('../../../assets/emoji/compass.png'),
   ring: require('../../../assets/emoji/ring.png'),
+  future: require('../../../assets/emoji/future.png'),
+  us: require('../../../assets/emoji/us.png'),
+  fun: require('../../../assets/emoji/fun.png'),
 } as const;
 
 export const EMOJI = E;
@@ -54,6 +57,9 @@ const TOPICS: Record<string, Art> = {
   work: { image: E.work, hue: 'violet' },
   lifestyle: { image: E.lifestyle, hue: 'amber' },
   values: { image: E.values, hue: 'amber' },
+  future: { image: E.future, hue: 'violet' },
+  us: { image: E.us, hue: 'red' },
+  fun: { image: E.fun, hue: 'lagoon' },
 };
 
 const KINDS: Record<string, Art> = {

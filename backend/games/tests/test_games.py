@@ -35,14 +35,15 @@ def find(user, question: str) -> dict[str, object]:
 
 
 def test_catalogue_is_complete_and_bilingual() -> None:
-    assert len(QUESTIONS) >= 70
+    assert len(QUESTIONS) >= 290
+    assert len({q.fr for q in QUESTIONS.values()}) == len(QUESTIONS)  # no duplicates
     for question in QUESTIONS.values():
         assert question.topic in TOPICS and question.kind in KINDS
         assert question.fr.strip() and question.en.strip()
         assert len(question.options_fr) == len(question.options_en)
         assert len(question.options_fr) == (0 if question.free_text else 2)
     for topic in TOPICS:
-        assert sum(q.topic == topic for q in QUESTIONS.values()) >= 6
+        assert sum(q.topic == topic for q in QUESTIONS.values()) >= 18
     assert set(FIXED_OPTIONS) <= set(KINDS)
 
 
@@ -94,7 +95,7 @@ def test_home_has_daily_pair_your_turn_and_progress() -> None:
     answer(me, "travel-1", choice=0)
     data = client_for(me).get(HOME).json()
     travel = next(t for t in data["topics"] if t["slug"] == "travel")
-    assert (travel["done"], travel["total"]) == (1, 6) and travel["percent"] == 17
+    assert (travel["done"], travel["total"]) == (1, 20) and travel["percent"] == 5
     assert data["stats"]["answered"] == 1
     assert {k["slug"] for k in data["kinds"]} == set(KINDS)
 
@@ -110,7 +111,7 @@ def test_adult_topic_needs_both_partners() -> None:
     assert answer(me, "intimacy-1", choice=0).json()["code"] == "locked"  # only one of us
     data = client_for(partner).put(ADULT, {"enabled": True}, format="json").json()
     assert data["adult"] == {"mine": True, "partner": True}
-    assert len(client_for(me).get(QUESTIONS_URL, {"topic": "intimacy"}).json()) == 6
+    assert len(client_for(me).get(QUESTIONS_URL, {"topic": "intimacy"}).json()) == 20
     assert answer(me, "intimacy-1", choice=0).status_code == 201
     # Never proposed as a daily activity.
     assert all(not q["adult"] for q in client_for(me).get(HOME).json()["daily"])
