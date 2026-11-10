@@ -14,8 +14,9 @@ import {
 
 import { handleLocations, LOCATION_TASK } from '../background';
 import { DistancePill } from '../DistancePill';
-import { DistanceScreen, regionFor } from '../DistanceScreen';
+import { DistanceScreen } from '../DistanceScreen';
 import { formatAgo, formatKm } from '../format';
+import { regionFor } from '../region';
 import { isStale, REFRESH_AFTER_MS } from '../useDistance';
 
 beforeEach(async () => {

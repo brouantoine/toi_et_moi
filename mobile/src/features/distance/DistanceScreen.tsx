@@ -2,7 +2,6 @@ import { MapPinned, Navigation, ShieldCheck } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Linking, ScrollView, StyleSheet, View } from 'react-native';
-import MapView, { Marker, Polyline } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
@@ -19,6 +18,7 @@ import {
   useTheme,
 } from '@/ui';
 
+import { DistanceMap } from './DistanceMap';
 import { formatAgo, formatKm } from './format';
 import {
   ContinuousError,
@@ -30,24 +30,6 @@ import {
   useStopSharing,
   type Distance,
 } from './useDistance';
-
-type Point = { latitude: number; longitude: number };
-
-/** Region showing both points with some margin (or one point, zoomed on its city). */
-export function regionFor(points: Point[]) {
-  const lats = points.map((p) => p.latitude);
-  const lons = points.map((p) => p.longitude);
-  const minLat = Math.min(...lats);
-  const maxLat = Math.max(...lats);
-  const minLon = Math.min(...lons);
-  const maxLon = Math.max(...lons);
-  return {
-    latitude: (minLat + maxLat) / 2,
-    longitude: (minLon + maxLon) / 2,
-    latitudeDelta: Math.max((maxLat - minLat) * 1.6, 0.08),
-    longitudeDelta: Math.max((maxLon - minLon) * 1.6, 0.08),
-  };
-}
 
 function Terms({ version, name }: { version: number; name: string }) {
   const { t } = useTranslation();
@@ -113,7 +95,7 @@ function Shared({ data, name }: { data: Distance; name: string }) {
   const continuous = useSetContinuous();
   const mine = data.mine.position;
   const theirs = data.partner.position;
-  const points = [mine, theirs].filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const points = [mine, theirs].filter(Boolean);
 
   const confirmStop = () =>
     Alert.alert(t('distance.stopTitle'), t('distance.stopMessage', { name }), [
@@ -128,29 +110,12 @@ function Shared({ data, name }: { data: Distance; name: string }) {
           testID="distance-map"
           style={[styles.map, { borderRadius: radii.xl, backgroundColor: colors.surfaceMuted }]}
         >
-          <MapView style={StyleSheet.absoluteFill} initialRegion={regionFor(points)}>
-            {mine ? (
-              <Marker coordinate={mine} title={t('distance.you')} pinColor={colors.secondary} />
-            ) : null}
-            {theirs ? (
-              <Marker
-                testID="distance-partner-marker"
-                coordinate={theirs}
-                title={name}
-                description={formatAgo(theirs.located_at, i18n.language)}
-                pinColor={colors.primary}
-              />
-            ) : null}
-            {mine && theirs ? (
-              <Polyline
-                coordinates={[mine, theirs]}
-                strokeColor={colors.primary}
-                strokeWidth={3}
-                lineDashPattern={[8, 8]}
-                geodesic
-              />
-            ) : null}
-          </MapView>
+          <DistanceMap
+            mine={mine}
+            theirs={theirs}
+            partnerName={name}
+            partnerSeen={theirs ? formatAgo(theirs.located_at, i18n.language) : undefined}
+          />
         </View>
       ) : null}
 

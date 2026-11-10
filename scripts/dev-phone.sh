@@ -73,5 +73,8 @@ echo "Serveur prêt (journal : backend/dev-server.log)."
 cd "$ROOT/mobile"
 [ -d node_modules ] || npm install
 echo "Scanne le QR code avec Expo Go (Android) ou l'appareil photo (iPhone)."
+# This network drops IPv6 connections to Expo's servers ("Client network socket
+# disconnected before secure TLS connection was established"): prefer IPv4.
+export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--dns-result-order=ipv4first"
 EXPO_PUBLIC_API_URL="$API_URL" REACT_NATIVE_PACKAGER_HOSTNAME="$IP" \
   npx expo start --lan --go --clear
