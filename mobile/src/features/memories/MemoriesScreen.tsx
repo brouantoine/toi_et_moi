@@ -260,7 +260,7 @@ export function MemoriesScreen() {
   return (
     <SafeAreaView
       testID="tab-memories"
-      edges={['top']}
+      edges={[]}
       style={[styles.root, { backgroundColor: colors.background }]}
     >
       <View

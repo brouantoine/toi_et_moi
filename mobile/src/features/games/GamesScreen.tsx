@@ -1,0 +1,219 @@
+import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import { ChevronRight, Lock } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { ApiError } from '@/api';
+import { Chip, ErrorState, FadeIn, Icon, PressableScale, Skeleton, Text, useTheme } from '@/ui';
+
+import { kindArt, topicArt } from './art';
+import { QuestionCard } from './QuestionCard';
+import { useGamesHome, type GamesHome, type Topic } from './useGames';
+
+const FILTERS = ['your_turn', 'waiting', 'done'] as const;
+
+export function SectionTitle({ title, hint }: { title: string; hint?: string }) {
+  return (
+    <View>
+      <Text variant="heading">{title}</Text>
+      {hint ? (
+        <Text variant="caption" muted>
+          {hint}
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
+function KindsRow({ kinds }: { kinds: GamesHome['kinds'] }) {
+  const router = useRouter();
+  const { t } = useTranslation();
+  const { hues, radii, spacing } = useTheme();
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={{ marginHorizontal: -spacing.lg }}
+      contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.smd }}
+    >
+      {kinds.map((kind, index) => {
+        const art = kindArt(kind.slug);
+        const hue = hues[art.hue];
+        return (
+          <PressableScale
+            key={kind.slug}
+            testID={`kind-${kind.slug}`}
+            accessibilityRole="button"
+            accessibilityLabel={`${kind.name}, ${t('games.questionsCount', { count: kind.total })}`}
+            onPress={() => router.push(`/games/list?kind=${kind.slug}`)}
+            style={[
+              styles.kind,
+              {
+                backgroundColor: hue.bg,
+                borderRadius: radii.xl,
+                padding: spacing.md,
+                transform: [{ rotate: index % 2 ? '2deg' : '-2deg' }],
+              },
+            ]}
+          >
+            <Image source={art.image} style={styles.kindArt} contentFit="contain" />
+            <Text variant="label" numberOfLines={2}>
+              {kind.name}
+            </Text>
+          </PressableScale>
+        );
+      })}
+    </ScrollView>
+  );
+}
+
+function TopicRow({ topic }: { topic: Topic }) {
+  const router = useRouter();
+  const { t } = useTranslation();
+  const { colors, hues, radii, spacing } = useTheme();
+  const art = topicArt(topic.slug);
+  const hue = hues[art.hue];
+  return (
+    <PressableScale
+      testID={`topic-${topic.slug}`}
+      accessibilityRole="button"
+      accessibilityLabel={`${topic.name}, ${
+        topic.locked
+          ? t('games.locked')
+          : t('games.progress', { done: topic.done, total: topic.total })
+      }`}
+      onPress={() => router.push(`/games/list?topic=${topic.slug}`)}
+      style={[
+        styles.topic,
+        { backgroundColor: hue.bg, borderRadius: radii.xl, padding: spacing.md, gap: spacing.md },
+      ]}
+    >
+      <Image source={art.image} style={styles.topicArt} contentFit="contain" />
+      <View style={[styles.flex, { gap: spacing.sm }]}>
+        <Text variant="label">{topic.name}</Text>
+        <View style={[styles.row, { gap: spacing.sm }]}>
+          <View style={[styles.track, { backgroundColor: colors.surface }]}>
+            <View style={[styles.fill, { width: `${topic.percent}%`, backgroundColor: hue.fg }]} />
+          </View>
+          <Text variant="caption" style={[styles.percent, { color: hue.fg }]}>
+            {`${topic.percent} %`}
+          </Text>
+        </View>
+      </View>
+      <Icon icon={topic.locked ? Lock : ChevronRight} size={20} tint={hue.fg} strokeWidth={2.2} />
+    </PressableScale>
+  );
+}
+
+/** The games tab: kinds of games, today's pair, then every topic with its progress. */
+export function GamesScreen() {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { colors, radii, spacing } = useTheme();
+  const query = useGamesHome();
+  const home = query.home;
+
+  let body;
+  if (query.isPending) {
+    body = (
+      <View testID="games-loading" style={{ gap: spacing.md }}>
+        <Skeleton height={130} radius={radii.xl} />
+        <Skeleton height={150} radius={radii.xl} />
+        <Skeleton height={84} radius={radii.xl} />
+      </View>
+    );
+  } else if (!home) {
+    body = (
+      <ErrorState
+        testID="games-error"
+        code={query.error instanceof ApiError ? query.error.code : 'network'}
+        error={query.error}
+        onRetry={() => void query.refetch()}
+      />
+    );
+  } else {
+    body = (
+      <>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{ marginHorizontal: -spacing.lg }}
+          contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.sm }}
+        >
+          {FILTERS.map((state) => (
+            <Chip
+              key={state}
+              testID={`games-filter-${state}`}
+              label={
+                state === 'your_turn' && home.your_turn_count
+                  ? `${t('games.filters.your_turn')} (${home.your_turn_count})`
+                  : t(`games.filters.${state}`)
+              }
+              selected={false}
+              onPress={() => router.push(`/games/list?state=${state}`)}
+            />
+          ))}
+        </ScrollView>
+        <FadeIn>
+          <View style={{ gap: spacing.smd }}>
+            <SectionTitle title={t('games.kindsTitle')} />
+            <KindsRow kinds={home.kinds} />
+          </View>
+        </FadeIn>
+        <FadeIn delay={80}>
+          <View style={{ gap: spacing.smd }}>
+            <SectionTitle title={t('games.dailyTitle')} hint={t('games.dailyHint')} />
+            {home.daily.map((question) => (
+              <QuestionCard key={question.id} question={question} />
+            ))}
+          </View>
+        </FadeIn>
+        <FadeIn delay={160}>
+          <View style={{ gap: spacing.smd }}>
+            <SectionTitle title={t('games.topicsTitle')} />
+            {home.topics.map((topic) => (
+              <TopicRow key={topic.slug} topic={topic} />
+            ))}
+          </View>
+        </FadeIn>
+      </>
+    );
+  }
+
+  return (
+    <SafeAreaView
+      testID="tab-games"
+      edges={['top']}
+      style={[styles.root, { backgroundColor: colors.background }]}
+    >
+      <ScrollView
+        contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}
+        refreshControl={
+          <RefreshControl
+            refreshing={query.isRefetching}
+            onRefresh={() => void query.refetch()}
+            tintColor={colors.primary}
+          />
+        }
+      >
+        <Text variant="title">{t('games.title')}</Text>
+        {body}
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+  flex: { flex: 1 },
+  row: { flexDirection: 'row', alignItems: 'center' },
+  kind: { width: 136, height: 150, justifyContent: 'space-between', borderCurve: 'continuous' },
+  kindArt: { width: 56, height: 56 },
+  topic: { flexDirection: 'row', alignItems: 'center', borderCurve: 'continuous' },
+  topicArt: { width: 52, height: 52 },
+  track: { flex: 1, height: 6, borderRadius: 3, overflow: 'hidden' },
+  fill: { height: 6, borderRadius: 3 },
+  percent: { fontWeight: '700', fontVariant: ['tabular-nums'], minWidth: 44, textAlign: 'right' },
+});

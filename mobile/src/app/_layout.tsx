@@ -80,6 +80,16 @@ function GuardedStack() {
             options={{ ...header, title: t('notifications.settings.title'), headerTitle: '' }}
           />
           <Stack.Screen
+            name="memories/index"
+            options={{ ...header, title: t('tabs.memories.title'), headerTitle: '' }}
+          />
+          <Stack.Screen
+            name="games/list"
+            options={{ ...header, title: t('games.title'), headerTitle: '' }}
+          />
+          <Stack.Screen name="games/[id]" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="premium" options={{ presentation: 'modal' }} />
+          <Stack.Screen
             name="distance"
             options={{ ...header, title: t('distance.title'), headerTitle: '' }}
           />

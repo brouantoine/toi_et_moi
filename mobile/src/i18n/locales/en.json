@@ -152,6 +152,12 @@
       "title": "Me",
       "emptyTitle": "Your own space",
       "emptyMessage": "Your private space, settings and data will be here."
+    },
+    "games": {
+      "label": "Games",
+      "title": "Questions and games",
+      "emptyTitle": "Play to discover each other",
+      "emptyMessage": "Questions, games and topics to explore together."
     }
   },
   "me": {
@@ -618,5 +624,125 @@
     "serviceBody": "Your location is shared with your partner.",
     "nearTitle": "{{name}} is near you",
     "nearBody": "You are less than a kilometre apart."
+  },
+  "games": {
+    "title": "Questions and games",
+    "kindsTitle": "Categories",
+    "dailyTitle": "Today’s activities",
+    "dailyHint": "Two new questions every day, the same for both of you.",
+    "topicsTitle": "Topics",
+    "yourTurnTitle": "Your turn",
+    "filters": {
+      "your_turn": "Your turn",
+      "waiting": "Answered",
+      "done": "Finished"
+    },
+    "cta": {
+      "new": "Answer",
+      "your_turn": "Answer",
+      "waiting": "Waiting",
+      "done": "See"
+    },
+    "questionsCount_one": "{{count}} question",
+    "questionsCount_other": "{{count}} questions",
+    "progress": "{{done}} of {{total}} finished",
+    "emptyList": "Nothing here for now.",
+    "listTitle": {
+      "your_turn": "Your turn",
+      "waiting": "You answered",
+      "done": "Finished"
+    },
+    "answerLabel": "Your answer",
+    "answerPlaceholder": "Write your answer…",
+    "send": "Send my answer",
+    "sendError": "Your answer could not be sent. Try again.",
+    "waitingFor": "Waiting for {{name}}. You will discover both answers together.",
+    "hiddenHint": "{{name}} already answered. Answer to discover theirs.",
+    "mine": "You",
+    "match": "You are on the same wavelength.",
+    "differ": "You see this differently: something to talk about.",
+    "revealTitle": "Both your answers",
+    "adultBadge": "18+",
+    "locked": "Locked",
+    "adultTitle": "Adults-only topic",
+    "adultExplain": "This topic opens only if you both turn it on.",
+    "adultEnable": "Turn on for me",
+    "adultDisable": "Turn off",
+    "adultWaiting": "Waiting for {{name}} to open this topic.",
+    "close": "Close",
+    "answeredBy": "{{name}} answered",
+    "notAnsweredBy": "{{name}} has not answered yet",
+    "kinds": {
+      "this_or_that": "This or that",
+      "agree": "Agree / Disagree",
+      "never": "Never have I ever",
+      "rather": "Would you rather",
+      "most_likely": "Who is most likely",
+      "conversation": "Conversation"
+    }
+  },
+  "home": {
+    "whatsNew": "What’s new?",
+    "shortcuts": "Quick access",
+    "journal": "Journal",
+    "messages": "Messages",
+    "coach": "AI coach",
+    "calls": "Calls",
+    "organize": "Calendar",
+    "soon": "Soon",
+    "soonTitle": "Coming soon",
+    "coachSoon": "The shared AI coach arrives in an upcoming version.",
+    "callsSoon": "Voice and video calls need the installed app: they arrive with it.",
+    "togetherSince": "Together for",
+    "unitDays": "days",
+    "unitHours": "h",
+    "unitMinutes": "min",
+    "unitSeconds": "s",
+    "distanceWidget": "Our distance",
+    "distanceUnknown": "Turn on",
+    "statsTitle": "The two of you in numbers",
+    "stats": {
+      "days": "Days together",
+      "answered": "Questions finished",
+      "memories": "Memories created",
+      "events": "Moments planned",
+      "messages": "Messages exchanged",
+      "notes": "Shared notes"
+    },
+    "morningTitle": "Your weather today",
+    "premiumTitle": "Bolingo Premium",
+    "premiumText": "Every game, guided journeys and widgets, for both of you.",
+    "premiumCta": "Discover"
+  },
+  "notes": {
+    "title": "Notes",
+    "create": "Create",
+    "placeholder": "A sweet word, an idea, a reminder…",
+    "add": "Add the note",
+    "newTitle": "New note",
+    "color": "Colour",
+    "fromMe": "You",
+    "deleteTitle": "Delete this note?",
+    "empty": "Leave each other little notes here.",
+    "error": "The note could not be saved."
+  },
+  "premium": {
+    "title": "Try Bolingo Premium",
+    "partnerFree": "{{name}} does not have to pay",
+    "partnerFreeAlone": "One purchase for both of you",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "perMonth": "{{price}} / month for 2",
+    "perYear": "{{price}} / year for 2",
+    "save": "Best value",
+    "continue": "Continue",
+    "restore": "Restore",
+    "notYet": "Purchases will be turned on when the app is published on the stores. Nothing is charged for now.",
+    "close": "Close",
+    "feature1": "Premium for both of you",
+    "feature2": "Every topic and every game",
+    "feature3": "7-day guided journeys",
+    "feature4": "Shared AI coach",
+    "feature5": "Home screen widgets"
   }
 }

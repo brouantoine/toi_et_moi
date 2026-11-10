@@ -8,6 +8,8 @@ import { ApiError } from '@/api';
 import { enablePush, pushStatus } from '@/notifications/push';
 import { Button, Card, ErrorState, FadeIn, Skeleton, Text, useTheme } from '@/ui';
 
+import { CoupleLink, HomeSections } from '@/features/home/HomeSections';
+
 import { MyMorningCard, PartnerMorningCard } from './MorningCards';
 import { CoupleHero, NextMomentCard, OnThisDayCard } from './TodayCards';
 import { useMorning } from './useMorning';
@@ -106,8 +108,12 @@ export function TodayScreen() {
           <Text variant="title">{t('tabs.today.title')}</Text>
         </View>
         <FadeIn>
+          <CoupleLink />
+        </FadeIn>
+        <FadeIn>
           <CoupleHero />
         </FadeIn>
+        <HomeSections />
         <EnablePushCard />
         {body}
       </ScrollView>

@@ -152,6 +152,12 @@
       "title": "Moi",
       "emptyTitle": "Ton espace à toi",
       "emptyMessage": "Ton espace privé, tes réglages et tes données seront ici."
+    },
+    "games": {
+      "label": "Jeux",
+      "title": "Questions et jeux",
+      "emptyTitle": "Jouez à vous découvrir",
+      "emptyMessage": "Questions, jeux et sujets à explorer à deux."
     }
   },
   "me": {
@@ -618,5 +624,125 @@
     "serviceBody": "Ta position est partagée avec ta moitié.",
     "nearTitle": "{{name}} est près de toi",
     "nearBody": "Vous êtes à moins d’un kilomètre l’un de l’autre."
+  },
+  "games": {
+    "title": "Questions et jeux",
+    "kindsTitle": "Catégories",
+    "dailyTitle": "Activités du jour",
+    "dailyHint": "Deux nouvelles questions chaque jour, les mêmes pour vous deux.",
+    "topicsTitle": "Sujets",
+    "yourTurnTitle": "À ton tour",
+    "filters": {
+      "your_turn": "À toi de jouer",
+      "waiting": "Répondu",
+      "done": "Terminé"
+    },
+    "cta": {
+      "new": "Réponds",
+      "your_turn": "Réponds",
+      "waiting": "En attente",
+      "done": "Voir"
+    },
+    "questionsCount_one": "{{count}} question",
+    "questionsCount_other": "{{count}} questions",
+    "progress": "{{done}} sur {{total}} terminées",
+    "emptyList": "Rien ici pour le moment.",
+    "listTitle": {
+      "your_turn": "À toi de jouer",
+      "waiting": "Tu as répondu",
+      "done": "Terminé"
+    },
+    "answerLabel": "Ta réponse",
+    "answerPlaceholder": "Écris ta réponse…",
+    "send": "Envoyer ma réponse",
+    "sendError": "Ta réponse n’a pas pu être envoyée. Réessaie.",
+    "waitingFor": "En attente de {{name}}. Vous découvrirez vos deux réponses ensemble.",
+    "hiddenHint": "{{name}} a déjà répondu. Réponds pour découvrir sa réponse.",
+    "mine": "Toi",
+    "match": "Vous êtes sur la même longueur d’onde.",
+    "differ": "Vous voyez ça différemment : de quoi en parler.",
+    "revealTitle": "Vos deux réponses",
+    "adultBadge": "18+",
+    "locked": "Verrouillé",
+    "adultTitle": "Sujet réservé aux adultes",
+    "adultExplain": "Ce sujet s’ouvre seulement si vous l’activez tous les deux.",
+    "adultEnable": "Activer pour moi",
+    "adultDisable": "Désactiver",
+    "adultWaiting": "En attente de {{name}} pour ouvrir ce sujet.",
+    "close": "Fermer",
+    "answeredBy": "{{name}} a répondu",
+    "notAnsweredBy": "{{name}} n’a pas encore répondu",
+    "kinds": {
+      "this_or_that": "Ça ou ça",
+      "agree": "D’accord / Pas d’accord",
+      "never": "Je n’ai jamais",
+      "rather": "Tu préfères",
+      "most_likely": "Qui est le plus",
+      "conversation": "Conversation"
+    }
+  },
+  "home": {
+    "whatsNew": "Quoi de neuf ?",
+    "shortcuts": "Accès rapide",
+    "journal": "Journal",
+    "messages": "Messages",
+    "coach": "Coach IA",
+    "calls": "Appels",
+    "organize": "Agenda",
+    "soon": "Bientôt",
+    "soonTitle": "Bientôt disponible",
+    "coachSoon": "Le coach IA partagé arrive dans une prochaine version.",
+    "callsSoon": "Les appels vocaux et vidéo demandent la version installée de l’app : ils arrivent avec elle.",
+    "togetherSince": "Ensemble depuis",
+    "unitDays": "jours",
+    "unitHours": "h",
+    "unitMinutes": "min",
+    "unitSeconds": "s",
+    "distanceWidget": "Notre distance",
+    "distanceUnknown": "À activer",
+    "statsTitle": "Vous deux en chiffres",
+    "stats": {
+      "days": "Jours ensemble",
+      "answered": "Questions terminées",
+      "memories": "Souvenirs créés",
+      "events": "Moments à l’agenda",
+      "messages": "Messages échangés",
+      "notes": "Notes partagées"
+    },
+    "morningTitle": "Votre météo du jour",
+    "premiumTitle": "Bolingo Premium",
+    "premiumText": "Tous les jeux, des parcours guidés et les widgets, pour vous deux.",
+    "premiumCta": "Découvrir"
+  },
+  "notes": {
+    "title": "Notes",
+    "create": "Créer",
+    "placeholder": "Un mot doux, une idée, un rappel…",
+    "add": "Ajouter la note",
+    "newTitle": "Nouvelle note",
+    "color": "Couleur",
+    "fromMe": "Toi",
+    "deleteTitle": "Supprimer cette note ?",
+    "empty": "Laissez-vous de petits mots ici.",
+    "error": "La note n’a pas pu être enregistrée."
+  },
+  "premium": {
+    "title": "Essaie Bolingo Premium",
+    "partnerFree": "{{name}} n’a pas à payer",
+    "partnerFreeAlone": "Un seul achat pour vous deux",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "perMonth": "{{price}} / mois pour 2",
+    "perYear": "{{price}} / an pour 2",
+    "save": "Le plus avantageux",
+    "continue": "Continuer",
+    "restore": "Restaurer",
+    "notYet": "Les achats seront activés à la publication de l’app sur les stores. Rien n’est débité pour le moment.",
+    "close": "Fermer",
+    "feature1": "Premium pour vous deux",
+    "feature2": "Tous les sujets et tous les jeux",
+    "feature3": "Parcours guidés de 7 jours",
+    "feature4": "Coach IA partagé",
+    "feature5": "Widgets de l’écran d’accueil"
   }
 }

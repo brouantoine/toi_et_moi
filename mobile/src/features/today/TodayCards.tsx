@@ -20,8 +20,6 @@ import {
   useTheme,
 } from '@/ui';
 
-import { DistancePill } from '@/features/distance/DistancePill';
-
 import { daysTogether, nextMilestone } from './milestones';
 import { useNextMoment, useOnThisDay } from './useToday';
 
@@ -102,7 +100,6 @@ export function CoupleHero() {
           {t('today.togetherHint')}
         </Text>
       )}
-      <DistancePill tone={data.photo_url ? 'onScrim' : 'onPrimarySoft'} />
       {start ? <MilestonePill start={start} /> : null}
     </View>
   );

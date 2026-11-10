@@ -72,3 +72,6 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 ## Nom « Bolingo »
 - [ ] Vérifier que « Bolingo » est libre sur l'App Store et Google Play, et qu'aucune marque déposée ne le bloque dans les pays visés.
 - [ ] Confirmer l'identifiant `com.bolingo.app` (définitif dès le premier envoi sur les stores).
+
+## Premium
+- [ ] Confirmer les prix (proposés : 1,99 €/mois et 9,99 €/an pour deux) et créer les abonnements dans App Store Connect et Google Play.

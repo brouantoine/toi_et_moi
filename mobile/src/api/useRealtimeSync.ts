@@ -37,9 +37,16 @@ export function useRealtimeSync(): void {
       onReady: () => {
         void queryClient.invalidateQueries({
           predicate: (q) =>
-            ['events', 'lists', 'chores', 'expenses', 'morning', 'messages'].includes(
-              String(q.queryKey[0]),
-            ),
+            [
+              'events',
+              'lists',
+              'chores',
+              'expenses',
+              'morning',
+              'messages',
+              'games',
+              'notes',
+            ].includes(String(q.queryKey[0])),
         });
       },
       onTyping: (active) => useTypingStore.getState().setPartnerTyping(active),

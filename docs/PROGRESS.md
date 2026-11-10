@@ -304,3 +304,8 @@
 - Conditions v3 (5 points, dont la vibration de proximité). « Partage en continu » : option séparée dans « Où vous êtes », permission « Toujours », tâche d'arrière-plan (expo-task-manager, tous les 200 m, indicateur système visible), reprise après redémarrage, arrêt à la déconnexion ou au retrait du consentement, rappel tous les 30 jours (tâche Celery quotidienne). L'autre voit que tu partages en continu.
 - Proximité : sous 1 km (positions de moins de 24 h), notification qui vibre chez les deux (canal Android dédié) + vibration dans l'app ouverte (événement temps réel `distance`/`near`) ; réarmée au-delà de 2 km, au plus toutes les 3 h ; désactivable dans les notifications (« Proximité et partage de position »).
 - Non vérifié sur appareil : l'arrière-plan ne fonctionne pas dans Expo Go (build de développement requis).
+
+## 2026-11-10 — Jeux, accueil dense, premium, marque
+- Backend `games` : accueil des jeux (paire du jour commune, « à ton tour », progression par sujet, types), réponses, réglage adulte, notes partagées, chiffres du couple. Illustrations Fluent Emoji 3D.
+- Mobile : onglet Jeux (catégories, activités du jour, sujets), listes, écran de question (choix ou texte, attente, révélation des deux réponses), accueil (vos deux avatars reliés par la distance, accès rapide, activités du jour, premium, notes, à ton tour, compteur en direct, chiffres), écran Premium, icône et écran d'ouverture avec le logo et la caricature fournis.
+- Pas encore faits : coach IA partagé, appels, widget, galerie par mois, « répondre avec une photo », « dessiner ».

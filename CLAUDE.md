@@ -20,7 +20,7 @@ Ajouter un paquet mobile : `npx expo install <pkg>` (jamais `npm install` pour u
 - Code/commits en anglais, UI fr (tutoiement) + en via i18n, docs en français.
 - Backend : une app par domaine, logique dans `services.py`, serializers fins, querysets filtrés par le mixin de `core` (P1.6), tests « partenaire » et « étranger » pour chaque endpoint.
 - Mobile : routes dans `src/app/` uniquement, écrans dans `src/features/<domaine>/`, design system `src/ui/`, alias `@/` → `src/`.
-- **Icônes : uniquement Lucide** via `<Icon icon={X} />` de `@/ui` (`lucide-react-native`). Jamais d'emoji dans l'UI ni dans les traductions (rendu Twemoji refusé par l'utilisateur) ; un test bloque tout emoji dans `mobile/src`.
+- **Icônes de contrôle : Lucide** via `<Icon icon={X} />` de `@/ui` (plus `src/ui/customIcons.ts`, même trait). **Illustrations : images Fluent Emoji 3D** (`mobile/assets/emoji`, MIT) via `features/games/art.ts`. Jamais de caractère emoji dans l'UI ni dans les traductions (un test le bloque).
 - Marque : `mobile/src/config/brand.json` (lu par `brand.ts` et `app.config.ts`) et `BRAND_NAME` (backend).
 
 ## Pièges connus

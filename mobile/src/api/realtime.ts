@@ -33,6 +33,10 @@ export function invalidationKeysFor(event: ChangedEvent): QueryKey[] {
       return [['couple']];
     case 'distance':
       return [['distance']];
+    case 'games':
+      return [['games']];
+    case 'notes':
+      return [['notes']];
     default:
       return [];
   }

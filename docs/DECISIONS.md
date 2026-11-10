@@ -87,3 +87,10 @@ Format : date — choix — raison — alternative écartée.
 - Thème clair forcé : l'app reste blanche même si le téléphone est en mode sombre (demande répétée de l'utilisateur). La palette sombre reste dans les tokens pour un éventuel réglage.
 - Barre d'onglets : plus de fond ovale sur l'onglet actif ; l'icône se remplit et grossit légèrement. Réaction dès le toucher (plus besoin d'appuyer deux fois). Icônes maison et cartes dessinées pour coller à la capture.
 - Écran d'ouverture : illustration originale d'un couple (dessin vectoriel maison) entouré de bulles qui s'éparpillent puis flottent, une phrase, « Créer mon compte » / « J'ai déjà un compte ». Inspiré de l'app de référence sans reprendre ses dessins, ses phrases ni sa disposition.
+
+## 2026-11-10 — Accueil dense, onglet Jeux, éléments de marque du propriétaire
+- Référence : captures de Couple Joy fournies par l'utilisateur. On reprend la structure (accueil long, activités du jour, catégories, sujets avec progression, notes, chiffres, offre premium) et la méthode de couleurs (une teinte pastel par carte), avec notre charte blanche et nos textes ; pas de série de jours (🔥).
+- Onglets : Accueil, Jeux, Messages, Organisation, Moi. Le journal de souvenirs s'ouvre depuis l'accueil (`/memories`).
+- Logo (calao rouge) et caricature du couple fournis par l'utilisateur (dossiers `Bolingo_logo` et `Caricature` du bureau), dessinés sur fond encre #1C1C1E : icône, écran de démarrage et écran d'ouverture sont donc sombres ; le reste de l'app est blanc.
+- Jeux : catalogue en code (72 questions fr/en, 12 sujets, 6 types). Réponse de l'autre invisible avant d'avoir répondu ; réponses définitives ; sujet adulte ouvert seulement si les deux l'activent, jamais en activité du jour.
+- Premium : écran d'offre sans achat réel (prix proposés 1,99 €/mois et 9,99 €/an pour deux, à confirmer) ; les achats s'activeront avec les produits des stores.
