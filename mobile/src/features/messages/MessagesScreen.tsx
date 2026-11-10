@@ -1,32 +1,38 @@
 import * as Haptics from 'expo-haptics';
 import { useFocusEffect } from 'expo-router';
-import { ImagePlus, MessageCircleHeart, Mic, Send, Square, X } from 'lucide-react-native';
-import { useCallback, useEffect, useState } from 'react';
+import { ImagePlus, MessageCircleHeart, Mic, Send } from 'lucide-react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
+  Animated,
+  Easing,
   FlatList,
-  KeyboardAvoidingView,
+  Keyboard,
   Linking,
   Platform,
+  Pressable,
   StyleSheet,
   TextInput,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
 import { usePartner } from '@/features/couple/usePartner';
+import { floatingTabBarHeight } from '@/features/shell/FloatingTabBar';
 import { pickImages } from '@/media/images';
 import {
   EmptyState,
   ErrorState,
+  Icon,
   IconButton,
   MIN_TOUCH_TARGET,
   Notice,
   Skeleton,
   Text,
+  useReducedMotion,
   useTheme,
 } from '@/ui';
 
@@ -34,6 +40,7 @@ import { formatDuration, MessageBubble, TypingBubble } from './MessageBubbles';
 import { reportTyping, useTypingStore } from './typing';
 import { useMarkRead, useMessageActions, useMessages, type Message } from './useMessages';
 import { useVoiceRecorder } from './useVoiceRecorder';
+import { Waveform } from './Waveform';
 
 function RecordingTimer({ startedAt }: { startedAt: number }) {
   const [now, setNow] = useState(() => Date.now());
@@ -42,9 +49,57 @@ function RecordingTimer({ startedAt }: { startedAt: number }) {
     return () => clearInterval(id);
   }, []);
   return (
-    <Text testID="recording-timer" variant="label" color="primary">
-      {formatDuration(now - startedAt)}
+    <Text testID="recording-timer" variant="label" color="primary" style={styles.tabular}>
+      {formatDuration(startedAt ? Math.max(0, now - startedAt) : 0)}
     </Text>
+  );
+}
+
+/** Sliding the finger this far to the left while recording throws the note away. */
+export const CANCEL_SLIDE = 90;
+
+/**
+ * Sits the composer right on top of the keyboard, like WhatsApp: the padding is the
+ * keyboard height minus what already lies under this screen (the floating tab bar),
+ * animated with the keyboard itself. Android resizes the window on its own.
+ */
+function useKeyboardPadding(occupiedBelow: number) {
+  const [padding] = useState(() => new Animated.Value(0));
+  useEffect(() => {
+    if (Platform.OS !== 'ios') return undefined;
+    const move = (to: number, duration?: number) =>
+      Animated.timing(padding, {
+        toValue: to,
+        duration: duration || 250,
+        easing: Easing.bezier(0.17, 0.59, 0.4, 0.77),
+        useNativeDriver: false,
+      }).start();
+    const show = Keyboard.addListener('keyboardWillShow', (event) =>
+      move(Math.max(0, event.endCoordinates.height - occupiedBelow), event.duration),
+    );
+    const hide = Keyboard.addListener('keyboardWillHide', (event) => move(0, event.duration));
+    return () => {
+      show.remove();
+      hide.remove();
+    };
+  }, [occupiedBelow, padding]);
+  return padding;
+}
+
+/** Live bars of the microphone level while recording. */
+function LiveWave({ levels }: { levels: number[] }) {
+  const { colors } = useTheme();
+  const bars = levels.length ? levels : [0];
+  return (
+    <View style={[styles.flex, styles.liveWave]}>
+      <Waveform
+        bars={bars}
+        progress={1}
+        played={colors.primary}
+        idle={colors.primary}
+        height={26}
+      />
+    </View>
   );
 }
 
@@ -53,9 +108,16 @@ function Composer() {
   const { colors, radii, spacing, typography } = useTheme();
   const { sendText, sendPhoto, sendVoice } = useMessageActions();
   const voice = useVoiceRecorder();
+  const reduced = useReducedMotion();
   const [text, setText] = useState('');
   const [failed, setFailed] = useState(false);
-  const recording = voice.state === 'recording';
+  const [hint, setHint] = useState(false);
+  const [slide, setSlide] = useState(0);
+  const [holding, setHolding] = useState(false);
+  const startX = useRef(0);
+  const cancelled = useRef(false);
+  const recording = voice.state === 'recording' || holding;
+  const willCancel = slide <= -CANCEL_SLIDE;
 
   const guard = (task: Promise<unknown>) => {
     setFailed(false);
@@ -85,14 +147,42 @@ function Composer() {
       }),
     );
 
-  const toggleRecording = async () => {
-    if (!recording) {
-      void Haptics.selectionAsync().catch(() => {});
-      await voice.start();
+  /** Finger down on the mic: record at once. */
+  const pressIn = (pageX: number) => {
+    startX.current = pageX;
+    cancelled.current = false;
+    setSlide(0);
+    setHint(false);
+    setHolding(true);
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+    void voice.start();
+  };
+
+  /** Finger up: send, unless it slid away to cancel or was just a tap. */
+  const pressOut = async () => {
+    setHolding(false);
+    setSlide(0);
+    if (cancelled.current) {
+      await voice.cancel();
       return;
     }
     const note = await voice.stop();
-    if (note) guard(sendVoice(note.uri, note.durationMs));
+    if (!note) {
+      setHint(true);
+      return;
+    }
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    guard(sendVoice(note.uri, note.durationMs, note.waveform));
+  };
+
+  const move = (pageX: number) => {
+    const dx = Math.min(0, pageX - startX.current);
+    setSlide(dx);
+    const beyond = dx <= -CANCEL_SLIDE;
+    if (beyond !== cancelled.current) {
+      cancelled.current = beyond;
+      void Haptics.selectionAsync().catch(() => {});
+    }
   };
 
   return (
@@ -100,7 +190,8 @@ function Composer() {
       style={[
         styles.composerWrap,
         {
-          padding: spacing.sm,
+          paddingTop: spacing.sm,
+          paddingBottom: spacing.sm,
           paddingHorizontal: spacing.md,
           borderTopColor: colors.border,
           backgroundColor: colors.background,
@@ -120,42 +211,45 @@ function Composer() {
       {failed ? (
         <Notice testID="send-failed" tone="warning" message={t('messages.sendFailed')} />
       ) : null}
+      {hint && !recording ? (
+        <Text testID="record-hint" variant="caption" muted style={styles.center}>
+          {t('messages.holdToRecord')}
+        </Text>
+      ) : null}
       <View style={[styles.composer, { gap: spacing.xs }]}>
         {recording ? (
-          <>
-            <IconButton
-              testID="recording-cancel"
-              icon={X}
-              variant="plain"
-              label={t('messages.cancelRecording')}
-              onPress={() => void voice.cancel()}
-            />
-            <View
-              style={[
-                styles.field,
-                styles.recording,
-                {
-                  backgroundColor: colors.primarySoft,
-                  borderRadius: radii.lg,
-                  paddingHorizontal: spacing.md,
-                  gap: spacing.sm,
-                },
-              ]}
-            >
-              <View style={[styles.dot, { backgroundColor: colors.primary }]} />
-              <Text color="onPrimarySoft" style={styles.flex}>
-                {t('messages.recording')}
+          <View
+            testID="recording-bar"
+            style={[
+              styles.field,
+              styles.recording,
+              {
+                backgroundColor: willCancel ? colors.surfaceMuted : colors.primarySoft,
+                borderRadius: radii.pill,
+                paddingHorizontal: spacing.md,
+                gap: spacing.sm,
+              },
+            ]}
+          >
+            <View style={[styles.dot, { backgroundColor: colors.primary }]} />
+            <RecordingTimer startedAt={voice.startedAt.current} />
+            {willCancel ? (
+              <Text testID="release-to-cancel" color="danger" style={[styles.flex, styles.bold]}>
+                {t('messages.releaseToCancel')}
               </Text>
-              <RecordingTimer startedAt={voice.startedAt.current} />
-            </View>
-            <IconButton
-              testID="recording-send"
-              icon={Square}
-              variant="primary"
-              label={t('messages.stopAndSend')}
-              onPress={() => void toggleRecording()}
-            />
-          </>
+            ) : (
+              <>
+                <LiveWave levels={voice.live} />
+                <Text
+                  variant="caption"
+                  muted
+                  style={{ transform: [{ translateX: reduced ? 0 : slide / 2 }] }}
+                >
+                  {`‹ ${t('messages.slideToCancel')}`}
+                </Text>
+              </>
+            )}
+          </View>
         ) : (
           <>
             <IconButton
@@ -187,24 +281,38 @@ function Composer() {
                 style={[typography.body, styles.input, { color: colors.text }]}
               />
             </View>
-            {text.trim() ? (
-              <IconButton
-                testID="message-send"
-                icon={Send}
-                variant="primary"
-                label={t('messages.send')}
-                onPress={send}
-              />
-            ) : (
-              <IconButton
-                testID="message-record"
-                icon={Mic}
-                variant="soft"
-                label={t('messages.record')}
-                onPress={() => void toggleRecording()}
-              />
-            )}
           </>
+        )}
+        {text.trim() && !recording ? (
+          <IconButton
+            testID="message-send"
+            icon={Send}
+            variant="primary"
+            label={t('messages.send')}
+            onPress={send}
+          />
+        ) : (
+          <Pressable
+            testID="message-record"
+            accessibilityRole="button"
+            accessibilityLabel={t('messages.recordHint')}
+            accessibilityHint={t('messages.holdToRecord')}
+            onPressIn={(event) => pressIn(event.nativeEvent.pageX)}
+            onPressOut={() => void pressOut()}
+            onTouchMove={(event) => move(event.nativeEvent.pageX)}
+            // Keep the press alive however far the finger travels (slide to cancel).
+            pressRetentionOffset={{ top: 400, bottom: 400, left: 400, right: 400 }}
+            hitSlop={8}
+            style={[
+              styles.mic,
+              {
+                backgroundColor: recording ? colors.primary : colors.primarySoft,
+                transform: [{ scale: recording && !reduced ? 1.25 : 1 }],
+              },
+            ]}
+          >
+            <Icon icon={Mic} size={22} color={recording ? 'onPrimary' : 'onPrimarySoft'} />
+          </Pressable>
         )}
       </View>
     </View>
@@ -217,6 +325,8 @@ export function MessagesScreen() {
   const { colors, radii, spacing } = useTheme();
   const thread = useMessages();
   const { remove } = useMessageActions();
+  const insets = useSafeAreaInsets();
+  const keyboardPadding = useKeyboardPadding(floatingTabBarHeight(insets.bottom));
   const partner = usePartner();
   const partnerTyping = useTypingStore((state) => state.partnerTyping);
   const [focused, setFocused] = useState(false);
@@ -307,14 +417,10 @@ export function MessagesScreen() {
         </Text>
         <Text variant="title">{t('tabs.us.title')}</Text>
       </View>
-      <KeyboardAvoidingView
-        style={styles.root}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-      >
+      <Animated.View style={[styles.root, { paddingBottom: keyboardPadding }]}>
         <View style={styles.root}>{body}</View>
         <Composer />
-      </KeyboardAvoidingView>
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -333,5 +439,16 @@ const styles = StyleSheet.create({
   recording: { flexDirection: 'row', alignItems: 'center' },
   input: { maxHeight: 120, paddingVertical: 10 },
   dot: { width: 10, height: 10, borderRadius: 5 },
+  mic: {
+    width: MIN_TOUCH_TARGET,
+    height: MIN_TOUCH_TARGET,
+    borderRadius: MIN_TOUCH_TARGET / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  liveWave: { overflow: 'hidden', alignItems: 'flex-end' },
+  tabular: { fontVariant: ['tabular-nums'] },
+  bold: { fontWeight: '600' },
+  center: { textAlign: 'center' },
   rightSkeleton: { alignItems: 'flex-end' },
 });

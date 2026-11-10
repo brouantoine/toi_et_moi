@@ -75,6 +75,7 @@ def send(couple: Couple, author: User, data: dict[str, object]) -> Message:
         text=text if kind != MessageKind.VOICE else "",
         media_key=key,
         duration_ms=data.get("duration_ms") if kind == MessageKind.VOICE else None,  # type: ignore[misc]
+        waveform=list(data.get("waveform") or []) if kind == MessageKind.VOICE else [],  # type: ignore[call-overload]
         width=data.get("width") if kind == MessageKind.PHOTO else None,
         height=data.get("height") if kind == MessageKind.PHOTO else None,
     )

@@ -80,6 +80,7 @@ const draft = (fields: Partial<Message>): Message => ({
   height: null,
   created_at: new Date().toISOString(),
   read_at: null,
+  waveform: [],
   ...fields,
 });
 
@@ -148,13 +149,18 @@ export function useMessageActions() {
     }
   };
 
-  const sendVoice = async (uri: string, durationMs: number) => {
-    show(draft({ kind: 'voice', media_url: uri, duration_ms: durationMs }));
+  const sendVoice = async (uri: string, durationMs: number, waveform: number[] = []) => {
+    show(draft({ kind: 'voice', media_url: uri, duration_ms: durationMs, waveform }));
     try {
       const key = await uploadMedia(VOICE_CONTENT_TYPE, { uri, name: 'note.m4a' });
       unwrap(
         await api.POST('/api/v1/messages/', {
-          body: { kind: 'voice', media_key: key, duration_ms: Math.max(1, Math.round(durationMs)) },
+          body: {
+            kind: 'voice',
+            media_key: key,
+            duration_ms: Math.max(1, Math.round(durationMs)),
+            waveform,
+          },
         }),
       );
     } finally {

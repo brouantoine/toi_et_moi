@@ -13,6 +13,9 @@ class MessageSerializer(serializers.ModelSerializer[Message]):
 
     author = serializers.SerializerMethodField()
     media_url = serializers.SerializerMethodField()
+    waveform = serializers.ListField(
+        child=serializers.IntegerField(), read_only=True, help_text="Voice notes: 0-100 bars."
+    )
 
     class Meta:
         model = Message
@@ -23,6 +26,7 @@ class MessageSerializer(serializers.ModelSerializer[Message]):
             "author",
             "media_url",
             "duration_ms",
+            "waveform",
             "width",
             "height",
             "created_at",
@@ -39,6 +43,9 @@ class MessageSerializer(serializers.ModelSerializer[Message]):
         return signed_url(obj.media_key)
 
 
+WAVEFORM_BARS = 64
+
+
 class SendMessageSerializer(serializers.Serializer[Any]):
     kind = serializers.ChoiceField(choices=MessageKind.choices, default=MessageKind.TEXT)
     text = serializers.CharField(
@@ -46,6 +53,11 @@ class SendMessageSerializer(serializers.Serializer[Any]):
     )
     media_key = serializers.CharField(max_length=512, required=False, allow_blank=True)
     duration_ms = serializers.IntegerField(min_value=1, max_value=5 * 60 * 1000, required=False)
+    waveform = serializers.ListField(
+        child=serializers.IntegerField(min_value=0, max_value=100),
+        max_length=WAVEFORM_BARS,
+        required=False,
+    )
     width = serializers.IntegerField(min_value=1, required=False)
     height = serializers.IntegerField(min_value=1, required=False)
 

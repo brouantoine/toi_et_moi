@@ -589,7 +589,11 @@
     "statusSending": "Sending",
     "statusSent": "Sent",
     "statusRead": "Read",
-    "typing": "{{name}} is typing…"
+    "typing": "{{name}} is typing…",
+    "holdToRecord": "Hold to record, release to send.",
+    "slideToCancel": "Slide to cancel",
+    "recordHint": "Hold to record a voice note",
+    "releaseToCancel": "Release to cancel"
   },
   "distance": {
     "pillShow": "See the distance",

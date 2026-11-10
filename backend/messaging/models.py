@@ -21,6 +21,8 @@ class Message(models.Model):
     text = models.TextField(blank=True, max_length=2000)
     media_key = models.CharField(max_length=512, blank=True)
     duration_ms = models.PositiveIntegerField(null=True, blank=True)
+    # Voice notes: loudness bars (0-100) drawn as a waveform, recorded on the phone.
+    waveform = models.JSONField(default=list, blank=True)
     width = models.PositiveIntegerField(null=True, blank=True)
     height = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

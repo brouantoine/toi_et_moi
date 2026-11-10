@@ -118,11 +118,18 @@ def test_photo_and_voice_messages(couples, django_capture_on_commit_callbacks) -
     assert photo.json()["media_url"] and photo.json()["width"] == 800
     voice = client.post(
         LIST,
-        {"kind": "voice", "media_key": uploaded(couple.pk, "m4a"), "duration_ms": 4200},
+        {
+            "kind": "voice",
+            "media_key": uploaded(couple.pk, "m4a"),
+            "duration_ms": 4200,
+            "waveform": [10, 55, 100, 30],
+        },
         format="json",
     )
     assert voice.status_code == 201, voice.content
     assert voice.json()["duration_ms"] == 4200 and voice.json()["text"] == ""
+    assert voice.json()["waveform"] == [10, 55, 100, 30]
+    assert photo.json()["waveform"] == []
 
 
 @pytest.mark.parametrize(
@@ -135,6 +142,8 @@ def test_photo_and_voice_messages(couples, django_capture_on_commit_callbacks) -
         lambda c, o: {"kind": "photo", "media_key": f"couples/{c}/messages/never-uploaded.jpg"},
         lambda c, o: {"kind": "photo", "media_key": uploaded(o, "jpg")},
         lambda c, o: {"text": "x" * 2001},
+        lambda c, o: {"kind": "voice", "media_key": uploaded(c, "m4a"), "waveform": [101]},
+        lambda c, o: {"kind": "voice", "media_key": uploaded(c, "m4a"), "waveform": [1] * 65},
     ],
 )
 def test_invalid_messages(couples, payload_factory) -> None:

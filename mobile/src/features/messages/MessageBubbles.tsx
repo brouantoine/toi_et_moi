@@ -8,6 +8,8 @@ import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { Icon, MIN_TOUCH_TARGET, Text, useReducedMotion, useTheme } from '@/ui';
 
 import type { Message } from './useMessages';
+import { placeholderWaveform } from './waveform';
+import { Waveform } from './Waveform';
 
 export function formatDuration(ms: number): string {
   const total = Math.max(0, Math.round(ms / 1000));
@@ -21,7 +23,8 @@ function VoiceNote({ message, mine }: { message: Message; mine: boolean }) {
   const status = useAudioPlayerStatus(player);
   const duration = (message.duration_ms ?? 0) / 1000;
   const progress = duration > 0 ? Math.min(1, status.currentTime / duration) : 0;
-  const fg = mine ? 'onPrimarySoft' : 'text';
+  const bars = message.waveform?.length ? message.waveform : placeholderWaveform(message.id);
+  const accent = mine ? colors.primary : colors.secondary;
   const toggle = () => {
     if (status.playing) {
       player.pause();
@@ -41,7 +44,8 @@ function VoiceNote({ message, mine }: { message: Message; mine: boolean }) {
             : t('messages.play', { duration: formatDuration(message.duration_ms ?? 0) })
         }
         onPress={toggle}
-        style={[styles.play, { backgroundColor: mine ? colors.primary : colors.secondary }]}
+        hitSlop={6}
+        style={[styles.play, { backgroundColor: accent }]}
       >
         <Icon
           icon={status.playing ? Pause : Play}
@@ -50,19 +54,18 @@ function VoiceNote({ message, mine }: { message: Message; mine: boolean }) {
           filled
         />
       </Pressable>
-      <View style={styles.flex}>
-        <View style={[styles.track, { backgroundColor: mine ? colors.surface : colors.border }]}>
-          <View
-            style={[
-              styles.fill,
-              {
-                width: `${progress * 100}%`,
-                backgroundColor: mine ? colors.primary : colors.secondary,
-              },
-            ]}
-          />
-        </View>
-        <Text variant="caption" color={fg} style={{ marginTop: spacing.xs }}>
+      <View style={{ gap: 2 }}>
+        <Waveform
+          testID={`voice-wave-${message.id}`}
+          bars={bars}
+          progress={progress}
+          played={accent}
+          idle={mine ? colors.surface : colors.border}
+          onSeek={(fraction) => {
+            if (duration > 0) void player.seekTo(fraction * duration);
+          }}
+        />
+        <Text variant="caption" color={mine ? 'onPrimarySoft' : 'textMuted'} style={styles.tabular}>
           {formatDuration(status.playing ? status.currentTime * 1000 : (message.duration_ms ?? 0))}
         </Text>
       </View>
@@ -246,7 +249,8 @@ const styles = StyleSheet.create({
   },
   dot: { width: 8, height: 8, borderRadius: 4 },
   photo: { width: 220 },
-  voice: { flexDirection: 'row', alignItems: 'center', minWidth: 200 },
+  voice: { flexDirection: 'row', alignItems: 'center' },
+  tabular: { fontVariant: ['tabular-nums'] },
   play: {
     width: MIN_TOUCH_TARGET - 8,
     height: MIN_TOUCH_TARGET - 8,
@@ -255,6 +259,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   flex: { flex: 1 },
-  track: { height: 4, borderRadius: 2, overflow: 'hidden' },
-  fill: { height: 4 },
 });

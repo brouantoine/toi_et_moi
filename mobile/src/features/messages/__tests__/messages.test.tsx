@@ -20,7 +20,13 @@ jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'fr' }],
   getCalendars: () => [{ timeZone: 'Europe/Paris' }],
 }));
-jest.mock('expo-haptics', () => ({ selectionAsync: jest.fn(async () => {}) }));
+jest.mock('expo-haptics', () => ({
+  selectionAsync: jest.fn(async () => {}),
+  impactAsync: jest.fn(async () => {}),
+  notificationAsync: jest.fn(async () => {}),
+  ImpactFeedbackStyle: { Medium: 'medium' },
+  NotificationFeedbackType: { Success: 'success' },
+}));
 
 const audio = jest.mocked(Audio);
 
@@ -197,20 +203,26 @@ it('sends a text at once', async () => {
   expect(screen.getByTestId('message-input').props.value).toBe('');
 });
 
-it('records a voice note: tap to start, tap to send through storage', async () => {
+const holdMic = (pageX = 300) =>
+  fireEvent(screen.getByTestId('message-record'), 'pressIn', { nativeEvent: { pageX } });
+const releaseMic = () => fireEvent(screen.getByTestId('message-record'), 'pressOut');
+const wait = (ms: number) =>
+  act(async () => {
+    await new Promise((r) => setTimeout(r, ms));
+  });
+
+it('records while the mic is held and sends on release, with its waveform', async () => {
   const calls = backend();
   await render();
   await screen.findByTestId('messages-empty');
-  await fireEvent.press(screen.getByTestId('message-record'));
+  await holdMic();
   expect(await screen.findByTestId('recording-timer')).toBeTruthy();
   expect(audio.setAudioModeAsync).toHaveBeenCalledWith({
     allowsRecording: true,
     playsInSilentMode: true,
   });
-  await act(async () => {
-    await new Promise((r) => setTimeout(r, 700));
-  });
-  await fireEvent.press(screen.getByTestId('recording-send'));
+  await wait(700);
+  await releaseMic();
   await waitFor(() =>
     expect(writes(calls).map((c) => `${c.method} ${c.path}`)).toEqual([
       'POST /api/v1/messages/upload-url/',
@@ -219,10 +231,40 @@ it('records a voice note: tap to start, tap to send through storage', async () =
     ]),
   );
   expect(writes(calls)[0]?.body).toEqual({ content_type: 'audio/mp4' });
-  expect(writes(calls)[2]?.body).toMatchObject({
-    kind: 'voice',
-    media_key: 'couples/3/messages/k.m4a',
+  const sent = writes(calls)[2]?.body as { waveform: number[] };
+  expect(sent).toMatchObject({ kind: 'voice', media_key: 'couples/3/messages/k.m4a' });
+  // Metering at -20 dB becomes tall bars, resampled to a fixed count.
+  expect(sent.waveform).toHaveLength(48);
+  expect(sent.waveform.every((bar) => bar > 50 && bar <= 100)).toBe(true);
+});
+
+it('throws the note away when the finger slides left before release', async () => {
+  const calls = backend();
+  await render();
+  await screen.findByTestId('messages-empty');
+  await holdMic(300);
+  await screen.findByTestId('recording-timer');
+  await wait(700);
+  await fireEvent(screen.getByTestId('message-record'), 'touchMove', {
+    nativeEvent: { pageX: 150 },
   });
+  expect(screen.getByTestId('release-to-cancel')).toBeTruthy();
+  await releaseMic();
+  await wait(50);
+  expect(writes(calls)).toEqual([]);
+  expect(
+    (jest.requireMock('expo-audio') as { __recorder: { stop: jest.Mock } }).__recorder.stop,
+  ).toHaveBeenCalled();
+});
+
+it('a quick tap explains how to record and sends nothing', async () => {
+  const calls = backend();
+  await render();
+  await screen.findByTestId('messages-empty');
+  await holdMic();
+  await releaseMic();
+  expect(await screen.findByTestId('record-hint')).toBeTruthy();
+  expect(writes(calls)).toEqual([]);
 });
 
 it('explains a refused microphone without crashing', async () => {
@@ -230,7 +272,8 @@ it('explains a refused microphone without crashing', async () => {
   audio.requestRecordingPermissionsAsync.mockResolvedValueOnce({ granted: false } as never);
   await render();
   await screen.findByTestId('messages-empty');
-  await fireEvent.press(screen.getByTestId('message-record'));
+  await holdMic();
+  await releaseMic();
   expect(await screen.findByTestId('mic-denied')).toBeTruthy();
   expect(screen.queryByTestId('recording-timer')).toBeNull();
 });

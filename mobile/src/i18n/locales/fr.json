@@ -589,7 +589,11 @@
     "statusSending": "Envoi en cours",
     "statusSent": "Envoyé",
     "statusRead": "Lu",
-    "typing": "{{name}} écrit…"
+    "typing": "{{name}} écrit…",
+    "holdToRecord": "Maintiens pour enregistrer, relâche pour envoyer.",
+    "slideToCancel": "Glisse pour annuler",
+    "recordHint": "Maintiens pour enregistrer un vocal",
+    "releaseToCancel": "Relâche pour annuler"
   },
   "distance": {
     "pillShow": "Voir la distance",

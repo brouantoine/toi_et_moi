@@ -318,3 +318,8 @@
 - Une seule carte du couple en haut de l'accueil : vos deux avatars (anneau blanc, ombre douce) reliés par un pointillé, la distance au milieu dans une capsule blanche (ouvre la carte), puis vos prénoms, la bague et les jours, le prochain jalon. Le crayon sur mon avatar ouvre le choix de photo. Fini le doublon d'avatars et la bulle « Quoi de neuf ? ».
 - Choix de la photo de profil (Moi › en-tête ou « Ta photo de profil ») : 24 personnages illustrés (6 personnages × 4 teintes de peau, Fluent Emoji 3D, MIT) choisis en un geste, ou une photo de la galerie. `User.avatar_preset` côté serveur, visible par l'autre.
 - Initiales qui ne sont plus coupées ; tuiles « Bientôt » lisibles ; date du jour sous le titre au lieu d'un surtitre.
+
+## 2026-11-10 — Jeux remplis, vocal maintenu, clavier collé
+- Jeux : 298 questions fr/en (20 par sujet), 15 sujets dont « Avenir et engagement » (questions d'avant mariage : argent, enfants, foi, désaccords), « Notre histoire » et « Pour rire ». Inspirés des formats des apps de couple et des listes de questions pré-mariage, rédigés pour Bolingo.
+- Notes vocales façon WhatsApp/Snapchat : maintenir le micro pour enregistrer, relâcher pour envoyer, glisser à gauche pour annuler (« Relâche pour annuler »), simple appui → explication. Niveau du micro mesuré pendant l'enregistrement, onde en bâtonnets en direct puis dans la bulle (remplissage pendant la lecture, toucher pour avancer). `Message.waveform` côté serveur (64 barres max, 0-100).
+- Clavier : la zone de saisie se colle au clavier sur iPhone (marge calculée = hauteur du clavier moins la barre d'onglets, animée avec lui) ; sur Android la barre d'onglets se cache quand le clavier s'ouvre.

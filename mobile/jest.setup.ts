@@ -133,6 +133,7 @@ jest.mock('expo-audio', () => {
   const recorder = {
     uri: 'file:///note.m4a',
     prepareToRecordAsync: jest.fn(async () => {}),
+    getStatus: jest.fn(() => ({ metering: -20 })),
     record: jest.fn(),
     stop: jest.fn(async () => {}),
   };

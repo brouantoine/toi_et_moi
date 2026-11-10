@@ -1669,6 +1669,8 @@ export interface components {
       readonly author: string | null;
       readonly media_url: string | null;
       readonly duration_ms: number | null;
+      /** @description Voice notes: 0-100 bars. */
+      readonly waveform: number[];
       readonly width: number | null;
       readonly height: number | null;
       /** Format: date-time */
@@ -2019,6 +2021,7 @@ export interface components {
       text?: string;
       media_key?: string;
       duration_ms?: number;
+      waveform?: number[];
       width?: number;
       height?: number;
     };

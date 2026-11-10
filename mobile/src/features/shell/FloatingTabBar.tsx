@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import type { Tabs } from 'expo-router';
 import { useEffect, useRef, useState, type ComponentProps } from 'react';
-import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import { Animated, Keyboard, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { Icon, useReducedMotion, useTheme } from '@/ui';
 
@@ -11,6 +11,28 @@ import { TABS } from './tabs';
 type BottomTabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
 export const FLOATING_BAR_HEIGHT = 64;
+const BAR_PADDING_TOP = 8;
+const BAR_MIN_BOTTOM = 16;
+
+/** Total height the floating bar takes at the bottom of a tab screen. */
+export function floatingTabBarHeight(bottomInset: number): number {
+  return FLOATING_BAR_HEIGHT + BAR_PADDING_TOP + Math.max(bottomInset, BAR_MIN_BOTTOM);
+}
+
+/** Android resizes the window for the keyboard: hide the bar so nothing floats above it. */
+function useKeyboardShown(): boolean {
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    if (Platform.OS !== 'android') return undefined;
+    const show = Keyboard.addListener('keyboardDidShow', () => setShown(true));
+    const hide = Keyboard.addListener('keyboardDidHide', () => setShown(false));
+    return () => {
+      show.remove();
+      hide.remove();
+    };
+  }, []);
+  return shown;
+}
 /** A press already handled on touch-down is not handled again on release. */
 const PRESS_DEDUPE_MS = 700;
 
@@ -93,13 +115,15 @@ export function FloatingTabBar({
   insets,
 }: BottomTabBarProps) {
   const { colors, elevation, radii, spacing } = useTheme();
+  const keyboardShown = useKeyboardShown();
+  if (keyboardShown) return null;
   return (
     <View
       style={{
         backgroundColor: colors.background,
         paddingHorizontal: spacing.lg,
-        paddingTop: spacing.sm,
-        paddingBottom: Math.max(insets.bottom, spacing.md),
+        paddingTop: BAR_PADDING_TOP,
+        paddingBottom: Math.max(insets.bottom, BAR_MIN_BOTTOM),
       }}
     >
       <View
