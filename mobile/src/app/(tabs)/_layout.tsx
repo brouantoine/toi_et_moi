@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useRealtimeSync } from '@/api/useRealtimeSync';
+import { CallWatcher } from '@/features/calls/CallWatcher';
 import { refreshPushRegistration } from '@/notifications/push';
 import { useNotificationResponses } from '@/notifications/responses';
 import { useApplyProfileLanguage } from '@/features/me/useProfile';
@@ -22,22 +23,25 @@ export default function TabsLayout() {
     void refreshPushRegistration();
   }, []);
   return (
-    <Tabs
-      tabBar={(props) => <FloatingTabBar {...props} />}
-      screenOptions={{
-        headerShown: false,
-        sceneStyle: { backgroundColor: colors.background },
-      }}
-    >
-      {TABS.map(({ name }) => (
-        <Tabs.Screen
-          key={name}
-          name={name}
-          options={{
-            title: t(`tabs.${name}.label`),
-          }}
-        />
-      ))}
-    </Tabs>
+    <>
+      <CallWatcher />
+      <Tabs
+        tabBar={(props) => <FloatingTabBar {...props} />}
+        screenOptions={{
+          headerShown: false,
+          sceneStyle: { backgroundColor: colors.background },
+        }}
+      >
+        {TABS.map(({ name }) => (
+          <Tabs.Screen
+            key={name}
+            name={name}
+            options={{
+              title: t(`tabs.${name}.label`),
+            }}
+          />
+        ))}
+      </Tabs>
+    </>
   );
 }

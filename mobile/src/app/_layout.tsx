@@ -123,6 +123,11 @@ function GuardedStack() {
             options={{ fullScreenGestureEnabled: false }}
           />
           <Stack.Screen name="premium" options={{ presentation: 'modal' }} />
+          <Stack.Screen
+            name="call"
+            // A call is answered or hung up with its buttons, never swiped away.
+            options={{ presentation: 'fullScreenModal', gestureEnabled: false }}
+          />
           <Stack.Screen name="coach" options={{ ...header, title: t('coach.title') }} />
           <Stack.Screen
             name="distance"

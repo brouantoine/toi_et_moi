@@ -56,6 +56,7 @@ jest.mock('expo-router', () => {
     // Screens are always focused in tests: the effect runs like a plain useEffect.
     useFocusEffect: (effect: () => void | (() => void)) => React.useEffect(effect, [effect]),
     useLocalSearchParams: jest.fn(() => ({})),
+    usePathname: jest.fn(() => '/'),
     useSegments: jest.fn(() => []),
   };
 });

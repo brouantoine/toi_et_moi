@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "notifications",
     "rituals",
     "messaging",
+    "calls",
     "places",
     "games",
     "coach",
@@ -247,6 +248,8 @@ AI_REFORMULATION_ENABLED = env_bool("AI_REFORMULATION_ENABLED", False)
 ANTHROPIC_API_KEY = env_str("ANTHROPIC_API_KEY", "")
 # Shared couple coach (coach app). Without the key above the coach shows as unavailable.
 COACH_MODEL = env_str("COACH_MODEL", "claude-opus-5-5")
+#: Live voice/video exist in this build (WebRTC module + TURN server): off in Expo Go.
+CALLS_MEDIA_READY = env_bool("CALLS_MEDIA_READY", False)
 #: Free coach for this many days, then Bolingo Plus.
 COACH_TRIAL_DAYS = env_int("COACH_TRIAL_DAYS", 30)
 # Coach through OpenRouter (used instead of the Claude API when this key is set).

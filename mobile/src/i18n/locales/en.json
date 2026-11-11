@@ -857,5 +857,30 @@
       "medium": "Medium skin",
       "light": "Light skin"
     }
+  },
+  "calls": {
+    "audio": "Call",
+    "video": "Video call",
+    "startAudio": "Call",
+    "startVideo": "Video call",
+    "startErrorTitle": "Cannot call",
+    "startError": "The call could not start. Check your connection and try again.",
+    "accept": "Answer",
+    "decline": "Decline",
+    "hangUp": "Hang up",
+    "mute": "Mic",
+    "speaker": "Speaker",
+    "camera": "Camera",
+    "mediaSoon": "You are both on the line. Live voice and video come with the installed Bolingo app.",
+    "status": {
+      "connecting": "Connecting…",
+      "calling": "Calling…",
+      "incomingAudio": "is calling you",
+      "incomingVideo": "is video calling you",
+      "ended": "Call ended",
+      "declined": "Call declined",
+      "missed": "Missed call",
+      "cancelled": "Call cancelled"
+    }
   }
 }

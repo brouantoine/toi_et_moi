@@ -225,6 +225,108 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/calls/:
+    post:
+      operationId: v1_calls_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartCallRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StartCallRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StartCallRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+          description: ''
+  /api/v1/calls/{call_id}/accept/:
+    post:
+      operationId: v1_calls_accept_create
+      parameters:
+      - in: path
+        name: call_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+          description: ''
+  /api/v1/calls/{call_id}/decline/:
+    post:
+      operationId: v1_calls_decline_create
+      parameters:
+      - in: path
+        name: call_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+          description: ''
+  /api/v1/calls/{call_id}/end/:
+    post:
+      operationId: v1_calls_end_create
+      parameters:
+      - in: path
+        name: call_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+          description: ''
+  /api/v1/calls/current/:
+    get:
+      operationId: v1_calls_current_retrieve
+      description: 'The call ringing or going on, if any: the phones check it to show
+        the call screen.'
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentCall'
+          description: ''
   /api/v1/chores/:
     get:
       operationId: v1_chores_list
@@ -2834,14 +2936,83 @@ components:
         amount:
           type: integer
         direction:
-          $ref: '#/components/schemas/DirectionEnum'
+          $ref: '#/components/schemas/BalanceDirectionEnum'
       required:
       - amount
       - currency
       - direction
+    BalanceDirectionEnum:
+      enum:
+      - partner_owes_me
+      - i_owe_partner
+      - settled
+      type: string
+      description: |-
+        * `partner_owes_me` - partner_owes_me
+        * `i_owe_partner` - i_owe_partner
+        * `settled` - settled
     BlankEnum:
       enum:
       - ''
+    Call:
+      type: object
+      properties:
+        id:
+          type: integer
+        kind:
+          $ref: '#/components/schemas/Kind53dEnum'
+        state:
+          $ref: '#/components/schemas/CallStateEnum'
+        direction:
+          $ref: '#/components/schemas/CallDirectionEnum'
+        created_at:
+          type: string
+          format: date-time
+        answered_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        media_ready:
+          type: boolean
+          description: Live voice and video exist in this build (installed app, not
+            Expo Go).
+      required:
+      - answered_at
+      - created_at
+      - direction
+      - ended_at
+      - id
+      - kind
+      - media_ready
+      - state
+    CallDirectionEnum:
+      enum:
+      - outgoing
+      - incoming
+      type: string
+      description: |-
+        * `outgoing` - outgoing
+        * `incoming` - incoming
+    CallStateEnum:
+      enum:
+      - ringing
+      - ongoing
+      - ended
+      - declined
+      - missed
+      - cancelled
+      type: string
+      description: |-
+        * `ringing` - Ringing
+        * `ongoing` - Ongoing
+        * `ended` - Ended
+        * `declined` - Declined
+        * `missed` - Missed
+        * `cancelled` - Cancelled
     Chore:
       type: object
       properties:
@@ -3163,6 +3334,15 @@ components:
           minLength: 1
           default: EUR
           maxLength: 3
+    CurrentCall:
+      type: object
+      properties:
+        call:
+          allOf:
+          - $ref: '#/components/schemas/Call'
+          nullable: true
+      required:
+      - call
     DeviceRequest:
       type: object
       properties:
@@ -3176,16 +3356,6 @@ components:
       required:
       - platform
       - token
-    DirectionEnum:
-      enum:
-      - partner_owes_me
-      - i_owe_partner
-      - settled
-      type: string
-      description: |-
-        * `partner_owes_me` - partner_owes_me
-        * `i_owe_partner` - i_owe_partner
-        * `settled` - settled
     Distance:
       type: object
       properties:
@@ -3621,6 +3791,14 @@ components:
       - name
       - slug
       - total
+    Kind53dEnum:
+      enum:
+      - audio
+      - video
+      type: string
+      description: |-
+        * `audio` - Audio
+        * `video` - Video
     KindCf9Enum:
       enum:
       - most_likely
@@ -4963,6 +5141,13 @@ components:
       description: |-
         * `equal` - 50/50
         * `custom` - Personnalisée
+    StartCallRequest:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/Kind53dEnum'
+      required:
+      - kind
     StateE13Enum:
       enum:
       - new

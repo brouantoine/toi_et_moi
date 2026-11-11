@@ -857,5 +857,30 @@
       "medium": "Peau métissée",
       "light": "Peau claire"
     }
+  },
+  "calls": {
+    "audio": "Appel",
+    "video": "Appel vidéo",
+    "startAudio": "Appeler",
+    "startVideo": "Appel vidéo",
+    "startErrorTitle": "Appel impossible",
+    "startError": "L’appel n’a pas pu partir. Vérifie ta connexion et réessaie.",
+    "accept": "Décrocher",
+    "decline": "Refuser",
+    "hangUp": "Raccrocher",
+    "mute": "Micro",
+    "speaker": "Haut-parleur",
+    "camera": "Caméra",
+    "mediaSoon": "Vous êtes en ligne tous les deux. La voix et l’image en direct arrivent avec la version installée de Bolingo.",
+    "status": {
+      "connecting": "Connexion…",
+      "calling": "Appel en cours…",
+      "incomingAudio": "t’appelle",
+      "incomingVideo": "t’appelle en vidéo",
+      "ended": "Appel terminé",
+      "declined": "Appel refusé",
+      "missed": "Appel manqué",
+      "cancelled": "Appel annulé"
+    }
   }
 }

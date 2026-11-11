@@ -158,6 +158,87 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/calls/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_calls_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/calls/{call_id}/accept/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_calls_accept_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/calls/{call_id}/decline/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_calls_decline_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/calls/{call_id}/end/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['v1_calls_end_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/calls/current/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description The call ringing or going on, if any: the phones check it to show the call screen. */
+    get: operations['v1_calls_current_retrieve'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/chores/': {
     parameters: {
       query?: never;
@@ -1303,10 +1384,47 @@ export interface components {
     Balance: {
       currency: string;
       amount: number;
-      direction: components['schemas']['DirectionEnum'];
+      direction: components['schemas']['BalanceDirectionEnum'];
     };
+    /**
+     * @description * `partner_owes_me` - partner_owes_me
+     *     * `i_owe_partner` - i_owe_partner
+     *     * `settled` - settled
+     * @enum {string}
+     */
+    BalanceDirectionEnum: 'partner_owes_me' | 'i_owe_partner' | 'settled';
     /** @enum {unknown} */
     BlankEnum: '';
+    Call: {
+      id: number;
+      kind: components['schemas']['Kind53dEnum'];
+      state: components['schemas']['CallStateEnum'];
+      direction: components['schemas']['CallDirectionEnum'];
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      answered_at: string | null;
+      /** Format: date-time */
+      ended_at: string | null;
+      /** @description Live voice and video exist in this build (installed app, not Expo Go). */
+      media_ready: boolean;
+    };
+    /**
+     * @description * `outgoing` - outgoing
+     *     * `incoming` - incoming
+     * @enum {string}
+     */
+    CallDirectionEnum: 'outgoing' | 'incoming';
+    /**
+     * @description * `ringing` - Ringing
+     *     * `ongoing` - Ongoing
+     *     * `ended` - Ended
+     *     * `declined` - Declined
+     *     * `missed` - Missed
+     *     * `cancelled` - Cancelled
+     * @enum {string}
+     */
+    CallStateEnum: 'ringing' | 'ongoing' | 'ended' | 'declined' | 'missed' | 'cancelled';
     Chore: {
       readonly id: number;
       title: string;
@@ -1449,17 +1567,13 @@ export interface components {
       /** @default EUR */
       currency: string;
     };
+    CurrentCall: {
+      call: components['schemas']['Call'] | null;
+    };
     DeviceRequest: {
       token: string;
       platform: components['schemas']['PlatformEnum'];
     };
-    /**
-     * @description * `partner_owes_me` - partner_owes_me
-     *     * `i_owe_partner` - i_owe_partner
-     *     * `settled` - settled
-     * @enum {string}
-     */
-    DirectionEnum: 'partner_owes_me' | 'i_owe_partner' | 'settled';
     Distance: {
       terms_version: number;
       mine: components['schemas']['MyLocation'];
@@ -1631,6 +1745,12 @@ export interface components {
       name: string;
       total: number;
     };
+    /**
+     * @description * `audio` - Audio
+     *     * `video` - Video
+     * @enum {string}
+     */
+    Kind53dEnum: 'audio' | 'video';
     /**
      * @description * `most_likely` - most_likely
      *     * `draw` - draw
@@ -2201,6 +2321,9 @@ export interface components {
      * @enum {string}
      */
     SplitEnum: 'equal' | 'custom';
+    StartCallRequest: {
+      kind: components['schemas']['Kind53dEnum'];
+    };
     /**
      * @description * `new` - new
      *     * `in_progress` - in_progress
@@ -2522,6 +2645,113 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  v1_calls_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['StartCallRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['StartCallRequest'];
+        'multipart/form-data': components['schemas']['StartCallRequest'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Call'];
+        };
+      };
+    };
+  };
+  v1_calls_accept_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        call_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Call'];
+        };
+      };
+    };
+  };
+  v1_calls_decline_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        call_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Call'];
+        };
+      };
+    };
+  };
+  v1_calls_end_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        call_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Call'];
+        };
+      };
+    };
+  };
+  v1_calls_current_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CurrentCall'];
+        };
       };
     };
   };

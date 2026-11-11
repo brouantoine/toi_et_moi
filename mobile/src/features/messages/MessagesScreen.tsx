@@ -53,6 +53,8 @@ import {
   MessageBubble,
   TypingBubble,
 } from './MessageBubbles';
+import { CallButtons } from '@/features/calls/CallButtons';
+
 import { PhotoViewer } from './PhotoViewer';
 import { reportTyping, useTypingStore } from './typing';
 import {
@@ -599,10 +601,15 @@ export function MessagesScreen() {
       <View
         style={{ paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.sm }}
       >
-        <Text variant="overline" color="primary">
-          {t('messages.eyebrow')}
-        </Text>
-        <Text variant="title">{t('tabs.us.title')}</Text>
+        <View style={[styles.headerRow, { gap: spacing.sm }]}>
+          <View style={styles.root}>
+            <Text variant="overline" color="primary">
+              {t('messages.eyebrow')}
+            </Text>
+            <Text variant="title">{t('tabs.us.title')}</Text>
+          </View>
+          <CallButtons />
+        </View>
       </View>
       <View ref={area} style={styles.root} onLayout={keyboard.onLayout}>
         <Animated.View style={[styles.root, { paddingBottom: keyboard.padding }]}>
@@ -616,6 +623,7 @@ export function MessagesScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerRow: { flexDirection: 'row', alignItems: 'flex-end' },
   root: { flex: 1 },
   flex: { flex: 1 },
   composerWrap: { borderTopWidth: StyleSheet.hairlineWidth },
