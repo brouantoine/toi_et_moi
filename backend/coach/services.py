@@ -7,7 +7,13 @@
 
 from __future__ import annotations
 
+import http.client
+import json
 import logging
+import socket
+import ssl
+import urllib.error
+import urllib.request
 from datetime import timedelta
 from typing import Any, Literal
 
@@ -44,8 +50,13 @@ class CoachError(ValueError):
         self.code = code
 
 
+OPENROUTER_TIMEOUT = 90
+OPENROUTER_MAX_TOKENS = 2000
+OPENROUTER_ATTEMPTS = 2
+
+
 def available() -> bool:
-    return bool(settings.ANTHROPIC_API_KEY)
+    return bool(settings.OPENROUTER_API_KEY or settings.ANTHROPIC_API_KEY)
 
 
 def consented(user: User | None) -> bool:
@@ -171,6 +182,98 @@ def ask_claude(system: list[BetaTextBlockParam], turns: list[BetaMessageParam]) 
     return text or None
 
 
+class _IPv4HTTPSConnection(http.client.HTTPSConnection):
+    """HTTPS over IPv4 only: on some networks the IPv6 path drops large requests (the
+    coach's charter alone is about 40 KB), while IPv4 works everywhere OpenRouter does."""
+
+    def connect(self) -> None:
+        family, kind, proto, _, address = socket.getaddrinfo(
+            self.host, self.port, socket.AF_INET, socket.SOCK_STREAM
+        )[0]
+        raw = socket.socket(family, kind, proto)
+        raw.settimeout(self.timeout)
+        raw.connect(address)
+        context = ssl.create_default_context()
+        self.sock = context.wrap_socket(raw, server_hostname=self.host)
+
+
+class _IPv4HTTPSHandler(urllib.request.HTTPSHandler):
+    def https_open(self, req: urllib.request.Request) -> http.client.HTTPResponse:
+        return self.do_open(_IPv4HTTPSConnection, req)
+
+
+_OPENER = urllib.request.build_opener(_IPv4HTTPSHandler)
+
+
+def _post_json(request: urllib.request.Request) -> dict[str, Any]:
+    with _OPENER.open(request, timeout=OPENROUTER_TIMEOUT) as response:
+        data: dict[str, Any] = json.load(response)
+    return data
+
+
+def _plain(content: object) -> str:
+    """Text of a message param, whatever its shape (string or list of text blocks)."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        return "".join(str(b.get("text", "")) for b in content if isinstance(b, dict))
+    return ""
+
+
+def ask_openrouter(system: list[BetaTextBlockParam], turns: list[BetaMessageParam]) -> str | None:
+    """One chat completion through OpenRouter. Returns the reply text, or None on failure.
+
+    Same contract as ask_claude: the charter then this couple's session as the system
+    message, then this couple's thread only.
+    """
+    messages = [{"role": "system", "content": "\n\n".join(block["text"] for block in system)}]
+    messages += [{"role": turn["role"], "content": _plain(turn["content"])} for turn in turns]
+    body = json.dumps(
+        {
+            "model": settings.OPENROUTER_MODEL,
+            "messages": messages,
+            "max_tokens": OPENROUTER_MAX_TOKENS,
+        }
+    ).encode()
+    request = urllib.request.Request(  # noqa: S310 - fixed https endpoint from settings
+        f"{settings.OPENROUTER_BASE_URL.rstrip('/')}/chat/completions",
+        data=body,
+        headers={
+            "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+            "X-Title": "Bolingo",
+            # Cloudflare in front of OpenRouter drops the default "Python-urllib" agent.
+            "User-Agent": "Bolingo-coach/1.0",
+        },
+        method="POST",
+    )
+    data: dict[str, Any] | None = None
+    for attempt in range(OPENROUTER_ATTEMPTS):
+        try:
+            data = _post_json(request)
+            break
+        except urllib.error.HTTPError as error:
+            logger.error("coach: OpenRouter HTTP %s", error.code)
+            return None
+        except (OSError, http.client.HTTPException, json.JSONDecodeError):
+            # Dropped connection or timeout: worth one more try.
+            logger.warning("coach: OpenRouter unreachable (attempt %s)", attempt + 1)
+    if data is None:
+        return None
+    choices = data.get("choices") or []
+    if not choices or choices[0].get("finish_reason") == "content_filter":
+        return None
+    text = str((choices[0].get("message") or {}).get("content") or "").strip()
+    return text or None
+
+
+def ask_model(system: list[BetaTextBlockParam], turns: list[BetaMessageParam]) -> str | None:
+    """OpenRouter when its key is set, otherwise the Claude API."""
+    if settings.OPENROUTER_API_KEY:
+        return ask_openrouter(system, turns)
+    return ask_claude(system, turns)
+
+
 def answer(couple_id: int, message_id: int) -> None:
     """Called by the Celery task: answer the thread unless it has moved on or been erased."""
     couple = Couple.objects.filter(pk=couple_id).first()
@@ -200,7 +303,7 @@ def answer(couple_id: int, message_id: int) -> None:
     system = prompts.system_blocks(members[0].display_name, members[1].display_name, language)
     reply = CoachMessage(couple=couple, role=CoachRole.COACH)
     try:
-        text = ask_claude(system, build_messages(history))
+        text = ask_model(system, build_messages(history))
     except anthropic.RateLimitError:
         logger.warning("coach: rate limited")
         text = None

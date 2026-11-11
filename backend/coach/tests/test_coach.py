@@ -1,3 +1,7 @@
+import json
+import urllib.error
+import urllib.request
+from email.message import Message
 from typing import Any
 
 import pytest
@@ -40,7 +44,7 @@ def claude(monkeypatch) -> list[dict[str, Any]]:
         calls.append({"system": session, "charter": system[0]["text"], "turns": turns})
         return "Je vous ai lus tous les deux."
 
-    monkeypatch.setattr(services, "ask_claude", fake)
+    monkeypatch.setattr(services, "ask_model", fake)
     return calls
 
 
@@ -101,7 +105,7 @@ def test_one_shared_thread_answered_for_both(claude) -> None:
 def test_refusal_or_failure_leaves_a_calm_notice(monkeypatch) -> None:
     _, me, partner = make_couple()
     turn_on(me, partner)
-    monkeypatch.setattr(services, "ask_claude", lambda system, turns: None)
+    monkeypatch.setattr(services, "ask_model", lambda system, turns: None)
     client_for(me).post(POST, {"text": "Bonjour"}, format="json")
     messages = client_for(me).get(THREAD).json()["messages"]
     assert [m["author"] for m in messages] == ["me", "notice"]
@@ -199,3 +203,67 @@ def test_a_foreign_message_in_a_thread_stops_the_answer(claude) -> None:
     services.answer(couple.pk, intruder.pk)
     assert claude == []
     assert CoachMessage.objects.filter(couple=couple).count() == 1
+
+
+def test_openrouter_is_used_when_its_key_is_set(monkeypatch, settings) -> None:
+    settings.OPENROUTER_API_KEY = "sk-or-test"
+    settings.OPENROUTER_MODEL = "google/gemini-2.5-flash"
+    sent: dict[str, Any] = {}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return b'{"choices": [{"message": {"content": " Bonjour vous deux. "}}]}'
+
+    def fake_post(request):
+        sent["url"] = request.full_url
+        sent["auth"] = request.headers["Authorization"]
+        sent["body"] = json.loads(request.data)
+        return json.loads(Response().read())
+
+    monkeypatch.setattr(services, "_post_json", fake_post)
+    monkeypatch.setattr(services, "ask_claude", lambda *a: pytest.fail("Claude API called"))
+    system = system_blocks("Odile", "Bruno", "fr")
+    turns: list[Any] = [{"role": "user", "content": "Odile: Bonsoir"}]
+    assert services.ask_model(system, turns) == "Bonjour vous deux."
+    assert sent["url"] == "https://openrouter.ai/api/v1/chat/completions"
+    assert sent["auth"] == "Bearer sk-or-test"
+    body = sent["body"]
+    assert body["model"] == "google/gemini-2.5-flash"
+    assert body["messages"][0]["role"] == "system"
+    assert (
+        body["messages"][0]["content"].startswith(CHARTER)
+        and "Odile" in body["messages"][0]["content"]
+    )
+    assert body["messages"][1:] == turns
+
+
+def test_openrouter_failure_becomes_a_calm_notice(monkeypatch, settings) -> None:
+    settings.OPENROUTER_API_KEY = "sk-or-test"
+
+    def broken(request):
+        raise urllib.error.HTTPError(request.full_url, 402, "Payment Required", Message(), None)
+
+    monkeypatch.setattr(services, "_post_json", broken)
+    assert services.ask_openrouter(system_blocks("A", "B", "fr"), []) is None
+    assert services.available() is True
+
+
+def test_openrouter_retries_a_dropped_connection_once(monkeypatch, settings) -> None:
+    import http.client
+
+    settings.OPENROUTER_API_KEY = "sk-or-test"
+    calls: list[int] = []
+
+    def dropped(request):
+        calls.append(1)
+        raise http.client.RemoteDisconnected("closed")
+
+    monkeypatch.setattr(services, "_post_json", dropped)
+    assert services.ask_openrouter(system_blocks("A", "B", "fr"), []) is None
+    assert len(calls) == services.OPENROUTER_ATTEMPTS
