@@ -5,7 +5,7 @@ import { resumeQueuedWrites, setupOnlineManager } from './offline';
 import { createQueryClient, PERSIST_MAX_AGE, queryPersister } from './queryClient';
 
 /** Bump when cached data shapes change, to drop stale persisted caches. */
-const CACHE_BUSTER = 'v1';
+const CACHE_BUSTER = 'games-packs-1';
 
 export function QueryProvider({ children }: { children: ReactNode }) {
   const [client] = useState(createQueryClient);

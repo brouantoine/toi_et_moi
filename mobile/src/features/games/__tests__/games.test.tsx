@@ -168,6 +168,8 @@ describe('helpers', () => {
   it('knows a valid home and elapsed time', () => {
     expect(isGamesHome(home)).toBe(true);
     expect(isGamesHome({ date: '2026-11-07' })).toBe(false);
+    // A home cached before packs existed (questions without tags) is ignored.
+    expect(isGamesHome({ ...home, daily: [{ id: 'travel-1' }] })).toBe(false);
     const start = new Date(2026, 7, 2).getTime();
     expect(elapsedParts('2026-08-02', start + (2 * 86400 + 3 * 3600 + 4 * 60 + 5) * 1000)).toEqual({
       days: 2,
