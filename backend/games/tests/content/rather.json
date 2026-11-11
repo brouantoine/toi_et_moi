@@ -1,0 +1,29 @@
+{
+ "kind": "rather",
+ "packs": [
+  {
+   "slug": "travel-dilemmas",
+   "title_fr": "Voyages",
+   "title_en": "Travels",
+   "topics": [
+    "travel"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "Airplane",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partir loin",
+     "b_fr": "Rester près",
+     "a_en": "Go far",
+     "b_en": "Stay close",
+     "a_art": "Airplane",
+     "b_art": "House"
+    }
+   ]
+  }
+ ]
+}

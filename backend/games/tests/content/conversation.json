@@ -1,0 +1,25 @@
+{
+ "kind": "conversation",
+ "packs": [
+  {
+   "slug": "heart-to-heart",
+   "title_fr": "De cœur à cœur",
+   "title_en": "Heart to heart",
+   "topics": [
+    "deep"
+   ],
+   "tags": [],
+   "art": "Red heart",
+   "items": [
+    {
+     "fr": "Pourquoi 1",
+     "en": "Pourquoi 1 en"
+    },
+    {
+     "fr": "Pourquoi 2",
+     "en": "Pourquoi 2 en"
+    }
+   ]
+  }
+ ]
+}

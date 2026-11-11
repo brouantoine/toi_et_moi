@@ -1,13 +1,26 @@
-/** Questions, games, notes and couple stats: data hooks. Screens never call the API. */
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+/** Packs of questions, notes and couple stats: data hooks. Screens never call the API. */
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { api, unwrap, type Schemas } from '@/api';
+import {
+  compressImage,
+  uploadToTicket,
+  UPLOAD_CONTENT_TYPE,
+  type LocalImage,
+} from '@/media/images';
 
 export type GamesHome = Schemas['GamesHome'];
-export type Question = Schemas['Question'];
+export type Pack = Schemas['Pack'];
+export type PackDetail = Schemas['PackDetail'];
+export type PackItem = Schemas['Item'];
+export type GivenAnswer = Schemas['GivenAnswer'];
 export type Topic = Schemas['Topic'];
 export type Note = Schemas['Note'];
-export type QuestionState = Question['state'];
+export type PackState = Pack['state'];
+export type PackKind = Pack['kind'];
+
+/** One finger stroke on a 1000 x 1000 canvas: colour index, width, x/y pairs. */
+export type Stroke = { c: number; w: number; p: number[] };
 
 export const gamesKey = ['games'] as const;
 export const notesKey = ['notes'] as const;
@@ -26,27 +39,89 @@ export function useGamesHome() {
   return { ...query, home: isGamesHome(query.data) ? query.data : undefined };
 }
 
-export type QuestionFilter = { topic?: string; kind?: string };
+export type PackFilter = {
+  kind?: string;
+  topic?: string;
+  state?: 'unanswered' | 'your_turn' | 'waiting' | 'done';
+  q?: string;
+};
 
-export function useQuestions(filter: QuestionFilter, enabled = true) {
+export function usePacks(filter: PackFilter) {
   return useQuery({
-    queryKey: [...gamesKey, 'questions', filter.topic ?? '', filter.kind ?? ''],
-    enabled,
-    queryFn: async (): Promise<Question[]> =>
-      unwrap(await api.GET('/api/v1/games/questions/', { params: { query: filter } })),
+    queryKey: [
+      ...gamesKey,
+      'packs',
+      filter.kind ?? '',
+      filter.topic ?? '',
+      filter.state ?? '',
+      filter.q ?? '',
+    ],
+    placeholderData: keepPreviousData,
+    queryFn: async () =>
+      unwrap(await api.GET('/api/v1/games/packs/', { params: { query: filter } })),
   });
 }
 
-/** "travel-3" -> "travel": a question id starts with its topic. */
-export function topicOf(questionId: string): string {
-  return questionId.replace(/-\d+$/, '');
+export function usePack(id: string) {
+  return useQuery({
+    queryKey: [...gamesKey, 'pack', id],
+    queryFn: async () =>
+      unwrap(
+        await api.GET('/api/v1/games/packs/{pack_id}/', { params: { path: { pack_id: id } } }),
+      ),
+  });
 }
 
-export function useAnswer() {
+export type AnswerInput = {
+  question: string;
+  choice?: number;
+  text?: string;
+  drawing?: Stroke[];
+  photo?: LocalImage;
+  skipped?: boolean;
+};
+
+/**
+ * Answers one item. A photo is compressed and uploaded first, then confirmed by its key.
+ * The pack is updated in place so the next item shows at once.
+ */
+export function useAnswer(packId: string) {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { question: string; choice?: number; text?: string }) =>
-      unwrap(await api.POST('/api/v1/games/answers/', { body: input })),
+    mutationFn: async ({ photo, ...input }: AnswerInput): Promise<PackItem> => {
+      let media_key: string | undefined;
+      if (photo) {
+        const compressed = await compressImage(photo);
+        const ticket = unwrap(
+          await api.POST('/api/v1/games/upload-url/', {
+            body: { content_type: UPLOAD_CONTENT_TYPE },
+          }),
+        );
+        await uploadToTicket(ticket, compressed);
+        media_key = ticket.key;
+      }
+      return unwrap(
+        await api.POST('/api/v1/games/answers/', {
+          body: {
+            ...input,
+            skipped: input.skipped ?? false,
+            drawing: input.drawing as never,
+            media_key,
+          },
+        }),
+      );
+    },
+    onSuccess: (item) => {
+      client.setQueryData<PackDetail>([...gamesKey, 'pack', packId], (pack) =>
+        pack
+          ? {
+              ...pack,
+              mine: pack.mine + 1,
+              items: pack.items.map((entry) => (entry.id === item.id ? item : entry)),
+            }
+          : pack,
+      );
+    },
     onSettled: () => client.invalidateQueries({ queryKey: gamesKey }),
   });
 }

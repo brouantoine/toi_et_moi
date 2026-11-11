@@ -1,3 +1,3 @@
-import { QuestionListScreen } from '@/features/games/QuestionListScreen';
+import { PackListScreen } from '@/features/games/PackListScreen';
 
-export default QuestionListScreen;
+export default PackListScreen;

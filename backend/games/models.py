@@ -3,7 +3,11 @@ from django.db import models
 
 
 class Answer(models.Model):
-    """One person's answer to one catalogue question. Final once given."""
+    """One person's answer to one item of a pack. Final once given.
+
+    Exactly one of ``choice``, ``text``, ``drawing`` or ``media_key`` is filled, depending
+    on the kind of the pack, unless the item was skipped.
+    """
 
     couple = models.ForeignKey(
         "couples.Couple", on_delete=models.CASCADE, related_name="game_answers"
@@ -11,9 +15,13 @@ class Answer(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="game_answers"
     )
-    question = models.CharField(max_length=40)
+    question = models.CharField(max_length=80)
     choice = models.PositiveSmallIntegerField(null=True, blank=True)
     text = models.TextField(blank=True, max_length=600)
+    #: Finger drawing: [{"c": colour index, "w": width, "p": [x, y, x, y, ...]}], 0..1000.
+    drawing = models.JSONField(default=list, blank=True)
+    media_key = models.CharField(max_length=512, blank=True)
+    skipped = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

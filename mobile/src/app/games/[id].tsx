@@ -1,8 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { QuestionScreen } from '@/features/games/QuestionScreen';
+import { PlayScreen } from '@/features/games/PlayScreen';
 
-export default function QuestionRoute() {
+export default function PackRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <QuestionScreen questionId={String(id)} />;
+  return <PlayScreen packId={String(id)} />;
 }

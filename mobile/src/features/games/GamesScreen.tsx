@@ -1,18 +1,33 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { ChevronRight, Lock } from 'lucide-react-native';
+import { ChevronRight, Lock, Search } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
-import { Chip, ErrorState, FadeIn, Icon, PressableScale, Skeleton, Text, useTheme } from '@/ui';
+import {
+  Chip,
+  ErrorState,
+  FadeIn,
+  Icon,
+  IconButton,
+  PressableScale,
+  Skeleton,
+  Text,
+  useTheme,
+} from '@/ui';
 
 import { EMOJI, kindArt, topicArt } from './art';
-import { QuestionCard } from './QuestionCard';
+import { PackCard } from './PackCard';
 import { useGamesHome, type GamesHome, type Topic } from './useGames';
 
 const FILTERS = ['your_turn', 'waiting', 'done'] as const;
+
+function filterCount(home: GamesHome, state: (typeof FILTERS)[number]): number {
+  if (state === 'your_turn') return home.your_turn_count;
+  return state === 'waiting' ? home.waiting_count : home.done_count;
+}
 
 export function SectionTitle({ title, hint }: { title: string; hint?: string }) {
   return (
@@ -77,7 +92,7 @@ function KindsRow({ kinds }: { kinds: GamesHome['kinds'] }) {
             key={kind.slug}
             testID={`kind-${kind.slug}`}
             accessibilityRole="button"
-            accessibilityLabel={`${kind.name}, ${t('games.questionsCount', { count: kind.total })}`}
+            accessibilityLabel={`${kind.name}, ${t('games.packsCount', { count: kind.total })}`}
             onPress={() => router.push(`/games/list?kind=${kind.slug}`)}
             style={[
               styles.kind,
@@ -138,7 +153,7 @@ function TopicRow({ topic }: { topic: Topic }) {
   );
 }
 
-/** The games tab: kinds of games, today's pair, then every topic with its progress. */
+/** The games tab: kinds of games, today's packs, then every topic with its progress. */
 export function GamesScreen() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -171,21 +186,32 @@ export function GamesScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
           style={{ marginHorizontal: -spacing.lg }}
-          contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.sm }}
+          contentContainerStyle={{
+            paddingHorizontal: spacing.lg,
+            gap: spacing.sm,
+            alignItems: 'center',
+          }}
         >
-          {FILTERS.map((state) => (
-            <Chip
-              key={state}
-              testID={`games-filter-${state}`}
-              label={
-                state === 'your_turn' && home.your_turn_count
-                  ? `${t('games.filters.your_turn')} (${home.your_turn_count})`
-                  : t(`games.filters.${state}`)
-              }
-              selected={false}
-              onPress={() => router.push(`/games/list?state=${state}`)}
-            />
-          ))}
+          <IconButton
+            testID="games-search"
+            icon={Search}
+            label={t('games.search')}
+            onPress={() => router.push('/games/list?search=1')}
+          />
+          {FILTERS.map((state) => {
+            const count = filterCount(home, state);
+            return (
+              <Chip
+                key={state}
+                testID={`games-filter-${state}`}
+                label={
+                  count ? `${t(`games.filters.${state}`)} (${count})` : t(`games.filters.${state}`)
+                }
+                selected={false}
+                onPress={() => router.push(`/games/list?state=${state}`)}
+              />
+            );
+          })}
         </ScrollView>
         <FadeIn>
           <View style={{ gap: spacing.smd }}>
@@ -201,8 +227,8 @@ export function GamesScreen() {
               </View>
               <StreakBadge streak={home.streak} />
             </View>
-            {home.daily.map((question) => (
-              <QuestionCard key={question.id} question={question} />
+            {home.daily.map((pack) => (
+              <PackCard key={pack.id} pack={pack} />
             ))}
           </View>
         </FadeIn>

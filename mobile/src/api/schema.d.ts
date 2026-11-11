@@ -571,7 +571,7 @@ export interface paths {
       cookie?: never;
     };
     get?: never;
-    /** @description Adults-only topics: each partner turns them on for themselves. */
+    /** @description Adults-only packs: each partner turns them on for themselves. */
     put: operations['v1_games_adult_update'];
     post?: never;
     delete?: never;
@@ -603,7 +603,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** @description Everything the home and the games tab show: today's pair, your turn, progress. */
+    /** @description Everything the home and the games tab show: today's packs, your turn, progress. */
     get: operations['v1_games_home_retrieve'];
     put?: never;
     post?: never;
@@ -613,16 +613,49 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/games/questions/': {
+  '/api/v1/games/packs/': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get: operations['v1_games_questions_list'];
+    get: operations['v1_games_packs_retrieve'];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/games/packs/{pack_id}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['v1_games_packs_retrieve_2'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/games/upload-url/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description Ticket to upload a photo answer straight to storage. */
+    post: operations['v1_games_upload_url_create'];
     delete?: never;
     options?: never;
     head?: never;
@@ -1202,6 +1235,12 @@ export interface components {
       question: string;
       choice?: number | null;
       text?: string;
+      drawing?: {
+        [key: string]: unknown;
+      }[];
+      media_key?: string;
+      /** @default false */
+      skipped: boolean;
     };
     AuthResponse: {
       access: string;
@@ -1502,9 +1541,11 @@ export interface components {
       my_share?: number;
     };
     GamesHome: {
-      daily: components['schemas']['Question'][];
-      your_turn: components['schemas']['Question'][];
+      daily: components['schemas']['Pack'][];
+      your_turn: components['schemas']['Pack'][];
       your_turn_count: number;
+      waiting_count: number;
+      done_count: number;
       topics: components['schemas']['Topic'][];
       kinds: components['schemas']['Kind'][];
       adult: components['schemas']['Adult'];
@@ -1514,6 +1555,11 @@ export interface components {
     GivenAnswer: {
       choice: number | null;
       text: string;
+      drawing: {
+        [key: string]: unknown;
+      }[];
+      photo_url: string | null;
+      skipped: boolean;
     };
     Health: {
       status: string;
@@ -1549,6 +1595,16 @@ export interface components {
       /** @description Web page that works whether or not the app is installed (universal/app link). */
       readonly share_url: string;
     };
+    Item: {
+      id: string;
+      text: string;
+      options: components['schemas']['Option'][];
+      mine: components['schemas']['GivenAnswer'] | null;
+      partner_answered: boolean;
+      /** @description Only once I answered too. */
+      theirs: components['schemas']['GivenAnswer'] | null;
+      match: boolean | null;
+    };
     JoinCoupleRequest: {
       code: string;
     };
@@ -1557,6 +1613,26 @@ export interface components {
       name: string;
       total: number;
     };
+    /**
+     * @description * `most_likely` - most_likely
+     *     * `draw` - draw
+     *     * `this_or_that` - this_or_that
+     *     * `never` - never
+     *     * `rather` - rather
+     *     * `conversation` - conversation
+     *     * `agree` - agree
+     *     * `photo` - photo
+     * @enum {string}
+     */
+    KindCf9Enum:
+      | 'most_likely'
+      | 'draw'
+      | 'this_or_that'
+      | 'never'
+      | 'rather'
+      | 'conversation'
+      | 'agree'
+      | 'photo';
     /**
      * @description * `fr` - Français
      *     * `en` - English
@@ -1685,6 +1761,14 @@ export interface components {
      * @enum {string}
      */
     MessageKindEnum: 'text' | 'photo' | 'voice';
+    /**
+     * @description * `choice` - choice
+     *     * `text` - text
+     *     * `drawing` - drawing
+     *     * `photo` - photo
+     * @enum {string}
+     */
+    ModeEnum: 'choice' | 'text' | 'drawing' | 'photo';
     Mood: {
       mood: components['schemas']['MoodEnum'];
       need: string;
@@ -1769,6 +1853,57 @@ export interface components {
     OnThisDayItem: {
       years_ago: number;
       memory: components['schemas']['Memory'];
+    };
+    Option: {
+      name: string;
+      art: string | null;
+    };
+    Pack: {
+      id: string;
+      kind: components['schemas']['KindCf9Enum'];
+      kind_name: string;
+      title: string;
+      art: string;
+      topics: string[];
+      tags: components['schemas']['Tag'][];
+      adult: boolean;
+      premium: boolean;
+      locked: boolean;
+      position: number;
+      total: number;
+      /** @description Items I answered. */
+      mine: number;
+      /** @description Items my partner answered. */
+      theirs: number;
+      state: components['schemas']['StateEnum'];
+      similarity: number | null;
+    };
+    PackDetail: {
+      id: string;
+      kind: components['schemas']['KindCf9Enum'];
+      kind_name: string;
+      title: string;
+      art: string;
+      topics: string[];
+      tags: components['schemas']['Tag'][];
+      adult: boolean;
+      premium: boolean;
+      locked: boolean;
+      position: number;
+      total: number;
+      /** @description Items I answered. */
+      mine: number;
+      /** @description Items my partner answered. */
+      theirs: number;
+      state: components['schemas']['StateEnum'];
+      similarity: number | null;
+      mode: components['schemas']['ModeEnum'];
+      items: components['schemas']['Item'][];
+    };
+    PackList: {
+      packs: components['schemas']['Pack'][];
+      /** @description 18+ packs hidden until both opt in. */
+      adult_hidden: number;
     };
     PaginatedExpenseList: {
       /**
@@ -1962,30 +2097,6 @@ export interface components {
       morning_time?: string;
       discreet?: boolean;
     };
-    Question: {
-      id: string;
-      topic: string;
-      kind: components['schemas']['QuestionKindEnum'];
-      text: string;
-      options: string[];
-      adult: boolean;
-      state: components['schemas']['StateEnum'];
-      mine: components['schemas']['GivenAnswer'] | null;
-      /** @description Only once I answered too. */
-      theirs: components['schemas']['GivenAnswer'] | null;
-      match: boolean | null;
-    };
-    /**
-     * @description * `this_or_that` - this_or_that
-     *     * `agree` - agree
-     *     * `never` - never
-     *     * `rather` - rather
-     *     * `most_likely` - most_likely
-     *     * `conversation` - conversation
-     * @enum {string}
-     */
-    QuestionKindEnum:
-      'this_or_that' | 'agree' | 'never' | 'rather' | 'most_likely' | 'conversation';
     /**
      * @description * `none` - Aucune
      *     * `yearly` - Chaque année
@@ -2043,6 +2154,15 @@ export interface components {
       title: string;
       kind?: components['schemas']['ListKindEnum'];
     };
+    /**
+     * @description * `adult` - adult
+     *     * `kids` - kids
+     *     * `money` - money
+     *     * `wedding` - wedding
+     *     * `ex` - ex
+     * @enum {string}
+     */
+    SlugEnum: 'adult' | 'kids' | 'money' | 'wedding' | 'ex';
     SocialAuthResponse: {
       access: string;
       refresh: string;
@@ -2065,12 +2185,13 @@ export interface components {
     SplitEnum: 'equal' | 'custom';
     /**
      * @description * `new` - new
+     *     * `in_progress` - in_progress
      *     * `your_turn` - your_turn
      *     * `waiting` - waiting
      *     * `done` - done
      * @enum {string}
      */
-    StateEnum: 'new' | 'your_turn' | 'waiting' | 'done';
+    StateEnum: 'new' | 'in_progress' | 'your_turn' | 'waiting' | 'done';
     Stats: {
       days_together: number | null;
       answered_percent: number;
@@ -2084,6 +2205,10 @@ export interface components {
       /** @description Days in a row you both played. */
       count: number;
       today_done: boolean;
+    };
+    Tag: {
+      slug: components['schemas']['SlugEnum'];
+      name: string;
     };
     TokenObtainPair: {
       readonly access: string;
@@ -3453,7 +3578,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Question'];
+          'application/json': components['schemas']['Item'];
         };
       };
     };
@@ -3477,10 +3602,12 @@ export interface operations {
       };
     };
   };
-  v1_games_questions_list: {
+  v1_games_packs_retrieve: {
     parameters: {
       query?: {
         kind?: string;
+        q?: string;
+        state?: 'done' | 'unanswered' | 'waiting' | 'your_turn';
         topic?: string;
       };
       header?: never;
@@ -3494,7 +3621,53 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Question'][];
+          'application/json': components['schemas']['PackList'];
+        };
+      };
+    };
+  };
+  v1_games_packs_retrieve_2: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        pack_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PackDetail'];
+        };
+      };
+    };
+  };
+  v1_games_upload_url_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ImageUploadRequestRequest'];
+        'application/x-www-form-urlencoded': components['schemas']['ImageUploadRequestRequest'];
+        'multipart/form-data': components['schemas']['ImageUploadRequestRequest'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ImageUploadTicket'];
         };
       };
     };

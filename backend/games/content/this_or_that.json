@@ -1,0 +1,1998 @@
+{
+ "kind": "this_or_that",
+ "packs": [
+  {
+   "slug": "panier-de-fruits",
+   "title_fr": "Panier de fruits",
+   "title_en": "Fruit basket",
+   "topics": [
+    "food",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Cherries",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pomme",
+     "b_fr": "Poire",
+     "a_en": "Apple",
+     "b_en": "Pear",
+     "a_art": "Green apple",
+     "b_art": "Pear"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fraise",
+     "b_fr": "Cerise",
+     "a_en": "Strawberry",
+     "b_en": "Cherry",
+     "a_art": "Strawberry",
+     "b_art": "Cherries"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Banane",
+     "b_fr": "Mangue",
+     "a_en": "Banana",
+     "b_en": "Mango",
+     "a_art": "Banana",
+     "b_art": "Mango"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pastèque",
+     "b_fr": "Melon",
+     "a_en": "Watermelon",
+     "b_en": "Melon",
+     "a_art": "Watermelon",
+     "b_art": "Melon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Ananas",
+     "b_fr": "Noix de coco",
+     "a_en": "Pineapple",
+     "b_en": "Coconut",
+     "a_art": "Pineapple",
+     "b_art": "Coconut"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Raisin",
+     "b_fr": "Myrtilles",
+     "a_en": "Grapes",
+     "b_en": "Blueberries",
+     "a_art": "Grapes",
+     "b_art": "Blueberries"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pêche",
+     "b_fr": "Kiwi",
+     "a_en": "Peach",
+     "b_en": "Kiwi",
+     "a_art": "Peach",
+     "b_art": "Kiwi fruit"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Clémentine",
+     "b_fr": "Citron",
+     "a_en": "Clementine",
+     "b_en": "Lemon",
+     "a_art": "Tangerine",
+     "b_art": "Lemon"
+    },
+    {
+     "fr": "Botaniquement, ce sont des fruits !",
+     "en": "Botanically speaking, both are fruit!",
+     "a_fr": "Tomate",
+     "b_fr": "Avocat",
+     "a_en": "Tomato",
+     "b_en": "Avocado",
+     "a_art": "Tomato",
+     "b_art": "Avocado"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Croqué nature",
+     "b_fr": "En smoothie",
+     "a_en": "Bitten whole",
+     "b_en": "Blended",
+     "a_art": "Red apple",
+     "b_art": "Cup with straw"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cueilli au jardin",
+     "b_fr": "Choisi au marché",
+     "a_en": "Picked in the garden",
+     "b_en": "Chosen at the market",
+     "a_art": "Seedling",
+     "b_art": "Basket"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fruit défendu",
+     "b_fr": "Fruit de la passion",
+     "a_en": "Forbidden fruit",
+     "b_en": "Passion fruit",
+     "a_art": "Snake",
+     "b_art": "Heart on fire"
+    }
+   ]
+  },
+  {
+   "slug": "au-dessert",
+   "title_fr": "Une petite place pour le dessert ?",
+   "title_en": "Room for dessert?",
+   "topics": [
+    "food"
+   ],
+   "tags": [],
+   "art": "Shortcake",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tarte",
+     "b_fr": "Gâteau",
+     "a_en": "Tart",
+     "b_en": "Cake",
+     "a_art": "Pie",
+     "b_art": "Shortcake"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Crêpes",
+     "b_fr": "Gaufres",
+     "a_en": "Crêpes",
+     "b_en": "Waffles",
+     "a_art": "Pancakes",
+     "b_art": "Waffle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Crème brûlée",
+     "b_fr": "Riz au lait",
+     "a_en": "Crème brûlée",
+     "b_en": "Rice pudding",
+     "a_art": "Custard",
+     "b_art": "Cooked rice"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cookie",
+     "b_fr": "Donut",
+     "a_en": "Cookie",
+     "b_en": "Doughnut",
+     "a_art": "Cookie",
+     "b_art": "Doughnut"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cupcake",
+     "b_fr": "Fraisier",
+     "a_en": "Cupcake",
+     "b_en": "Strawberry cream cake",
+     "a_art": "Cupcake",
+     "b_art": "Strawberry"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tarte aux pommes",
+     "b_fr": "Tarte au citron",
+     "a_en": "Apple tart",
+     "b_en": "Lemon tart",
+     "a_art": "Red apple",
+     "b_art": "Lemon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Croissant",
+     "b_fr": "Pain au chocolat",
+     "a_en": "Croissant",
+     "b_en": "Pain au chocolat",
+     "a_art": "Croissant",
+     "b_art": "Chocolate bar"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Miel",
+     "b_fr": "Sirop d’érable",
+     "a_en": "Honey",
+     "b_en": "Maple syrup",
+     "a_art": "Honey pot",
+     "b_art": "Maple leaf"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fondue au chocolat",
+     "b_fr": "Salade de fruits",
+     "a_en": "Chocolate fondue",
+     "b_en": "Fruit salad",
+     "a_art": "Fondue",
+     "b_art": "Bowl with spoon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Bûche de Noël",
+     "b_fr": "Galette des rois",
+     "a_en": "Yule log",
+     "b_en": "King cake",
+     "a_art": "Christmas tree",
+     "b_art": "Crown"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Une part",
+     "b_fr": "Tout le gâteau",
+     "a_en": "One slice",
+     "b_en": "The whole cake",
+     "a_art": "Fork and knife with plate",
+     "b_art": "Birthday cake"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Un dessert",
+     "b_fr": "Un câlin",
+     "a_en": "Dessert",
+     "b_en": "A cuddle",
+     "a_art": "Spoon",
+     "b_art": "People hugging"
+    }
+   ]
+  },
+  {
+   "slug": "glaces-et-gourmandises",
+   "title_fr": "Glaces et gourmandises",
+   "title_en": "Ice cream and sweet treats",
+   "topics": [
+    "food",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Soft ice cream",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vanille",
+     "b_fr": "Chocolat",
+     "a_en": "Vanilla",
+     "b_en": "Chocolate",
+     "a_art": "White flower",
+     "b_art": "Chocolate bar"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cornet",
+     "b_fr": "Coupe",
+     "a_en": "Cone",
+     "b_en": "Cup",
+     "a_art": "Soft ice cream",
+     "b_art": "Ice cream"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Sorbet fraise",
+     "b_fr": "Sorbet mangue",
+     "a_en": "Strawberry sorbet",
+     "b_en": "Mango sorbet",
+     "a_art": "Strawberry",
+     "b_art": "Mango"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Bonbons",
+     "b_fr": "Sucettes",
+     "a_en": "Sweets",
+     "b_en": "Lollipops",
+     "a_art": "Candy",
+     "b_art": "Lollipop"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Barbe à papa",
+     "b_fr": "Pomme d’amour",
+     "a_en": "Candyfloss",
+     "b_en": "Toffee apple",
+     "a_art": "Circus tent",
+     "b_art": "Red apple"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Chocolat noir",
+     "b_fr": "Chocolat au lait",
+     "a_en": "Dark chocolate",
+     "b_en": "Milk chocolate",
+     "a_art": "Black heart",
+     "b_art": "Glass of milk"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Caramel beurre salé",
+     "b_fr": "Pâte à tartiner",
+     "a_en": "Salted caramel",
+     "b_en": "Chocolate spread",
+     "a_art": "Butter",
+     "b_art": "Jar"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pop-corn sucré",
+     "b_fr": "Pop-corn salé",
+     "a_en": "Sweet popcorn",
+     "b_en": "Salted popcorn",
+     "a_art": "Popcorn",
+     "b_art": "Salt"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Une boule",
+     "b_fr": "Trois boules",
+     "a_en": "One scoop",
+     "b_en": "Three scoops",
+     "a_art": "Keycap 1",
+     "b_art": "Keycap 3"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Acidulé",
+     "b_fr": "Fondant",
+     "a_en": "Sour",
+     "b_en": "Melt-in-the-mouth",
+     "a_art": "Lemon",
+     "b_art": "Melting face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Goûter de 16 h",
+     "b_fr": "Fringale de minuit",
+     "a_en": "4pm snack",
+     "b_en": "Midnight munchies",
+     "a_art": "Four oclock",
+     "b_art": "Night with stars"
+    },
+    {
+     "fr": "Ta glace préférée…",
+     "en": "Your favourite ice cream…",
+     "a_fr": "Je partage",
+     "b_fr": "Chacun la sienne",
+     "a_en": "I share",
+     "b_en": "Get your own",
+     "a_art": "Two hearts",
+     "b_art": "Face savoring food"
+    }
+   ]
+  },
+  {
+   "slug": "sante",
+   "title_fr": "Santé !",
+   "title_en": "Cheers!",
+   "topics": [
+    "food",
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Clinking glasses",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Café",
+     "b_fr": "Thé",
+     "a_en": "Coffee",
+     "b_en": "Tea",
+     "a_art": "Hot beverage",
+     "b_art": "Teapot"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Eau plate",
+     "b_fr": "Eau pétillante",
+     "a_en": "Still water",
+     "b_en": "Sparkling water",
+     "a_art": "Droplet",
+     "b_art": "Bubbles"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jus d’orange",
+     "b_fr": "Smoothie",
+     "a_en": "Orange juice",
+     "b_en": "Smoothie",
+     "a_art": "Tangerine",
+     "b_art": "Cup with straw"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Bubble tea",
+     "b_fr": "Limonade",
+     "a_en": "Bubble tea",
+     "b_en": "Lemonade",
+     "a_art": "Bubble tea",
+     "b_art": "Lemon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Thé vert",
+     "b_fr": "Infusion",
+     "a_en": "Green tea",
+     "b_en": "Herbal tea",
+     "a_art": "Teacup without handle",
+     "b_art": "Herb"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vin",
+     "b_fr": "Bière",
+     "a_en": "Wine",
+     "b_en": "Beer",
+     "a_art": "Wine glass",
+     "b_art": "Beer mug"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Champagne",
+     "b_fr": "Cocktail",
+     "a_en": "Champagne",
+     "b_en": "Cocktail",
+     "a_art": "Bottle with popping cork",
+     "b_art": "Cocktail glass"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mojito",
+     "b_fr": "Piña colada",
+     "a_en": "Mojito",
+     "b_en": "Piña colada",
+     "a_art": "Lime",
+     "b_art": "Tropical drink"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Saké",
+     "b_fr": "Whisky",
+     "a_en": "Sake",
+     "b_en": "Whisky",
+     "a_art": "Sake",
+     "b_art": "Tumbler glass"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avec glaçons",
+     "b_fr": "Sans glaçons",
+     "a_en": "With ice",
+     "b_en": "No ice",
+     "a_art": "Ice",
+     "b_art": "Cross mark"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Apéro",
+     "b_fr": "Digestif",
+     "a_en": "Aperitif",
+     "b_en": "Nightcap",
+     "a_art": "Clinking glasses",
+     "b_art": "Crescent moon"
+    },
+    {
+     "fr": "Le verre idéal à deux…",
+     "en": "The perfect drink for two…",
+     "a_fr": "En terrasse",
+     "b_fr": "Au coin du feu",
+     "a_en": "On a terrace",
+     "b_en": "By the fire",
+     "a_art": "Sun",
+     "b_art": "Fire"
+    }
+   ]
+  },
+  {
+   "slug": "tour-du-monde-assiette",
+   "title_fr": "Le tour du monde dans l’assiette",
+   "title_en": "Around the world on a plate",
+   "topics": [
+    "food",
+    "travel"
+   ],
+   "tags": [],
+   "art": "Steaming bowl",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Sucré",
+     "b_fr": "Salé",
+     "a_en": "Sweet",
+     "b_en": "Savoury",
+     "a_art": "Cookie",
+     "b_art": "Pretzel"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pizza",
+     "b_fr": "Burger",
+     "a_en": "Pizza",
+     "b_en": "Burger",
+     "a_art": "Pizza",
+     "b_art": "Hamburger"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pâtes",
+     "b_fr": "Riz",
+     "a_en": "Pasta",
+     "b_en": "Rice",
+     "a_art": "Spaghetti",
+     "b_art": "Cooked rice"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Frites",
+     "b_fr": "Purée",
+     "a_en": "Chips",
+     "b_en": "Mash",
+     "a_art": "French fries",
+     "b_art": "Potato"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Viande",
+     "b_fr": "Poisson",
+     "a_en": "Meat",
+     "b_en": "Fish",
+     "a_art": "Cut of meat",
+     "b_art": "Fish"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Piquant",
+     "b_fr": "Doux",
+     "a_en": "Hot",
+     "b_en": "Mild",
+     "a_art": "Hot pepper",
+     "b_art": "Bell pepper"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Sushi",
+     "b_fr": "Tacos",
+     "a_en": "Sushi",
+     "b_en": "Tacos",
+     "a_art": "Sushi",
+     "b_art": "Taco"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Curry",
+     "b_fr": "Ramen",
+     "a_en": "Curry",
+     "b_en": "Ramen",
+     "a_art": "Curry rice",
+     "b_art": "Steaming bowl"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Falafel",
+     "b_fr": "Kebab",
+     "a_en": "Falafel",
+     "b_en": "Kebab",
+     "a_art": "Falafel",
+     "b_art": "Stuffed flatbread"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Raviolis chinois",
+     "b_fr": "Bento",
+     "a_en": "Dumplings",
+     "b_en": "Bento box",
+     "a_art": "Dumpling",
+     "b_art": "Bento box"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Burrito",
+     "b_fr": "Paella",
+     "a_en": "Burrito",
+     "b_en": "Paella",
+     "a_art": "Burrito",
+     "b_art": "Shallow pan of food"
+    },
+    {
+     "fr": "Le grand dilemme à la française…",
+     "en": "The great French dilemma…",
+     "a_fr": "Fromage",
+     "b_fr": "Dessert",
+     "a_en": "Cheese",
+     "b_en": "Pudding",
+     "a_art": "Cheese wedge",
+     "b_art": "Cupcake"
+    }
+   ]
+  },
+  {
+   "slug": "billet-pour-deux",
+   "title_fr": "Deux billets pour…",
+   "title_en": "Two tickets to…",
+   "topics": [
+    "travel"
+   ],
+   "tags": [],
+   "art": "World map",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Plage",
+     "b_fr": "Montagne",
+     "a_en": "Beach",
+     "b_en": "Mountains",
+     "a_art": "Beach with umbrella",
+     "b_art": "Snow-capped mountain"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Île déserte",
+     "b_fr": "Grande capitale",
+     "a_en": "Desert island",
+     "b_en": "Big capital",
+     "a_art": "Desert island",
+     "b_art": "Cityscape"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tokyo",
+     "b_fr": "New York",
+     "a_en": "Tokyo",
+     "b_en": "New York",
+     "a_art": "Tokyo tower",
+     "b_art": "Statue of liberty"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rome",
+     "b_fr": "Amsterdam",
+     "a_en": "Rome",
+     "b_en": "Amsterdam",
+     "a_art": "Classical building",
+     "b_art": "Bicycle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Islande",
+     "b_fr": "Bali",
+     "a_en": "Iceland",
+     "b_en": "Bali",
+     "a_art": "Volcano",
+     "b_art": "Palm tree"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mexique",
+     "b_fr": "Pérou",
+     "a_en": "Mexico",
+     "b_en": "Peru",
+     "a_art": "Cactus",
+     "b_art": "Llama"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Australie",
+     "b_fr": "Canada",
+     "a_en": "Australia",
+     "b_en": "Canada",
+     "a_art": "Kangaroo",
+     "b_art": "Maple leaf"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Safari",
+     "b_fr": "Croisière",
+     "a_en": "Safari",
+     "b_en": "Cruise",
+     "a_art": "Lion",
+     "b_art": "Passenger ship"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Road trip",
+     "b_fr": "Train de nuit",
+     "a_en": "Road trip",
+     "b_en": "Night train",
+     "a_art": "Automobile",
+     "b_art": "Locomotive"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Laponie",
+     "b_fr": "Polynésie",
+     "a_en": "Lapland",
+     "b_en": "Polynesia",
+     "a_art": "Deer",
+     "b_art": "Hibiscus"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Aurores boréales",
+     "b_fr": "Fonds marins",
+     "a_en": "Northern lights",
+     "b_en": "Coral reefs",
+     "a_art": "Milky way",
+     "b_art": "Tropical fish"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Notre lieu fétiche",
+     "b_fr": "Destination surprise",
+     "a_en": "Our favourite spot",
+     "b_en": "Mystery destination",
+     "a_art": "Round pushpin",
+     "b_art": "Wrapped gift"
+    }
+   ]
+  },
+  {
+   "slug": "week-end-a-deux",
+   "title_fr": "Le week-end, on fait quoi ?",
+   "title_en": "What are we doing this weekend?",
+   "topics": [
+    "hobbies",
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Calendar",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Grasse matinée",
+     "b_fr": "Debout à l’aube",
+     "a_en": "Lie-in",
+     "b_en": "Up at dawn",
+     "a_art": "Sleeping face",
+     "b_art": "Sunrise"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Brunch",
+     "b_fr": "Pique-nique",
+     "a_en": "Brunch",
+     "b_en": "Picnic",
+     "a_art": "Pancakes",
+     "b_art": "Basket"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Randonnée",
+     "b_fr": "Balade à vélo",
+     "a_en": "Hike",
+     "b_en": "Bike ride",
+     "a_art": "Hiking boot",
+     "b_art": "Bicycle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Marché",
+     "b_fr": "Brocante",
+     "a_en": "Farmers’ market",
+     "b_en": "Flea market",
+     "a_art": "Leafy green",
+     "b_art": "Old key"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Musée",
+     "b_fr": "Parc d’attractions",
+     "a_en": "Museum",
+     "b_en": "Theme park",
+     "a_art": "Classical building",
+     "b_art": "Roller coaster"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cinéma",
+     "b_fr": "Théâtre",
+     "a_en": "Cinema",
+     "b_en": "Theatre",
+     "a_art": "Cinema",
+     "b_art": "Performing arts"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jeux de société",
+     "b_fr": "Jeux vidéo",
+     "a_en": "Board games",
+     "b_en": "Video games",
+     "a_art": "Game die",
+     "b_art": "Video game"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Yoga",
+     "b_fr": "Course à pied",
+     "a_en": "Yoga",
+     "b_en": "Running",
+     "a_art": "Lotus",
+     "b_art": "Running shoe"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Bricolage",
+     "b_fr": "Jardinage",
+     "a_en": "DIY",
+     "b_en": "Gardening",
+     "a_art": "Hammer and wrench",
+     "b_art": "Seedling"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Karaoké",
+     "b_fr": "Bowling",
+     "a_en": "Karaoke",
+     "b_en": "Bowling",
+     "a_art": "Microphone",
+     "b_art": "Bowling"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Soirée entre amis",
+     "b_fr": "Soirée en tête-à-tête",
+     "a_en": "Night with friends",
+     "b_en": "Night for two",
+     "a_art": "Clinking beer mugs",
+     "b_art": "Two hearts"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Canapé et plaid",
+     "b_fr": "Escapade surprise",
+     "a_en": "Sofa and blanket",
+     "b_en": "Surprise getaway",
+     "a_art": "Couch and lamp",
+     "b_art": "Luggage"
+    }
+   ]
+  },
+  {
+   "slug": "couleurs-et-motifs",
+   "title_fr": "Couleurs et motifs",
+   "title_en": "Colours and patterns",
+   "topics": [
+    "knowyou",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Artist palette",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rouge",
+     "b_fr": "Bleu",
+     "a_en": "Red",
+     "b_en": "Blue",
+     "a_art": "Red circle",
+     "b_art": "Blue circle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Noir",
+     "b_fr": "Blanc",
+     "a_en": "Black",
+     "b_en": "White",
+     "a_art": "Black heart",
+     "b_art": "White heart"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vert",
+     "b_fr": "Violet",
+     "a_en": "Green",
+     "b_en": "Purple",
+     "a_art": "Green heart",
+     "b_art": "Purple heart"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jaune",
+     "b_fr": "Orange",
+     "a_en": "Yellow",
+     "b_en": "Orange",
+     "a_art": "Yellow square",
+     "b_art": "Orange square"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rose",
+     "b_fr": "Bleu ciel",
+     "a_en": "Pink",
+     "b_en": "Sky blue",
+     "a_art": "Pink heart",
+     "b_art": "Light blue heart"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tons pastel",
+     "b_fr": "Couleurs vives",
+     "a_en": "Pastels",
+     "b_en": "Bold colours",
+     "a_art": "Cherry blossom",
+     "b_art": "Rainbow"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tons chauds",
+     "b_fr": "Tons froids",
+     "a_en": "Warm tones",
+     "b_en": "Cool tones",
+     "a_art": "Fire",
+     "b_art": "Water wave"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rayures",
+     "b_fr": "Pois",
+     "a_en": "Stripes",
+     "b_en": "Polka dots",
+     "a_art": "Zebra",
+     "b_art": "Lady beetle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fleuri",
+     "b_fr": "Uni",
+     "a_en": "Floral",
+     "b_en": "Plain",
+     "a_art": "Tulip",
+     "b_art": "White large square"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Carreaux",
+     "b_fr": "Léopard",
+     "a_en": "Checks",
+     "b_en": "Leopard print",
+     "a_art": "Chequered flag",
+     "b_art": "Leopard"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Doré",
+     "b_fr": "Argenté",
+     "a_en": "Gold",
+     "b_en": "Silver",
+     "a_art": "1st place medal",
+     "b_art": "2nd place medal"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mat",
+     "b_fr": "Brillant",
+     "a_en": "Matte",
+     "b_en": "Glossy",
+     "a_art": "Rock",
+     "b_art": "Sparkles"
+    }
+   ]
+  },
+  {
+   "slug": "maison-de-reve-dedans",
+   "title_fr": "Maison de rêve : côté intérieur",
+   "title_en": "Dream home: inside",
+   "topics": [
+    "family",
+    "future"
+   ],
+   "tags": [],
+   "art": "Couch and lamp",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cuisine ouverte",
+     "b_fr": "Cuisine fermée",
+     "a_en": "Open-plan kitchen",
+     "b_en": "Separate kitchen",
+     "a_art": "Cooking",
+     "b_art": "Door"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Baignoire",
+     "b_fr": "Douche à l’italienne",
+     "a_en": "Bathtub",
+     "b_en": "Walk-in shower",
+     "a_art": "Bathtub",
+     "b_art": "Shower"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cheminée",
+     "b_fr": "Grande baie vitrée",
+     "a_en": "Fireplace",
+     "b_en": "Picture window",
+     "a_art": "Fire",
+     "b_art": "Window"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Minimaliste",
+     "b_fr": "Bohème",
+     "a_en": "Minimalist",
+     "b_en": "Boho",
+     "a_art": "White medium square",
+     "b_art": "Potted plant"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Parquet",
+     "b_fr": "Béton ciré",
+     "a_en": "Wooden floors",
+     "b_en": "Polished concrete",
+     "a_art": "Wood",
+     "b_art": "Rock"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jungle de plantes",
+     "b_fr": "Zéro plante",
+     "a_en": "Indoor jungle",
+     "b_en": "Not a single plant",
+     "a_art": "Herb",
+     "b_art": "Wilted flower"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lumière douce",
+     "b_fr": "Grande lumière",
+     "a_en": "Soft lighting",
+     "b_en": "Bright lighting",
+     "a_art": "Candle",
+     "b_art": "Light bulb"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mur de livres",
+     "b_fr": "Écran géant",
+     "a_en": "Wall of books",
+     "b_en": "Giant screen",
+     "a_art": "Books",
+     "b_art": "Television"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Canapé géant",
+     "b_fr": "Coin lecture",
+     "a_en": "Huge sofa",
+     "b_en": "Reading nook",
+     "a_art": "Couch and lamp",
+     "b_art": "Open book"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Dressing",
+     "b_fr": "Salle de sport",
+     "a_en": "Walk-in wardrobe",
+     "b_en": "Home gym",
+     "a_art": "Dress",
+     "b_art": "Boxing glove"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cave à vin",
+     "b_fr": "Home cinéma",
+     "a_en": "Wine cellar",
+     "b_en": "Home cinema",
+     "a_art": "Wine glass",
+     "b_art": "Film projector"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lit king size",
+     "b_fr": "Lit en mezzanine",
+     "a_en": "King-size bed",
+     "b_en": "Loft bed",
+     "a_art": "Bed",
+     "b_art": "Ladder"
+    }
+   ]
+  },
+  {
+   "slug": "maison-de-reve-dehors",
+   "title_fr": "Maison de rêve : côté jardin",
+   "title_en": "Dream home: outside",
+   "topics": [
+    "family",
+    "future"
+   ],
+   "tags": [],
+   "art": "House with garden",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jardin",
+     "b_fr": "Toit-terrasse",
+     "a_en": "Garden",
+     "b_en": "Roof terrace",
+     "a_art": "House with garden",
+     "b_art": "Cityscape at dusk"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vue sur mer",
+     "b_fr": "Vue sur montagne",
+     "a_en": "Sea view",
+     "b_en": "Mountain view",
+     "a_art": "Water wave",
+     "b_art": "Mountain"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "En plein village",
+     "b_fr": "Au milieu des bois",
+     "a_en": "In the village",
+     "b_en": "Deep in the woods",
+     "a_art": "Houses",
+     "b_art": "Evergreen tree"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pierre",
+     "b_fr": "Bois",
+     "a_en": "Stone",
+     "b_en": "Timber",
+     "a_art": "Rock",
+     "b_art": "Wood"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Piscine",
+     "b_fr": "Jacuzzi",
+     "a_en": "Pool",
+     "b_en": "Hot tub",
+     "a_art": "One-piece swimsuit",
+     "b_art": "Hot springs"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Potager",
+     "b_fr": "Pelouse",
+     "a_en": "Veg patch",
+     "b_en": "Lawn",
+     "a_art": "Carrot",
+     "b_art": "Shamrock"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Hamac",
+     "b_fr": "Transat",
+     "a_en": "Hammock",
+     "b_en": "Sun lounger",
+     "a_art": "Palm tree",
+     "b_art": "Umbrella on ground"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Barbecue",
+     "b_fr": "Four à pizza",
+     "a_en": "Barbecue",
+     "b_en": "Pizza oven",
+     "a_art": "Meat on bone",
+     "b_art": "Pizza"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Poules",
+     "b_fr": "Ruches",
+     "a_en": "Hens",
+     "b_en": "Beehives",
+     "a_art": "Chicken",
+     "b_art": "Honeybee"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cabane dans l’arbre",
+     "b_fr": "Serre",
+     "a_en": "Treehouse",
+     "b_en": "Greenhouse",
+     "a_art": "Deciduous tree",
+     "b_art": "Seedling"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lavande",
+     "b_fr": "Rosiers",
+     "a_en": "Lavender",
+     "b_en": "Rose bushes",
+     "a_art": "Hyacinth",
+     "b_art": "Rose"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Feu de camp",
+     "b_fr": "Guirlandes lumineuses",
+     "a_en": "Fire pit",
+     "b_en": "Fairy lights",
+     "a_art": "Fire",
+     "b_art": "Sparkles"
+    }
+   ]
+  },
+  {
+   "slug": "poils-plumes-ecailles",
+   "title_fr": "Poils, plumes et nageoires",
+   "title_en": "Fur, feathers and fins",
+   "topics": [
+    "fun",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Paw prints",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Chien",
+     "b_fr": "Chat",
+     "a_en": "Dog",
+     "b_en": "Cat",
+     "a_art": "Dog face",
+     "b_art": "Cat face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lapin",
+     "b_fr": "Hamster",
+     "a_en": "Rabbit",
+     "b_en": "Hamster",
+     "a_art": "Rabbit face",
+     "b_art": "Hamster"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Perroquet",
+     "b_fr": "Poisson rouge",
+     "a_en": "Parrot",
+     "b_en": "Goldfish",
+     "a_art": "Parrot",
+     "b_art": "Fish"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Panda",
+     "b_fr": "Koala",
+     "a_en": "Panda",
+     "b_en": "Koala",
+     "a_art": "Panda",
+     "b_art": "Koala"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Dauphin",
+     "b_fr": "Baleine",
+     "a_en": "Dolphin",
+     "b_en": "Whale",
+     "a_art": "Dolphin",
+     "b_art": "Spouting whale"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Loup",
+     "b_fr": "Renard",
+     "a_en": "Wolf",
+     "b_en": "Fox",
+     "a_art": "Wolf",
+     "b_art": "Fox"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Hérisson",
+     "b_fr": "Écureuil",
+     "a_en": "Hedgehog",
+     "b_en": "Squirrel",
+     "a_art": "Hedgehog",
+     "b_art": "Chipmunk"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lion",
+     "b_fr": "Tigre",
+     "a_en": "Lion",
+     "b_en": "Tiger",
+     "a_art": "Lion",
+     "b_art": "Tiger face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cheval",
+     "b_fr": "Âne",
+     "a_en": "Horse",
+     "b_en": "Donkey",
+     "a_art": "Horse face",
+     "b_art": "Donkey"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pingouin",
+     "b_fr": "Ours polaire",
+     "a_en": "Penguin",
+     "b_en": "Polar bear",
+     "a_art": "Penguin",
+     "b_art": "Polar bear"
+    },
+    {
+     "fr": "Ton animal totem…",
+     "en": "Your spirit animal…",
+     "a_fr": "Paresseux",
+     "b_fr": "Loutre",
+     "a_en": "Sloth",
+     "b_en": "Otter",
+     "a_art": "Sloth",
+     "b_art": "Otter"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Licorne",
+     "b_fr": "Dragon",
+     "a_en": "Unicorn",
+     "b_en": "Dragon",
+     "a_art": "Unicorn",
+     "b_art": "Dragon"
+    }
+   ]
+  },
+  {
+   "slug": "pluie-ou-soleil",
+   "title_fr": "Pluie ou soleil",
+   "title_en": "Rain or shine",
+   "topics": [
+    "lifestyle",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Sun behind rain cloud",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Été",
+     "b_fr": "Hiver",
+     "a_en": "Summer",
+     "b_en": "Winter",
+     "a_art": "Sun",
+     "b_art": "Snowflake"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Printemps",
+     "b_fr": "Automne",
+     "a_en": "Spring",
+     "b_en": "Autumn",
+     "a_art": "Cherry blossom",
+     "b_art": "Fallen leaf"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Grosse chaleur",
+     "b_fr": "Petite brise",
+     "a_en": "Heatwave",
+     "b_en": "Gentle breeze",
+     "a_art": "Hot face",
+     "b_art": "Wind face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pluie sur le toit",
+     "b_fr": "Orage",
+     "a_en": "Rain on the roof",
+     "b_en": "Thunderstorm",
+     "a_art": "Cloud with rain",
+     "b_art": "Cloud with lightning"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vacances au ski",
+     "b_fr": "Vacances au soleil",
+     "a_en": "Ski trip",
+     "b_en": "Beach holiday",
+     "a_art": "Skier",
+     "b_art": "Beach with umbrella"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Bonhomme de neige",
+     "b_fr": "Château de sable",
+     "a_en": "Snowman",
+     "b_en": "Sandcastle",
+     "a_art": "Snowman",
+     "b_art": "Castle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Brume matinale",
+     "b_fr": "Ciel étoilé",
+     "a_en": "Morning mist",
+     "b_en": "Starry sky",
+     "a_art": "Fog",
+     "b_art": "Night with stars"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lever de soleil",
+     "b_fr": "Coucher de soleil",
+     "a_en": "Sunrise",
+     "b_en": "Sunset",
+     "a_art": "Sunrise",
+     "b_art": "Sunset"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Parapluie",
+     "b_fr": "Danser sous la pluie",
+     "a_en": "Umbrella",
+     "b_en": "Dancing in the rain",
+     "a_art": "Umbrella",
+     "b_art": "Droplet"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Halloween",
+     "b_fr": "Noël",
+     "a_en": "Halloween",
+     "b_en": "Christmas",
+     "a_art": "Jack-o-lantern",
+     "b_art": "Christmas tree"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Nuits d’été",
+     "b_fr": "Soirées d’hiver",
+     "a_en": "Summer nights",
+     "b_en": "Winter evenings",
+     "a_art": "Crescent moon",
+     "b_art": "Candle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pleine lune",
+     "b_fr": "Étoile filante",
+     "a_en": "Full moon",
+     "b_en": "Shooting star",
+     "a_art": "Full moon",
+     "b_art": "Shooting star"
+    }
+   ]
+  },
+  {
+   "slug": "dressing-de-reve",
+   "title_fr": "Côté dressing",
+   "title_en": "Wardrobe check",
+   "topics": [
+    "lifestyle",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Sunglasses",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jean",
+     "b_fr": "Survêtement",
+     "a_en": "Jeans",
+     "b_en": "Tracksuit",
+     "a_art": "Jeans",
+     "b_art": "Running shirt"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Baskets",
+     "b_fr": "Bottines",
+     "a_en": "Trainers",
+     "b_en": "Boots",
+     "a_art": "Running shoe",
+     "b_art": "Womans boot"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Casquette",
+     "b_fr": "Chapeau",
+     "a_en": "Cap",
+     "b_en": "Hat",
+     "a_art": "Billed cap",
+     "b_art": "Top hat"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lunettes de soleil",
+     "b_fr": "Lunettes de vue",
+     "a_en": "Sunglasses",
+     "b_en": "Glasses",
+     "a_art": "Sunglasses",
+     "b_art": "Glasses"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Chic",
+     "b_fr": "Décontracté",
+     "a_en": "Dressed up",
+     "b_en": "Casual",
+     "a_art": "Necktie",
+     "b_art": "T-shirt"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Montre",
+     "b_fr": "Bijoux",
+     "a_en": "Watch",
+     "b_en": "Jewellery",
+     "a_art": "Watch",
+     "b_art": "Gem stone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Sac à dos",
+     "b_fr": "Sac à main",
+     "a_en": "Backpack",
+     "b_en": "Handbag",
+     "a_art": "Backpack",
+     "b_art": "Handbag"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Écharpe",
+     "b_fr": "Col roulé",
+     "a_en": "Scarf",
+     "b_en": "Roll-neck",
+     "a_art": "Scarf",
+     "b_art": "Yarn"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tongs",
+     "b_fr": "Pieds nus",
+     "a_en": "Flip-flops",
+     "b_en": "Barefoot",
+     "a_art": "Thong sandal",
+     "b_art": "Footprints"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Parfum",
+     "b_fr": "Odeur de savon",
+     "a_en": "Perfume",
+     "b_en": "Fresh soap",
+     "a_art": "Lotion bottle",
+     "b_art": "Soap"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vintage",
+     "b_fr": "Dernière tendance",
+     "a_en": "Vintage",
+     "b_en": "Latest trend",
+     "a_art": "Videocassette",
+     "b_art": "Sparkles"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tenues assorties",
+     "b_fr": "Chacun son style",
+     "a_en": "Matching outfits",
+     "b_en": "Our own styles",
+     "a_art": "Two hearts",
+     "b_art": "Artist palette"
+    }
+   ]
+  },
+  {
+   "slug": "popcorn-et-playlist",
+   "title_fr": "Popcorn et playlist",
+   "title_en": "Popcorn and playlists",
+   "topics": [
+    "hobbies"
+   ],
+   "tags": [],
+   "art": "Popcorn",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Film d’un soir",
+     "b_fr": "Série à rallonge",
+     "a_en": "One-night film",
+     "b_en": "Binge-worthy series",
+     "a_art": "Clapper board",
+     "b_art": "Television"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Salle de cinéma",
+     "b_fr": "Plaid et streaming",
+     "a_en": "Big screen",
+     "b_en": "Streaming at home",
+     "a_art": "Cinema",
+     "b_art": "Couch and lamp"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Comédie romantique",
+     "b_fr": "Film d’horreur",
+     "a_en": "Romcom",
+     "b_en": "Horror film",
+     "a_art": "Smiling face with heart-eyes",
+     "b_art": "Ghost"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Science-fiction",
+     "b_fr": "Polar",
+     "a_en": "Sci-fi",
+     "b_en": "Crime thriller",
+     "a_art": "Rocket",
+     "b_art": "Magnifying glass tilted left"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Dessin animé",
+     "b_fr": "Documentaire",
+     "a_en": "Animated film",
+     "b_en": "Documentary",
+     "a_art": "Crayon",
+     "b_art": "Movie camera"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rock",
+     "b_fr": "Électro",
+     "a_en": "Rock",
+     "b_en": "Electronic",
+     "a_art": "Guitar",
+     "b_art": "Headphone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jazz",
+     "b_fr": "Classique",
+     "a_en": "Jazz",
+     "b_en": "Classical",
+     "a_art": "Saxophone",
+     "b_art": "Violin"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vinyle",
+     "b_fr": "Playlist",
+     "a_en": "Vinyl",
+     "b_en": "Playlist",
+     "a_art": "Optical disk",
+     "b_art": "Mobile phone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Grand stade",
+     "b_fr": "Petite salle",
+     "a_en": "Stadium gig",
+     "b_en": "Small venue",
+     "a_art": "Stadium",
+     "b_art": "Microphone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Chanter sous la douche",
+     "b_fr": "Danser dans la cuisine",
+     "a_en": "Singing in the shower",
+     "b_en": "Dancing in the kitchen",
+     "a_art": "Shower",
+     "b_art": "Mirror ball"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fin heureuse",
+     "b_fr": "Fin ouverte",
+     "a_en": "Happy ending",
+     "b_en": "Open ending",
+     "a_art": "Smiling face with hearts",
+     "b_art": "Red question mark"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Notre chanson",
+     "b_fr": "Notre film",
+     "a_en": "Our song",
+     "b_en": "Our film",
+     "a_art": "Musical notes",
+     "b_art": "Film frames"
+    }
+   ]
+  },
+  {
+   "slug": "rien-que-nous-deux",
+   "title_fr": "Rien que nous deux",
+   "title_en": "Just the two of us",
+   "topics": [
+    "intimacy"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Candle",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lumière tamisée",
+     "b_fr": "Bougies",
+     "a_en": "Dim lights",
+     "b_en": "Candlelight",
+     "a_art": "Dim button",
+     "b_art": "Candle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Matin",
+     "b_fr": "Soir",
+     "a_en": "Morning",
+     "b_en": "Night",
+     "a_art": "Sunrise",
+     "b_art": "Crescent moon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tendresse",
+     "b_fr": "Passion",
+     "a_en": "Tenderness",
+     "b_en": "Passion",
+     "a_art": "Smiling face with hearts",
+     "b_art": "Heart on fire"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Musique douce",
+     "b_fr": "Silence",
+     "a_en": "Soft music",
+     "b_en": "Silence",
+     "a_art": "Musical notes",
+     "b_art": "Muted speaker"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Massage",
+     "b_fr": "Bain à deux",
+     "a_en": "Massage",
+     "b_en": "Bath for two",
+     "a_art": "Lotion bottle",
+     "b_art": "Bathtub"
+    },
+    {
+     "fr": "Un baiser…",
+     "en": "A kiss…",
+     "a_fr": "Dans le cou",
+     "b_fr": "Sur les lèvres",
+     "a_en": "On the neck",
+     "b_en": "On the lips",
+     "a_art": "Kissing face with closed eyes",
+     "b_art": "Kiss mark"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lingerie",
+     "b_fr": "Pyjama douillet",
+     "a_en": "Lingerie",
+     "b_en": "Cosy pyjamas",
+     "a_art": "Ribbon",
+     "b_art": "Teddy bear"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "À la maison",
+     "b_fr": "Chambre d’hôtel",
+     "a_en": "At home",
+     "b_en": "Hotel room",
+     "a_art": "House",
+     "b_art": "Love hotel"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prendre notre temps",
+     "b_fr": "Sans attendre",
+     "a_en": "Take our time",
+     "b_en": "Right now",
+     "a_art": "Hourglass not done",
+     "b_art": "High voltage"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mener la danse",
+     "b_fr": "Se laisser guider",
+     "a_en": "Take the lead",
+     "b_en": "Let you lead",
+     "a_art": "Crown",
+     "b_art": "Feather"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire monter le désir",
+     "b_fr": "Se laisser surprendre",
+     "a_en": "Build anticipation",
+     "b_en": "Be surprised",
+     "a_art": "Fire",
+     "b_art": "Wrapped gift"
+    },
+    {
+     "fr": "Juste après…",
+     "en": "Right after…",
+     "a_fr": "Câlins",
+     "b_fr": "Confidences sur l’oreiller",
+     "a_en": "Cuddles",
+     "b_en": "Pillow talk",
+     "a_art": "People hugging",
+     "b_art": "Speech balloon"
+    }
+   ]
+  }
+ ]
+}

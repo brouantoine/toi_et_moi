@@ -98,3 +98,12 @@ Format : date — choix — raison — alternative écartée.
 ## 2026-11-10 — Coach IA partagé et série de jours
 - Série de jours : l'utilisateur lève la règle. Un jour compte quand les deux ont répondu à au moins une question ; la série tient jusqu'au soir si on n'a pas encore joué aujourd'hui. Toujours pas de points ni de rappel culpabilisant.
 - Coach IA : app `coach`, un seul fil lu par les deux, activé par les deux, chiffré au repos (Fernet, `FIELD_ENCRYPTION_KEYS`), effaçable par l'un ou l'autre. Appel à l'API Claude (SDK `anthropic`, modèle `COACH_MODEL`, défaut `claude-opus-5-5`, réflexion adaptative, effort moyen, repli automatique en cas de refus) depuis une tâche Celery. Sans `ANTHROPIC_API_KEY`, le coach s'affiche « pas encore activé ». Les messages des deux sont envoyés à Claude précédés du prénom ; consigne : écouter les deux, donner un avis franc et équitable, orienter vers les secours en cas de danger. Non vérifié contre la vraie API (pas de clé).
+
+
+## 2026-11-11 — Jeux en paquets (inspiration Couple Joy, contenu original)
+- Les jeux passent de questions isolées à des **paquets** (6 à 12 éléments) : 8 types (Qui est le plus, Dessiner, Ça ou ça, Je n'ai jamais, Que préfères-tu, Conversation, D'accord ou pas, Répondre avec une photo), 16 sujets, badges (18+, Enfants, Argent, Mariage, Ex).
+- Contenu : 146 paquets, 1 543 éléments fr/en, écrits par 7 agents de recherche puis relus et validés un à un ; **aucune formulation copiée** de Couple Joy ni d'ailleurs (droits d'auteur) ; 18+ suggestif, centré sur le consentement, jamais cru ; aucun paquet photo intime.
+- Contenu versionné dans `backend/games/content/*.json`, illustrations Fluent Emoji 3D servies en WebP statiques par le backend (pas de mise à jour de l'app pour ajouter des paquets). Outil : `scripts/games_content.py` (fusion append-only, typographie française, téléchargement des illustrations).
+- Révélation : la réponse de l'autre n'est jamais renvoyée avant que tu aies répondu au même élément ; les résultats (similarité %) s'affichent quand vous avez fini tous les deux. Une seule notification par paquet terminé.
+- Premium : les 3 premiers paquets de chaque type restent gratuits ; le verrou ne s'active qu'avec `GAMES_PREMIUM_ENFORCED` (désactivé tant que les achats n'existent pas).
+- Migration : les réponses de l'ancien catalogue (ids sans point) sont supprimées (app non publiée).

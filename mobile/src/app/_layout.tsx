@@ -87,7 +87,10 @@ function GuardedStack() {
             name="games/list"
             options={{ ...header, title: t('games.title'), headerTitle: '' }}
           />
-          <Stack.Screen name="games/[id]" options={{ presentation: 'modal' }} />
+          <Stack.Screen
+            name="games/[id]"
+            options={{ presentation: 'fullScreenModal', gestureEnabled: false }}
+          />
           <Stack.Screen name="premium" options={{ presentation: 'modal' }} />
           <Stack.Screen name="coach" options={{ ...header, title: t('coach.title') }} />
           <Stack.Screen

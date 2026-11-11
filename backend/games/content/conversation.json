@@ -1,0 +1,2018 @@
+{
+ "kind": "conversation",
+ "packs": [
+  {
+   "slug": "de-coeur-a-coeur",
+   "title_fr": "De cœur à cœur",
+   "title_en": "Heart to heart",
+   "topics": [
+    "deep",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Two hearts",
+   "items": [
+    {
+     "fr": "Quel moment récent t’a donné l’impression que je te comprenais vraiment ?",
+     "en": "What recent moment made you feel I truly understood you?"
+    },
+    {
+     "fr": "Quelle phrase de moi aimerais-tu entendre plus souvent ?",
+     "en": "What would you like to hear me say more often?"
+    },
+    {
+     "fr": "Quelle part de toi aimerais-tu que je connaisse mieux ?",
+     "en": "Which part of you would you like me to know better?"
+    },
+    {
+     "fr": "Si tu pouvais me faire ressentir une de tes émotions pendant une journée, laquelle choisirais-tu ?",
+     "en": "If you could make me feel one of your emotions for a whole day, which would you choose?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’aide le plus quand tu me confies quelque chose de difficile ?",
+     "en": "What helps you most when you confide something hard to me?"
+    },
+    {
+     "fr": "Raconte un moment où on était côte à côte, mais où je te semblais loin.",
+     "en": "Tell me about a time we were side by side but I felt far away."
+    },
+    {
+     "fr": "Qu’as-tu compris sur toi grâce à notre relation ?",
+     "en": "What have you learnt about yourself through our relationship?"
+    },
+    {
+     "fr": "De quoi as-tu eu honte un jour, que tu oserais me raconter maintenant ?",
+     "en": "What were you once ashamed of that you’d dare tell me about now?"
+    },
+    {
+     "fr": "Qu’est-ce que tu ressens en ce moment et que tu n’as encore dit à personne ?",
+     "en": "What are you feeling right now that you haven’t told anyone yet?"
+    },
+    {
+     "fr": "Qu’est-ce que tu n’oses pas encore me demander ?",
+     "en": "What do you still not dare ask me for?"
+    }
+   ]
+  },
+  {
+   "slug": "recevoir-l-amour",
+   "title_fr": "Ta façon de recevoir l’amour",
+   "title_en": "How you receive love",
+   "topics": [
+    "relationship",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Wrapped gift",
+   "items": [
+    {
+     "fr": "Un mot doux, un câlin, un coup de main, un cadeau ou du temps rien qu’à nous : qu’est-ce qui te remplit le plus ?",
+     "en": "A sweet word, a hug, a helping hand, a gift or time just for us: what fills you up most?"
+    },
+    {
+     "fr": "Quel compliment de ma part t’est resté en tête longtemps ?",
+     "en": "Which compliment from me stayed in your head for a long time?"
+    },
+    {
+     "fr": "Quel coup de main de ma part a compté plus qu’une déclaration d’amour ?",
+     "en": "Which bit of help from me meant more than a declaration of love?"
+    },
+    {
+     "fr": "Quel cadeau, même minuscule, t’a montré que je t’écoutais vraiment ?",
+     "en": "Which gift, however tiny, showed you I’d really been listening?"
+    },
+    {
+     "fr": "À quel moment de la journée un câlin de ma part te fait le plus de bien ?",
+     "en": "At what time of day does a hug from me do you the most good?"
+    },
+    {
+     "fr": "Comment me montres-tu ton amour sans le dire, et est-ce que je le remarque ?",
+     "en": "How do you show me love without saying it, and do I notice?"
+    },
+    {
+     "fr": "Dans ta famille, comment se montrait-on qu’on s’aimait ?",
+     "en": "In your family, how did people show they loved each other?"
+    },
+    {
+     "fr": "Y a-t-il une marque d’affection qui te met mal à l’aise ? D’où ça vient, à ton avis ?",
+     "en": "Is there a sign of affection that makes you uneasy? Where do you think that comes from?"
+    },
+    {
+     "fr": "Quand tu doutes de mon amour, même une seconde, qu’est-ce qui te rassure le plus vite ?",
+     "en": "When you doubt my love, even for a second, what reassures you fastest?"
+    },
+    {
+     "fr": "Quelle attention aimerais-tu recevoir de moi cette semaine ?",
+     "en": "What little gesture would you love to get from me this week?"
+    }
+   ]
+  },
+  {
+   "slug": "aimer-sans-condition",
+   "title_fr": "Aimer sans condition",
+   "title_en": "Love without conditions",
+   "topics": [
+    "deep",
+    "relationship",
+    "values"
+   ],
+   "tags": [],
+   "art": "Infinity",
+   "items": [
+    {
+     "fr": "Pour toi, aimer sans condition, ça ressemble à quoi dans la vraie vie ?",
+     "en": "To you, what does loving unconditionally look like in real life?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’agace chez moi, mais que tu ne voudrais surtout pas voir disparaître ?",
+     "en": "What about me annoys you but you’d hate to see disappear?"
+    },
+    {
+     "fr": "Quel jour as-tu senti que je t’aimais même dans ton pire état ?",
+     "en": "On what day did you feel I loved you even at your worst?"
+    },
+    {
+     "fr": "Quel défaut as-tu le plus peur de me montrer ?",
+     "en": "Which flaw are you most afraid to show me?"
+    },
+    {
+     "fr": "Peut-on aimer sans condition et poser quand même des limites ? Comment tu vois ça ?",
+     "en": "Can you love unconditionally and still set limits? How do you see it?"
+    },
+    {
+     "fr": "Si je changeais beaucoup en dix ans, qu’est-ce qui devrait rester pour que tu me reconnaisses ?",
+     "en": "If I changed a lot over ten years, what would have to stay for you to still recognise me?"
+    },
+    {
+     "fr": "Qui, dans ta vie, t’a donné de l’amour sans rien attendre en retour ?",
+     "en": "Who in your life has given you love without expecting anything back?"
+    },
+    {
+     "fr": "Qu’est-ce que tu aurais du mal à me pardonner, et pourquoi ?",
+     "en": "What would you find hard to forgive me for, and why?"
+    },
+    {
+     "fr": "Comment pourrais-je mieux t’aimer les jours où tu ne t’aimes pas toi-même ?",
+     "en": "How could I love you better on the days you don’t love yourself?"
+    },
+    {
+     "fr": "Quelle promesse silencieuse m’as-tu déjà faite ?",
+     "en": "What silent promise have you already made me?"
+    }
+   ]
+  },
+  {
+   "slug": "limites-qui-protegent",
+   "title_fr": "Les limites qui nous protègent",
+   "title_en": "Boundaries that protect us",
+   "topics": [
+    "relationship",
+    "values"
+   ],
+   "tags": [],
+   "art": "Shield",
+   "items": [
+    {
+     "fr": "De combien de temps rien qu’à toi as-tu besoin chaque semaine pour aller bien ?",
+     "en": "How much time just for yourself do you need each week to feel good?"
+    },
+    {
+     "fr": "Qu’est-ce que je peux t’emprunter sans demander, et qu’est-ce qui reste strictement à toi ?",
+     "en": "What can I borrow without asking, and what stays strictly yours?"
+    },
+    {
+     "fr": "Quel sujet préfères-tu qu’on n’aborde jamais devant d’autres personnes ?",
+     "en": "Which topic would you rather we never brought up in front of other people?"
+    },
+    {
+     "fr": "Comment veux-tu que je réagisse quand tu dis « j’ai besoin d’une pause » en pleine dispute ?",
+     "en": "How do you want me to react when you say \"I need a break\" in the middle of an argument?"
+    },
+    {
+     "fr": "Y a-t-il une de mes taquineries qui te blesse plus que tu ne le montres ?",
+     "en": "Is there a tease of mine that hurts more than you let on?"
+    },
+    {
+     "fr": "Où places-tu la limite entre confier nos soucis à tes proches et protéger notre intimité ?",
+     "en": "Where do you draw the line between sharing our worries with your loved ones and protecting our privacy?"
+    },
+    {
+     "fr": "Quelle limite as-tu appris à poser avec le temps, et grâce à quoi ?",
+     "en": "Which boundary have you learnt to set over time, and what taught you?"
+    },
+    {
+     "fr": "Comment aimerais-tu que je te dise non, pour que ça ne sonne pas comme un rejet ?",
+     "en": "How would you like me to say no so it doesn’t sound like rejection?"
+    },
+    {
+     "fr": "Si je franchis une de tes limites sans m’en rendre compte, comment pourrais-tu me le signaler ?",
+     "en": "If I cross one of your boundaries without noticing, how could you let me know?"
+    },
+    {
+     "fr": "Qu’est-ce qui n’appartient qu’à nous deux et ne regarde personne d’autre ?",
+     "en": "What belongs only to the two of us and is nobody else’s business?"
+    }
+   ]
+  },
+  {
+   "slug": "rester-connectes",
+   "title_fr": "Rester connectés",
+   "title_en": "Staying connected",
+   "topics": [
+    "relationship",
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Link",
+   "items": [
+    {
+     "fr": "Quel message de ma part te ferait sourire au milieu d’une journée chargée ?",
+     "en": "What message from me would make you smile in the middle of a busy day?"
+    },
+    {
+     "fr": "Quel rituel à deux te manque le plus quand on court partout ?",
+     "en": "Which ritual of ours do you miss most when we’re rushing around?"
+    },
+    {
+     "fr": "À quel moment de la journée es-tu le plus disponible pour vraiment parler ?",
+     "en": "What time of day are you most available to really talk?"
+    },
+    {
+     "fr": "Qu’est-ce qui nous éloigne sans qu’on s’en rende compte : les écrans, la fatigue, la routine ?",
+     "en": "What pulls us apart without us noticing: screens, tiredness, routine?"
+    },
+    {
+     "fr": "Quand je te demande « ça va ? », quelle question aimerais-tu que je pose à la place ?",
+     "en": "When I ask \"how are you?\", what question would you like me to ask instead?"
+    },
+    {
+     "fr": "Quelle soirée sans écran aimerais-tu qu’on s’offre bientôt ?",
+     "en": "What screen-free evening would you love us to treat ourselves to soon?"
+    },
+    {
+     "fr": "Si on se fixait un rendez-vous rien qu’à nous chaque semaine, à quoi ressemblerait-il ?",
+     "en": "If we set a weekly date just for us, what would it look like?"
+    },
+    {
+     "fr": "Quand on est loin l’un de l’autre, qu’est-ce qui te fait sentir que je suis quand même là ?",
+     "en": "When we’re apart, what makes you feel I’m still there?"
+    },
+    {
+     "fr": "Après une période tendue, à quoi sais-tu qu’on est de nouveau sur la même longueur d’onde ?",
+     "en": "After a tense patch, how do you know we’re back on the same wavelength?"
+    },
+    {
+     "fr": "Qu’est-ce que tu aimerais que je remarque plus souvent chez toi ?",
+     "en": "What would you like me to notice about you more often?"
+    }
+   ]
+  },
+  {
+   "slug": "jardin-secret",
+   "title_fr": "Jardin secret",
+   "title_en": "Your secret garden",
+   "topics": [
+    "deep",
+    "knowyou",
+    "values"
+   ],
+   "tags": [],
+   "art": "Locked with key",
+   "items": [
+    {
+     "fr": "Quel endroit, réel ou imaginaire, est ton refuge quand tout va trop vite ?",
+     "en": "What place, real or imaginary, is your refuge when everything moves too fast?"
+    },
+    {
+     "fr": "Qu’aimes-tu faire quand personne ne te regarde ?",
+     "en": "What do you love doing when nobody’s watching?"
+    },
+    {
+     "fr": "Y a-t-il des choses qui doivent rester à toi, même en couple ? Lesquelles ?",
+     "en": "Are there things that need to stay yours, even in a couple? Which ones?"
+    },
+    {
+     "fr": "Lire mes messages, regarder mon téléphone : où est la frontière pour toi ?",
+     "en": "Reading my messages, looking at my phone: where’s the line for you?"
+    },
+    {
+     "fr": "Y a-t-il une amitié qui t’appartient vraiment, dans laquelle je n’ai pas besoin d’entrer ?",
+     "en": "Is there a friendship that’s truly yours, one I don’t need to be part of?"
+    },
+    {
+     "fr": "Pour toi, quelle différence entre un secret et un jardin secret ?",
+     "en": "To you, what’s the difference between a secret and a secret garden?"
+    },
+    {
+     "fr": "Quel rêve gardes-tu pour toi, de peur qu’on le trouve ridicule ?",
+     "en": "Which dream do you keep to yourself for fear it might seem silly?"
+    },
+    {
+     "fr": "Quelle pensée te traverse souvent l’esprit sans que tu l’aies jamais dite à voix haute ?",
+     "en": "What thought often crosses your mind that you’ve never said out loud?"
+    },
+    {
+     "fr": "Quelle porte de ton jardin secret aimerais-tu m’ouvrir un jour, quand le moment sera venu ?",
+     "en": "Which gate of your secret garden would you like to open for me one day, when the time is right?"
+    }
+   ]
+  },
+  {
+   "slug": "notre-avenir-vu-de-loin",
+   "title_fr": "Notre avenir, vu de loin",
+   "title_en": "Our future, from afar",
+   "topics": [
+    "future",
+    "deep"
+   ],
+   "tags": [],
+   "art": "Crystal ball",
+   "items": [
+    {
+     "fr": "À quoi ressemble un dimanche matin ordinaire chez nous dans quinze ans ?",
+     "en": "What does an ordinary Sunday morning look like at ours in fifteen years?"
+    },
+    {
+     "fr": "Quelle habitude d’aujourd’hui voudrais-tu qu’on garde toute notre vie ?",
+     "en": "Which habit we have today would you like us to keep for life?"
+    },
+    {
+     "fr": "Où nous vois-tu vivre quand le travail ne comptera plus ?",
+     "en": "Where do you picture us living once work no longer matters?"
+    },
+    {
+     "fr": "De quoi aimerais-tu qu’on soit fiers, ensemble, à 80 ans ?",
+     "en": "What would you like us to be proud of together at 80?"
+    },
+    {
+     "fr": "Comment faire pour évoluer ensemble plutôt que chacun de son côté ?",
+     "en": "How can we grow together rather than each in our own direction?"
+    },
+    {
+     "fr": "Quelle épreuve crains-tu qu’on traverse un jour, et comment voudrais-tu qu’on l’affronte ?",
+     "en": "What hardship do you fear we may face one day, and how would you want us to face it?"
+    },
+    {
+     "fr": "Quelle histoire aimerais-tu qu’on raconte sur nous dans cinquante ans ?",
+     "en": "What story would you like people to tell about us in fifty years?"
+    },
+    {
+     "fr": "Si tu écrivais une lettre à notre couple de dans dix ans, quelle serait la première phrase ?",
+     "en": "If you wrote a letter to us ten years from now, what would the first line be?"
+    },
+    {
+     "fr": "Selon toi, qu’est-ce qui nous permettra de durer ?",
+     "en": "What do you think will help us last?"
+    },
+    {
+     "fr": "Quel héritage, matériel ou non, aimerais-tu qu’on laisse derrière nous ?",
+     "en": "What legacy, material or not, would you like us to leave behind?"
+    }
+   ]
+  },
+  {
+   "slug": "nous-deux-et-les-autres",
+   "title_fr": "Nous deux et les autres",
+   "title_en": "The two of us and everyone else",
+   "topics": [
+    "relationship",
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Clinking glasses",
+   "items": [
+    {
+     "fr": "En soirée, tu préfères qu’on reste collés ou que chacun vive sa vie ?",
+     "en": "At a party, would you rather we stick together or each do our own thing?"
+    },
+    {
+     "fr": "Quel couple autour de nous t’inspire, et pourquoi ?",
+     "en": "Which couple around us inspires you, and why?"
+    },
+    {
+     "fr": "Quel signal discret pourrait-on inventer pour se dire « on rentre » ?",
+     "en": "What discreet signal could we invent to say \"let’s go home\"?"
+    },
+    {
+     "fr": "Combien de sorties par mois te paraissent idéales : zéro, trois, dix ?",
+     "en": "How many nights out a month feels ideal: zero, three, ten?"
+    },
+    {
+     "fr": "Avec qui, parmi mes proches, te sens-tu le plus à l’aise ?",
+     "en": "Who among my friends and family do you feel most at ease with?"
+    },
+    {
+     "fr": "Qu’est-ce que tu ressens quand je raconte des choses sur nous à nos amis ?",
+     "en": "How do you feel when I tell our friends things about us?"
+    },
+    {
+     "fr": "Y a-t-il une personne de ton entourage dont tu aimerais que je sois plus proche ?",
+     "en": "Is there someone in your circle you’d like me to get closer to?"
+    },
+    {
+     "fr": "Qu’est-ce qui te fatigue le plus en société, et comment puis-je t’aider ?",
+     "en": "What drains you most in social situations, and how can I help?"
+    },
+    {
+     "fr": "Si on organisait la fête parfaite chez nous, qui inviterais-tu et que ferait-on ?",
+     "en": "If we threw the perfect party at ours, who would you invite and what would we do?"
+    },
+    {
+     "fr": "Comment faire pour que tes amis et les miens deviennent un peu les nôtres ?",
+     "en": "How can we make your friends and mine feel a little more like ours?"
+    }
+   ]
+  },
+  {
+   "slug": "petits-riens-qui-comptent",
+   "title_fr": "Les petits riens qui comptent",
+   "title_en": "The little things that matter",
+   "topics": [
+    "relationship",
+    "us"
+   ],
+   "tags": [],
+   "art": "Hot beverage",
+   "items": [
+    {
+     "fr": "Quel petit moment avec moi as-tu préféré cette semaine ?",
+     "en": "Which little moment with me did you love most this week?"
+    },
+    {
+     "fr": "Quelle odeur, quel son ou quelle lumière te fait penser à nous ?",
+     "en": "What smell, sound or light reminds you of us?"
+    },
+    {
+     "fr": "Quel geste banal de ma part te fait fondre sans que je le sache ?",
+     "en": "Which ordinary gesture of mine melts you without my knowing?"
+    },
+    {
+     "fr": "Quelle expression ou blague n’existe que chez nous, et d’où vient-elle ?",
+     "en": "Which phrase or joke exists only between us, and where did it come from?"
+    },
+    {
+     "fr": "Quel silence partagé avec moi t’a semblé parfait ?",
+     "en": "Which shared silence with me felt perfect to you?"
+    },
+    {
+     "fr": "Quelle photo de nous n’a jamais quitté ton téléphone mais te fait toujours sourire ?",
+     "en": "Which photo of us has never left your phone but always makes you smile?"
+    },
+    {
+     "fr": "Quel moment du matin ou du soir voudrais-tu qu’on prenne le temps de ralentir ?",
+     "en": "Which moment of the morning or evening would you like us to slow down?"
+    },
+    {
+     "fr": "Quel petit plaisir du quotidien aimerais-tu transformer en tradition ?",
+     "en": "Which small everyday pleasure would you like to turn into a tradition?"
+    },
+    {
+     "fr": "Quelle journée ordinaire avec moi te reviendra en mémoire dans trente ans, à ton avis ?",
+     "en": "Which ordinary day with me do you think you’ll still remember in thirty years?"
+    },
+    {
+     "fr": "Qu’est-ce que je fais sans y penser et qui te rend la vie plus douce ?",
+     "en": "What do I do without thinking that makes your life gentler?"
+    }
+   ]
+  },
+  {
+   "slug": "ce-qui-fait-notre-force",
+   "title_fr": "Ce qui fait notre force",
+   "title_en": "What makes us strong",
+   "topics": [
+    "relationship",
+    "us"
+   ],
+   "tags": [],
+   "art": "Trophy",
+   "items": [
+    {
+     "fr": "Dans quelle situation forme-t-on la meilleure équipe ?",
+     "en": "In what situation are we the best team?"
+    },
+    {
+     "fr": "Quelle petite victoire à deux mériterait qu’on la fête davantage ?",
+     "en": "Which small shared victory deserves more celebrating?"
+    },
+    {
+     "fr": "Qu’est-ce qu’on fait mieux que la plupart des couples qu’on connaît ?",
+     "en": "What do we do better than most couples we know?"
+    },
+    {
+     "fr": "Quelle qualité chez moi équilibre le mieux un de tes défauts ?",
+     "en": "Which of my qualities best balances one of your flaws?"
+    },
+    {
+     "fr": "Quel moment difficile trouves-tu qu’on a bien traversé ensemble ?",
+     "en": "Which hard time do you think we got through well together?"
+    },
+    {
+     "fr": "Quelle force avons-nous construite qu’on n’avait pas au début ?",
+     "en": "What strength have we built that we didn’t have at the start?"
+    },
+    {
+     "fr": "Qu’ai-je appris de toi qui a changé ma façon de vivre, selon toi ?",
+     "en": "What do you think I’ve learnt from you that changed the way I live?"
+    },
+    {
+     "fr": "Quand tu doutes de nous, à quel souvenir te raccroches-tu ?",
+     "en": "When you doubt us, which memory do you hold on to?"
+    },
+    {
+     "fr": "Quelle force de notre couple aimerais-tu transmettre autour de nous ?",
+     "en": "Which strength of ours would you like to pass on to the people around us?"
+    },
+    {
+     "fr": "Si notre couple avait une devise, quelle serait-elle ?",
+     "en": "If our relationship had a motto, what would it be?"
+    }
+   ]
+  },
+  {
+   "slug": "chimie-et-compatibilite",
+   "title_fr": "Chimie et compatibilité",
+   "title_en": "Chemistry and compatibility",
+   "topics": [
+    "relationship",
+    "us",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Magnet",
+   "items": [
+    {
+     "fr": "Qu’est-ce qui, chez moi, a capté ton attention avant même qu’on se parle ?",
+     "en": "What about me caught your attention before we’d even spoken?"
+    },
+    {
+     "fr": "Sur quel sujet pense-t-on exactement la même chose, à ta grande surprise ?",
+     "en": "On what topic do we think exactly alike, much to your surprise?"
+    },
+    {
+     "fr": "Dans quel domaine sommes-nous totalement incompatibles, et est-ce que ça te fait rire ?",
+     "en": "In what area are we totally incompatible, and does it make you laugh?"
+    },
+    {
+     "fr": "Lève-tôt, couche-tard ou savant mélange : quel est notre rythme idéal à deux ?",
+     "en": "Early birds, night owls or a clever mix: what’s our ideal rhythm together?"
+    },
+    {
+     "fr": "Quelle différence entre nous t’enrichit le plus ?",
+     "en": "Which difference between us enriches you most?"
+    },
+    {
+     "fr": "Quand as-tu senti une vraie étincelle entre nous pour la dernière fois ?",
+     "en": "When did you last feel a real spark between us?"
+    },
+    {
+     "fr": "Qu’est-ce qui fait qu’on se comprend sans même se parler ?",
+     "en": "What lets us understand each other without even speaking?"
+    },
+    {
+     "fr": "Quelle conversation avec moi t’a donné le sentiment d’avoir trouvé quelqu’un comme toi ?",
+     "en": "Which conversation with me made you feel you’d found someone like you?"
+    },
+    {
+     "fr": "Selon toi, la chimie se construit-elle ou existe-t-elle dès le premier regard ?",
+     "en": "Do you think chemistry is built over time or there from the first look?"
+    },
+    {
+     "fr": "Qu’est-ce qui ravive la flamme entre nous à coup sûr ?",
+     "en": "What never fails to rekindle the spark between us?"
+    }
+   ]
+  },
+  {
+   "slug": "nos-peurs-en-douceur",
+   "title_fr": "Nos peurs, en douceur",
+   "title_en": "Our fears, gently",
+   "topics": [
+    "deep",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Ghost",
+   "items": [
+    {
+     "fr": "De quoi avais-tu peur enfant, qui te fait sourire aujourd’hui ?",
+     "en": "What scared you as a child that makes you smile now?"
+    },
+    {
+     "fr": "Quelle petite peur t’accompagne encore : le noir, l’avion, les araignées, autre chose ?",
+     "en": "Which small fear is still with you: the dark, flying, spiders, something else?"
+    },
+    {
+     "fr": "Quelle situation sociale te met mal à l’aise, même si personne ne le voit ?",
+     "en": "Which social situation makes you uneasy, even if nobody can tell?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’inquiète le plus pour les mois qui viennent ?",
+     "en": "What worries you most about the coming months?"
+    },
+    {
+     "fr": "Quand tu as peur, comment ça se voit, et comment pourrais-je le remarquer ?",
+     "en": "When you’re scared, how does it show, and how could I notice?"
+    },
+    {
+     "fr": "Quelle peur as-tu réussi à dompter, et comment ?",
+     "en": "Which fear have you managed to tame, and how?"
+    },
+    {
+     "fr": "Quelle peur t’a déjà fait renoncer à quelque chose que tu voulais vraiment ?",
+     "en": "Which fear has made you give up on something you really wanted?"
+    },
+    {
+     "fr": "Qu’est-ce que je peux faire ou dire quand une angoisse monte chez toi ?",
+     "en": "What can I do or say when anxiety starts to rise in you?"
+    },
+    {
+     "fr": "Y a-t-il une peur que tu me crois incapable de soupçonner ?",
+     "en": "Is there a fear of yours you think I’d never suspect?"
+    }
+   ]
+  },
+  {
+   "slug": "nos-peurs-profondes",
+   "title_fr": "Nos peurs les plus profondes",
+   "title_en": "Our deepest fears",
+   "topics": [
+    "deep",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Mending heart",
+   "items": [
+    {
+     "fr": "Quelle peur te réveille parfois la nuit ?",
+     "en": "Which fear sometimes wakes you up at night?"
+    },
+    {
+     "fr": "Qu’est-ce qui te fait le plus peur dans le fait de vieillir ?",
+     "en": "What scares you most about getting older?"
+    },
+    {
+     "fr": "As-tu peur de ressembler un jour à quelqu’un de ta famille ? À qui, et sur quoi ?",
+     "en": "Are you afraid of turning into someone in your family one day? Who, and in what way?"
+    },
+    {
+     "fr": "T’arrive-t-il d’avoir peur de ne pas être à la hauteur, avec moi ou dans ta vie ?",
+     "en": "Do you ever fear you’re not good enough, with me or in life?"
+    },
+    {
+     "fr": "Quelle perte te semblerait la plus difficile à traverser ?",
+     "en": "Which loss would feel hardest to get through?"
+    },
+    {
+     "fr": "D’où vient ta plus grande peur, selon toi ?",
+     "en": "Where do you think your biggest fear comes from?"
+    },
+    {
+     "fr": "Quelle peur liée à notre couple n’as-tu jamais osé formuler ?",
+     "en": "Which fear about our relationship have you never dared put into words?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’effraie dans l’idée d’être vu par moi tel que tu es, sans filtre ?",
+     "en": "What frightens you about being seen by me exactly as you are, with no filter?"
+    },
+    {
+     "fr": "Si ta plus grande peur se réalisait, de quoi aurais-tu besoin de ma part ?",
+     "en": "If your biggest fear came true, what would you need from me?"
+    },
+    {
+     "fr": "Quelle peur aimerais-tu qu’on affronte ensemble cette année ?",
+     "en": "Which fear would you like us to face together this year?"
+    }
+   ]
+  },
+  {
+   "slug": "ce-que-la-vie-t-a-appris",
+   "title_fr": "Ce que la vie t’a appris",
+   "title_en": "What life has taught you",
+   "topics": [
+    "knowyou",
+    "deep"
+   ],
+   "tags": [],
+   "art": "Footprints",
+   "items": [
+    {
+     "fr": "Si ta vie était un livre, quel serait le titre du chapitre en cours ?",
+     "en": "If your life were a book, what would the current chapter be called?"
+    },
+    {
+     "fr": "Quelle rencontre inattendue a compté dans ta vie ?",
+     "en": "Which unexpected encounter has mattered in your life?"
+    },
+    {
+     "fr": "Quelle période de ta vie aimerais-tu revivre pendant une semaine, et pourquoi ?",
+     "en": "Which period of your life would you relive for a week, and why?"
+    },
+    {
+     "fr": "Raconte-moi le jour où tu as goûté à la liberté la plus totale.",
+     "en": "Tell me about the day you tasted complete freedom."
+    },
+    {
+     "fr": "Quel conseil reçu un jour te guide encore aujourd’hui ?",
+     "en": "What piece of advice you once received still guides you today?"
+    },
+    {
+     "fr": "Sur quoi as-tu complètement changé d’avis en grandissant ?",
+     "en": "What have you completely changed your mind about as you grew up?"
+    },
+    {
+     "fr": "Quelle décision a le plus changé le cours de ta vie ?",
+     "en": "Which decision changed the course of your life most?"
+    },
+    {
+     "fr": "Quel échec t’a finalement rendu service ?",
+     "en": "Which failure turned out to do you a favour?"
+    },
+    {
+     "fr": "Quelle épreuve t’a révélé une force que tu ne te connaissais pas ?",
+     "en": "Which ordeal revealed a strength you didn’t know you had?"
+    },
+    {
+     "fr": "Quel moment de ta vie as-tu le plus de mal à raconter ?",
+     "en": "Which moment of your life do you find hardest to talk about?"
+    }
+   ]
+  },
+  {
+   "slug": "reves-et-ambitions",
+   "title_fr": "Rêves et ambitions",
+   "title_en": "Dreams and ambitions",
+   "topics": [
+    "future",
+    "knowyou",
+    "work"
+   ],
+   "tags": [],
+   "art": "Rocket",
+   "items": [
+    {
+     "fr": "Si tu avais un an devant toi sans aucune contrainte, que ferais-tu ?",
+     "en": "If you had a whole year with no constraints, what would you do?"
+    },
+    {
+     "fr": "Quel rêve d’enfant n’as-tu jamais vraiment abandonné ?",
+     "en": "Which childhood dream have you never quite given up on?"
+    },
+    {
+     "fr": "Quelle compétence aimerais-tu maîtriser d’ici cinq ans ?",
+     "en": "Which skill would you like to master within five years?"
+    },
+    {
+     "fr": "Qui admires-tu pour son parcours, et que voudrais-tu lui emprunter ?",
+     "en": "Whose path do you admire, and what would you borrow from it?"
+    },
+    {
+     "fr": "Quelle réussite te parle le plus : la reconnaissance, la liberté, être utile, autre chose ?",
+     "en": "Which kind of success speaks to you most: recognition, freedom, being useful, something else?"
+    },
+    {
+     "fr": "Qu’est-ce qui te retient aujourd’hui de te lancer dans ton grand projet ?",
+     "en": "What’s holding you back from starting your big project today?"
+    },
+    {
+     "fr": "Quel rêve un peu fou n’as-tu jamais osé me confier ?",
+     "en": "Which slightly crazy dream have you never dared tell me?"
+    },
+    {
+     "fr": "Comment puis-je t’aider, concrètement, à te rapprocher d’un de tes rêves ?",
+     "en": "How can I help you, in practical terms, get closer to one of your dreams?"
+    },
+    {
+     "fr": "Quel rêve mettrais-tu en pause pour nous, et lequel jamais ?",
+     "en": "Which dream would you put on hold for us, and which never?"
+    },
+    {
+     "fr": "Quel rêve aimerais-tu qu’on poursuive à deux ?",
+     "en": "Which dream would you like us to chase together?"
+    }
+   ]
+  },
+  {
+   "slug": "gouts-et-petites-manies",
+   "title_fr": "Tes goûts et petites manies",
+   "title_en": "Your tastes and little quirks",
+   "topics": [
+    "knowyou",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Sloth",
+   "items": [
+    {
+     "fr": "Quel est ton rituel du matin impossible à sauter ?",
+     "en": "What’s the morning ritual you simply can’t skip?"
+    },
+    {
+     "fr": "Quel aliment défends-tu alors que tout le monde le déteste ?",
+     "en": "Which food do you stand up for when everyone else hates it?"
+    },
+    {
+     "fr": "Quelle chanson connais-tu par cœur sans jamais l’avoir choisie ?",
+     "en": "Which song do you know by heart without ever having chosen to?"
+    },
+    {
+     "fr": "Quel film parfait choisis-tu pour un soir de pluie ?",
+     "en": "What’s your perfect film for a rainy evening?"
+    },
+    {
+     "fr": "Comment ranges-tu vraiment ton frigo ou ton bureau, et pourquoi est-ce la seule bonne méthode ?",
+     "en": "How do you really organise your fridge or your desk, and why is it the only correct way?"
+    },
+    {
+     "fr": "Quel bruit, quelle texture ou quelle habitude des autres te met hors de toi ?",
+     "en": "Which noise, texture or habit in other people drives you up the wall?"
+    },
+    {
+     "fr": "Quel objet gardes-tu depuis des années sans raison valable ?",
+     "en": "Which object have you kept for years for no good reason?"
+    },
+    {
+     "fr": "Quel est ton plaisir coupable le plus inavouable ?",
+     "en": "What’s your most unconfessable guilty pleasure?"
+    },
+    {
+     "fr": "Quelle manie as-tu, que personne à part moi ne connaît ?",
+     "en": "Which quirk of yours does nobody but me know about?"
+    },
+    {
+     "fr": "Laquelle de mes manies as-tu fini par adopter ?",
+     "en": "Which of my quirks have you ended up adopting?"
+    }
+   ]
+  },
+  {
+   "slug": "enfance-et-racines",
+   "title_fr": "Enfance et racines",
+   "title_en": "Childhood and roots",
+   "topics": [
+    "family",
+    "knowyou",
+    "deep"
+   ],
+   "tags": [],
+   "art": "Teddy bear",
+   "items": [
+    {
+     "fr": "Quelle odeur te ramène instantanément dans la maison de ton enfance ?",
+     "en": "Which smell instantly takes you back to your childhood home?"
+    },
+    {
+     "fr": "À quoi pouvais-tu jouer des heures sans t’ennuyer ?",
+     "en": "What could you play for hours without getting bored?"
+    },
+    {
+     "fr": "Quelle était ta cachette ou ton refuge préféré ?",
+     "en": "What was your favourite hiding place or refuge?"
+    },
+    {
+     "fr": "Quelle histoire de famille ressort à chaque réunion ?",
+     "en": "Which family story comes up at every gathering?"
+    },
+    {
+     "fr": "Quelle règle de ta maison d’enfance te paraît étrange aujourd’hui ?",
+     "en": "Which rule from your childhood home seems strange to you now?"
+    },
+    {
+     "fr": "Quel adulte de ton enfance t’a donné l’impression de compter vraiment ?",
+     "en": "Which adult in your childhood made you feel you truly mattered?"
+    },
+    {
+     "fr": "Comment ta famille gérait-elle les disputes, et qu’en as-tu gardé ?",
+     "en": "How did your family handle arguments, and what have you kept from that?"
+    },
+    {
+     "fr": "De quoi l’enfant que tu étais serait-il le plus fier en te voyant aujourd’hui ?",
+     "en": "What would the child you were be proudest of, seeing you today?"
+    },
+    {
+     "fr": "Quelle blessure d’enfance influence encore ta façon d’aimer ?",
+     "en": "Which childhood wound still shapes the way you love?"
+    },
+    {
+     "fr": "Quelles racines (un lieu, une langue, une culture) aimerais-tu ne jamais perdre ?",
+     "en": "Which roots (a place, a language, a culture) would you never want to lose?"
+    }
+   ]
+  },
+  {
+   "slug": "confidences-de-fin-de-soiree",
+   "title_fr": "Confidences de fin de soirée",
+   "title_en": "Late-night confessions",
+   "topics": [
+    "deep",
+    "relationship"
+   ],
+   "tags": [
+    "ex"
+   ],
+   "art": "Night with stars",
+   "items": [
+    {
+     "fr": "À 3 h du matin, quelle question aimerais-tu que je te pose ?",
+     "en": "At 3 a.m., what question would you like me to ask you?"
+    },
+    {
+     "fr": "Qu’est-ce qu’une relation passée t’a appris sur ce dont tu as besoin ?",
+     "en": "What has a past relationship taught you about what you need?"
+    },
+    {
+     "fr": "Quelle habitude prise dans une ancienne histoire as-tu laissée derrière toi avec plaisir ?",
+     "en": "Which habit from an old relationship were you glad to leave behind?"
+    },
+    {
+     "fr": "Qu’est-ce que tu fais différemment avec moi, que tu ne faisais pas avant ?",
+     "en": "What do you do differently with me that you didn’t do before?"
+    },
+    {
+     "fr": "Quand je parle de mon passé amoureux, qu’est-ce qui te met à l’aise et qu’est-ce qui te pique ?",
+     "en": "When I talk about my romantic past, what puts you at ease and what stings?"
+    },
+    {
+     "fr": "Sur ton passé amoureux, où places-tu la limite entre ce qu’on se dit et ce qu’on garde ?",
+     "en": "When it comes to your romantic past, where do you draw the line between what we share and what we keep?"
+    },
+    {
+     "fr": "Quelle rupture a le plus changé ta façon d’aimer ?",
+     "en": "Which break-up most changed the way you love?"
+    },
+    {
+     "fr": "Y a-t-il une peur héritée d’une ancienne relation que je devrais connaître ?",
+     "en": "Is there a fear left over from a past relationship that I should know about?"
+    },
+    {
+     "fr": "As-tu déjà attendu un pardon qui n’est jamais venu, ou gardé un pardon que tu n’as jamais donné ?",
+     "en": "Have you ever waited for forgiveness that never came, or held back forgiveness you never gave?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’a fait comprendre que notre histoire n’était pas comme les autres ?",
+     "en": "What made you realise our story wasn’t like the others?"
+    }
+   ]
+  },
+  {
+   "slug": "notre-histoire-depuis-le-debut",
+   "title_fr": "Notre histoire, depuis le début",
+   "title_en": "Our story from the very start",
+   "topics": [
+    "us",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Love letter",
+   "items": [
+    {
+     "fr": "Raconte notre rencontre comme si tu la racontais à des inconnus pendant un dîner.",
+     "en": "Tell the story of how we met as if you were telling strangers at a dinner party."
+    },
+    {
+     "fr": "Quel détail de notre premier rendez-vous te reste en tête, alors que je l’ai sûrement oublié ?",
+     "en": "Which detail of our first date do you remember that I’ve probably forgotten?"
+    },
+    {
+     "fr": "Qu’as-tu failli ne pas faire, et sans quoi on ne se serait jamais rencontrés ?",
+     "en": "What did you nearly not do, without which we’d never have met?"
+    },
+    {
+     "fr": "Quel premier message ou appel de ma part t’a fait sourire bêtement ?",
+     "en": "Which early message or call from me made you grin like an idiot?"
+    },
+    {
+     "fr": "À qui as-tu parlé de moi en premier, et qu’as-tu dit ?",
+     "en": "Who was the first person you told about me, and what did you say?"
+    },
+    {
+     "fr": "Qu’as-tu pensé juste après notre premier baiser ?",
+     "en": "What went through your mind right after our first kiss?"
+    },
+    {
+     "fr": "Quelle première fois avec moi a marqué un tournant : premier voyage, premier week-end, premier « je t’aime » ?",
+     "en": "Which first time with me marked a turning point: first trip, first weekend away, first \"I love you\"?"
+    },
+    {
+     "fr": "Y a-t-il eu un moment où tu as douté de nous, au début ? Qu’est-ce qui t’a fait rester ?",
+     "en": "Was there a moment early on when you doubted us? What made you stay?"
+    },
+    {
+     "fr": "Quel moment de nos débuts aimerais-tu revivre exactement à l’identique ?",
+     "en": "Which moment from our early days would you relive exactly as it was?"
+    },
+    {
+     "fr": "Si notre histoire était un film, quelle scène de nos débuts serait dans la bande-annonce ?",
+     "en": "If our story were a film, which scene from our early days would make the trailer?"
+    }
+   ]
+  },
+  {
+   "slug": "questions-absurdes-pour-rire",
+   "title_fr": "Questions absurdes, juste pour rire",
+   "title_en": "Absurd questions, just for laughs",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Rolling on the floor laughing",
+   "items": [
+    {
+     "fr": "Si nos deux prénoms fusionnaient, quel serait notre meilleur nom de couple ?",
+     "en": "If our first names merged, what would our best couple name be?"
+    },
+    {
+     "fr": "Si j’étais un plat, je serais lequel, et avec quelle sauce ?",
+     "en": "If I were a dish, which one would I be, and with what sauce?"
+    },
+    {
+     "fr": "Quel objet de la maison serait le plus bavard s’il pouvait parler, et que dirait-il de nous ?",
+     "en": "Which object at home would be the chattiest if it could talk, and what would it say about us?"
+    },
+    {
+     "fr": "Tu te réveilles dans la peau d’un pigeon pour 24 h : quelle est ta première mission ?",
+     "en": "You wake up as a pigeon for 24 hours: what’s your first mission?"
+    },
+    {
+     "fr": "Dans quel sport complètement inventé serais-je imbattable ?",
+     "en": "In which completely made-up sport would I be unbeatable?"
+    },
+    {
+     "fr": "Si un animal devait être notre majordome, lequel engagerais-tu ?",
+     "en": "If an animal had to be our butler, which one would you hire?"
+    },
+    {
+     "fr": "Quel serait le titre de ton autobiographie si tu l’écrivais demain ?",
+     "en": "What would your autobiography be called if you wrote it tomorrow?"
+    },
+    {
+     "fr": "Si notre couple avait sa propre chaîne de télé, quelle émission passerait à 21 h ?",
+     "en": "If our relationship had its own TV channel, what would be on at 9 p.m.?"
+    },
+    {
+     "fr": "Quel super-pouvoir parfaitement inutile rêverais-tu d’avoir ?",
+     "en": "Which perfectly useless superpower would you dream of having?"
+    },
+    {
+     "fr": "Quelle est la chose la plus absurde pour laquelle on s’est déjà disputés ?",
+     "en": "What’s the most absurd thing we’ve ever argued about?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-d-emmenager",
+   "title_fr": "Avant d’emménager ensemble",
+   "title_en": "Before moving in together",
+   "topics": [
+    "before",
+    "family"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "Key",
+   "items": [
+    {
+     "fr": "Chez l’un de nous, ou dans un lieu tout neuf pour nous deux ?",
+     "en": "One of our places, or somewhere brand new for the two of us?"
+    },
+    {
+     "fr": "Quel objet à toi est sacré, et duquel pourrais-tu te séparer sans regret ?",
+     "en": "Which of your belongings is sacred, and which could you happily part with?"
+    },
+    {
+     "fr": "Comment veux-tu qu’on partage le loyer et les factures : moitié-moitié, selon nos revenus, autrement ?",
+     "en": "How should we split rent and bills: fifty-fifty, according to our incomes, or some other way?"
+    },
+    {
+     "fr": "Quelle tâche ménagère détestes-tu, et laquelle ne te dérange pas du tout ?",
+     "en": "Which chore do you hate, and which one do you not mind at all?"
+    },
+    {
+     "fr": "Quel niveau de rangement te met à l’aise, et à partir de quand le désordre t’agace ?",
+     "en": "How tidy do things need to be for you, and at what point does mess start to bother you?"
+    },
+    {
+     "fr": "De combien de moments rien qu’à toi as-tu besoin, même sous le même toit ?",
+     "en": "How much time just for yourself do you need, even under the same roof?"
+    },
+    {
+     "fr": "Nos proches peuvent-ils passer à l’improviste, ou on préfère qu’ils préviennent ?",
+     "en": "Can friends and family drop by unannounced, or would we rather they let us know first?"
+    },
+    {
+     "fr": "Comment se dire qu’une habitude de l’autre nous pèse, sans que ça tourne au reproche ?",
+     "en": "How do we tell each other that a habit is wearing on us without it turning into blame?"
+    },
+    {
+     "fr": "Pour toi, vivre ensemble, c’est une étape vers quoi ?",
+     "en": "For you, what is living together a step towards?"
+    },
+    {
+     "fr": "Si un jour ça ne marchait plus, comment voudrais-tu qu’on s’organise pour le logement ?",
+     "en": "If things ever stopped working, how would you want us to sort out where we live?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-d-avoir-des-enfants",
+   "title_fr": "Avant d’avoir des enfants",
+   "title_en": "Before having children",
+   "topics": [
+    "before",
+    "family",
+    "future"
+   ],
+   "tags": [
+    "kids"
+   ],
+   "art": "Baby bottle",
+   "items": [
+    {
+     "fr": "Tu t’imagines avec combien d’enfants, et plutôt quand ?",
+     "en": "How many children do you picture, and roughly when?"
+    },
+    {
+     "fr": "Pourquoi as-tu envie d’être parent ? Qu’est-ce que ça représente pour toi ?",
+     "en": "Why do you want to be a parent? What does it mean to you?"
+    },
+    {
+     "fr": "Si ça prenait du temps ou ne venait pas naturellement, quelles pistes aimerais-tu explorer ?",
+     "en": "If it took time or didn’t happen naturally, which paths would you want to explore?"
+    },
+    {
+     "fr": "Comment imagines-tu qu’on se partage les nuits, les couches et les rendez-vous médicaux ?",
+     "en": "How do you picture us sharing the night feeds, the nappies and the doctor’s appointments?"
+    },
+    {
+     "fr": "Congé parental, temps partiel, mode de garde : qu’est-ce qui te semble juste pour nous deux ?",
+     "en": "Parental leave, part-time work, childcare: what feels fair for both of us?"
+    },
+    {
+     "fr": "Qu’est-ce qui te fait le plus peur dans le fait de devenir parent ?",
+     "en": "What scares you most about becoming a parent?"
+    },
+    {
+     "fr": "Quelle place aimerais-tu que nos parents prennent auprès de nos enfants ?",
+     "en": "How involved would you like our own parents to be with our children?"
+    },
+    {
+     "fr": "Que ferait-on si on n’était pas d’accord sur une règle devant les enfants ?",
+     "en": "What would we do if we disagreed about a rule in front of the children?"
+    },
+    {
+     "fr": "Comment ferons-nous pour rester un couple, et pas seulement des parents ?",
+     "en": "How will we stay a couple, and not just parents?"
+    },
+    {
+     "fr": "Une fois adultes, que voudrais-tu qu’ils racontent de leur enfance ?",
+     "en": "Once they’re grown up, what would you like them to say about their childhood?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-d-adopter-un-animal",
+   "title_fr": "Avant d’adopter un animal",
+   "title_en": "Before getting a pet",
+   "topics": [
+    "before",
+    "family",
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Paw prints",
+   "items": [
+    {
+     "fr": "Chien, chat, lapin ou autre : quel compagnon te fait rêver, et pourquoi ?",
+     "en": "Dog, cat, rabbit or something else: which companion do you dream of, and why?"
+    },
+    {
+     "fr": "Plutôt un animal adopté en refuge ou choisi chez un éleveur ?",
+     "en": "Would you rather adopt from a shelter or go to a breeder?"
+    },
+    {
+     "fr": "Qui le sort sous la pluie à sept heures du matin ?",
+     "en": "Who takes it out in the rain at seven in the morning?"
+    },
+    {
+     "fr": "Quel budget par mois te paraît raisonnable pour la nourriture, le vétérinaire et le reste ?",
+     "en": "What monthly budget feels reasonable for food, vet bills and everything else?"
+    },
+    {
+     "fr": "Le canapé, le lit, la chambre : où poses-tu les limites ?",
+     "en": "The sofa, the bed, the bedroom: where do you draw the line?"
+    },
+    {
+     "fr": "Qui le garde quand on part en vacances ou en week-end ?",
+     "en": "Who looks after it when we go away on holiday or for the weekend?"
+    },
+    {
+     "fr": "Notre logement et nos horaires sont-ils vraiment faits pour un animal aujourd’hui ?",
+     "en": "Are our home and our schedules really right for a pet at the moment?"
+    },
+    {
+     "fr": "Jusqu’où irais-tu pour le soigner s’il tombait gravement malade ?",
+     "en": "How far would you go to treat it if it fell seriously ill?"
+    },
+    {
+     "fr": "Un animal peut vivre quinze ans : où nous vois-tu d’ici là ?",
+     "en": "A pet can live for fifteen years: where do you see us by then?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-de-voyager-ensemble",
+   "title_fr": "Avant de voyager ensemble",
+   "title_en": "Before travelling together",
+   "topics": [
+    "before",
+    "travel"
+   ],
+   "tags": [],
+   "art": "Luggage",
+   "items": [
+    {
+     "fr": "Plutôt tout planifier à l’avance ou improviser une fois sur place ?",
+     "en": "Do you prefer planning everything ahead or improvising once we get there?"
+    },
+    {
+     "fr": "Hôtel de charme, camping, auberge ou location : où te sens-tu le mieux ?",
+     "en": "Boutique hotel, campsite, hostel or holiday rental: where do you feel most at home?"
+    },
+    {
+     "fr": "Quel budget par jour te semble confortable, et qui paie quoi ?",
+     "en": "What daily budget feels comfortable, and who pays for what?"
+    },
+    {
+     "fr": "Réveil à l’aube pour tout voir, ou grasses matinées assumées ?",
+     "en": "Up at dawn to see everything, or unapologetic lie-ins?"
+    },
+    {
+     "fr": "As-tu besoin de quelques heures chacun de son côté pendant un voyage ?",
+     "en": "Do you need a few hours each on our own during a trip?"
+    },
+    {
+     "fr": "Qu’est-ce qui te stresse le plus en voyage : les transports, l’argent, l’imprévu ?",
+     "en": "What stresses you most when travelling: transport, money, or the unexpected?"
+    },
+    {
+     "fr": "Que puis-je faire pour toi quand la fatigue ou la mauvaise humeur te rattrape loin de chez nous ?",
+     "en": "What can I do for you when tiredness or a bad mood catches up with you far from home?"
+    },
+    {
+     "fr": "Partir avec des amis ou de la famille, ça te tente, ou tu préfères qu’on reste à deux ?",
+     "en": "Does travelling with friends or family appeal to you, or do you prefer just the two of us?"
+    },
+    {
+     "fr": "Quel voyage voudrais-tu qu’on fasse au moins une fois dans notre vie ?",
+     "en": "Which trip would you like us to take at least once in our lives?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-d-acheter-un-logement",
+   "title_fr": "Avant d’acheter un logement",
+   "title_en": "Before buying a home",
+   "topics": [
+    "before",
+    "money",
+    "family"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "House with garden",
+   "items": [
+    {
+     "fr": "Ville, campagne, bord de mer : où te vois-tu poser tes cartons pour de bon ?",
+     "en": "City, countryside or seaside: where do you see yourself settling for good?"
+    },
+    {
+     "fr": "Appartement ou maison, et combien de pièces au minimum ?",
+     "en": "Flat or house, and how many rooms at the very least?"
+    },
+    {
+     "fr": "Qu’est-ce qui est non négociable pour toi : un extérieur, la lumière, le calme, la proximité du travail ?",
+     "en": "What’s non-negotiable for you: outdoor space, light, quiet, being close to work?"
+    },
+    {
+     "fr": "Quelle mensualité de crédit pourrions-nous assumer sans nous priver de tout ?",
+     "en": "What monthly mortgage payment could we manage without going without everything else?"
+    },
+    {
+     "fr": "Si l’un de nous apporte plus d’argent au départ, comment veux-tu qu’on en tienne compte ?",
+     "en": "If one of us puts in more money at the start, how should we take that into account?"
+    },
+    {
+     "fr": "Acheter vite, ou attendre le coup de cœur quitte à louer plus longtemps ?",
+     "en": "Buy soon, or wait for the one even if it means renting for longer?"
+    },
+    {
+     "fr": "Combien d’années t’imagines-tu vivre dans ce logement ?",
+     "en": "How many years do you picture us living there?"
+    },
+    {
+     "fr": "Des travaux à prévoir te motivent-ils, ou veux-tu pouvoir t’installer sans rien toucher ?",
+     "en": "Does a bit of a project excite you, or do you want to move in without touching a thing?"
+    },
+    {
+     "fr": "Qu’est-ce qui te rassurerait, sur le plan légal, si on achetait à deux sans être mariés ?",
+     "en": "What would reassure you, legally, if we bought together without being married?"
+    },
+    {
+     "fr": "Dans dix ans, à quoi ressemble un dimanche matin dans cette maison ?",
+     "en": "Ten years from now, what does a Sunday morning in that home look like?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-de-construire-ou-renover",
+   "title_fr": "Avant de construire ou de rénover",
+   "title_en": "Before building or renovating",
+   "topics": [
+    "before",
+    "family",
+    "money"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "Building construction",
+   "items": [
+    {
+     "fr": "Quel style te fait vibrer : l’ancien plein de charme, le moderne épuré, le cocon chaleureux ?",
+     "en": "Which style excites you: old with character, sleek and modern, or warm and cosy?"
+    },
+    {
+     "fr": "Qui a le dernier mot sur la déco, et comment on tranche quand on n’est pas d’accord ?",
+     "en": "Who has the final say on decor, and how do we decide when we disagree?"
+    },
+    {
+     "fr": "Quelle marge garde-t-on de côté pour les mauvaises surprises du chantier ?",
+     "en": "How much of a buffer do we set aside for nasty surprises along the way?"
+    },
+    {
+     "fr": "Tout faire nous-mêmes le week-end, ou confier le chantier à des pros ?",
+     "en": "Do it all ourselves at weekends, or hand the work over to professionals?"
+    },
+    {
+     "fr": "Combien de mois de poussière et de cartons te sens-tu capable de supporter ?",
+     "en": "How many months of dust and boxes do you think you can put up with?"
+    },
+    {
+     "fr": "Quelle pièce doit être prête en premier pour que tu te sentes chez toi ?",
+     "en": "Which room has to be ready first for you to feel at home?"
+    },
+    {
+     "fr": "Qui suit les artisans, les devis et les rendez-vous ?",
+     "en": "Who keeps track of the tradespeople, the quotes and the appointments?"
+    },
+    {
+     "fr": "Comment éviter que le chantier devienne un sujet de dispute permanent ?",
+     "en": "How do we stop the project turning into a constant source of arguments?"
+    },
+    {
+     "fr": "Si le budget dérape, à quoi renoncerais-tu en premier ?",
+     "en": "If the budget spirals, what would you give up first?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-de-se-marier",
+   "title_fr": "Avant de se marier",
+   "title_en": "Before getting married",
+   "topics": [
+    "before",
+    "future"
+   ],
+   "tags": [
+    "wedding"
+   ],
+   "art": "Heart with ribbon",
+   "items": [
+    {
+     "fr": "Pour toi, qu’est-ce que le mariage changerait vraiment entre nous ?",
+     "en": "For you, what would marriage really change between us?"
+    },
+    {
+     "fr": "Mairie, cérémonie religieuse, cérémonie laïque, ou un peu de tout ?",
+     "en": "Registry office, religious ceremony, a humanist one, or a bit of everything?"
+    },
+    {
+     "fr": "Parler d’un contrat de mariage, ça te semble sage ou ça te met mal à l’aise ?",
+     "en": "Talking about a prenup: does it seem sensible to you, or does it make you uneasy?"
+    },
+    {
+     "fr": "Une fois mariés, faut-il mettre tout notre argent en commun ?",
+     "en": "Once we’re married, should we pool all our money?"
+    },
+    {
+     "fr": "Changer de nom, garder le sien, les associer : qu’en penses-tu ?",
+     "en": "Changing names, keeping our own, combining them: what do you think?"
+    },
+    {
+     "fr": "Qu’attends-tu de ma famille, et qu’est-ce qu’elle peut attendre de toi ?",
+     "en": "What do you expect from my family, and what can they expect from you?"
+    },
+    {
+     "fr": "Quel couple marié t’inspire, et pourquoi ?",
+     "en": "Which married couple inspires you, and why?"
+    },
+    {
+     "fr": "Comment veux-tu qu’on traverse les périodes où l’amour sera moins facile ?",
+     "en": "How do you want us to get through the times when love feels harder?"
+    },
+    {
+     "fr": "Quelle promesse aimerais-tu me faire, et laquelle aimerais-tu entendre ?",
+     "en": "Which promise would you like to make me, and which would you like to hear?"
+    },
+    {
+     "fr": "Que veut dire « pour toujours » pour toi ?",
+     "en": "What does ’forever’ mean to you?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-de-changer-de-ville",
+   "title_fr": "Avant de changer de ville ou de pays",
+   "title_en": "Before moving to a new city or country",
+   "topics": [
+    "before",
+    "lifestyle",
+    "work"
+   ],
+   "tags": [],
+   "art": "Globe showing europe-africa",
+   "items": [
+    {
+     "fr": "Si on pouvait vivre n’importe où demain, tu choisirais où ?",
+     "en": "If we could live anywhere tomorrow, where would you choose?"
+    },
+    {
+     "fr": "Qu’est-ce qui te pousse à partir : une opportunité, l’envie d’ailleurs, un besoin de changement ?",
+     "en": "What’s pushing you to go: an opportunity, wanderlust, a need for change?"
+    },
+    {
+     "fr": "Qui de nous deux laisse le plus derrière soi, et comment rééquilibrer ?",
+     "en": "Which of us leaves more behind, and how do we make it fair?"
+    },
+    {
+     "fr": "Que te manquerait le plus d’ici ?",
+     "en": "What would you miss most about here?"
+    },
+    {
+     "fr": "Une nouvelle langue, une nouvelle culture : ça t’enthousiasme ou ça t’inquiète ?",
+     "en": "A new language, a new culture: does it thrill you or worry you?"
+    },
+    {
+     "fr": "Comment garder le lien avec nos proches à distance ?",
+     "en": "How do we stay close to our loved ones from far away?"
+    },
+    {
+     "fr": "Quelle somme faudrait-il avoir de côté pour partir sereinement ?",
+     "en": "How much would we need saved to leave with peace of mind?"
+    },
+    {
+     "fr": "Si l’un de nous n’arrive pas à s’adapter, au bout de combien de temps on en reparle ?",
+     "en": "If one of us can’t settle in, after how long do we talk it over again?"
+    },
+    {
+     "fr": "Dans ta tête, c’est un départ pour quelques années ou pour toujours ?",
+     "en": "In your mind, is this a move for a few years or for good?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-d-ouvrir-un-compte-commun",
+   "title_fr": "Avant d’ouvrir un compte commun",
+   "title_en": "Before opening a joint account",
+   "topics": [
+    "before",
+    "money"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "Credit card",
+   "items": [
+    {
+     "fr": "Un compte commun pour tout, pour une partie, ou chacun le sien : qu’est-ce qui te ressemble ?",
+     "en": "One joint account for everything, for some things, or separate accounts: what suits you?"
+    },
+    {
+     "fr": "Quelles dépenses doivent passer par le compte commun, selon toi ?",
+     "en": "Which expenses do you think should go through the joint account?"
+    },
+    {
+     "fr": "On verse chacun la même somme, ou un pourcentage de nos revenus ?",
+     "en": "Do we each pay in the same amount, or a percentage of our income?"
+    },
+    {
+     "fr": "À partir de quel montant faut-il en parler avant d’acheter ?",
+     "en": "Above what amount should we talk before buying something?"
+    },
+    {
+     "fr": "Côté argent, tu as plutôt la main légère ou la main serrée ?",
+     "en": "When it comes to money, are you more of a spender or a saver?"
+    },
+    {
+     "fr": "As-tu des dettes, des crédits ou des engagements dont on n’a pas encore parlé ?",
+     "en": "Do you have any debts, loans or commitments we haven’t talked about yet?"
+    },
+    {
+     "fr": "Qui suit les comptes, et tous les combien fait-on le point ensemble ?",
+     "en": "Who keeps an eye on the accounts, and how often do we review them together?"
+    },
+    {
+     "fr": "Quelle part de notre argent doit rester libre, sans avoir à se justifier ?",
+     "en": "How much of our money should stay free to spend, no questions asked?"
+    },
+    {
+     "fr": "Combien aimerais-tu qu’on mette de côté chaque mois, et pour quoi ?",
+     "en": "How much would you like us to put aside each month, and what for?"
+    },
+    {
+     "fr": "Comment veux-tu qu’on réagisse le jour où l’un de nous dépasse ?",
+     "en": "How should we react the day one of us overspends?"
+    }
+   ]
+  },
+  {
+   "slug": "avant-une-reconversion",
+   "title_fr": "Avant une reconversion ou des études",
+   "title_en": "Before a career change or going back to study",
+   "topics": [
+    "before",
+    "work",
+    "money"
+   ],
+   "tags": [],
+   "art": "Graduation cap",
+   "items": [
+    {
+     "fr": "Qu’est-ce qui te donne envie de changer en ce moment ?",
+     "en": "What’s making you want a change right now?"
+    },
+    {
+     "fr": "Si la réussite était garantie, quel métier choisirais-tu ?",
+     "en": "If you knew it would work out, which job would you choose?"
+    },
+    {
+     "fr": "Combien de mois avec moins de revenus pourrions-nous tenir sereinement ?",
+     "en": "How many months on a lower income could we comfortably manage?"
+    },
+    {
+     "fr": "Comment adapter la répartition des dépenses pendant cette période ?",
+     "en": "How should we adjust who pays for what during that time?"
+    },
+    {
+     "fr": "Révisions le soir, horaires décalés, déplacements : qu’est-ce qui va changer pour nous ?",
+     "en": "Evening revision, odd hours, travel: what will change for us?"
+    },
+    {
+     "fr": "De quel soutien concret auras-tu besoin de ma part ?",
+     "en": "What practical support will you need from me?"
+    },
+    {
+     "fr": "Et si ce changement me pèse par moments, comment veux-tu que je te le dise ?",
+     "en": "And if the change weighs on me at times, how would you like me to tell you?"
+    },
+    {
+     "fr": "Qu’est-ce qui te ferait dire, dans un an, que c’était le bon choix ?",
+     "en": "What would make you say, a year from now, that it was the right choice?"
+    },
+    {
+     "fr": "Si ça ne se passe pas comme prévu, quel est notre plan B ?",
+     "en": "If it doesn’t go to plan, what’s our plan B?"
+    }
+   ]
+  },
+  {
+   "slug": "la-demande-parfaite",
+   "title_fr": "La demande parfaite",
+   "title_en": "The perfect proposal",
+   "topics": [
+    "future",
+    "relationship"
+   ],
+   "tags": [
+    "wedding"
+   ],
+   "art": "Ring",
+   "items": [
+    {
+     "fr": "As-tu déjà imaginé ta demande en mariage idéale ? Raconte.",
+     "en": "Have you ever imagined your ideal proposal? Tell me about it."
+    },
+    {
+     "fr": "Plutôt une surprise totale, ou une décision prise ensemble ?",
+     "en": "A total surprise, or a decision we make together?"
+    },
+    {
+     "fr": "En tête-à-tête ou entourés de nos proches ?",
+     "en": "Just the two of us, or surrounded by our loved ones?"
+    },
+    {
+     "fr": "Quel lieu serait parfait pour ce moment-là ?",
+     "en": "Which place would be perfect for that moment?"
+    },
+    {
+     "fr": "Faut-il une bague ? Si oui, à quoi ressemblerait-elle ?",
+     "en": "Does there have to be a ring? If so, what would it look like?"
+    },
+    {
+     "fr": "Selon toi, qui devrait faire la demande : moi, toi, ou les deux ?",
+     "en": "Who should propose, in your view: me, you, or both of us?"
+    },
+    {
+     "fr": "Demander la bénédiction de nos familles, ou leur annoncer après ?",
+     "en": "Ask our families for their blessing, or tell them afterwards?"
+    },
+    {
+     "fr": "Quels mots aimerais-tu entendre ce jour-là ?",
+     "en": "What words would you love to hear that day?"
+    },
+    {
+     "fr": "Comment fêterais-tu le « oui » juste après ?",
+     "en": "How would you celebrate the ’yes’ straight afterwards?"
+    }
+   ]
+  },
+  {
+   "slug": "le-mariage-de-nos-reves",
+   "title_fr": "Le mariage de nos rêves",
+   "title_en": "Our dream wedding",
+   "topics": [
+    "future",
+    "relationship"
+   ],
+   "tags": [
+    "wedding"
+   ],
+   "art": "Wedding",
+   "items": [
+    {
+     "fr": "Grande fête avec deux cents invités, ou cérémonie intime ?",
+     "en": "A big party with two hundred guests, or an intimate ceremony?"
+    },
+    {
+     "fr": "Quelle saison et quel décor te font rêver ?",
+     "en": "Which season and setting do you dream of?"
+    },
+    {
+     "fr": "Quel budget te semble raisonnable pour une seule journée ?",
+     "en": "What budget feels reasonable for a single day?"
+    },
+    {
+     "fr": "Mettre cet argent dans la fête ou dans le voyage de noces ?",
+     "en": "Spend that money on the party or on the honeymoon?"
+    },
+    {
+     "fr": "Quelle tradition tiens-tu à garder, et laquelle supprimerais-tu sans regret ?",
+     "en": "Which tradition do you want to keep, and which would you happily drop?"
+    },
+    {
+     "fr": "Qui sont les personnes qui doivent absolument être là ?",
+     "en": "Who absolutely has to be there?"
+    },
+    {
+     "fr": "Quelle chanson pour notre première danse ?",
+     "en": "Which song for our first dance?"
+    },
+    {
+     "fr": "Écrire nos propres vœux, ça te tente ?",
+     "en": "Would you like us to write our own vows?"
+    },
+    {
+     "fr": "Quel moment de la journée voudrais-tu graver dans ta mémoire ?",
+     "en": "Which moment of the day would you want to remember forever?"
+    },
+    {
+     "fr": "Que voudrais-tu qu’on ressente en se réveillant le lendemain ?",
+     "en": "What would you want us to feel when we wake up the next morning?"
+    }
+   ]
+  },
+  {
+   "slug": "parler-de-notre-intimite",
+   "title_fr": "Parler de notre intimité",
+   "title_en": "Talking about our intimacy",
+   "topics": [
+    "intimacy",
+    "relationship"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Revolving hearts",
+   "items": [
+    {
+     "fr": "Est-ce facile pour toi de parler d’intimité avec moi ? Qu’est-ce qui rendrait ça plus simple ?",
+     "en": "Is it easy for you to talk about intimacy with me? What would make it easier?"
+    },
+    {
+     "fr": "À quel moment préfères-tu qu’on aborde ces sujets : au lit, en balade, autour d’un verre ?",
+     "en": "When would you rather we bring these things up: in bed, on a walk, over a drink?"
+    },
+    {
+     "fr": "Que signifie l’intimité pour toi, au-delà du sexe ?",
+     "en": "What does intimacy mean to you, beyond sex?"
+    },
+    {
+     "fr": "Qu’as-tu appris sur le désir en grandissant, et qu’as-tu choisi d’en garder ?",
+     "en": "What did you learn about desire growing up, and what have you chosen to keep?"
+    },
+    {
+     "fr": "À quelle fréquence aimerais-tu qu’on se retrouve vraiment, tous les deux ?",
+     "en": "How often would you like us to truly make time for each other, just the two of us?"
+    },
+    {
+     "fr": "Comment préfères-tu que je te dise qu’une chose ne me convient pas ?",
+     "en": "How would you prefer me to tell you that something isn’t working for me?"
+    },
+    {
+     "fr": "Y a-t-il un sujet que tu n’as jamais osé aborder avec moi ?",
+     "en": "Is there a subject you’ve never dared to raise with me?"
+    },
+    {
+     "fr": "Quand nos envies ne sont pas au même niveau, comment voudrais-tu qu’on se rejoigne ?",
+     "en": "When our desire isn’t in the same place, how would you like us to meet in the middle?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’aide à te sentir bien dans ton corps avec moi ?",
+     "en": "What helps you feel good in your body when you’re with me?"
+    },
+    {
+     "fr": "Quel moment à deux a le plus nourri notre complicité, selon toi ?",
+     "en": "Which moment together do you think did the most for our closeness?"
+    }
+   ]
+  },
+  {
+   "slug": "desirs-et-envies",
+   "title_fr": "Désirs et envies",
+   "title_en": "Desires and longings",
+   "topics": [
+    "intimacy",
+    "relationship"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Heart on fire",
+   "items": [
+    {
+     "fr": "Quel petit rien suffit à te donner envie de moi ?",
+     "en": "What tiny thing is enough to make you want me?"
+    },
+    {
+     "fr": "À quel moment de la journée ton désir est-il le plus fort ?",
+     "en": "At what time of day is your desire strongest?"
+    },
+    {
+     "fr": "Préfères-tu qu’on prenne tout notre temps, ou te laisser emporter par l’urgence ?",
+     "en": "Do you prefer us taking all the time in the world, or being swept away by the urgency?"
+    },
+    {
+     "fr": "Quel souvenir de nous deux te donne encore des frissons ?",
+     "en": "Which memory of the two of us still gives you shivers?"
+    },
+    {
+     "fr": "Y a-t-il une envie que tu gardes pour toi, faute d’avoir trouvé le bon moment ?",
+     "en": "Is there a desire you’ve kept to yourself because the moment never felt right?"
+    },
+    {
+     "fr": "Quel compliment te trouble le plus ?",
+     "en": "Which compliment stirs you the most?"
+    },
+    {
+     "fr": "Aimes-tu davantage prendre l’initiative ou te laisser guider ?",
+     "en": "Do you enjoy taking the lead more, or being led?"
+    },
+    {
+     "fr": "Quel fantasme accepterais-tu de me raconter, même s’il doit rester un rêve ?",
+     "en": "Which fantasy would you be willing to tell me about, even if it stays a dream?"
+    },
+    {
+     "fr": "Comment ton désir a-t-il évolué depuis le début de notre histoire ?",
+     "en": "How has your desire changed since we first got together?"
+    },
+    {
+     "fr": "Que pourrais-je faire pour que tu te sentes plus libre de dire ce dont tu as envie ?",
+     "en": "What could I do to help you feel freer to say what you want?"
+    }
+   ]
+  },
+  {
+   "slug": "a-essayer-ensemble",
+   "title_fr": "À essayer ensemble",
+   "title_en": "Things to try together",
+   "topics": [
+    "intimacy",
+    "relationship"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Sparkles",
+   "items": [
+    {
+     "fr": "Quelle nouveauté éveille ta curiosité en ce moment ?",
+     "en": "Which new idea is sparking your curiosity at the moment?"
+    },
+    {
+     "fr": "Un week-end rien qu’à nous, sans téléphone : ça te dit ? Où ?",
+     "en": "A weekend just for us, no phones: tempted? Where?"
+    },
+    {
+     "fr": "Un massage à la lueur des bougies : qui commence, et qui se laisse faire ?",
+     "en": "A candlelit massage: who starts, and who gets to lie back?"
+    },
+    {
+     "fr": "Quel coin inattendu de la maison mériterait une petite aventure ?",
+     "en": "Which unexpected corner of our home deserves a little adventure?"
+    },
+    {
+     "fr": "Un jeu de rôle léger, un déguisement, une mise en scène : qu’est-ce qui te ferait sourire ?",
+     "en": "A playful role-play, a costume, a bit of staging: which would make you smile?"
+    },
+    {
+     "fr": "Lire un texte sensuel à voix haute l’un pour l’autre, tu oserais ?",
+     "en": "Would you dare read a sensual text aloud to each other?"
+    },
+    {
+     "fr": "Un rendez-vous où l’on joue à se séduire comme deux inconnus, ça te tente ?",
+     "en": "A date where we flirt like two strangers: are you up for it?"
+    },
+    {
+     "fr": "Quel cadeau un peu coquin aimerais-tu recevoir, ou offrir ?",
+     "en": "Which slightly cheeky gift would you love to receive, or to give?"
+    },
+    {
+     "fr": "Avant d’essayer quelque chose de nouveau, de quoi as-tu besoin pour te sentir à l’aise ?",
+     "en": "Before trying something new, what do you need to feel at ease?"
+    },
+    {
+     "fr": "Si une expérience ne te plaît pas finalement, comment veux-tu qu’on en parle après ?",
+     "en": "If something we try turns out not to be for you, how would you like us to talk about it afterwards?"
+    }
+   ]
+  },
+  {
+   "slug": "ce-qui-nous-allume",
+   "title_fr": "Ce qui nous allume, ce qui nous refroidit",
+   "title_en": "What lights us up, what cools us down",
+   "topics": [
+    "intimacy"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Fire",
+   "items": [
+    {
+     "fr": "Quel parfum, quelle tenue ou quelle attitude chez moi te fait de l’effet ?",
+     "en": "Which scent, outfit or attitude of mine has an effect on you?"
+    },
+    {
+     "fr": "Quel mot doux ou quel regard suffit à te réchauffer ?",
+     "en": "Which sweet word or look is enough to warm you up?"
+    },
+    {
+     "fr": "Aimes-tu qu’on fasse monter la tension toute la journée, avec des messages ou des clins d’œil ?",
+     "en": "Do you like the tension building all day, with messages or knowing glances?"
+    },
+    {
+     "fr": "Qu’est-ce qui t’aide à passer d’une journée chargée à un moment à deux ?",
+     "en": "What helps you switch from a busy day to time for the two of us?"
+    },
+    {
+     "fr": "Qu’est-ce qui coupe net ton envie, même quand tout avait bien commencé ?",
+     "en": "What kills the mood for you instantly, even when things had started well?"
+    },
+    {
+     "fr": "Le stress, la fatigue, les écrans : lequel nous vole le plus de moments à deux ?",
+     "en": "Stress, tiredness, screens: which one steals the most moments from us?"
+    },
+    {
+     "fr": "Une dispute pas encore réglée : ça t’éloigne ou ça te rapproche ?",
+     "en": "An argument that isn’t settled yet: does it push you away or pull you closer?"
+    },
+    {
+     "fr": "Y a-t-il une habitude du quotidien qui te refroidit, sans que tu aies osé me le dire ?",
+     "en": "Is there an everyday habit that cools you down that you’ve never dared mention?"
+    },
+    {
+     "fr": "Quand tu n’as pas envie, qu’est-ce qui te ferait quand même du bien : un câlin, du calme, de la tendresse ?",
+     "en": "When you’re not in the mood, what would still feel good: a cuddle, some quiet, tenderness?"
+    }
+   ]
+  },
+  {
+   "slug": "creer-l-atmosphere-parfaite",
+   "title_fr": "Créer l’atmosphère parfaite",
+   "title_en": "Setting the perfect mood",
+   "topics": [
+    "intimacy",
+    "lifestyle"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Candle",
+   "items": [
+    {
+     "fr": "Lumière tamisée, bougies ou pénombre totale : quelle est ton ambiance idéale ?",
+     "en": "Dimmed lights, candles or total darkness: what’s your ideal setting?"
+    },
+    {
+     "fr": "Quelle musique aimerais-tu en fond, ou préfères-tu le silence ?",
+     "en": "Which music would you like in the background, or do you prefer silence?"
+    },
+    {
+     "fr": "Draps frais, plaid moelleux, bain chaud : quel confort te met dans l’humeur ?",
+     "en": "Fresh sheets, a soft throw, a hot bath: which comfort puts you in the mood?"
+    },
+    {
+     "fr": "Un dîner à deux qui s’étire tard dans la soirée, ça te fait quel effet ?",
+     "en": "A dinner for two that stretches late into the evening: what does that do to you?"
+    },
+    {
+     "fr": "Quelle odeur aimerais-tu sentir dans la chambre ?",
+     "en": "Which scent would you like to find in the bedroom?"
+    },
+    {
+     "fr": "Un moment préparé à l’avance, ou une ambiance qui naît d’elle-même ?",
+     "en": "A moment planned in advance, or a mood that just happens?"
+    },
+    {
+     "fr": "Qu’est-ce qui doit absolument quitter la pièce : le téléphone, le linge, la télé ?",
+     "en": "What absolutely has to leave the room: the phone, the laundry, the TV?"
+    },
+    {
+     "fr": "Quel lieu de vacances t’a semblé fait pour l’amour ?",
+     "en": "Which holiday spot felt made for romance?"
+    },
+    {
+     "fr": "Comment aimerais-tu qu’on prolonge le moment après, plutôt que de reprendre le fil de la soirée ?",
+     "en": "How would you like us to linger afterwards, rather than just carrying on with the evening?"
+    }
+   ]
+  },
+  {
+   "slug": "consentement-et-confiance",
+   "title_fr": "Consentement et confiance",
+   "title_en": "Consent and trust",
+   "topics": [
+    "intimacy",
+    "relationship"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Handshake",
+   "items": [
+    {
+     "fr": "Comment aimes-tu qu’on te demande si tu as envie ?",
+     "en": "How do you like to be asked whether you’re in the mood?"
+    },
+    {
+     "fr": "Est-ce facile pour toi de dire non dans un moment intime ? Comment puis-je t’aider à le dire ?",
+     "en": "Is it easy for you to say no in an intimate moment? How can I make it easier?"
+    },
+    {
+     "fr": "Comment voudrais-tu que je réagisse à un non, pour que ça reste doux entre nous ?",
+     "en": "How would you like me to respond to a no, so things stay gentle between us?"
+    },
+    {
+     "fr": "Un mot, un geste ou un signal pour faire une pause : lequel choisirais-tu ?",
+     "en": "A word, a gesture or a signal to pause: which would you choose?"
+    },
+    {
+     "fr": "Y a-t-il des limites que tu aimerais que je connaisse sans avoir à les répéter ?",
+     "en": "Are there limits you’d like me to know without you having to repeat them?"
+    },
+    {
+     "fr": "Te sens-tu libre de changer d’avis en cours de route ?",
+     "en": "Do you feel free to change your mind along the way?"
+    },
+    {
+     "fr": "Qu’est-ce qui te donne assez confiance pour te laisser aller avec moi ?",
+     "en": "What gives you enough trust to let go with me?"
+    },
+    {
+     "fr": "Après un moment intime, comment aimes-tu qu’on prenne des nouvelles l’un de l’autre ?",
+     "en": "After an intimate moment, how do you like us to check in with each other?"
+    },
+    {
+     "fr": "Si un jour tu en ressens le besoin, comment pourrions-nous parler d’une expérience passée qui a laissé une trace ?",
+     "en": "If you ever feel the need, how could we talk about a past experience that left a mark?"
+    },
+    {
+     "fr": "Qu’est-ce qui te montre, au quotidien, que ton corps et tes choix sont respectés ?",
+     "en": "What shows you, day to day, that your body and your choices are respected?"
+    }
+   ]
+  }
+ ]
+}

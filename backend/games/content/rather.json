@@ -1,0 +1,1924 @@
+{
+ "kind": "rather",
+ "packs": [
+  {
+   "slug": "les-defis-de-l-amour",
+   "title_fr": "Les défis de l’amour",
+   "title_en": "Love’s little tests",
+   "topics": [
+    "relationship",
+    "us"
+   ],
+   "tags": [],
+   "art": "Heart with arrow",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Trouver un mot doux caché chaque matin",
+     "b_fr": "Recevoir une grande déclaration une fois par an",
+     "a_en": "Find a hidden love note every morning",
+     "b_en": "Get one grand declaration a year",
+     "a_art": "Love letter",
+     "b_art": "Megaphone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Danser un slow ridicule au milieu du supermarché",
+     "b_fr": "Chanter notre chanson au karaoké devant tes collègues",
+     "a_en": "Slow-dance badly in the middle of the supermarket",
+     "b_en": "Sing our song at karaoke in front of your colleagues",
+     "a_art": "Shopping cart",
+     "b_art": "Microphone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Renoncer à se tenir la main en public",
+     "b_fr": "Renoncer aux bisous en public",
+     "a_en": "Give up holding hands in public",
+     "b_en": "Give up kissing in public",
+     "a_art": "Handshake",
+     "b_art": "Kissing face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Savoir à tout moment ce que l’autre pense",
+     "b_fr": "Savoir à tout moment ce que l’autre ressent",
+     "a_en": "Always know what your partner is thinking",
+     "b_en": "Always know what your partner is feeling",
+     "a_art": "Brain",
+     "b_art": "Anatomical heart"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se disputer souvent mais se réconcilier en cinq minutes",
+     "b_fr": "Se disputer rarement mais bouder pendant trois jours",
+     "a_en": "Argue often but make up in five minutes",
+     "b_en": "Rarely argue but sulk for three days",
+     "a_art": "Collision",
+     "b_art": "Pouting face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir des excuses parfaites, mais une semaine plus tard",
+     "b_fr": "Recevoir des excuses maladroites, mais tout de suite",
+     "a_en": "Get a perfect apology, but a week late",
+     "b_en": "Get a clumsy apology, but straight away",
+     "a_art": "Bouquet",
+     "b_art": "Grimacing face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prendre une semaine d’air après une grosse dispute",
+     "b_fr": "Rester enfermés ensemble jusqu’à tout régler",
+     "a_en": "Take a week apart after a big row",
+     "b_en": "Stay locked in together until it’s sorted",
+     "a_art": "Wind face",
+     "b_art": "Locked"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pouvoir changer une seule manie de l’autre",
+     "b_fr": "Pouvoir changer une seule de tes propres manies",
+     "a_en": "Change one single habit of your partner’s",
+     "b_en": "Change one single habit of your own",
+     "a_art": "Hammer and wrench",
+     "b_art": "Mirror"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Donner un peu plus d’amour que tu n’en reçois",
+     "b_fr": "Recevoir un peu plus d’amour que tu n’en donnes",
+     "a_en": "Give a little more love than you get",
+     "b_en": "Get a little more love than you give",
+     "a_art": "Wrapped gift",
+     "b_art": "Smiling face with hearts"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Revivre notre plus beau jour, une seule fois",
+     "b_fr": "Effacer notre pire dispute, pour toujours",
+     "a_en": "Relive our best day, just once",
+     "b_en": "Erase our worst row, for good",
+     "a_art": "Sparkles",
+     "b_art": "Wastebasket"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Garder des papillons dans le ventre toute la vie",
+     "b_fr": "Garder une confiance totale et paisible toute la vie",
+     "a_en": "Keep the butterflies for life",
+     "b_en": "Keep a calm, total trust for life",
+     "a_art": "Butterfly",
+     "b_art": "Anchor"
+    }
+   ]
+  },
+  {
+   "slug": "loin-des-yeux",
+   "title_fr": "Loin des yeux, près du cœur",
+   "title_en": "Far apart, close at heart",
+   "topics": [
+    "relationship",
+    "travel"
+   ],
+   "tags": [],
+   "art": "Airplane departure",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir un appel vidéo d’une heure chaque soir",
+     "b_fr": "Recevoir une lettre écrite à la main chaque semaine",
+     "a_en": "Get an hour-long video call every night",
+     "b_en": "Get a handwritten letter every week",
+     "a_art": "Mobile phone",
+     "b_art": "Envelope"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se voir un week-end sur deux",
+     "b_fr": "Passer un mois entier ensemble tous les trois mois",
+     "a_en": "See each other every other weekend",
+     "b_en": "Spend a whole month together every three months",
+     "a_art": "Calendar",
+     "b_art": "Spiral calendar"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "S’endormir en appel pour entendre l’autre respirer",
+     "b_fr": "Regarder le même film en même temps, chacun chez soi",
+     "a_en": "Fall asleep on a call, listening to each other breathe",
+     "b_en": "Watch the same film at the same time, each at home",
+     "a_art": "Sleeping face",
+     "b_art": "Popcorn"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire huit heures de train pour un seul week-end",
+     "b_fr": "Patienter un mois pour une semaine entière",
+     "a_en": "Take an eight-hour train for a single weekend",
+     "b_en": "Wait a month for a whole week together",
+     "a_art": "High-speed train",
+     "b_art": "Hourglass not done"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir un pull qui porte encore l’odeur de l’autre",
+     "b_fr": "Recevoir une playlist faite rien que pour toi",
+     "a_en": "Get a jumper that still smells of your partner",
+     "b_en": "Get a playlist made just for you",
+     "a_art": "Coat",
+     "b_art": "Headphone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Composer avec neuf heures de décalage horaire",
+     "b_fr": "Composer avec un réseau qui coupe sans arrêt",
+     "a_en": "Deal with a nine-hour time difference",
+     "b_en": "Deal with a signal that keeps cutting out",
+     "a_art": "Night with stars",
+     "b_art": "Antenna bars"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tout se raconter au fil de la journée par messages",
+     "b_fr": "Tout garder pour le grand appel du soir",
+     "a_en": "Share everything by text throughout the day",
+     "b_en": "Save it all for the big evening call",
+     "a_art": "Speech balloon",
+     "b_art": "Telephone receiver"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se retrouver à l’aéroport en courant, comme au cinéma",
+     "b_fr": "Se retrouver tranquillement à la maison, porte fermée",
+     "a_en": "Reunite at the airport, running like in a film",
+     "b_en": "Reunite quietly at home, door shut",
+     "a_art": "Airplane arrival",
+     "b_art": "Door"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre loin l’un de l’autre avec nos métiers de rêve",
+     "b_fr": "Vivre ensemble avec des métiers sans saveur",
+     "a_en": "Live apart with our dream jobs",
+     "b_en": "Live together with dull jobs",
+     "a_art": "Briefcase",
+     "b_art": "House"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Connaître la date exacte où la distance s’arrête",
+     "b_fr": "Ignorer la date, mais peut-être se retrouver plus tôt",
+     "a_en": "Know the exact date the distance ends",
+     "b_en": "Have no date, but maybe reunite sooner",
+     "a_art": "Tear-off calendar",
+     "b_art": "Red question mark"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partir six mois au bout du monde pour ton rêve",
+     "b_fr": "Laisser l’autre partir six mois pour le sien",
+     "a_en": "Go away for six months to chase your dream",
+     "b_en": "Let your partner go for six months to chase theirs",
+     "a_art": "Globe showing asia-australia",
+     "b_art": "Smiling face with tear"
+    }
+   ]
+  },
+  {
+   "slug": "secrets-et-transparence",
+   "title_fr": "Secrets et transparence",
+   "title_en": "Secrets and honesty",
+   "topics": [
+    "values",
+    "relationship"
+   ],
+   "tags": [
+    "ex"
+   ],
+   "art": "Locked with key",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partager tous nos mots de passe",
+     "b_fr": "Garder chacun son téléphone verrouillé",
+     "a_en": "Share all our passwords",
+     "b_en": "Each keep our phones locked",
+     "a_art": "Key",
+     "b_art": "Locked"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Lire le journal intime de l’autre à 15 ans",
+     "b_fr": "Voir l’historique de recherche de l’autre, hier soir",
+     "a_en": "Read your partner’s diary from age 15",
+     "b_en": "See your partner’s search history from last night",
+     "a_art": "Notebook with decorative cover",
+     "b_art": "Magnifying glass tilted left"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Entendre les pensées de l’autre pendant une heure",
+     "b_fr": "Laisser l’autre entendre les tiennes pendant une heure",
+     "a_en": "Hear your partner’s thoughts for an hour",
+     "b_en": "Let your partner hear yours for an hour",
+     "a_art": "Eye",
+     "b_art": "Thought balloon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avouer tout de suite avoir cassé son objet préféré",
+     "b_fr": "Le réparer en douce et croiser les doigts",
+     "a_en": "Own up straight away to breaking their favourite thing",
+     "b_en": "Fix it on the quiet and cross your fingers",
+     "a_art": "Face with hand over mouth",
+     "b_art": "Adhesive bandage"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir des critiques franches sur ta cuisine",
+     "b_fr": "Recevoir des compliments polis mais faux",
+     "a_en": "Get honest feedback on your cooking",
+     "b_en": "Get polite but fake compliments",
+     "a_art": "Face with monocle",
+     "b_art": "Upside-down face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mentir pendant un mois pour réussir une surprise",
+     "b_fr": "Vendre la mèche pour ne jamais avoir à mentir",
+     "a_en": "Lie for a month to pull off a surprise",
+     "b_en": "Spill the beans so you never have to lie",
+     "a_art": "Party popper",
+     "b_art": "Smiling face with halo"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tout savoir sur les ex de l’autre",
+     "b_fr": "Ignorer tout de ses ex, sans exception",
+     "a_en": "Know everything about your partner’s exes",
+     "b_en": "Know nothing at all about them",
+     "a_art": "Open book",
+     "b_art": "See-no-evil monkey"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rester en contact avec un ex, en toute transparence",
+     "b_fr": "Couper tout contact avec tes ex",
+     "a_en": "Stay in touch with an ex, completely in the open",
+     "b_en": "Cut all contact with your exes",
+     "a_art": "Linked paperclips",
+     "b_art": "Scissors"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Garder un petit jardin secret rien qu’à toi",
+     "b_fr": "Tout partager, sans aucune zone privée",
+     "a_en": "Keep a little secret garden of your own",
+     "b_en": "Share everything, no private corners",
+     "a_art": "Potted plant",
+     "b_art": "Window"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Apprendre une vérité qui fait mal",
+     "b_fr": "Vivre avec un doux mensonge pour toujours",
+     "a_en": "Learn a truth that hurts",
+     "b_en": "Live with a sweet lie forever",
+     "a_art": "Broken heart",
+     "b_art": "Lying face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Découvrir un secret de l’autre par un ami",
+     "b_fr": "Laisser ce secret enfoui pour toujours",
+     "a_en": "Learn your partner’s secret from a friend",
+     "b_en": "Let that secret stay buried forever",
+     "a_art": "Speaking head",
+     "b_art": "Zipper-mouth face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avouer un vieux secret ce soir",
+     "b_fr": "Le garder jusqu’à nos 80 ans",
+     "a_en": "Confess an old secret tonight",
+     "b_en": "Keep it until we’re 80",
+     "a_art": "Loudspeaker",
+     "b_art": "Hourglass done"
+    }
+   ]
+  },
+  {
+   "slug": "dilemmes-du-quotidien",
+   "title_fr": "Les dilemmes du quotidien",
+   "title_en": "Everyday dilemmas",
+   "topics": [
+    "lifestyle",
+    "family"
+   ],
+   "tags": [],
+   "art": "Couch and lamp",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire la vaisselle pour toujours",
+     "b_fr": "Faire le linge pour toujours",
+     "a_en": "Do the washing-up forever",
+     "b_en": "Do the laundry forever",
+     "a_art": "Sponge",
+     "b_art": "Socks"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Dormir à côté d’un ronflement de tracteur",
+     "b_fr": "Dormir à côté d’un voleur de couette",
+     "a_en": "Sleep next to tractor-level snoring",
+     "b_en": "Sleep next to a duvet thief",
+     "a_art": "Tractor",
+     "b_art": "Cold face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Choisir le film tous les soirs",
+     "b_fr": "Choisir le dîner tous les soirs",
+     "a_en": "Pick the film every night",
+     "b_en": "Pick dinner every night",
+     "a_art": "Clapper board",
+     "b_art": "Fork and knife with plate"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se lever à 6 h pour profiter du matin ensemble",
+     "b_fr": "Faire la grasse matinée pendant que l’autre se lève",
+     "a_en": "Get up at 6 to enjoy the morning together",
+     "b_en": "Have a lie-in while your partner gets up",
+     "a_art": "Sunrise",
+     "b_art": "Zzz"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partager une salle de bains minuscule",
+     "b_fr": "Partager une penderie minuscule",
+     "a_en": "Share a tiny bathroom",
+     "b_en": "Share a tiny wardrobe",
+     "a_art": "Bathtub",
+     "b_art": "Dress"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir un chat qui te réveille à 5 h",
+     "b_fr": "Avoir un chien qui mâchouille tes chaussures",
+     "a_en": "Have a cat that wakes you at 5",
+     "b_en": "Have a dog that chews your shoes",
+     "a_art": "Cat",
+     "b_art": "Dog"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire les courses en dix minutes chrono",
+     "b_fr": "Flâner une heure dans chaque rayon",
+     "a_en": "Do the food shop in ten minutes flat",
+     "b_en": "Wander every aisle for an hour",
+     "a_art": "Stopwatch",
+     "b_art": "Shopping bags"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Régler le chauffage à 18 °C toute l’année",
+     "b_fr": "Régler le chauffage à 24 °C toute l’année",
+     "a_en": "Keep the heating at 18°C all year",
+     "b_en": "Keep the heating at 24°C all year",
+     "a_art": "Snowflake",
+     "b_art": "Hot face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Gérer toute la paperasse de la maison",
+     "b_fr": "Gérer tout le bricolage de la maison",
+     "a_en": "Handle all the household paperwork",
+     "b_en": "Handle all the DIY",
+     "a_art": "File folder",
+     "b_art": "Toolbox"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre dans un joyeux désordre chaleureux",
+     "b_fr": "Vivre dans un intérieur impeccable mais un peu froid",
+     "a_en": "Live in a cosy, happy mess",
+     "b_en": "Live in a spotless but slightly cold home",
+     "a_art": "Yarn",
+     "b_art": "Soap"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir le dernier mot sur la déco",
+     "b_fr": "Avoir le dernier mot sur les vacances",
+     "a_en": "Have the final say on the decor",
+     "b_en": "Have the final say on holidays",
+     "a_art": "Framed picture",
+     "b_art": "Beach with umbrella"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rentrer chaque soir dans un silence apaisant",
+     "b_fr": "Rentrer chaque soir dans une maison pleine de musique",
+     "a_en": "Come home to soothing silence every night",
+     "b_en": "Come home to a house full of music",
+     "a_art": "Muted speaker",
+     "b_art": "Musical notes"
+    }
+   ]
+  },
+  {
+   "slug": "superpouvoirs-et-fantaisie",
+   "title_fr": "Superpouvoirs et fantaisie",
+   "title_en": "Superpowers and make-believe",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Magic wand",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir un dragon de compagnie",
+     "b_fr": "Avoir une licorne de compagnie",
+     "a_en": "Have a pet dragon",
+     "b_en": "Have a pet unicorn",
+     "a_art": "Dragon",
+     "b_art": "Unicorn"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Comprendre tout ce que pense ton chat",
+     "b_fr": "Bavarder avec tous les oiseaux du quartier",
+     "a_en": "Understand everything your cat thinks",
+     "b_en": "Chat with every bird in the neighbourhood",
+     "a_art": "Cat with wry smile",
+     "b_art": "Bird"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rétrécir à la taille d’une fourmi à volonté",
+     "b_fr": "Grandir à la taille d’un immeuble à volonté",
+     "a_en": "Shrink to the size of an ant at will",
+     "b_en": "Grow as tall as a tower block at will",
+     "a_art": "Ant",
+     "b_art": "Office building"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Respirer sous l’eau toute ta vie",
+     "b_fr": "Voler, mais seulement à deux mètres du sol",
+     "a_en": "Breathe underwater for life",
+     "b_en": "Fly, but only two metres off the ground",
+     "a_art": "Tropical fish",
+     "b_art": "Wing"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre dans un château hanté, gratuitement",
+     "b_fr": "Vivre dans une cabane sur une île déserte",
+     "a_en": "Live in a haunted castle, rent-free",
+     "b_en": "Live in a hut on a desert island",
+     "a_art": "Ghost",
+     "b_art": "Desert island"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Passer une semaine dans un dessin animé",
+     "b_fr": "Passer une semaine dans un jeu vidéo",
+     "a_en": "Spend a week inside a cartoon",
+     "b_en": "Spend a week inside a video game",
+     "a_art": "Artist palette",
+     "b_art": "Joystick"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Échanger ton corps avec l’autre pendant une journée",
+     "b_fr": "Échanger ta vie avec une star pendant une semaine",
+     "a_en": "Swap bodies with your partner for a day",
+     "b_en": "Swap lives with a star for a week",
+     "a_art": "Left-right arrow",
+     "b_art": "Star-struck"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Remonter le temps de dix minutes, une fois par jour",
+     "b_fr": "Savoir dix secondes à l’avance ce que l’autre va dire",
+     "a_en": "Rewind time ten minutes, once a day",
+     "b_en": "Know ten seconds ahead what your partner will say",
+     "a_art": "Counterclockwise arrows button",
+     "b_art": "Crystal ball"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se téléporter auprès de l’autre à tout moment",
+     "b_fr": "Mettre le monde sur pause rien que pour nous deux",
+     "a_en": "Teleport to each other at any moment",
+     "b_en": "Pause the world for just the two of us",
+     "a_art": "Dashing away",
+     "b_art": "Pause button"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Exaucer trois vœux de l’autre",
+     "b_fr": "Avoir trois vœux rien que pour toi",
+     "a_en": "Grant your partner three wishes",
+     "b_en": "Get three wishes all to yourself",
+     "a_art": "Person genie",
+     "b_art": "Shooting star"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Rester jeune pour toujours, mais sans l’autre",
+     "b_fr": "Vieillir normalement, main dans la main",
+     "a_en": "Stay young forever, but without your partner",
+     "b_en": "Grow old normally, hand in hand",
+     "a_art": "Sparkle",
+     "b_art": "Two hearts"
+    }
+   ]
+  },
+  {
+   "slug": "autour-du-monde",
+   "title_fr": "Autour du monde",
+   "title_en": "Around the world",
+   "topics": [
+    "travel"
+   ],
+   "tags": [],
+   "art": "Globe showing americas",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Traverser l’Islande en van",
+     "b_fr": "Traverser le Japon en train",
+     "a_en": "Cross Iceland in a camper van",
+     "b_en": "Cross Japan by train",
+     "a_art": "Snow-capped mountain",
+     "b_art": "Bullet train"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Dormir à la belle étoile dans le désert",
+     "b_fr": "Dormir dans une cabane perchée en forêt",
+     "a_en": "Sleep under the stars in the desert",
+     "b_en": "Sleep in a treehouse in the forest",
+     "a_art": "Desert",
+     "b_art": "Evergreen tree"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partir sans aucun plan, juste avec un sac à dos",
+     "b_fr": "Tout réserver, à la minute près",
+     "a_en": "Set off with no plan, just a backpack",
+     "b_en": "Book everything down to the minute",
+     "a_art": "Backpack",
+     "b_art": "Clipboard"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Admirer une aurore boréale",
+     "b_fr": "Nager au milieu des tortues de mer",
+     "a_en": "Watch the northern lights",
+     "b_en": "Swim among sea turtles",
+     "a_art": "Night with stars",
+     "b_art": "Turtle"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire un safari au lever du soleil",
+     "b_fr": "Naviguer en voilier sur la Méditerranée",
+     "a_en": "Go on a sunrise safari",
+     "b_en": "Sail the Mediterranean",
+     "a_art": "Giraffe",
+     "b_art": "Sailboat"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Perdre tes bagages au début du voyage",
+     "b_fr": "Rater l’avion du retour",
+     "a_en": "Lose your luggage at the start of the trip",
+     "b_en": "Miss the flight home",
+     "a_art": "Luggage",
+     "b_art": "Airplane departure"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire le tour des marchés de nuit en Asie",
+     "b_fr": "Faire le tour des vignobles d’Italie",
+     "a_en": "Tour the night markets of Asia",
+     "b_en": "Tour the vineyards of Italy",
+     "a_art": "Red paper lantern",
+     "b_art": "Grapes"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Voyager une fois en première classe",
+     "b_fr": "Voyager trois fois en classe éco",
+     "a_en": "Fly first class once",
+     "b_en": "Fly economy three times",
+     "a_art": "Bellhop bell",
+     "b_art": "Seat"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre un an à Tokyo",
+     "b_fr": "Vivre un an à Montréal",
+     "a_en": "Live in Tokyo for a year",
+     "b_en": "Live in Montreal for a year",
+     "a_art": "Tokyo tower",
+     "b_art": "Maple leaf"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire le tour du monde à vélo",
+     "b_fr": "Faire le tour du monde en paquebot",
+     "a_en": "Go round the world by bike",
+     "b_en": "Go round the world on a cruise ship",
+     "a_art": "Bicycle",
+     "b_art": "Passenger ship"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Emmener l’autre là où tu as grandi",
+     "b_fr": "Découvrir un lieu inconnu de nous deux",
+     "a_en": "Take your partner where you grew up",
+     "b_en": "Discover somewhere new to us both",
+     "a_art": "House with garden",
+     "b_art": "Compass"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tout quitter pour vivre au bord de la mer, à l’étranger",
+     "b_fr": "Rester ici, près des gens qu’on aime",
+     "a_en": "Leave it all to live by the sea abroad",
+     "b_en": "Stay here, near the people we love",
+     "a_art": "Palm tree",
+     "b_art": "Houses"
+    }
+   ]
+  },
+  {
+   "slug": "decisions-culinaires",
+   "title_fr": "Décisions culinaires",
+   "title_en": "Food fights",
+   "topics": [
+    "food"
+   ],
+   "tags": [],
+   "art": "Cooking",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Manger des pâtes tous les jours pendant un an",
+     "b_fr": "Manger du riz tous les jours pendant un an",
+     "a_en": "Eat pasta every day for a year",
+     "b_en": "Eat rice every day for a year",
+     "a_art": "Spaghetti",
+     "b_art": "Cooked rice"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tout manger très épicé",
+     "b_fr": "Tout manger sans sel",
+     "a_en": "Eat everything extra spicy",
+     "b_en": "Eat everything with no salt",
+     "a_art": "Hot pepper",
+     "b_art": "Salt"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Goûter un insecte grillé",
+     "b_fr": "Goûter le fromage le plus puant du marché",
+     "a_en": "Try a grilled insect",
+     "b_en": "Try the smelliest cheese at the market",
+     "a_art": "Cricket",
+     "b_art": "Cheese wedge"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partager ton dessert à chaque fois",
+     "b_fr": "Renoncer au dessert au restaurant",
+     "a_en": "Always share your pudding",
+     "b_en": "Give up pudding at restaurants",
+     "a_art": "Shortcake",
+     "b_art": "No entry"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire un brunch géant chaque dimanche",
+     "b_fr": "Faire une fondue chaque samedi soir",
+     "a_en": "Have a huge brunch every Sunday",
+     "b_en": "Have fondue every Saturday night",
+     "a_art": "Pancakes",
+     "b_art": "Fondue"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Pique-niquer au bord d’un lac",
+     "b_fr": "Dîner sur un toit en pleine ville",
+     "a_en": "Picnic by a lake",
+     "b_en": "Dine on a city rooftop",
+     "a_art": "Basket",
+     "b_art": "Cityscape at dusk"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prendre le petit-déjeuner au lit",
+     "b_fr": "Prendre le petit-déjeuner en terrasse au soleil",
+     "a_en": "Have breakfast in bed",
+     "b_en": "Have breakfast on a sunny terrace",
+     "a_art": "Bed",
+     "b_art": "Sun with face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Laisser l’autre commander pour toi au restaurant",
+     "b_fr": "Commander deux plats et tout partager",
+     "a_en": "Let your partner order for you",
+     "b_en": "Order two dishes and share everything",
+     "a_art": "Face with peeking eye",
+     "b_art": "Fork and knife"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Manger un plat raté, mais cuisiné par l’autre",
+     "b_fr": "Manger un plat parfait, mais livré en scooter",
+     "a_en": "Eat a flop your partner cooked",
+     "b_en": "Eat a perfect dish brought by a delivery rider",
+     "a_art": "Woozy face",
+     "b_art": "Takeout box"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Suivre un cours de cuisine thaïe ensemble",
+     "b_fr": "Suivre un cours de pâtisserie ensemble",
+     "a_en": "Take a Thai cooking class together",
+     "b_en": "Take a pastry class together",
+     "a_art": "Steaming bowl",
+     "b_art": "Croissant"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Ouvrir un petit restaurant à deux",
+     "b_fr": "Ouvrir une cave à vin à deux",
+     "a_en": "Open a little restaurant together",
+     "b_en": "Open a wine shop together",
+     "a_art": "Shallow pan of food",
+     "b_art": "Bottle with popping cork"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Retrouver le goût exact d’un plat de ton enfance",
+     "b_fr": "Découvrir un plat qui deviendra le nôtre",
+     "a_en": "Taste a childhood dish exactly as it was",
+     "b_en": "Discover a dish that becomes ours",
+     "a_art": "Pot of food",
+     "b_art": "Sparkling heart"
+    }
+   ]
+  },
+  {
+   "slug": "l-argent-et-nous",
+   "title_fr": "L’argent et nous",
+   "title_en": "Money and us",
+   "topics": [
+    "money",
+    "relationship"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "Money bag",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Trouver un billet dans chacun de tes manteaux",
+     "b_fr": "Avoir le café offert à vie",
+     "a_en": "Find a banknote in every coat you own",
+     "b_en": "Get free coffee for life",
+     "a_art": "Euro banknote",
+     "b_art": "Hot beverage"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Mettre tout notre argent en commun",
+     "b_fr": "Garder chacun son compte",
+     "a_en": "Pool all our money",
+     "b_en": "Each keep our own account",
+     "a_art": "Bank",
+     "b_art": "Credit card"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire un gros cadeau à l’autre une fois par an",
+     "b_fr": "Faire un petit cadeau à l’autre chaque mois",
+     "a_en": "Give your partner one big present a year",
+     "b_en": "Give your partner a little gift every month",
+     "a_art": "Gem stone",
+     "b_art": "Ribbon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tenir le budget au centime près",
+     "b_fr": "Gérer au feeling et regarder le compte de temps en temps",
+     "a_en": "Track the budget to the penny",
+     "b_en": "Wing it and check the account now and then",
+     "a_art": "Abacus",
+     "b_art": "Face exhaling"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Gagner au loto et le garder secret",
+     "b_fr": "Gagner une petite somme et le crier partout",
+     "a_en": "Win the lottery and keep it secret",
+     "b_en": "Win a small sum and tell everyone",
+     "a_art": "Slot machine",
+     "b_art": "Megaphone"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Gagner plus que l’autre",
+     "b_fr": "Gagner moins que l’autre",
+     "a_en": "Earn more than your partner",
+     "b_en": "Earn less than your partner",
+     "a_art": "Chart increasing",
+     "b_art": "Chart decreasing"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Effacer tous nos crédits d’un coup",
+     "b_fr": "S’offrir un mois de voyage de rêve",
+     "a_en": "Wipe out all our loans at once",
+     "b_en": "Treat ourselves to a dream month away",
+     "a_art": "Receipt",
+     "b_art": "Airplane"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Hériter d’une maison de campagne à retaper",
+     "b_fr": "Hériter de sa valeur en argent liquide",
+     "a_en": "Inherit a country house to do up",
+     "b_en": "Inherit its value in cash",
+     "a_art": "Derelict house",
+     "b_art": "Dollar banknote"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Acheter petit, mais en ville",
+     "b_fr": "Acheter grand, mais loin de tout",
+     "a_en": "Buy small, but in the city",
+     "b_en": "Buy big, but miles from anywhere",
+     "a_art": "Cityscape",
+     "b_art": "Hut"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prêter de l’argent à ta famille",
+     "b_fr": "Emprunter de l’argent à la famille de l’autre",
+     "a_en": "Lend money to your family",
+     "b_en": "Borrow money from your partner’s family",
+     "a_art": "Coin",
+     "b_art": "Pleading face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tout se dire sur nos dépenses, même les petites",
+     "b_fr": "Avoir chacun une cagnotte sans comptes à rendre",
+     "a_en": "Tell each other every expense, even tiny ones",
+     "b_en": "Each keep a pot, no questions asked",
+     "a_art": "Ledger",
+     "b_art": "Purse"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Profiter à fond maintenant, sans trop épargner",
+     "b_fr": "Épargner fort pour une retraite dorée",
+     "a_en": "Enjoy life to the full now, saving little",
+     "b_en": "Save hard for a golden retirement",
+     "a_art": "Confetti ball",
+     "b_art": "Pig face"
+    }
+   ]
+  },
+  {
+   "slug": "rendez-vous-amoureux",
+   "title_fr": "Rendez-vous amoureux",
+   "title_en": "Date night dilemmas",
+   "topics": [
+    "relationship",
+    "hobbies"
+   ],
+   "tags": [],
+   "art": "Wine glass",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire un rendez-vous karaoké",
+     "b_fr": "Faire un rendez-vous bowling",
+     "a_en": "Go on a karaoke date",
+     "b_en": "Go on a bowling date",
+     "a_art": "Studio microphone",
+     "b_art": "Bowling"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Aller au cinéma en plein air",
+     "b_fr": "Aller voir une comédie au théâtre",
+     "a_en": "Go to an open-air cinema",
+     "b_en": "See a comedy at the theatre",
+     "a_art": "Film projector",
+     "b_art": "Performing arts"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jouer à des jeux de société en pyjama",
+     "b_fr": "Se mettre sur son trente-et-un pour un grand restaurant",
+     "a_en": "Play board games in pyjamas",
+     "b_en": "Dress to the nines for a fancy restaurant",
+     "a_art": "Puzzle piece",
+     "b_art": "Top hat"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Tirer une idée de sortie au hasard dans un bocal",
+     "b_fr": "Recréer notre tout premier rendez-vous",
+     "a_en": "Pull a date idea at random from a jar",
+     "b_en": "Recreate our very first date",
+     "a_art": "Jar",
+     "b_art": "Fast reverse button"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Croiser un ex en plein rendez-vous",
+     "b_fr": "Croiser tes parents en plein rendez-vous",
+     "a_en": "Bump into an ex mid-date",
+     "b_en": "Bump into your parents mid-date",
+     "a_art": "Face screaming in fear",
+     "b_art": "Flushed face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Suivre un atelier poterie ensemble",
+     "b_fr": "S’initier à l’escalade ensemble",
+     "a_en": "Take a pottery class together",
+     "b_en": "Try climbing together",
+     "a_art": "Amphora",
+     "b_art": "Rock"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Danser jusqu’à 3 h du matin",
+     "b_fr": "Regarder les étoiles jusqu’à 3 h du matin",
+     "a_en": "Dance until 3 a.m.",
+     "b_en": "Stargaze until 3 a.m.",
+     "a_art": "Mirror ball",
+     "b_art": "Telescope"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "S’envoler en montgolfière à l’aube",
+     "b_fr": "Faire une balade en barque au coucher du soleil",
+     "a_en": "Float off in a hot-air balloon at dawn",
+     "b_en": "Row a little boat at sunset",
+     "a_art": "Sunrise over mountains",
+     "b_art": "Canoe"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se faire croquer par un caricaturiste de rue",
+     "b_fr": "S’offrir une séance photo pro au coucher du soleil",
+     "a_en": "Get sketched by a street caricaturist",
+     "b_en": "Book a pro photo shoot at sunset",
+     "a_art": "Pencil",
+     "b_art": "Camera with flash"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir un rendez-vous par semaine, même court",
+     "b_fr": "Avoir un grand week-end à deux tous les trois mois",
+     "a_en": "Have a date every week, even a short one",
+     "b_en": "Have one big weekend away every three months",
+     "a_art": "Eight oclock",
+     "b_art": "Hotel"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Passer une soirée sans téléphone, juste à parler",
+     "b_fr": "Passer une soirée à revoir nos vieilles photos",
+     "a_en": "Spend a phone-free evening just talking",
+     "b_en": "Spend an evening going through our old photos",
+     "a_art": "No mobile phones",
+     "b_art": "Film frames"
+    }
+   ]
+  },
+  {
+   "slug": "belle-famille-et-fetes",
+   "title_fr": "Belle-famille, fêtes et vacances",
+   "title_en": "In-laws, holidays and get-togethers",
+   "topics": [
+    "family"
+   ],
+   "tags": [],
+   "art": "Christmas tree",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Passer Noël dans ta famille",
+     "b_fr": "Passer Noël dans la famille de l’autre",
+     "a_en": "Spend Christmas with your family",
+     "b_en": "Spend Christmas with your partner’s",
+     "a_art": "Christmas tree",
+     "b_art": "Snowman"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Cuisiner tout le repas de fête",
+     "b_fr": "Faire toute la vaisselle après",
+     "a_en": "Cook the whole festive meal",
+     "b_en": "Do all the washing-up afterwards",
+     "a_art": "Turkey",
+     "b_art": "Soap"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Offrir le même cadeau à tout le monde",
+     "b_fr": "Chercher un cadeau unique pour chacun",
+     "a_en": "Give everyone the same present",
+     "b_en": "Hunt down a unique present for each person",
+     "a_art": "Shopping bags",
+     "b_art": "Magnifying glass tilted right"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jouer au jeu de société familial qui finit en dispute",
+     "b_fr": "Subir le diaporama de vacances de l’oncle",
+     "a_en": "Play the family board game that always ends in a row",
+     "b_en": "Sit through an uncle’s holiday slideshow",
+     "a_art": "Game die",
+     "b_art": "Yawning face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fêter le Nouvel An dans une grande soirée",
+     "b_fr": "Fêter le Nouvel An à deux sous la couette",
+     "a_en": "See in the New Year at a big party",
+     "b_en": "See it in under the duvet, just us two",
+     "a_art": "Fireworks",
+     "b_art": "Kissing face with smiling eyes"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fêter ton anniversaire en famille",
+     "b_fr": "Fêter ton anniversaire en secret, à deux",
+     "a_en": "Celebrate your birthday with family",
+     "b_en": "Celebrate it secretly, just us two",
+     "a_art": "Birthday cake",
+     "b_art": "Shushing face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partir en vacances avec la famille de l’autre",
+     "b_fr": "Accueillir sa famille une semaine chez nous",
+     "a_en": "Go on holiday with your partner’s family",
+     "b_en": "Host their family at ours for a week",
+     "a_art": "Umbrella on ground",
+     "b_art": "Couch and lamp"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire un discours au mariage d’un cousin de l’autre",
+     "b_fr": "Ouvrir le bal devant toute la famille",
+     "a_en": "Give a speech at your partner’s cousin’s wedding",
+     "b_en": "Open the dance floor in front of the whole family",
+     "a_art": "Scroll",
+     "b_art": "Ballet shoes"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir une belle-famille un peu trop présente",
+     "b_fr": "Avoir une belle-famille presque absente",
+     "a_en": "Have in-laws who are always around",
+     "b_en": "Have in-laws who are hardly ever there",
+     "a_art": "Busts in silhouette",
+     "b_art": "Dotted line face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Voir ta famille débarquer sans prévenir",
+     "b_fr": "Voir ta famille uniquement sur rendez-vous",
+     "a_en": "Have your family drop in unannounced",
+     "b_en": "See your family by appointment only",
+     "a_art": "Bell",
+     "b_art": "Spiral notepad"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Alterner les fêtes chaque année entre nos familles",
+     "b_fr": "Inventer nos propres traditions, rien qu’à nous",
+     "a_en": "Alternate holidays between our families each year",
+     "b_en": "Invent our own traditions, just for us",
+     "a_art": "Repeat button",
+     "b_art": "Sparkler"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Défendre l’autre face à ta famille, quoi qu’il arrive",
+     "b_fr": "Rester neutre pour préserver la paix",
+     "a_en": "Stand up for your partner against your family, always",
+     "b_en": "Stay neutral to keep the peace",
+     "a_art": "Shield",
+     "b_art": "Dove"
+    }
+   ]
+  },
+  {
+   "slug": "travail-et-ambition",
+   "title_fr": "Travail et ambition",
+   "title_en": "Work and ambition",
+   "topics": [
+    "work",
+    "values"
+   ],
+   "tags": [],
+   "art": "Briefcase",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Travailler quatre jours par semaine",
+     "b_fr": "Télétravailler cinq jours depuis n’importe où",
+     "a_en": "Work a four-day week",
+     "b_en": "Work remotely five days a week from anywhere",
+     "a_art": "Keycap 4",
+     "b_art": "Laptop"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir un bureau avec vue sur la mer",
+     "b_fr": "Avoir un bureau à cinq minutes à pied",
+     "a_en": "Have an office with a sea view",
+     "b_en": "Have an office a five-minute walk away",
+     "a_art": "Water wave",
+     "b_art": "Footprints"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Répondre aux mails tous les dimanches soir",
+     "b_fr": "Travailler une heure de plus chaque jour",
+     "a_en": "Answer emails every Sunday night",
+     "b_en": "Work an extra hour every day",
+     "a_art": "E-mail",
+     "b_art": "Timer clock"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Travailler avec l’autre au quotidien",
+     "b_fr": "Bannir le boulot de toutes nos conversations",
+     "a_en": "Work alongside your partner every day",
+     "b_en": "Ban work talk from home entirely",
+     "a_art": "Linked paperclips",
+     "b_art": "Zipper-mouth face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Diriger une grande entreprise stressante",
+     "b_fr": "Tenir une petite librairie tranquille",
+     "a_en": "Run a big, stressful company",
+     "b_en": "Run a quiet little bookshop",
+     "a_art": "Bar chart",
+     "b_art": "Books"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Devenir une référence dans ton métier",
+     "b_fr": "Avoir des collègues que tu adores",
+     "a_en": "Become a leading name in your field",
+     "b_en": "Have colleagues you adore",
+     "a_art": "Trophy",
+     "b_art": "People hugging"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Changer complètement de métier demain",
+     "b_fr": "Grimper les échelons dans ton métier actuel",
+     "a_en": "Switch careers completely tomorrow",
+     "b_en": "Climb the ladder where you are",
+     "a_art": "Shuffle tracks button",
+     "b_art": "Ladder"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prendre une année sabbatique ensemble",
+     "b_fr": "Lancer un projet commun",
+     "a_en": "Take a sabbatical year together",
+     "b_en": "Launch a project together",
+     "a_art": "Sunset",
+     "b_art": "Light bulb"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Soutenir l’autre dans un projet très risqué",
+     "b_fr": "Pousser l’autre à jouer la sécurité",
+     "a_en": "Back your partner’s very risky project",
+     "b_en": "Nudge your partner to play it safe",
+     "a_art": "Parachute",
+     "b_art": "Ring buoy"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Accepter une promotion à l’autre bout du pays",
+     "b_fr": "La refuser pour rester près de l’autre",
+     "a_en": "Take a promotion at the other end of the country",
+     "b_en": "Turn it down to stay close to your partner",
+     "a_art": "Rocket",
+     "b_art": "Anchor"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Réussir brillamment, sans personne pour le voir",
+     "b_fr": "Réussir modestement, avec l’autre fier de toi",
+     "a_en": "Succeed brilliantly with no one to see it",
+     "b_en": "Succeed modestly, with your partner proud of you",
+     "a_art": "1st place medal",
+     "b_art": "Growing heart"
+    }
+   ]
+  },
+  {
+   "slug": "notre-avenir",
+   "title_fr": "Notre avenir",
+   "title_en": "Our future",
+   "topics": [
+    "future",
+    "values"
+   ],
+   "tags": [],
+   "art": "Seedling",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre en ville toute notre vie",
+     "b_fr": "Vivre à la campagne toute notre vie",
+     "a_en": "Live in the city all our lives",
+     "b_en": "Live in the countryside all our lives",
+     "a_art": "Tram",
+     "b_art": "Sunflower"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir une maison pleine d’animaux",
+     "b_fr": "Avoir un appartement zen sans animaux",
+     "a_en": "Have a house full of animals",
+     "b_en": "Have a calm, pet-free flat",
+     "a_art": "Paw prints",
+     "b_art": "Lotus"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre dans une mini-maison sur roues",
+     "b_fr": "Vivre dans un immense loft en ville",
+     "a_en": "Live in a tiny house on wheels",
+     "b_en": "Live in a huge city loft",
+     "a_art": "Hut",
+     "b_art": "Bridge at night"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Se marier en grand avec 200 invités",
+     "b_fr": "Se marier en secret, rien que nous deux",
+     "a_en": "Have a big wedding with 200 guests",
+     "b_en": "Elope, just the two of us",
+     "a_art": "Wedding",
+     "b_art": "Ring"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Ouvrir notre maison d’hôtes un jour",
+     "b_fr": "Partir élever des chèvres à la montagne",
+     "a_en": "Open our own guesthouse one day",
+     "b_en": "Go and raise goats in the mountains",
+     "a_art": "Old key",
+     "b_art": "Goat"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vieillir dans une maison remplie de souvenirs",
+     "b_fr": "Déménager tous les cinq ans vers un nouvel horizon",
+     "a_en": "Grow old in one house full of memories",
+     "b_en": "Move somewhere new every five years",
+     "a_art": "House",
+     "b_art": "Delivery truck"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Écrire une lettre à nous dans dix ans",
+     "b_fr": "Planter un arbre qu’on regardera grandir",
+     "a_en": "Write a letter to us in ten years’ time",
+     "b_en": "Plant a tree we’ll watch grow",
+     "a_art": "Closed mailbox with raised flag",
+     "b_art": "Deciduous tree"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prendre notre retraite au soleil",
+     "b_fr": "Prendre notre retraite près de nos proches",
+     "a_en": "Retire somewhere sunny",
+     "b_en": "Retire close to our loved ones",
+     "a_art": "Sun",
+     "b_art": "Nest with eggs"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Fêter nos 50 ans d’amour avec une grande fête",
+     "b_fr": "Fêter nos noces d’or loin de tout, rien que nous deux",
+     "a_en": "Celebrate 50 years together with a big party",
+     "b_en": "Celebrate our golden anniversary far away, just us",
+     "a_art": "Partying face",
+     "b_art": "Small airplane"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Réaliser chacun un grand rêve de notre côté",
+     "b_fr": "Réaliser un rêve plus modeste, mais ensemble",
+     "a_en": "Each achieve a big dream on our own",
+     "b_en": "Achieve a more modest dream, together",
+     "a_art": "Glowing star",
+     "b_art": "Revolving hearts"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partir en premier, pour ne jamais vivre sans l’autre",
+     "b_fr": "Partir en second, pour veiller sur l’autre jusqu’au bout",
+     "a_en": "Be the first to go, never living without them",
+     "b_en": "Be the last, looking after them to the end",
+     "a_art": "White flower",
+     "b_art": "Candle"
+    }
+   ]
+  },
+  {
+   "slug": "pour-toutes-les-occasions",
+   "title_fr": "Pour toutes les occasions",
+   "title_en": "For any occasion",
+   "topics": [
+    "fun",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Joker",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir toujours chaud aux pieds",
+     "b_fr": "Avoir toujours un biscuit dans la poche",
+     "a_en": "Always have warm feet",
+     "b_en": "Always have a biscuit in your pocket",
+     "a_art": "Thermometer",
+     "b_art": "Cookie"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Entrer partout sur ta musique de héros",
+     "b_fr": "Entrer partout sous une pluie de confettis",
+     "a_en": "Enter every room to your own theme tune",
+     "b_en": "Enter every room in a shower of confetti",
+     "a_art": "Trumpet",
+     "b_art": "Confetti ball"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Parler uniquement en chantant pendant une journée",
+     "b_fr": "Parler uniquement en rimes pendant une journée",
+     "a_en": "Only speak in song for a day",
+     "b_en": "Only speak in rhyme for a day",
+     "a_art": "Musical score",
+     "b_art": "Scroll"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Avoir un rire de dauphin",
+     "b_fr": "Avoir un éternuement de lion",
+     "a_en": "Have a laugh like a dolphin",
+     "b_en": "Have a sneeze like a lion’s roar",
+     "a_art": "Dolphin",
+     "b_art": "Lion"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Être toujours dix minutes en retard",
+     "b_fr": "Être toujours vingt minutes en avance",
+     "a_en": "Always be ten minutes late",
+     "b_en": "Always be twenty minutes early",
+     "a_art": "Alarm clock",
+     "b_art": "Watch"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Oublier le prénom de tout le monde",
+     "b_fr": "Oublier tous les anniversaires",
+     "a_en": "Forget everyone’s name",
+     "b_en": "Forget every birthday",
+     "a_art": "Name badge",
+     "b_art": "Balloon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Vivre sans café",
+     "b_fr": "Vivre sans réseaux sociaux",
+     "a_en": "Live without coffee",
+     "b_en": "Live without social media",
+     "a_art": "Hot beverage",
+     "b_art": "Mobile phone off"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire rire toute la soirée",
+     "b_fr": "Captiver toute la soirée",
+     "a_en": "Be the funniest person at the party",
+     "b_en": "Be the most fascinating person there",
+     "a_art": "Face with tears of joy",
+     "b_art": "Smiling face with sunglasses"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Savoir tout réparer de tes mains",
+     "b_fr": "Savoir cuisiner n’importe quel plat",
+     "a_en": "Be able to fix anything",
+     "b_en": "Be able to cook any dish",
+     "a_art": "Screwdriver",
+     "b_art": "Cooking"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Garder ton âge actuel pour toujours",
+     "b_fr": "Retrouver tes 18 ans, avec tout ce que tu sais aujourd’hui",
+     "a_en": "Stay your current age forever",
+     "b_en": "Be 18 again, knowing everything you know now",
+     "a_art": "Mantelpiece clock",
+     "b_art": "Graduation cap"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Découvrir la première impression que tu as faite à l’autre",
+     "b_fr": "Découvrir ce que l’autre pensera de toi dans 30 ans",
+     "a_en": "Find out your partner’s first impression of you",
+     "b_en": "Find out what they’ll think of you in 30 years",
+     "a_art": "Eyes",
+     "b_art": "Hourglass done"
+    }
+   ]
+  },
+  {
+   "slug": "langages-sensuels",
+   "title_fr": "Nos langages sensuels",
+   "title_en": "Our sensual love languages",
+   "topics": [
+    "intimacy",
+    "relationship"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Kiss mark",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir un long massage des épaules",
+     "b_fr": "Recevoir une pluie de baisers dans le cou",
+     "a_en": "Get a long shoulder massage",
+     "b_en": "Get a shower of kisses along your neck",
+     "a_art": "Lotion bottle",
+     "b_art": "Kiss mark"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Entendre des mots doux murmurés à l’oreille",
+     "b_fr": "Recevoir un message brûlant en pleine journée",
+     "a_en": "Hear sweet nothings whispered in your ear",
+     "b_en": "Get a steamy message in the middle of the day",
+     "a_art": "Speaker low volume",
+     "b_art": "Mobile phone with arrow"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir un long câlin par derrière pendant que tu cuisines",
+     "b_fr": "Croiser un regard appuyé à travers la pièce",
+     "a_en": "Get a long hug from behind while you cook",
+     "b_en": "Catch a lingering look across the room",
+     "a_art": "People hugging",
+     "b_art": "Eye"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Te réveiller sous une pluie de caresses",
+     "b_fr": "T’endormir peau contre peau",
+     "a_en": "Wake up to soft caresses",
+     "b_en": "Fall asleep skin to skin",
+     "a_art": "Sun behind small cloud",
+     "b_art": "Crescent moon"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Partager un baiser de cinéma sous la pluie",
+     "b_fr": "Partager un fou rire au lit à 2 h du matin",
+     "a_en": "Share a film-worthy kiss in the rain",
+     "b_en": "Share a fit of giggles in bed at 2 a.m.",
+     "a_art": "Umbrella with rain drops",
+     "b_art": "Rolling on the floor laughing"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir de la lingerie choisie par l’autre",
+     "b_fr": "Choisir toi-même ce que l’autre portera ce soir",
+     "a_en": "Receive lingerie your partner picked",
+     "b_en": "Choose what your partner wears tonight",
+     "a_art": "Dress",
+     "b_art": "Necktie"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir de la tendresse sans rien demander",
+     "b_fr": "Recevoir de la passion sans prévenir",
+     "a_en": "Get tenderness without asking",
+     "b_en": "Get passion without warning",
+     "a_art": "Teddy bear",
+     "b_art": "Heart on fire"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire durer les préliminaires toute la soirée",
+     "b_fr": "Céder à l’envie dès que la porte se ferme",
+     "a_en": "Make the build-up last all evening",
+     "b_en": "Give in the moment the door closes",
+     "a_art": "Snail",
+     "b_art": "Locked"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Entendre précisément ce qui te rend irrésistible",
+     "b_fr": "Dire à l’autre précisément ce qui te fait craquer",
+     "a_en": "Hear exactly what makes you irresistible",
+     "b_en": "Tell your partner exactly what makes you melt",
+     "a_art": "Smiling face with heart-eyes",
+     "b_art": "Left speech bubble"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Entendre « je t’aime » les yeux dans les yeux",
+     "b_fr": "Le trouver écrit sur le miroir embué de la salle de bains",
+     "a_en": "Hear ’I love you’ eye to eye",
+     "b_en": "Find it written on the steamy bathroom mirror",
+     "a_art": "Kissing face with closed eyes",
+     "b_art": "Mirror"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Connaître par cœur tout ce qui plaît à l’autre",
+     "b_fr": "Redécouvrir l’autre comme la toute première fois",
+     "a_en": "Know by heart everything your partner loves",
+     "b_en": "Rediscover each other like the very first time",
+     "a_art": "World map",
+     "b_art": "New moon"
+    }
+   ]
+  },
+  {
+   "slug": "ambiance-et-initiatives",
+   "title_fr": "Lumière tamisée et premiers pas",
+   "title_en": "Low lights and first moves",
+   "topics": [
+    "intimacy",
+    "us"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Candle",
+   "items": [
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Allumer des dizaines de bougies",
+     "b_fr": "Laisser entrer seulement les lumières de la ville",
+     "a_en": "Light dozens of candles",
+     "b_en": "Let only the city lights in",
+     "a_art": "Candle",
+     "b_art": "Night with stars"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Choisir la playlist de la soirée",
+     "b_fr": "Choisir le parfum de la soirée",
+     "a_en": "Choose the night’s playlist",
+     "b_en": "Choose the night’s scent",
+     "a_art": "Radio",
+     "b_art": "Blossom"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Faire toujours le premier pas",
+     "b_fr": "Attendre toujours que l’autre le fasse",
+     "a_en": "Always make the first move",
+     "b_en": "Always wait for your partner to make it",
+     "a_art": "Running shoe",
+     "b_art": "Pleading face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Recevoir une invitation codée en pleine réunion",
+     "b_fr": "Trouver un mot coquin sous ton oreiller",
+     "a_en": "Get a coded invitation in the middle of a meeting",
+     "b_en": "Find a cheeky note under your pillow",
+     "a_art": "Locked with pen",
+     "b_art": "Love letter"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "S’éclipser d’une fête pour se retrouver à deux",
+     "b_fr": "Rester à la fête en échangeant des regards complices",
+     "a_en": "Slip away from a party to be alone together",
+     "b_en": "Stay and trade knowing looks all night",
+     "a_art": "Door",
+     "b_art": "Winking face"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Prendre les commandes toute une soirée",
+     "b_fr": "Se laisser guider toute une soirée",
+     "a_en": "Take the lead for a whole evening",
+     "b_en": "Be led for a whole evening",
+     "a_art": "Crown",
+     "b_art": "Feather"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Dire tes envies à voix haute",
+     "b_fr": "Écrire tes envies sur un mot glissé à l’autre",
+     "a_en": "Say what you want out loud",
+     "b_en": "Write it on a note and slip it over",
+     "a_art": "Biting lip",
+     "b_art": "Memo"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Danser un slow en sous-vêtements dans le salon",
+     "b_fr": "Prendre une douche à deux après une longue journée",
+     "a_en": "Slow-dance in your underwear in the living room",
+     "b_en": "Share a shower after a long day",
+     "a_art": "Musical note",
+     "b_art": "Shower"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Jouer les yeux bandés, en toute confiance",
+     "b_fr": "Tout se dire les yeux dans les yeux",
+     "a_en": "Play blindfolded, in total trust",
+     "b_en": "Say everything eye to eye",
+     "a_art": "Ribbon",
+     "b_art": "Eyes"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Essayer quelque chose de nouveau chaque mois",
+     "b_fr": "Perfectionner ce qu’on aime déjà",
+     "a_en": "Try something new every month",
+     "b_en": "Perfect what we already love",
+     "a_art": "Sparkles",
+     "b_art": "Bullseye"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Bloquer un moment intime dans l’agenda",
+     "b_fr": "Compter sur la spontanéité, même si c’est plus rare",
+     "a_en": "Pencil some intimate time into the diary",
+     "b_en": "Rely on spontaneity, even if it’s rarer",
+     "a_art": "Calendar",
+     "b_art": "Shooting star"
+    },
+    {
+     "fr": "",
+     "en": "",
+     "a_fr": "Garder nos fantasmes pour nous",
+     "b_fr": "Oser en partager un ce soir",
+     "a_en": "Keep our fantasies to ourselves",
+     "b_en": "Dare to share one tonight",
+     "a_art": "Zipper-mouth face",
+     "b_art": "Smirking face"
+    }
+   ]
+  }
+ ]
+}

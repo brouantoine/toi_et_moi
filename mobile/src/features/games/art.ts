@@ -38,6 +38,8 @@ const E = {
   future: require('../../../assets/emoji/future.png'),
   us: require('../../../assets/emoji/us.png'),
   fun: require('../../../assets/emoji/fun.png'),
+  draw: require('../../../assets/emoji/draw.png'),
+  photo: require('../../../assets/emoji/photo.png'),
 } as const;
 
 export const EMOJI = E;
@@ -45,7 +47,8 @@ export const EMOJI = E;
 const FALLBACK: Art = { image: E.heart, hue: 'red' };
 
 const TOPICS: Record<string, Art> = {
-  warmup: { image: E.warmup, hue: 'violet' },
+  deep: { image: E.conversation, hue: 'violet' },
+  before: { image: E.calendar, hue: 'sage' },
   relationship: { image: E.relationship, hue: 'red' },
   intimacy: { image: E.intimacy, hue: 'red' },
   food: { image: E.food, hue: 'amber' },
@@ -63,13 +66,21 @@ const TOPICS: Record<string, Art> = {
 };
 
 const KINDS: Record<string, Art> = {
+  most_likely: { image: E.most, hue: 'amber' },
+  draw: { image: E.draw, hue: 'red' },
   this_or_that: { image: E.versus, hue: 'sage' },
-  agree: { image: E.agree, hue: 'violet' },
   never: { image: E.never, hue: 'lagoon' },
-  rather: { image: E.rather, hue: 'amber' },
-  most_likely: { image: E.most, hue: 'red' },
+  rather: { image: E.rather, hue: 'violet' },
   conversation: { image: E.conversation, hue: 'violet' },
+  agree: { image: E.agree, hue: 'sage' },
+  photo: { image: E.photo, hue: 'lagoon' },
 };
+
+const CYCLE: readonly Hue[] = ['violet', 'lagoon', 'amber', 'red', 'sage'];
+
+/** Packs of a list take turns among the hues, like a deck of coloured cards. */
+export const packHue = (pack: { position: number; kind: string }): Hue =>
+  CYCLE[(pack.position + Object.keys(KINDS).indexOf(pack.kind) * 2) % CYCLE.length] ?? 'red';
 
 export const topicArt = (slug: string): Art => TOPICS[slug] ?? FALLBACK;
 export const kindArt = (slug: string): Art => KINDS[slug] ?? FALLBACK;

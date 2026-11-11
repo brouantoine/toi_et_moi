@@ -4,18 +4,18 @@ from __future__ import annotations
 
 TEXTS: dict[str, dict[str, str]] = {
     "fr": {
-        "your_turn_title": "{name} a répondu",
-        "your_turn_body": "À ton tour : réponds pour découvrir sa réponse.",
-        "revealed_title": "{name} a répondu aussi",
-        "revealed_body": "Vos deux réponses sont prêtes à être découvertes.",
+        "your_turn_title": "{name} a joué à « {pack} »",
+        "your_turn_body": "À ton tour : joue pour découvrir ses réponses.",
+        "revealed_title": "{name} a terminé « {pack} »",
+        "revealed_body": "Vos réponses sont prêtes : découvrez vos résultats.",
         "discreet_title": "Bolingo",
         "discreet_body": "Du nouveau dans vos jeux.",
     },
     "en": {
-        "your_turn_title": "{name} answered",
-        "your_turn_body": "Your turn: answer to discover theirs.",
-        "revealed_title": "{name} answered too",
-        "revealed_body": "Both your answers are ready to discover.",
+        "your_turn_title": "{name} played “{pack}”",
+        "your_turn_body": "Your turn: play to discover their answers.",
+        "revealed_title": "{name} finished “{pack}”",
+        "revealed_body": "Your answers are ready: see your results.",
         "discreet_title": "Bolingo",
         "discreet_body": "Something new in your games.",
     },

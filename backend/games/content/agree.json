@@ -1,0 +1,617 @@
+{
+ "kind": "agree",
+ "packs": [
+  {
+   "slug": "carriere-et-amour",
+   "title_fr": "Carrière et amour",
+   "title_en": "Career and love",
+   "topics": [
+    "work",
+    "relationship",
+    "before"
+   ],
+   "tags": [],
+   "art": "Briefcase",
+   "items": [
+    {
+     "fr": "Répondre à un mail pro en vacances, c’est une trahison.",
+     "en": "Answering a work email on holiday is a betrayal."
+    },
+    {
+     "fr": "Écouter l’autre raconter sa journée de boulot tous les soirs, c’est usant.",
+     "en": "Hearing about each other’s workday every single evening gets tiring."
+    },
+    {
+     "fr": "L’ambition chez l’autre, c’est franchement séduisant.",
+     "en": "Ambition in a partner is seriously attractive."
+    },
+    {
+     "fr": "Travailler ensemble, c’est le meilleur moyen de tuer un couple.",
+     "en": "Working together is the surest way to kill a relationship."
+    },
+    {
+     "fr": "Un poste qui oblige à voyager tout le temps, c’est non.",
+     "en": "A job that means constant travel is a no-go."
+    },
+    {
+     "fr": "Mieux vaut un job moyen près de chez nous qu’un job de rêve à deux heures de route.",
+     "en": "A so-so job close to home beats a dream job two hours away."
+    },
+    {
+     "fr": "Aucune promotion ne vaut qu’on se voie moins.",
+     "en": "No promotion is worth seeing each other less."
+    },
+    {
+     "fr": "Une relation à distance pour le travail, ça peut tenir des années.",
+     "en": "A long-distance relationship for work can last for years."
+    },
+    {
+     "fr": "Si l’un gagne beaucoup plus que l’autre, ça finit forcément par peser.",
+     "en": "If one of us earns far more, it’s bound to weigh on us eventually."
+    },
+    {
+     "fr": "Une reconversion à 40 ans mérite qu’on se serre la ceinture.",
+     "en": "A career change at 40 is worth tightening our belts for."
+    },
+    {
+     "fr": "On devrait pouvoir parler de démissionner sans que l’autre panique.",
+     "en": "We should be able to talk about quitting without the other panicking."
+    },
+    {
+     "fr": "Avec des enfants, l’un de nous deux devrait lever le pied au travail.",
+     "en": "Once there are kids, one of us should ease off at work."
+    }
+   ]
+  },
+  {
+   "slug": "la-vie-a-deux",
+   "title_fr": "La vie à deux",
+   "title_en": "Living together",
+   "topics": [
+    "lifestyle",
+    "family",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "House",
+   "items": [
+    {
+     "fr": "Le côté du lit, ça se négocie dès le premier soir.",
+     "en": "Who gets which side of the bed is settled on the very first night."
+    },
+    {
+     "fr": "Qui cuisine ne débarrasse pas : c’est la règle.",
+     "en": "Whoever cooks doesn’t clear up. That’s the rule."
+    },
+    {
+     "fr": "Laisser la vaisselle jusqu’au lendemain, ce n’est pas un drame.",
+     "en": "Leaving the dishes until the next day is no big deal."
+    },
+    {
+     "fr": "Deux couettes séparées, c’est le secret d’un couple heureux.",
+     "en": "Two separate duvets are the secret to a happy couple."
+    },
+    {
+     "fr": "La déco, c’est moitié-moitié, coussins compris.",
+     "en": "Decorating is fifty-fifty, cushions included."
+    },
+    {
+     "fr": "On finit par s’habituer à tout chez l’autre, même à son désordre.",
+     "en": "You end up getting used to everything about the other person, even their mess."
+    },
+    {
+     "fr": "Chacun devrait avoir une pièce ou un coin rien qu’à soi.",
+     "en": "Each of us should have a room or a corner of our own."
+    },
+    {
+     "fr": "Adopter un animal, c’est un vrai test pour un couple.",
+     "en": "Getting a pet is a real test for a couple."
+    },
+    {
+     "fr": "Emménager ensemble au bout de six mois, c’est trop tôt.",
+     "en": "Moving in together after six months is too soon."
+    },
+    {
+     "fr": "Faire chambre à part de temps en temps peut sauver un couple.",
+     "en": "Sleeping apart now and then can save a relationship."
+    },
+    {
+     "fr": "Il faut pouvoir s’ennuyer ensemble sans que ce soit grave.",
+     "en": "We should be able to be bored together without it meaning anything."
+    },
+    {
+     "fr": "La routine n’est pas l’ennemie du couple, c’est son ciment.",
+     "en": "Routine isn’t the enemy of a relationship, it’s the glue."
+    }
+   ]
+  },
+  {
+   "slug": "argent-sans-tabou",
+   "title_fr": "L’argent, sans tabou",
+   "title_en": "Money, no taboos",
+   "topics": [
+    "money",
+    "values"
+   ],
+   "tags": [
+    "money"
+   ],
+   "art": "Money bag",
+   "items": [
+    {
+     "fr": "Qui propose le premier rendez-vous doit payer l’addition.",
+     "en": "Whoever asks for the first date should pick up the bill."
+    },
+    {
+     "fr": "Les cadeaux hors de prix ne prouvent rien.",
+     "en": "Pricey gifts prove nothing."
+    },
+    {
+     "fr": "Un achat coup de cœur à 200 euros sans en parler, ça passe.",
+     "en": "A 200-euro impulse buy without mentioning it is fine."
+    },
+    {
+     "fr": "Mieux vaut profiter aujourd’hui qu’économiser pour plus tard.",
+     "en": "Better to enjoy today than save for later."
+    },
+    {
+     "fr": "Faire les comptes au centime près, ça tue la romance.",
+     "en": "Splitting costs down to the last cent kills the romance."
+    },
+    {
+     "fr": "On devrait se fixer un budget plaisirs chaque mois.",
+     "en": "We should set ourselves a monthly budget for treats."
+    },
+    {
+     "fr": "Celui ou celle qui gagne le plus devrait payer les vacances.",
+     "en": "Whoever earns more should pay for the holidays."
+    },
+    {
+     "fr": "Prêter de l’argent à un ami, c’est perdre l’argent ou l’ami.",
+     "en": "Lend money to a friend and you’ll lose either the money or the friend."
+    },
+    {
+     "fr": "On devrait connaître le salaire exact de l’autre.",
+     "en": "We should know each other’s exact salary."
+    },
+    {
+     "fr": "Cacher une dette, c’est presque une infidélité.",
+     "en": "Hiding a debt is almost a form of cheating."
+    },
+    {
+     "fr": "Un héritage devrait rester l’affaire de celui ou celle qui hérite.",
+     "en": "An inheritance should stay with the person who receives it."
+    },
+    {
+     "fr": "Parler d’argent dès le début d’une relation, c’est sain.",
+     "en": "Talking about money early in a relationship is healthy."
+    }
+   ]
+  },
+  {
+   "slug": "famille-et-belle-famille",
+   "title_fr": "Famille et belle-famille",
+   "title_en": "Family and in-laws",
+   "topics": [
+    "family",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Houses",
+   "items": [
+    {
+     "fr": "Noël, c’est une année chez l’un, une année chez l’autre.",
+     "en": "Christmas should alternate between our families every year."
+    },
+    {
+     "fr": "Un week-end entier chez la belle-famille, c’est trop long.",
+     "en": "A whole weekend at the in-laws’ is too long."
+    },
+    {
+     "fr": "Nos parents ne devraient pas avoir les clés de chez nous.",
+     "en": "Our parents shouldn’t have keys to our place."
+    },
+    {
+     "fr": "On a le droit de ne pas aimer sa belle-famille.",
+     "en": "It’s okay not to like your in-laws."
+    },
+    {
+     "fr": "Ses propres parents, on peut les critiquer ; ceux de l’autre, jamais.",
+     "en": "You can criticise your own parents, but never the other’s."
+    },
+    {
+     "fr": "Raconter nos disputes à nos parents, c’est une erreur.",
+     "en": "Telling our parents about our arguments is a mistake."
+    },
+    {
+     "fr": "Les traditions familiales de l’autre deviennent aussi les miennes.",
+     "en": "My partner’s family traditions become mine too."
+    },
+    {
+     "fr": "On finit toujours par ressembler un peu au couple de ses parents.",
+     "en": "We all end up a bit like our parents as a couple."
+    },
+    {
+     "fr": "En cas de conflit avec ma famille, je dois prendre le parti de l’autre.",
+     "en": "If there’s a clash with my family, I should take my partner’s side."
+    },
+    {
+     "fr": "Accueillir un parent âgé chez nous, ce serait une évidence.",
+     "en": "Taking in an elderly parent would be a given."
+    },
+    {
+     "fr": "Il faut savoir couper les ponts avec un proche toxique, même de la famille.",
+     "en": "You should be able to cut off a toxic relative, even family."
+    }
+   ]
+  },
+  {
+   "slug": "nos-valeurs-a-l-epreuve",
+   "title_fr": "Nos valeurs à l’épreuve",
+   "title_en": "Our values put to the test",
+   "topics": [
+    "values",
+    "deep"
+   ],
+   "tags": [],
+   "art": "Balance scale",
+   "items": [
+    {
+     "fr": "Arriver en retard, c’est manquer de respect.",
+     "en": "Being late is a sign of disrespect."
+    },
+    {
+     "fr": "On peut rire de tout, même entre nous.",
+     "en": "You can joke about anything, even between us."
+    },
+    {
+     "fr": "Les règles sont faites pour être un peu contournées.",
+     "en": "Rules are meant to be bent a little."
+    },
+    {
+     "fr": "Un petit mensonge pour faire plaisir, ce n’est pas grave.",
+     "en": "A white lie to make someone happy is harmless."
+    },
+    {
+     "fr": "Rendre service sans rien attendre en retour, ça n’existe pas.",
+     "en": "Doing a favour with no expectation in return doesn’t exist."
+    },
+    {
+     "fr": "Réussir sa vie, c’est d’abord avoir du temps, pas de l’argent.",
+     "en": "A successful life is about having time, not money."
+    },
+    {
+     "fr": "Il faut accepter de gagner moins pour un métier qui a du sens.",
+     "en": "You should accept earning less for work that means something."
+    },
+    {
+     "fr": "Donner de son temps à une cause compte plus que donner de l’argent.",
+     "en": "Giving time to a cause matters more than giving money."
+    },
+    {
+     "fr": "L’écologie doit guider nos choix, même quand c’est contraignant.",
+     "en": "Ecology should guide our choices, even when it’s a hassle."
+    },
+    {
+     "fr": "La loyauté envers un ami passe avant la vérité.",
+     "en": "Loyalty to a friend comes before the truth."
+    },
+    {
+     "fr": "Des opinions politiques opposées peuvent justifier une rupture.",
+     "en": "Opposing political views can be a reason to break up."
+    },
+    {
+     "fr": "On peut tout pardonner si l’autre regrette sincèrement.",
+     "en": "You can forgive anything if the other person is truly sorry."
+    }
+   ]
+  },
+  {
+   "slug": "ecrans-et-reseaux",
+   "title_fr": "Écrans et réseaux sociaux",
+   "title_en": "Screens and social media",
+   "topics": [
+    "lifestyle",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Mobile phone",
+   "items": [
+    {
+     "fr": "Regarder un épisode de notre série sans l’autre, c’est une trahison.",
+     "en": "Watching an episode of our show without the other is a betrayal."
+    },
+    {
+     "fr": "Scroller côte à côte dans le canapé, ça compte quand même comme un moment à deux.",
+     "en": "Scrolling side by side on the sofa still counts as time together."
+    },
+    {
+     "fr": "Répondre à un message trois heures plus tard, c’est vexant.",
+     "en": "Replying to a message three hours later is hurtful."
+    },
+    {
+     "fr": "Poster une photo de nous sans demander, c’est non.",
+     "en": "Posting a photo of us without asking is a no."
+    },
+    {
+     "fr": "Tant que ce n’est pas sur les réseaux, ce n’est pas officiel.",
+     "en": "It isn’t official until it’s on social media."
+    },
+    {
+     "fr": "Un couple heureux n’a aucun besoin de s’afficher en ligne.",
+     "en": "A happy couple has no need to show off online."
+    },
+    {
+     "fr": "Le téléphone n’a rien à faire dans la chambre.",
+     "en": "Phones have no place in the bedroom."
+    },
+    {
+     "fr": "Liker les photos d’un ou d’une ex, ce n’est pas anodin.",
+     "en": "Liking an ex’s photos is never innocent."
+    },
+    {
+     "fr": "Les applis de rencontre se suppriment dès le début d’une relation.",
+     "en": "Dating apps get deleted as soon as a relationship starts."
+    },
+    {
+     "fr": "Connaître le code de téléphone de l’autre, c’est une preuve de confiance.",
+     "en": "Knowing each other’s phone passcode is a sign of trust."
+    },
+    {
+     "fr": "Fouiller le téléphone de l’autre n’est jamais justifié.",
+     "en": "Going through the other’s phone is never justified."
+    }
+   ]
+  },
+  {
+   "slug": "amis-et-sorties",
+   "title_fr": "Amis et sorties",
+   "title_en": "Friends and nights out",
+   "topics": [
+    "lifestyle",
+    "relationship",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Clinking glasses",
+   "items": [
+    {
+     "fr": "Annuler une sortie à la dernière minute pour rester sous la couette, c’est permis.",
+     "en": "Cancelling plans at the last minute to stay under the duvet is allowed."
+    },
+    {
+     "fr": "Sortir sans l’autre un samedi soir, c’est tout à fait normal.",
+     "en": "Going out without the other on a Saturday night is perfectly normal."
+    },
+    {
+     "fr": "Un dîner entre couples vaut mieux qu’une grosse soirée.",
+     "en": "A dinner with other couples beats a big party."
+    },
+    {
+     "fr": "Chacun a droit à un week-end entre potes par an.",
+     "en": "Each of us is entitled to one weekend away with friends a year."
+    },
+    {
+     "fr": "Rentrer à 4 h du matin sans prévenir, c’est impardonnable.",
+     "en": "Coming home at 4 a.m. without a word is unforgivable."
+    },
+    {
+     "fr": "Partir en vacances avec des amis, c’est risqué pour un couple.",
+     "en": "Going on holiday with friends is risky for a couple."
+    },
+    {
+     "fr": "On n’est pas obligé d’apprécier les amis de l’autre.",
+     "en": "You don’t have to like your partner’s friends."
+    },
+    {
+     "fr": "Raconter les détails de notre couple à nos amis, c’est normal.",
+     "en": "Telling our friends the details of our relationship is normal."
+    },
+    {
+     "fr": "Le meilleur ami de l’autre a son mot à dire sur notre couple.",
+     "en": "The other’s best friend gets a say in our relationship."
+    },
+    {
+     "fr": "Un ami qui critique notre couple n’est plus vraiment un ami.",
+     "en": "A friend who criticises our relationship isn’t really a friend anymore."
+    },
+    {
+     "fr": "Une amitié vraiment platonique, c’est possible avec n’importe qui.",
+     "en": "A truly platonic friendship is possible with anyone."
+    },
+    {
+     "fr": "Rester ami avec un ou une ex, c’est acceptable.",
+     "en": "Staying friends with an ex is acceptable."
+    }
+   ]
+  },
+  {
+   "slug": "mariage-et-engagement",
+   "title_fr": "Mariage et engagement",
+   "title_en": "Marriage and commitment",
+   "topics": [
+    "future",
+    "before"
+   ],
+   "tags": [
+    "wedding"
+   ],
+   "art": "Ring",
+   "items": [
+    {
+     "fr": "Une demande en mariage doit être une surprise.",
+     "en": "A proposal should be a surprise."
+    },
+    {
+     "fr": "Une bague de fiançailles, c’est indispensable.",
+     "en": "An engagement ring is a must."
+    },
+    {
+     "fr": "Un beau mariage, c’est un mariage en petit comité.",
+     "en": "A lovely wedding is a small wedding."
+    },
+    {
+     "fr": "Dépenser une fortune pour une seule journée, c’est absurde.",
+     "en": "Spending a fortune on a single day is absurd."
+    },
+    {
+     "fr": "Des vœux écrits soi-même valent mieux que les formules toutes faites.",
+     "en": "Vows you write yourselves beat the standard ones."
+    },
+    {
+     "fr": "Demander la permission aux parents avant de faire sa demande, c’est dépassé.",
+     "en": "Asking the parents’ permission before proposing is old-fashioned."
+    },
+    {
+     "fr": "Prendre le nom de l’autre en se mariant, ça n’a plus de sens.",
+     "en": "Taking the other’s surname when you marry no longer makes sense."
+    },
+    {
+     "fr": "Renouveler ses vœux, c’est une belle idée.",
+     "en": "Renewing your vows is a lovely idea."
+    },
+    {
+     "fr": "Un PACS, c’est déjà presque un mariage.",
+     "en": "A civil partnership is almost a marriage already."
+    },
+    {
+     "fr": "Se marier jeune, c’est plus romantique que risqué.",
+     "en": "Marrying young is more romantic than risky."
+    },
+    {
+     "fr": "On peut s’engager pour la vie sans jamais se marier.",
+     "en": "You can commit for life without ever getting married."
+    },
+    {
+     "fr": "Le mariage est une promesse qu’on ne devrait jamais rompre.",
+     "en": "Marriage is a promise that should never be broken."
+    }
+   ]
+  },
+  {
+   "slug": "idees-recues-sur-l-amour",
+   "title_fr": "Idées reçues sur l’amour",
+   "title_en": "Love myths: true or false?",
+   "topics": [
+    "relationship",
+    "fun",
+    "deep"
+   ],
+   "tags": [],
+   "art": "Heart with arrow",
+   "items": [
+    {
+     "fr": "Les contraires s’attirent.",
+     "en": "Opposites attract."
+    },
+    {
+     "fr": "Le coup de foudre, ça existe vraiment.",
+     "en": "Love at first sight really exists."
+    },
+    {
+     "fr": "Le premier amour ne s’oublie jamais.",
+     "en": "You never get over your first love."
+    },
+    {
+     "fr": "Quand on aime, on ne compte pas.",
+     "en": "When you love someone, you don’t keep score."
+    },
+    {
+     "fr": "Il faut s’aimer soi-même avant de pouvoir aimer quelqu’un.",
+     "en": "You have to love yourself before you can love someone else."
+    },
+    {
+     "fr": "Les hommes et les femmes n’attendent pas la même chose de l’amour.",
+     "en": "Men and women don’t want the same things from love."
+    },
+    {
+     "fr": "Se remettre avec un ex, ça ne marche jamais.",
+     "en": "Getting back with an ex never works."
+    },
+    {
+     "fr": "On ne peut pas aimer deux personnes à la fois.",
+     "en": "You can’t love two people at once."
+    },
+    {
+     "fr": "L’amour dure trois ans, après c’est autre chose.",
+     "en": "Love lasts three years; after that it turns into something else."
+    },
+    {
+     "fr": "La passion finit toujours par s’éteindre.",
+     "en": "Passion always fades in the end."
+    },
+    {
+     "fr": "Il existe une seule personne faite pour chacun de nous.",
+     "en": "There is only one person meant for each of us."
+    },
+    {
+     "fr": "L’amour suffit à tout surmonter.",
+     "en": "Love is enough to overcome anything."
+    }
+   ]
+  },
+  {
+   "slug": "entre-nous-cote-desir",
+   "title_fr": "Entre nous, côté désir",
+   "title_en": "Between us: desire",
+   "topics": [
+    "intimacy",
+    "relationship"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Heart on fire",
+   "items": [
+    {
+     "fr": "Le matin, c’est le meilleur moment pour la tendresse.",
+     "en": "Morning is the best time for a little closeness."
+    },
+    {
+     "fr": "Un baiser volé en pleine journée peut changer toute une soirée.",
+     "en": "A stolen kiss in the middle of the day can change a whole evening."
+    },
+    {
+     "fr": "Les messages coquins pendant les heures de bureau, c’est risqué mais délicieux.",
+     "en": "Flirty texts during working hours are risky but delicious."
+    },
+    {
+     "fr": "Un regard en public peut être plus troublant qu’une caresse.",
+     "en": "A look across a crowded room can be more thrilling than a touch."
+    },
+    {
+     "fr": "La lingerie, c’est surtout un cadeau qu’on se fait à soi.",
+     "en": "Lingerie is mostly a gift you give yourself."
+    },
+    {
+     "fr": "Une nuit à l’hôtel suffit à raviver la flamme.",
+     "en": "One night in a hotel is enough to rekindle the flame."
+    },
+    {
+     "fr": "Prévoir un moment intime dans l’agenda, ça tue la spontanéité.",
+     "en": "Scheduling intimate time kills the spontaneity."
+    },
+    {
+     "fr": "L’imagination compte plus que l’expérience.",
+     "en": "Imagination matters more than experience."
+    },
+    {
+     "fr": "Il faut oser guider l’autre, même si ça casse un peu la magie.",
+     "en": "You should dare to guide each other, even if it breaks the spell a little."
+    },
+    {
+     "fr": "La fréquence ne dit rien de la qualité d’un couple.",
+     "en": "How often says nothing about how good a relationship is."
+    },
+    {
+     "fr": "Un fantasme n’a pas forcément vocation à être réalisé.",
+     "en": "A fantasy doesn’t have to come true to be worth having."
+    },
+    {
+     "fr": "Dire non à l’autre, c’est aussi prendre soin du couple.",
+     "en": "Saying no to each other is also a way of caring for the relationship."
+    }
+   ]
+  }
+ ]
+}

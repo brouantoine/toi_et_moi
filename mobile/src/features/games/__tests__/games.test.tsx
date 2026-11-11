@@ -12,26 +12,68 @@ import {
 } from '@/test-utils';
 
 import { GamesScreen } from '../GamesScreen';
-import { answerLabel, QuestionScreen } from '../QuestionScreen';
-import { isGamesHome, topicOf, type Question } from '../useGames';
+import { PackListScreen } from '../PackListScreen';
+import { PlayScreen } from '../PlayScreen';
+import { isGamesHome, type Pack, type PackDetail, type PackItem } from '../useGames';
 
 jest.mock('expo-haptics', () => ({ selectionAsync: jest.fn(async () => {}) }));
 
 const urlOf = (arg: Request | string) => (typeof arg === 'string' ? arg : arg.url);
 const methodOf = (arg: Request | string) => (typeof arg === 'string' ? 'GET' : arg.method);
+const ART = 'http://api.test/static/games/art/eyes.webp';
 
-function question(fields: Partial<Question> = {}): Question {
+function pack(fields: Partial<Pack> = {}): Pack {
   return {
-    id: 'travel-1',
-    topic: 'travel',
-    kind: 'this_or_that',
-    text: 'Voyage organisé ou à l’aventure ?',
-    options: ['Organisé', 'À l’aventure'],
+    id: 'vie-quotidienne',
+    kind: 'never',
+    kind_name: 'Je n’ai jamais',
+    title: 'Vie quotidienne',
+    art: ART,
+    topics: ['lifestyle'],
+    tags: [],
     adult: false,
+    premium: false,
+    locked: false,
+    position: 0,
+    total: 2,
+    mine: 0,
+    theirs: 0,
     state: 'new',
+    similarity: null,
+    ...fields,
+  };
+}
+
+function item(fields: Partial<PackItem> = {}): PackItem {
+  return {
+    id: 'vie-quotidienne.1',
+    text: 'Je n’ai jamais pris de train de nuit.',
+    options: [
+      { name: 'Je n’ai jamais !', art: null },
+      { name: 'J’ai déjà !', art: null },
+    ],
     mine: null,
+    partner_answered: false,
     theirs: null,
     match: null,
+    ...fields,
+  };
+}
+
+const given = (choice: number | null, extra: Partial<PackItem['mine']> = {}) => ({
+  choice,
+  text: '',
+  drawing: [],
+  photo_url: null,
+  skipped: false,
+  ...extra,
+});
+
+function detail(fields: Partial<PackDetail> = {}): PackDetail {
+  return {
+    ...pack(),
+    mode: 'choice',
+    items: [item(), item({ id: 'vie-quotidienne.2', text: 'Je n’ai jamais dormi dehors.' })],
     ...fields,
   };
 }
@@ -48,9 +90,11 @@ const couple = {
   ],
 };
 const home = {
-  daily: [question(), question({ id: 'food-1', topic: 'food', text: 'Sucré ou salé ?' })],
-  your_turn: [question({ id: 'money-1', topic: 'money', kind: 'agree', state: 'your_turn' })],
+  daily: [pack(), pack({ id: 'qui-cuisine', kind: 'most_likely', title: 'Qui cuisine ?' })],
+  your_turn: [pack({ id: 'argent', kind: 'agree', state: 'your_turn', theirs: 2 })],
   your_turn_count: 1,
+  waiting_count: 2,
+  done_count: 0,
   topics: [
     { slug: 'travel', name: 'Voyage', adult: false, locked: false, total: 6, done: 3, percent: 50 },
     {
@@ -63,7 +107,7 @@ const home = {
       percent: 0,
     },
   ],
-  kinds: [{ slug: 'this_or_that', name: 'Ça ou ça ?', total: 20 }],
+  kinds: [{ slug: 'never', name: 'Je n’ai jamais', total: 22 }],
   adult: { mine: false, partner: false },
   streak: { count: 4, today_done: false },
   stats: {
@@ -77,12 +121,24 @@ const home = {
   },
 };
 
-function backend(questions: Question[], answered?: Question) {
+function backend(
+  opts: {
+    detail?: PackDetail | (() => PackDetail);
+    answered?: PackItem;
+    list?: Pack[];
+    hidden?: number;
+  } = {},
+) {
   return mockFetch().mockImplementation(async (input) => {
     const url = urlOf(input);
-    if (url.includes('/games/answers/')) return jsonResponse(answered ?? questions[0], 201);
+    if (url.includes('/games/answers/')) return jsonResponse(opts.answered ?? item(), 201);
     if (url.includes('/games/home/')) return jsonResponse(home);
-    if (url.includes('/games/questions/')) return jsonResponse(questions);
+    if (url.includes('/games/packs/?') || url.endsWith('/games/packs/'))
+      return jsonResponse({ packs: opts.list ?? [pack()], adult_hidden: opts.hidden ?? 0 });
+    if (url.includes('/games/packs/')) {
+      const current = typeof opts.detail === 'function' ? opts.detail() : opts.detail;
+      return jsonResponse(current ?? detail());
+    }
     if (url.includes('/notes/')) {
       return methodOf(input) === 'POST'
         ? jsonResponse({ id: 9, text: 'Fleurs', color: 'sage', author: 'me' }, 201)
@@ -94,27 +150,22 @@ function backend(questions: Question[], answered?: Question) {
   });
 }
 
+async function lastPost(fetchMock: ReturnType<typeof backend>) {
+  const call = await waitFor(() => {
+    const found = fetchMock.mock.calls.filter(([i]) => methodOf(i) === 'POST').pop();
+    expect(found).toBeTruthy();
+    return found!;
+  });
+  return requestBody(call[0]);
+}
+
 beforeEach(async () => {
   jest.clearAllMocks();
   await i18n.changeLanguage('fr');
 });
 
 describe('helpers', () => {
-  const names = { me: 'Antoine', partner: 'Sam' };
-
-  it('puts answers into words, "who is most likely" as a first name', () => {
-    expect(answerLabel(question(), { choice: 1 }, 'me', names)).toBe('À l’aventure');
-    const likely = question({ kind: 'most_likely', options: ['Moi', 'Toi'] });
-    expect(answerLabel(likely, { choice: 0 }, 'me', names)).toBe('Antoine');
-    expect(answerLabel(likely, { choice: 1 }, 'me', names)).toBe('Sam');
-    expect(answerLabel(likely, { choice: 0 }, 'partner', names)).toBe('Sam');
-    expect(answerLabel(likely, { choice: 1 }, 'partner', names)).toBe('Antoine');
-    const talk = question({ kind: 'conversation', options: [] });
-    expect(answerLabel(talk, { text: 'Zanzibar' }, 'partner', names)).toBe('Zanzibar');
-  });
-
-  it('knows a question’s topic, a valid home and elapsed time', () => {
-    expect(topicOf('knowyou-12')).toBe('knowyou');
+  it('knows a valid home and elapsed time', () => {
     expect(isGamesHome(home)).toBe(true);
     expect(isGamesHome({ date: '2026-11-07' })).toBe(false);
     const start = new Date(2026, 7, 2).getTime();
@@ -128,84 +179,155 @@ describe('helpers', () => {
 });
 
 describe('GamesScreen', () => {
-  it('lists kinds, today’s pair and topics with their progress', async () => {
-    backend([]);
+  it('lists kinds, today’s packs, filters with counts and topics', async () => {
+    backend();
     await renderWithProviders(<GamesScreen />);
-    expect(await screen.findByTestId('kind-this_or_that')).toBeTruthy();
-    expect(screen.getByTestId('question-travel-1')).toBeTruthy();
-    expect(screen.getByTestId('question-food-1')).toBeTruthy();
-    expect(screen.getByLabelText('Voyage, 3 sur 6 terminées')).toBeTruthy();
+    expect(await screen.findByTestId('kind-never')).toBeTruthy();
+    expect(screen.getByTestId('pack-vie-quotidienne')).toBeTruthy();
+    expect(screen.getByTestId('pack-qui-cuisine')).toBeTruthy();
+    expect(screen.getByLabelText('Voyage, 3 sur 6 terminés')).toBeTruthy();
     expect(screen.getByLabelText('Sexe et amour, Verrouillé')).toBeTruthy();
     expect(screen.getByText('À toi de jouer (1)')).toBeTruthy();
+    expect(screen.getByText('Répondu (2)')).toBeTruthy();
     expect(screen.getByLabelText(/^Série de 4 jours\. Jouez tous les deux/)).toBeTruthy();
     await fireEvent.press(screen.getByTestId('topic-travel'));
     expect(routerMock().push).toHaveBeenCalledWith('/games/list?topic=travel');
-    await fireEvent.press(screen.getByTestId('question-travel-1'));
-    expect(routerMock().push).toHaveBeenCalledWith('/games/travel-1');
+    await fireEvent.press(screen.getByTestId('pack-vie-quotidienne'));
+    expect(routerMock().push).toHaveBeenCalledWith('/games/vie-quotidienne');
+    await fireEvent.press(screen.getByTestId('games-search'));
+    expect(routerMock().push).toHaveBeenCalledWith('/games/list?search=1');
+  });
+
+  it('sends a locked premium pack to the premium screen', async () => {
+    backend();
+    const { PackCard } = jest.requireActual('../PackCard');
+    await renderWithProviders(<PackCard pack={pack({ locked: true, premium: true })} />);
+    expect(await screen.findByText('Débloquer')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('pack-vie-quotidienne'));
+    expect(routerMock().push).toHaveBeenCalledWith('/premium');
   });
 });
 
-describe('QuestionScreen', () => {
-  it('answers in one tap and then waits for the other', async () => {
-    const waiting = question({ state: 'waiting', mine: { choice: 1, text: '' } });
-    const fetchMock = backend([question()], waiting);
-    await renderWithProviders(<QuestionScreen questionId="travel-1" />);
-    await fireEvent.press(await screen.findByTestId('question-option-1'));
-    const post = await waitFor(() => {
-      const call = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'POST');
-      expect(call).toBeTruthy();
-      return call![0];
+describe('PackListScreen', () => {
+  it('shows packs with their badges and the 18+ gate when some are hidden', async () => {
+    backend({
+      list: [pack({ tags: [{ slug: 'money', name: 'Argent' }] })],
+      hidden: 2,
     });
-    expect(await requestBody(post)).toEqual({ question: 'travel-1', choice: 1 });
+    await renderWithProviders(<PackListScreen />);
+    expect(await screen.findByTestId('pack-vie-quotidienne')).toBeTruthy();
+    expect(screen.getByText('Argent')).toBeTruthy();
+    expect(screen.getByTestId('adult-gate')).toBeTruthy();
+  });
+});
+
+describe('PlayScreen', () => {
+  it('answers item by item with the progress, in one tap', async () => {
+    let answered = false;
+    const fetchMock = backend({
+      answered: item({ mine: given(1) }),
+      detail: () => {
+        const fresh = detail();
+        if (!answered) return fresh;
+        return { ...fresh, mine: 1, items: [item({ mine: given(1) }), fresh.items[1]!] };
+      },
+    });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    expect(await screen.findByText('Je n’ai jamais · 1 / 2')).toBeTruthy();
+    answered = true;
+    await fireEvent.press(screen.getByTestId('option-1'));
+    expect(await lastPost(fetchMock)).toEqual({
+      question: 'vie-quotidienne.1',
+      choice: 1,
+      skipped: false,
+    });
+    expect(await screen.findByText('Je n’ai jamais · 2 / 2')).toBeTruthy();
   });
 
-  it('never shows the other’s answer before mine', async () => {
-    backend([question({ state: 'your_turn' })]);
-    await renderWithProviders(<QuestionScreen questionId="travel-1" />);
-    expect(await screen.findByTestId('question-hidden-hint')).toBeTruthy();
-    expect(screen.queryByTestId('question-reveal')).toBeNull();
+  it('can skip an item', async () => {
+    const fetchMock = backend({ answered: item({ mine: given(null, { skipped: true }) }) });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    await fireEvent.press(await screen.findByTestId('answer-skip'));
+    expect(await lastPost(fetchMock)).toEqual({ question: 'vie-quotidienne.1', skipped: true });
   });
 
-  it('shows my answer while waiting, then both with a gentle outcome', async () => {
-    backend([question({ state: 'waiting', mine: { choice: 0, text: '' } })]);
-    await renderWithProviders(<QuestionScreen questionId="travel-1" />);
-    expect(await screen.findByTestId('question-waiting')).toBeTruthy();
-    expect(screen.getByText('Organisé')).toBeTruthy();
-
-    backend([
-      question({
-        state: 'done',
-        mine: { choice: 0, text: '' },
-        theirs: { choice: 1, text: '' },
-        match: false,
+  it('puts both avatars on "who is most likely" and says the partner already played', async () => {
+    backend({
+      detail: detail({
+        kind: 'most_likely',
+        kind_name: 'Qui est le plus ?',
+        items: [
+          item({
+            text: 'Qui cuisine ?',
+            partner_answered: true,
+            options: [
+              { name: 'Moi', art: null },
+              { name: 'Toi', art: null },
+            ],
+          }),
+        ],
       }),
-    ]);
-    await renderWithProviders(<QuestionScreen questionId="travel-1" />);
-    expect(await screen.findByTestId('question-differ')).toBeTruthy();
-    expect(screen.getByText('À l’aventure')).toBeTruthy();
+    });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    expect(await screen.findByTestId('partner-answered')).toBeTruthy();
+    expect((await screen.findAllByLabelText('Antoine')).length).toBeGreaterThan(0);
+    expect((await screen.findAllByLabelText('Sam')).length).toBeGreaterThan(0);
   });
 
   it('sends a written answer for a conversation', async () => {
-    const talk = question({ kind: 'conversation', options: [] });
-    const fetchMock = backend([talk], {
-      ...talk,
-      state: 'waiting',
-      mine: { choice: null, text: 'Zanzibar' },
+    const fetchMock = backend({
+      detail: detail({ kind: 'conversation', mode: 'text', items: [item({ options: [] })] }),
     });
-    await renderWithProviders(<QuestionScreen questionId="travel-1" />);
-    await fireEvent.changeText(await screen.findByTestId('question-text'), ' Zanzibar ');
-    await fireEvent.press(screen.getByTestId('question-send'));
-    await waitFor(() =>
-      expect(fetchMock.mock.calls.some(([i]) => methodOf(i) === 'POST')).toBe(true),
-    );
-    const post = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'POST')![0];
-    expect(await requestBody(post)).toEqual({ question: 'travel-1', text: 'Zanzibar' });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    await fireEvent.changeText(await screen.findByTestId('answer-text'), ' Zanzibar ');
+    await fireEvent.press(screen.getByTestId('answer-send'));
+    expect(await lastPost(fetchMock)).toEqual({
+      question: 'vie-quotidienne.1',
+      text: 'Zanzibar',
+      skipped: false,
+    });
+  });
+
+  it('waits for the partner once I finished, without showing their answers', async () => {
+    backend({
+      detail: detail({
+        state: 'waiting',
+        mine: 2,
+        items: [
+          item({ mine: given(0), partner_answered: false }),
+          item({ id: 'vie-quotidienne.2', mine: given(1) }),
+        ],
+      }),
+    });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    expect(await screen.findByTestId('pack-waiting')).toBeTruthy();
+    expect(screen.queryByTestId('similarity')).toBeNull();
+  });
+
+  it('shows the similarity and both answers once we both finished', async () => {
+    backend({
+      detail: detail({
+        state: 'done',
+        mine: 2,
+        theirs: 2,
+        similarity: 50,
+        items: [
+          item({ mine: given(0), theirs: given(0), match: true }),
+          item({ id: 'vie-quotidienne.2', mine: given(1), theirs: given(0), match: false }),
+        ],
+      }),
+    });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    expect(await screen.findByLabelText('50 % de réponses en commun')).toBeTruthy();
+    expect(screen.getByTestId('result-vie-quotidienne.2')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('pack-talk'));
+    expect(routerMock().push).toHaveBeenCalledWith('/us');
   });
 });
 
 describe('home sections', () => {
   it('shows activities, notes, your turn, the counter and the numbers', async () => {
-    backend([]);
+    backend();
     await renderWithProviders(<HomeSections />);
     expect(await screen.findByTestId('home-daily')).toBeTruthy();
     expect(screen.getByTestId('home-your-turn')).toBeTruthy();
@@ -221,23 +343,19 @@ describe('home sections', () => {
   });
 
   it('adds a note from the sheet', async () => {
-    const fetchMock = backend([]);
+    const fetchMock = backend();
     await renderWithProviders(<HomeSections />);
     await fireEvent.press(await screen.findByTestId('note-create'));
     await fireEvent.changeText(screen.getByTestId('note-text'), 'Fleurs');
     await fireEvent.press(screen.getByTestId('note-color-sage'));
     await fireEvent.press(screen.getByTestId('note-save'));
-    await waitFor(() =>
-      expect(fetchMock.mock.calls.some(([i]) => methodOf(i) === 'POST')).toBe(true),
-    );
-    const post = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'POST')![0];
-    expect(await requestBody(post)).toEqual({ text: 'Fleurs', color: 'sage' });
+    expect(await lastPost(fetchMock)).toEqual({ text: 'Fleurs', color: 'sage' });
   });
 });
 
 describe('PremiumScreen', () => {
   it('offers one purchase for two and says purchases are not open yet', async () => {
-    backend([]);
+    backend();
     await renderWithProviders(<PremiumScreen />);
     expect(await screen.findByText('Sam n’a pas à payer')).toBeTruthy();
     expect(screen.getByTestId('premium-plan-yearly').props.accessibilityState).toMatchObject({

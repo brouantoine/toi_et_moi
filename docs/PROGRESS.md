@@ -323,3 +323,7 @@
 - Jeux : 298 questions fr/en (20 par sujet), 15 sujets dont « Avenir et engagement » (questions d'avant mariage : argent, enfants, foi, désaccords), « Notre histoire » et « Pour rire ». Inspirés des formats des apps de couple et des listes de questions pré-mariage, rédigés pour Bolingo.
 - Notes vocales façon WhatsApp/Snapchat : maintenir le micro pour enregistrer, relâcher pour envoyer, glisser à gauche pour annuler (« Relâche pour annuler »), simple appui → explication. Niveau du micro mesuré pendant l'enregistrement, onde en bâtonnets en direct puis dans la bulle (remplissage pendant la lecture, toucher pour avancer). `Message.waveform` côté serveur (64 barres max, 0-100).
 - Clavier : la zone de saisie se colle au clavier sur iPhone (marge calculée = hauteur du clavier moins la barre d'onglets, animée avec lui) ; sur Android la barre d'onglets se cache quand le clavier s'ouvre.
+
+
+## 2026-11-11
+- Jeux reconstruits en paquets : 146 paquets / 1 543 éléments, résultats avec jauge de similarité, dessin au doigt, réponse photo (stockage S3 requis), recherche et filtres, badges, accès 18+ à double accord. Tests backend et mobile verts.

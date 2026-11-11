@@ -635,25 +635,27 @@
     "title": "Questions and games",
     "kindsTitle": "Categories",
     "dailyTitle": "Today’s activities",
-    "dailyHint": "Two new questions every day, the same for both of you.",
+    "dailyHint": "Two games every day, the same for both of you.",
     "topicsTitle": "Topics",
     "yourTurnTitle": "Your turn",
     "filters": {
       "your_turn": "Your turn",
       "waiting": "Answered",
-      "done": "Finished"
+      "done": "Finished",
+      "unanswered": "Not answered"
     },
     "cta": {
-      "new": "Answer",
+      "new": "Play",
       "your_turn": "Answer",
+      "in_progress": "Continue",
       "waiting": "Waiting",
-      "done": "See"
+      "done": "Results",
+      "locked": "Unlock"
     },
-    "questionsCount_one": "{{count}} question",
-    "questionsCount_other": "{{count}} questions",
     "progress": "{{done}} of {{total}} finished",
     "emptyList": "Nothing here for now.",
     "listTitle": {
+      "unanswered": "Not answered",
       "your_turn": "Your turn",
       "waiting": "You answered",
       "done": "Finished"
@@ -662,34 +664,54 @@
     "answerPlaceholder": "Write your answer…",
     "send": "Send my answer",
     "sendError": "Your answer could not be sent. Try again.",
-    "waitingFor": "Waiting for {{name}}. You will discover both answers together.",
-    "hiddenHint": "{{name}} already answered. Answer to discover theirs.",
-    "mine": "You",
-    "match": "You are on the same wavelength.",
-    "differ": "You see this differently: something to talk about.",
-    "revealTitle": "Both your answers",
+    "waitingFor": "Waiting for {{name}}. Your results appear as soon as you have both finished.",
     "adultBadge": "18+",
     "locked": "Locked",
-    "adultTitle": "Adults-only topic",
-    "adultExplain": "This topic opens only if you both turn it on.",
+    "adultTitle": "Adults-only games",
     "adultEnable": "Turn on for me",
     "adultDisable": "Turn off",
-    "adultWaiting": "Waiting for {{name}} to open this topic.",
+    "adultWaiting": "Waiting for {{name}} to open these games.",
     "close": "Close",
     "answeredBy": "{{name}} answered",
     "notAnsweredBy": "{{name}} has not answered yet",
-    "kinds": {
-      "this_or_that": "This or that",
-      "agree": "Agree / Disagree",
-      "never": "Never have I ever",
-      "rather": "Would you rather",
-      "most_likely": "Who is most likely",
-      "conversation": "Conversation"
-    },
     "streak_one": "{{count}}-day streak",
     "streak_other": "{{count}}-day streak",
     "streakHint": "Both play today to keep it going.",
-    "streakDone": "Done for today."
+    "streakDone": "Done for today.",
+    "packsCount_one": "{{count}} game",
+    "packsCount_other": "{{count}} games",
+    "search": "Search",
+    "searchPlaceholder": "A theme, a word…",
+    "clearSearch": "Clear search",
+    "noMatch": "No game matches.",
+    "adultExplain_one": "{{count}} 18+ game opens only if you both turn it on.",
+    "adultExplain_other": "These 18+ games open only if you both turn them on.",
+    "or": "or",
+    "skip": "Skip",
+    "rather": "Would you rather?",
+    "partnerAnswered": "{{name}} already answered. You will discover your answers at the end.",
+    "draw": {
+      "ink": "Colour {{n}}",
+      "thick": "Switch to a thick pen",
+      "thin": "Switch to a thin pen",
+      "undo": "Remove the last stroke",
+      "clear": "Clear everything",
+      "send": "Send my drawing"
+    },
+    "photo": {
+      "pick": "Choose a photo",
+      "change": "Change photo",
+      "send": "Send this photo",
+      "denied": "To answer with a photo, allow access to your photo library in Settings."
+    },
+    "results": {
+      "similarity": "{{percent}}% of answers in common",
+      "similarityLabel": "of answers in common",
+      "skippedBy": "{{name}} skipped this question",
+      "skipped": "Skipped",
+      "notYet": "Not answered yet",
+      "talk": "Talk about it in the chat"
+    }
   },
   "home": {
     "whatsNew": "What’s new?",

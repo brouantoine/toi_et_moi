@@ -1,0 +1,21 @@
+{
+ "kind": "photo",
+ "packs": [
+  {
+   "slug": "our-story-pics",
+   "title_fr": "Notre histoire en images",
+   "title_en": "Our story in pictures",
+   "topics": [
+    "us"
+   ],
+   "tags": [],
+   "art": "Camera",
+   "items": [
+    {
+     "fr": "Ta photo 1",
+     "en": "Ta photo 1 en"
+    }
+   ]
+  }
+ ]
+}

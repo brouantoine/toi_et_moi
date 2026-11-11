@@ -1,0 +1,21 @@
+{
+ "kind": "draw",
+ "packs": [
+  {
+   "slug": "funny-animals",
+   "title_fr": "Animaux rigolos",
+   "title_en": "Funny animals",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Cat face",
+   "items": [
+    {
+     "fr": "Dessine 1",
+     "en": "Dessine 1 en"
+    }
+   ]
+  }
+ ]
+}

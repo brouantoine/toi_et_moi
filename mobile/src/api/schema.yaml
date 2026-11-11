@@ -1235,7 +1235,7 @@ paths:
   /api/v1/games/adult/:
     put:
       operationId: v1_games_adult_update
-      description: 'Adults-only topics: each partner turns them on for themselves.'
+      description: 'Adults-only packs: each partner turns them on for themselves.'
       tags:
       - v1
       requestBody:
@@ -1283,12 +1283,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Question'
+                $ref: '#/components/schemas/Item'
           description: ''
   /api/v1/games/home/:
     get:
       operationId: v1_games_home_retrieve
-      description: 'Everything the home and the games tab show: today''s pair, your
+      description: 'Everything the home and the games tab show: today''s packs, your
         turn, progress.'
       tags:
       - v1
@@ -1301,14 +1301,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/GamesHome'
           description: ''
-  /api/v1/games/questions/:
+  /api/v1/games/packs/:
     get:
-      operationId: v1_games_questions_list
+      operationId: v1_games_packs_retrieve
       parameters:
       - in: query
         name: kind
         schema:
           type: string
+      - in: query
+        name: q
+        schema:
+          type: string
+      - in: query
+        name: state
+        schema:
+          type: string
+          enum:
+          - done
+          - unanswered
+          - waiting
+          - your_turn
       - in: query
         name: topic
         schema:
@@ -1322,9 +1335,54 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
+                $ref: '#/components/schemas/PackList'
+          description: ''
+  /api/v1/games/packs/{pack_id}/:
+    get:
+      operationId: v1_games_packs_retrieve_2
+      parameters:
+      - in: path
+        name: pack_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackDetail'
+          description: ''
+  /api/v1/games/upload-url/:
+    post:
+      operationId: v1_games_upload_url_create
+      description: Ticket to upload a photo answer straight to storage.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageUploadRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageUploadTicket'
           description: ''
   /api/v1/health/:
     get:
@@ -2678,7 +2736,7 @@ components:
         question:
           type: string
           minLength: 1
-          maxLength: 40
+          maxLength: 80
         choice:
           type: integer
           maximum: 9
@@ -2687,6 +2745,18 @@ components:
         text:
           type: string
           maxLength: 600
+        drawing:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          maxItems: 300
+        media_key:
+          type: string
+          maxLength: 512
+        skipped:
+          type: boolean
+          default: false
       required:
       - question
     AuthResponse:
@@ -3318,12 +3388,16 @@ components:
         daily:
           type: array
           items:
-            $ref: '#/components/schemas/Question'
+            $ref: '#/components/schemas/Pack'
         your_turn:
           type: array
           items:
-            $ref: '#/components/schemas/Question'
+            $ref: '#/components/schemas/Pack'
         your_turn_count:
+          type: integer
+        waiting_count:
+          type: integer
+        done_count:
           type: integer
         topics:
           type: array
@@ -3342,10 +3416,12 @@ components:
       required:
       - adult
       - daily
+      - done_count
       - kinds
       - stats
       - streak
       - topics
+      - waiting_count
       - your_turn
       - your_turn_count
     GivenAnswer:
@@ -3356,8 +3432,21 @@ components:
           nullable: true
         text:
           type: string
+        drawing:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        photo_url:
+          type: string
+          nullable: true
+        skipped:
+          type: boolean
       required:
       - choice
+      - drawing
+      - photo_url
+      - skipped
       - text
     Health:
       type: object
@@ -3446,6 +3535,39 @@ components:
       - expires_at
       - link
       - share_url
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+        mine:
+          allOf:
+          - $ref: '#/components/schemas/GivenAnswer'
+          nullable: true
+        partner_answered:
+          type: boolean
+        theirs:
+          allOf:
+          - $ref: '#/components/schemas/GivenAnswer'
+          nullable: true
+          description: Only once I answered too.
+        match:
+          type: boolean
+          nullable: true
+      required:
+      - id
+      - match
+      - mine
+      - options
+      - partner_answered
+      - text
+      - theirs
     JoinCoupleRequest:
       type: object
       properties:
@@ -3468,6 +3590,26 @@ components:
       - name
       - slug
       - total
+    KindCf9Enum:
+      enum:
+      - most_likely
+      - draw
+      - this_or_that
+      - never
+      - rather
+      - conversation
+      - agree
+      - photo
+      type: string
+      description: |-
+        * `most_likely` - most_likely
+        * `draw` - draw
+        * `this_or_that` - this_or_that
+        * `never` - never
+        * `rather` - rather
+        * `conversation` - conversation
+        * `agree` - agree
+        * `photo` - photo
     LanguageEnum:
       enum:
       - fr
@@ -3832,6 +3974,18 @@ components:
         * `text` - Texte
         * `photo` - Photo
         * `voice` - Note vocale
+    ModeEnum:
+      enum:
+      - choice
+      - text
+      - drawing
+      - photo
+      type: string
+      description: |-
+        * `choice` - choice
+        * `text` - text
+        * `drawing` - drawing
+        * `photo` - photo
     Mood:
       type: object
       properties:
@@ -4028,6 +4182,156 @@ components:
       required:
       - memory
       - years_ago
+    Option:
+      type: object
+      properties:
+        name:
+          type: string
+        art:
+          type: string
+          nullable: true
+      required:
+      - art
+      - name
+    Pack:
+      type: object
+      properties:
+        id:
+          type: string
+        kind:
+          $ref: '#/components/schemas/KindCf9Enum'
+        kind_name:
+          type: string
+        title:
+          type: string
+        art:
+          type: string
+        topics:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        adult:
+          type: boolean
+        premium:
+          type: boolean
+        locked:
+          type: boolean
+        position:
+          type: integer
+        total:
+          type: integer
+        mine:
+          type: integer
+          description: Items I answered.
+        theirs:
+          type: integer
+          description: Items my partner answered.
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        similarity:
+          type: integer
+          nullable: true
+      required:
+      - adult
+      - art
+      - id
+      - kind
+      - kind_name
+      - locked
+      - mine
+      - position
+      - premium
+      - similarity
+      - state
+      - tags
+      - theirs
+      - title
+      - topics
+      - total
+    PackDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        kind:
+          $ref: '#/components/schemas/KindCf9Enum'
+        kind_name:
+          type: string
+        title:
+          type: string
+        art:
+          type: string
+        topics:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        adult:
+          type: boolean
+        premium:
+          type: boolean
+        locked:
+          type: boolean
+        position:
+          type: integer
+        total:
+          type: integer
+        mine:
+          type: integer
+          description: Items I answered.
+        theirs:
+          type: integer
+          description: Items my partner answered.
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        similarity:
+          type: integer
+          nullable: true
+        mode:
+          $ref: '#/components/schemas/ModeEnum'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+      required:
+      - adult
+      - art
+      - id
+      - items
+      - kind
+      - kind_name
+      - locked
+      - mine
+      - mode
+      - position
+      - premium
+      - similarity
+      - state
+      - tags
+      - theirs
+      - title
+      - topics
+      - total
+    PackList:
+      type: object
+      properties:
+        packs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pack'
+        adult_hidden:
+          type: integer
+          description: 18+ packs hidden until both opt in.
+      required:
+      - adult_hidden
+      - packs
     PaginatedExpenseList:
       type: object
       required:
@@ -4424,64 +4728,6 @@ components:
           format: time
         discreet:
           type: boolean
-    Question:
-      type: object
-      properties:
-        id:
-          type: string
-        topic:
-          type: string
-        kind:
-          $ref: '#/components/schemas/QuestionKindEnum'
-        text:
-          type: string
-        options:
-          type: array
-          items:
-            type: string
-        adult:
-          type: boolean
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        mine:
-          allOf:
-          - $ref: '#/components/schemas/GivenAnswer'
-          nullable: true
-        theirs:
-          allOf:
-          - $ref: '#/components/schemas/GivenAnswer'
-          nullable: true
-          description: Only once I answered too.
-        match:
-          type: boolean
-          nullable: true
-      required:
-      - adult
-      - id
-      - kind
-      - match
-      - mine
-      - options
-      - state
-      - text
-      - theirs
-      - topic
-    QuestionKindEnum:
-      enum:
-      - this_or_that
-      - agree
-      - never
-      - rather
-      - most_likely
-      - conversation
-      type: string
-      description: |-
-        * `this_or_that` - this_or_that
-        * `agree` - agree
-        * `never` - never
-        * `rather` - rather
-        * `most_likely` - most_likely
-        * `conversation` - conversation
     RecurrenceEnum:
       enum:
       - none
@@ -4628,6 +4874,20 @@ components:
           $ref: '#/components/schemas/ListKindEnum'
       required:
       - title
+    SlugEnum:
+      enum:
+      - adult
+      - kids
+      - money
+      - wedding
+      - ex
+      type: string
+      description: |-
+        * `adult` - adult
+        * `kids` - kids
+        * `money` - money
+        * `wedding` - wedding
+        * `ex` - ex
     SocialAuthResponse:
       type: object
       properties:
@@ -4675,12 +4935,14 @@ components:
     StateEnum:
       enum:
       - new
+      - in_progress
       - your_turn
       - waiting
       - done
       type: string
       description: |-
         * `new` - new
+        * `in_progress` - in_progress
         * `your_turn` - your_turn
         * `waiting` - waiting
         * `done` - done
@@ -4721,6 +4983,16 @@ components:
       required:
       - count
       - today_done
+    Tag:
+      type: object
+      properties:
+        slug:
+          $ref: '#/components/schemas/SlugEnum'
+        name:
+          type: string
+      required:
+      - name
+      - slug
     TokenObtainPair:
       type: object
       properties:

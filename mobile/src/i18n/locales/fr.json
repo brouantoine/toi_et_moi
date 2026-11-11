@@ -635,25 +635,27 @@
     "title": "Questions et jeux",
     "kindsTitle": "Catégories",
     "dailyTitle": "Activités du jour",
-    "dailyHint": "Deux nouvelles questions chaque jour, les mêmes pour vous deux.",
+    "dailyHint": "Deux jeux chaque jour, les mêmes pour vous deux.",
     "topicsTitle": "Sujets",
     "yourTurnTitle": "À ton tour",
     "filters": {
       "your_turn": "À toi de jouer",
       "waiting": "Répondu",
-      "done": "Terminé"
+      "done": "Terminé",
+      "unanswered": "Non répondu"
     },
     "cta": {
-      "new": "Réponds",
+      "new": "Joue",
       "your_turn": "Réponds",
+      "in_progress": "Continue",
       "waiting": "En attente",
-      "done": "Voir"
+      "done": "Résultats",
+      "locked": "Débloquer"
     },
-    "questionsCount_one": "{{count}} question",
-    "questionsCount_other": "{{count}} questions",
-    "progress": "{{done}} sur {{total}} terminées",
+    "progress": "{{done}} sur {{total}} terminés",
     "emptyList": "Rien ici pour le moment.",
     "listTitle": {
+      "unanswered": "Non répondu",
       "your_turn": "À toi de jouer",
       "waiting": "Tu as répondu",
       "done": "Terminé"
@@ -662,34 +664,54 @@
     "answerPlaceholder": "Écris ta réponse…",
     "send": "Envoyer ma réponse",
     "sendError": "Ta réponse n’a pas pu être envoyée. Réessaie.",
-    "waitingFor": "En attente de {{name}}. Vous découvrirez vos deux réponses ensemble.",
-    "hiddenHint": "{{name}} a déjà répondu. Réponds pour découvrir sa réponse.",
-    "mine": "Toi",
-    "match": "Vous êtes sur la même longueur d’onde.",
-    "differ": "Vous voyez ça différemment : de quoi en parler.",
-    "revealTitle": "Vos deux réponses",
+    "waitingFor": "En attente de {{name}}. Vos résultats s’afficheront dès que vous aurez terminé tous les deux.",
     "adultBadge": "18+",
     "locked": "Verrouillé",
-    "adultTitle": "Sujet réservé aux adultes",
-    "adultExplain": "Ce sujet s’ouvre seulement si vous l’activez tous les deux.",
+    "adultTitle": "Jeux réservés aux adultes",
     "adultEnable": "Activer pour moi",
     "adultDisable": "Désactiver",
-    "adultWaiting": "En attente de {{name}} pour ouvrir ce sujet.",
+    "adultWaiting": "En attente de {{name}} pour ouvrir ces jeux.",
     "close": "Fermer",
     "answeredBy": "{{name}} a répondu",
     "notAnsweredBy": "{{name}} n’a pas encore répondu",
-    "kinds": {
-      "this_or_that": "Ça ou ça",
-      "agree": "D’accord / Pas d’accord",
-      "never": "Je n’ai jamais",
-      "rather": "Tu préfères",
-      "most_likely": "Qui est le plus",
-      "conversation": "Conversation"
-    },
     "streak_one": "Série de {{count}} jour",
     "streak_other": "Série de {{count}} jours",
     "streakHint": "Jouez tous les deux aujourd’hui pour la continuer.",
-    "streakDone": "Fait pour aujourd’hui."
+    "streakDone": "Fait pour aujourd’hui.",
+    "packsCount_one": "{{count}} jeu",
+    "packsCount_other": "{{count}} jeux",
+    "search": "Rechercher",
+    "searchPlaceholder": "Un thème, un mot…",
+    "clearSearch": "Effacer la recherche",
+    "noMatch": "Aucun jeu ne correspond.",
+    "adultExplain_one": "{{count}} jeu 18+ s’ouvre seulement si vous l’activez tous les deux.",
+    "adultExplain_other": "Ces jeux 18+ s’ouvrent seulement si vous les activez tous les deux.",
+    "or": "ou",
+    "skip": "Passer",
+    "rather": "Que préfères-tu ?",
+    "partnerAnswered": "{{name}} a déjà répondu. Vous découvrirez vos réponses à la fin.",
+    "draw": {
+      "ink": "Couleur {{n}}",
+      "thick": "Passer au trait épais",
+      "thin": "Passer au trait fin",
+      "undo": "Effacer le dernier trait",
+      "clear": "Tout effacer",
+      "send": "Envoyer mon dessin"
+    },
+    "photo": {
+      "pick": "Choisir une photo",
+      "change": "Changer de photo",
+      "send": "Envoyer cette photo",
+      "denied": "Pour répondre avec une photo, autorise l’accès à ta photothèque dans les réglages."
+    },
+    "results": {
+      "similarity": "{{percent}} % de réponses en commun",
+      "similarityLabel": "de réponses en commun",
+      "skippedBy": "{{name}} a passé cette question",
+      "skipped": "Passé",
+      "notYet": "Pas encore répondu",
+      "talk": "En parler dans le chat"
+    }
   },
   "home": {
     "whatsNew": "Quoi de neuf ?",

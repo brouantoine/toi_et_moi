@@ -1,0 +1,25 @@
+{
+ "kind": "most_likely",
+ "packs": [
+  {
+   "slug": "who-cooks",
+   "title_fr": "Qui cuisine ?",
+   "title_en": "Who cooks?",
+   "topics": [
+    "food"
+   ],
+   "tags": [],
+   "art": "Cooking",
+   "items": [
+    {
+     "fr": "Qui 1",
+     "en": "Qui 1 en"
+    },
+    {
+     "fr": "Qui 2",
+     "en": "Qui 2 en"
+    }
+   ]
+  }
+ ]
+}

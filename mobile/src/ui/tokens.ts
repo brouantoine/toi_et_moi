@@ -209,6 +209,21 @@ export const hues: Record<ColorScheme, Record<Hue, HueColors>> = {
 };
 
 /**
+ * Inks of the finger-drawing game, by index (answers store the index, not the colour).
+ * Same in both schemes: a drawing looks the same to both partners.
+ */
+export const inks: readonly string[] = [
+  '#1C1C1E',
+  '#D0112B',
+  '#F08A24',
+  '#F2C94C',
+  '#3BA55C',
+  '#2F80ED',
+  '#8E5CE6',
+  '#EC6FA8',
+];
+
+/**
  * Elevation as `boxShadow` strings. Neutral and very diffuse in light mode; in dark
  * mode shadows are invisible, so surfaces separate by tone and a hairline instead.
  */

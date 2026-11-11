@@ -1,0 +1,72 @@
+{
+ "kind": "never",
+ "packs": [
+  {
+   "slug": "daily-life",
+   "title_fr": "Vie quotidienne",
+   "title_en": "Everyday life",
+   "topics": [
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Eyes",
+   "items": [
+    {
+     "fr": "Je n’ai jamais fait 1",
+     "en": "Never have I ever done 1"
+    },
+    {
+     "fr": "Je n’ai jamais fait 2",
+     "en": "Never have I ever done 2"
+    },
+    {
+     "fr": "Je n’ai jamais fait 3",
+     "en": "Never have I ever done 3"
+    }
+   ]
+  },
+  {
+   "slug": "party-time",
+   "title_fr": "Soirées",
+   "title_en": "Parties",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Party popper",
+   "items": [
+    {
+     "fr": "Fête 1",
+     "en": "Fête 1 en"
+    },
+    {
+     "fr": "Fête 2",
+     "en": "Fête 2 en"
+    }
+   ]
+  },
+  {
+   "slug": "spicy-never",
+   "title_fr": "Coquin",
+   "title_en": "Spicy",
+   "topics": [
+    "intimacy",
+    "fun"
+   ],
+   "tags": [
+    "adult"
+   ],
+   "art": "Fire",
+   "items": [
+    {
+     "fr": "Coquin 1",
+     "en": "Coquin 1 en"
+    },
+    {
+     "fr": "Coquin 2",
+     "en": "Coquin 2 en"
+    }
+   ]
+  }
+ ]
+}

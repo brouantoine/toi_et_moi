@@ -1,0 +1,496 @@
+{
+ "kind": "draw",
+ "packs": [
+  {
+   "slug": "menagerie-loufoque",
+   "title_fr": "Ménagerie loufoque",
+   "title_en": "Wacky menagerie",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Sloth",
+   "items": [
+    {
+     "fr": "Dessine un chat qui fait du yoga.",
+     "en": "Draw a cat doing yoga."
+    },
+    {
+     "fr": "Dessine un escargot très pressé.",
+     "en": "Draw a snail in a big hurry."
+    },
+    {
+     "fr": "Dessine un pingouin en vacances à la plage.",
+     "en": "Draw a penguin on a beach holiday."
+    },
+    {
+     "fr": "Dessine une girafe qui essaie de monter dans une voiture.",
+     "en": "Draw a giraffe trying to get into a car."
+    },
+    {
+     "fr": "Dessine le croisement entre un chien et une pieuvre.",
+     "en": "Draw a cross between a dog and an octopus."
+    },
+    {
+     "fr": "Dessine l’animal qui me ressemble le plus.",
+     "en": "Draw the animal that looks most like me."
+    },
+    {
+     "fr": "Dessine l’animal de compagnie qu’on devrait adopter.",
+     "en": "Draw the pet we should adopt."
+    }
+   ]
+  },
+  {
+   "slug": "nous-deux-au-trait",
+   "title_fr": "Nous deux, au trait",
+   "title_en": "The two of us, in doodles",
+   "topics": [
+    "us",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "People hugging",
+   "items": [
+    {
+     "fr": "Dessine-nous main dans la main.",
+     "en": "Draw us holding hands."
+    },
+    {
+     "fr": "Dessine-nous un dimanche matin.",
+     "en": "Draw us on a Sunday morning."
+    },
+    {
+     "fr": "Dessine notre dernière petite dispute.",
+     "en": "Draw our last little squabble."
+    },
+    {
+     "fr": "Dessine le truc qu’on fait le mieux ensemble.",
+     "en": "Draw the thing we do best together."
+    },
+    {
+     "fr": "Dessine-nous dans trente ans.",
+     "en": "Draw us in thirty years’ time."
+    },
+    {
+     "fr": "Dessine notre couple en un seul symbole.",
+     "en": "Draw our relationship as a single symbol."
+    }
+   ]
+  },
+  {
+   "slug": "notre-maison-de-reve",
+   "title_fr": "Notre maison de rêve",
+   "title_en": "Our dream home",
+   "topics": [
+    "family",
+    "future"
+   ],
+   "tags": [],
+   "art": "House with garden",
+   "items": [
+    {
+     "fr": "Dessine la façade de notre maison idéale.",
+     "en": "Draw the front of our ideal home."
+    },
+    {
+     "fr": "Dessine la vue depuis notre fenêtre.",
+     "en": "Draw the view from our window."
+    },
+    {
+     "fr": "Dessine notre lit de rêve.",
+     "en": "Draw our dream bed."
+    },
+    {
+     "fr": "Dessine la pièce où on passerait le plus de temps.",
+     "en": "Draw the room we’d spend the most time in."
+    },
+    {
+     "fr": "Dessine le jardin, le balcon ou la terrasse parfaits.",
+     "en": "Draw the perfect garden, balcony or terrace."
+    },
+    {
+     "fr": "Dessine un truc complètement fou chez nous : toboggan, piscine sur le toit…",
+     "en": "Draw something totally over the top in our home: a slide, a rooftop pool…"
+    },
+    {
+     "fr": "Dessine nos voisins idéaux.",
+     "en": "Draw our ideal neighbours."
+    }
+   ]
+  },
+  {
+   "slug": "a-table",
+   "title_fr": "À table !",
+   "title_en": "Let’s eat!",
+   "topics": [
+    "food",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Fork and knife with plate",
+   "items": [
+    {
+     "fr": "Dessine ton plat préféré.",
+     "en": "Draw your favourite dish."
+    },
+    {
+     "fr": "Dessine un légume qui a beaucoup de caractère.",
+     "en": "Draw a vegetable with a big personality."
+    },
+    {
+     "fr": "Dessine mon petit-déjeuner idéal.",
+     "en": "Draw my ideal breakfast."
+    },
+    {
+     "fr": "Dessine une pizza avec nos garnitures préférées à tous les deux.",
+     "en": "Draw a pizza with both our favourite toppings."
+    },
+    {
+     "fr": "Dessine le plat que je cuisine le mieux, ou le moins mal.",
+     "en": "Draw the dish I cook best, or least badly."
+    },
+    {
+     "fr": "Dessine le pire plat que tu aies jamais mangé.",
+     "en": "Draw the worst dish you’ve ever eaten."
+    },
+    {
+     "fr": "Dessine notre dîner aux chandelles.",
+     "en": "Draw our candlelit dinner."
+    }
+   ]
+  },
+  {
+   "slug": "carnet-de-voyage",
+   "title_fr": "Carnet de voyage",
+   "title_en": "Travel sketchbook",
+   "topics": [
+    "travel"
+   ],
+   "tags": [],
+   "art": "Airplane",
+   "items": [
+    {
+     "fr": "Dessine ce qu’il y a toujours dans ma valise.",
+     "en": "Draw what’s always in my suitcase."
+    },
+    {
+     "fr": "Dessine-moi à l’aéroport.",
+     "en": "Draw me at the airport."
+    },
+    {
+     "fr": "Dessine le moyen de transport le plus farfelu pour partir en vacances.",
+     "en": "Draw the wackiest way to set off on holiday."
+    },
+    {
+     "fr": "Dessine une île déserte avec seulement trois objets.",
+     "en": "Draw a desert island with just three things on it."
+    },
+    {
+     "fr": "Dessine-nous perdus dans une ville inconnue.",
+     "en": "Draw us lost in a strange city."
+    },
+    {
+     "fr": "Dessine une carte postale de notre plus beau voyage.",
+     "en": "Draw a postcard from our best trip."
+    },
+    {
+     "fr": "Dessine notre prochaine destination.",
+     "en": "Draw our next destination."
+    }
+   ]
+  },
+  {
+   "slug": "portraits-et-caricatures",
+   "title_fr": "Portraits et caricatures",
+   "title_en": "Portraits and caricatures",
+   "topics": [
+    "fun",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Artist palette",
+   "items": [
+    {
+     "fr": "Dessine-moi au réveil.",
+     "en": "Draw me when I’ve just woken up."
+    },
+    {
+     "fr": "Dessine mon visage en trente secondes chrono.",
+     "en": "Draw my face in thirty seconds flat."
+    },
+    {
+     "fr": "Dessine-moi quand j’ai faim.",
+     "en": "Draw me when I’m hungry."
+    },
+    {
+     "fr": "Dessine ma coiffure en exagérant tout.",
+     "en": "Draw my hair, exaggerating everything."
+    },
+    {
+     "fr": "Dessine-moi en train de danser.",
+     "en": "Draw me dancing."
+    },
+    {
+     "fr": "Dessine ma tête quand je mens.",
+     "en": "Draw my face when I’m lying."
+    },
+    {
+     "fr": "Dessine-toi les yeux fermés.",
+     "en": "Draw yourself with your eyes closed."
+    },
+    {
+     "fr": "Dessine-moi avec la main que tu n’utilises jamais.",
+     "en": "Draw me with the hand you never use."
+    }
+   ]
+  },
+  {
+   "slug": "metiers-et-super-heros",
+   "title_fr": "Métiers et super-héros",
+   "title_en": "Jobs and superheroes",
+   "topics": [
+    "work",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Shield",
+   "items": [
+    {
+     "fr": "Dessine-moi en super-héros.",
+     "en": "Draw me as a superhero."
+    },
+    {
+     "fr": "Dessine mon super-pouvoir le plus inutile.",
+     "en": "Draw my most useless superpower."
+    },
+    {
+     "fr": "Dessine le méchant qu’on affronte tous les jours : la vaisselle, le réveil…",
+     "en": "Draw the villain we battle every day: the dishes, the alarm clock…"
+    },
+    {
+     "fr": "Dessine notre duo de justiciers en costume.",
+     "en": "Draw our crime-fighting duo in costume."
+    },
+    {
+     "fr": "Dessine-moi au travail.",
+     "en": "Draw me at work."
+    },
+    {
+     "fr": "Dessine le métier dont je rêvais enfant.",
+     "en": "Draw the job I dreamed of as a kid."
+    },
+    {
+     "fr": "Dessine le métier que je ferais dans une autre vie.",
+     "en": "Draw the job I’d have in another life."
+    }
+   ]
+  },
+  {
+   "slug": "la-meteo-des-emotions",
+   "title_fr": "La météo des émotions",
+   "title_en": "The feelings forecast",
+   "topics": [
+    "deep",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Rainbow",
+   "items": [
+    {
+     "fr": "Dessine ta journée sous forme de bulletin météo.",
+     "en": "Draw your day as a weather forecast."
+    },
+    {
+     "fr": "Dessine ma tête quand quelque chose m’agace.",
+     "en": "Draw my face when something gets on my nerves."
+    },
+    {
+     "fr": "Dessine la joie sous la forme d’un objet.",
+     "en": "Draw joy as an object."
+    },
+    {
+     "fr": "Dessine ce que tu ressens maintenant, sans écrire un seul mot.",
+     "en": "Draw how you feel right now, without writing a single word."
+    },
+    {
+     "fr": "Dessine ce qui te réconforte quand ça ne va pas.",
+     "en": "Draw what comforts you when things are hard."
+    },
+    {
+     "fr": "Dessine ce que tu ressens quand on se retrouve le soir.",
+     "en": "Draw how it feels when we see each other in the evening."
+    },
+    {
+     "fr": "Dessine notre amour s’il était un paysage.",
+     "en": "Draw our love as if it were a landscape."
+    }
+   ]
+  },
+  {
+   "slug": "souvenirs-a-main-levee",
+   "title_fr": "Souvenirs à main levée",
+   "title_en": "Memories, freehand",
+   "topics": [
+    "us"
+   ],
+   "tags": [],
+   "art": "Hourglass not done",
+   "items": [
+    {
+     "fr": "Dessine le moment où on s’est rencontrés.",
+     "en": "Draw the moment we met."
+    },
+    {
+     "fr": "Dessine notre premier rendez-vous.",
+     "en": "Draw our first date."
+    },
+    {
+     "fr": "Dessine notre plus gros fou rire.",
+     "en": "Draw our biggest fit of giggles."
+    },
+    {
+     "fr": "Dessine notre pire galère.",
+     "en": "Draw our worst mishap."
+    },
+    {
+     "fr": "Dessine notre premier baiser, version tout public.",
+     "en": "Draw our first kiss, family-friendly version."
+    },
+    {
+     "fr": "Dessine le cadeau de moi que tu as préféré.",
+     "en": "Draw your favourite gift from me."
+    },
+    {
+     "fr": "Dessine notre premier chez-nous.",
+     "en": "Draw our first home together."
+    },
+    {
+     "fr": "Dessine un souvenir de nous que tu ne veux jamais oublier.",
+     "en": "Draw a memory of us you never want to forget."
+    }
+   ]
+  },
+  {
+   "slug": "objets-du-quotidien",
+   "title_fr": "Objets du quotidien",
+   "title_en": "Everyday objects",
+   "topics": [
+    "lifestyle",
+    "fun"
+   ],
+   "tags": [],
+   "art": "Alarm clock",
+   "items": [
+    {
+     "fr": "Dessine ton mug préféré.",
+     "en": "Draw your favourite mug."
+    },
+    {
+     "fr": "Dessine ton téléphone avec un visage.",
+     "en": "Draw your phone with a face."
+    },
+    {
+     "fr": "Dessine une chaussette orpheline qui cherche sa jumelle.",
+     "en": "Draw an odd sock looking for its twin."
+    },
+    {
+     "fr": "Dessine un réveil qui sonne beaucoup trop tôt.",
+     "en": "Draw an alarm clock going off far too early."
+    },
+    {
+     "fr": "Dessine notre canapé avec tout ce qui traîne dessus.",
+     "en": "Draw our sofa with everything lying on it."
+    },
+    {
+     "fr": "Dessine ce qu’il y a dans mon sac.",
+     "en": "Draw what’s in my bag."
+    },
+    {
+     "fr": "Dessine l’objet de la maison dont tu ne pourrais pas te passer.",
+     "en": "Draw the thing at home you couldn’t live without."
+    }
+   ]
+  },
+  {
+   "slug": "contes-et-creatures",
+   "title_fr": "Contes et créatures",
+   "title_en": "Tales and creatures",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Dragon",
+   "items": [
+    {
+     "fr": "Dessine un dragon qui a peur du noir.",
+     "en": "Draw a dragon who’s scared of the dark."
+    },
+    {
+     "fr": "Dessine la licorne la plus fatiguée du monde.",
+     "en": "Draw the most exhausted unicorn in the world."
+    },
+    {
+     "fr": "Dessine un fantôme qui essaie de faire peur, sans succès.",
+     "en": "Draw a ghost trying and failing to be scary."
+    },
+    {
+     "fr": "Dessine un monstre sous le lit, mais tout gentil.",
+     "en": "Draw a monster under the bed, but a really sweet one."
+    },
+    {
+     "fr": "Dessine-moi en sirène ou en créature des mers.",
+     "en": "Draw me as a mermaid or a sea creature."
+    },
+    {
+     "fr": "Dessine le génie de la lampe et mon premier vœu.",
+     "en": "Draw the genie of the lamp and my first wish."
+    },
+    {
+     "fr": "Dessine le château où on régnerait tous les deux.",
+     "en": "Draw the castle where the two of us would reign."
+    }
+   ]
+  },
+  {
+   "slug": "defis-express",
+   "title_fr": "Défis express",
+   "title_en": "Speed challenges",
+   "topics": [
+    "fun"
+   ],
+   "tags": [],
+   "art": "Stopwatch",
+   "items": [
+    {
+     "fr": "Dessine-nous en bonshommes bâtons en dix secondes.",
+     "en": "Draw us as stick figures in ten seconds."
+    },
+    {
+     "fr": "Dessine un vélo de mémoire.",
+     "en": "Draw a bicycle from memory."
+    },
+    {
+     "fr": "Dessine un cœur les yeux fermés.",
+     "en": "Draw a heart with your eyes shut."
+    },
+    {
+     "fr": "Dessine une maison sans jamais lever le doigt.",
+     "en": "Draw a house without ever lifting your finger."
+    },
+    {
+     "fr": "Dessine un éléphant en commençant par la queue.",
+     "en": "Draw an elephant starting from the tail."
+    },
+    {
+     "fr": "Dessine la carte du monde en vingt secondes.",
+     "en": "Draw a map of the world in twenty seconds."
+    },
+    {
+     "fr": "Dessine mon prénom en grosses lettres décorées.",
+     "en": "Draw my name in big decorated letters."
+    }
+   ]
+  }
+ ]
+}

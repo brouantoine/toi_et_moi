@@ -8,7 +8,7 @@ import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 import { useCouple } from '@/features/couple/useCouple';
 import { EMOJI } from '@/features/games/art';
 import { SectionTitle, StreakBadge } from '@/features/games/GamesScreen';
-import { QuestionCard } from '@/features/games/QuestionCard';
+import { PackCard } from '@/features/games/PackCard';
 import {
   useGamesHome,
   useNoteActions,
@@ -381,8 +381,8 @@ export function HomeSections() {
               </View>
               <StreakBadge streak={home.streak} />
             </View>
-            {home.daily.map((question) => (
-              <QuestionCard key={question.id} question={question} />
+            {home.daily.map((pack) => (
+              <PackCard key={pack.id} pack={pack} />
             ))}
           </View>
         </FadeIn>
@@ -398,8 +398,8 @@ export function HomeSections() {
             style={{ marginHorizontal: -spacing.lg }}
             contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.smd }}
           >
-            {home.your_turn.map((question) => (
-              <QuestionCard key={question.id} question={question} width={300} />
+            {home.your_turn.map((pack) => (
+              <PackCard key={pack.id} pack={pack} width={300} />
             ))}
           </ScrollView>
         </View>

@@ -1,0 +1,354 @@
+{
+ "kind": "photo",
+ "packs": [
+  {
+   "slug": "notre-histoire-en-images",
+   "title_fr": "Notre histoire en images",
+   "title_en": "Our story in pictures",
+   "topics": [
+    "us",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Framed picture",
+   "items": [
+    {
+     "fr": "La toute première photo de nous deux que tu as gardée.",
+     "en": "The very first photo of the two of us that you kept."
+    },
+    {
+     "fr": "Une photo de moi que tu as prise tout au début.",
+     "en": "A photo of me you took in the very early days."
+    },
+    {
+     "fr": "Le lieu de notre premier rendez-vous, ou ce qui s’en rapproche le plus dans ta galerie.",
+     "en": "The place of our first date, or the closest thing you have in your camera roll."
+    },
+    {
+     "fr": "Notre photo la plus ratée, celle que tu adores en secret.",
+     "en": "Our most botched photo, the one you secretly love."
+    },
+    {
+     "fr": "Un endroit qui est devenu « notre » endroit.",
+     "en": "A place that became ‘our’ place."
+    },
+    {
+     "fr": "Une photo du jour où tu as compris que c’était sérieux entre nous.",
+     "en": "A photo from the day you realised we were serious."
+    },
+    {
+     "fr": "La photo qui résume le mieux notre dernière année.",
+     "en": "The photo that best sums up our past year."
+    },
+    {
+     "fr": "La seule image que tu montrerais pour raconter notre histoire.",
+     "en": "The one picture you’d show to tell our story."
+    }
+   ]
+  },
+  {
+   "slug": "voyages-en-photos",
+   "title_fr": "Voyages en photos",
+   "title_en": "Travels in pictures",
+   "topics": [
+    "travel",
+    "us"
+   ],
+   "tags": [],
+   "art": "World map",
+   "items": [
+    {
+     "fr": "Ta photo préférée de nous deux en vacances.",
+     "en": "Your favourite photo of the two of us on holiday."
+    },
+    {
+     "fr": "Le plus beau paysage que tu aies jamais photographié.",
+     "en": "The most beautiful view you’ve ever photographed."
+    },
+    {
+     "fr": "Un plat goûté en voyage qui mérite d’être montré.",
+     "en": "A dish from a trip that deserves to be shown off."
+    },
+    {
+     "fr": "La photo de voyage prise pile au moment où tout partait de travers.",
+     "en": "A travel photo taken right when everything was going wrong."
+    },
+    {
+     "fr": "Un logement de vacances inoubliable, pour le meilleur ou pour le pire.",
+     "en": "A holiday stay you’ll never forget, for better or worse."
+    },
+    {
+     "fr": "Un souvenir rapporté de voyage qui traîne encore chez toi.",
+     "en": "A souvenir from a trip that’s still lying around at home."
+    },
+    {
+     "fr": "Une photo d’un voyage que tu as fait avant qu’on se rencontre.",
+     "en": "A photo from a trip you took before we met."
+    },
+    {
+     "fr": "Un endroit où tu aimerais retourner avec moi.",
+     "en": "A place you’d love to go back to with me."
+    }
+   ]
+  },
+  {
+   "slug": "selfies-et-anecdotes",
+   "title_fr": "Selfies et anecdotes",
+   "title_en": "Selfies and stories",
+   "topics": [
+    "fun",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Camera with flash",
+   "items": [
+    {
+     "fr": "Ton selfie le plus ridicule.",
+     "en": "Your most ridiculous selfie."
+    },
+    {
+     "fr": "Un selfie de nous deux où l’un a les yeux fermés ou une drôle de tête.",
+     "en": "A selfie of us where one of us has their eyes shut or a funny face."
+    },
+    {
+     "fr": "La photo qui te fait rire à tous les coups.",
+     "en": "The photo that makes you laugh every single time."
+    },
+    {
+     "fr": "Une capture d’écran qui t’a fait pleurer de rire.",
+     "en": "A screenshot that made you cry with laughter."
+    },
+    {
+     "fr": "Une photo prise à un moment où tu n’aurais vraiment pas dû sortir ton téléphone.",
+     "en": "A photo taken when you really shouldn’t have had your phone out."
+    },
+    {
+     "fr": "La photo la plus ancienne de ta galerie, et son histoire.",
+     "en": "The oldest photo in your camera roll, and the story behind it."
+    },
+    {
+     "fr": "Une photo qui cache une anecdote que je ne connais pas encore.",
+     "en": "A photo hiding a story I haven’t heard yet."
+    }
+   ]
+  },
+  {
+   "slug": "occasions-speciales",
+   "title_fr": "Occasions spéciales",
+   "title_en": "Special occasions",
+   "topics": [
+    "us",
+    "family"
+   ],
+   "tags": [],
+   "art": "Party popper",
+   "items": [
+    {
+     "fr": "Le plus beau gâteau qui soit passé devant ton objectif.",
+     "en": "The best cake that ever made it into your camera roll."
+    },
+    {
+     "fr": "Une soirée de fête qui t’a laissé un énorme fou rire.",
+     "en": "A party that left you with a huge fit of giggles."
+    },
+    {
+     "fr": "Ta tenue la plus chic, à un mariage ou une grande soirée.",
+     "en": "Your smartest outfit, at a wedding or a big night out."
+    },
+    {
+     "fr": "Un repas de fête en famille.",
+     "en": "A festive family meal."
+    },
+    {
+     "fr": "Ton réveillon du Nouvel An préféré.",
+     "en": "Your favourite New Year’s Eve."
+    },
+    {
+     "fr": "Un anniversaire dont tu gardes un souvenir précieux.",
+     "en": "A birthday you treasure the memory of."
+    },
+    {
+     "fr": "Le cadeau le plus touchant que tu aies jamais reçu.",
+     "en": "The most touching gift you’ve ever received."
+    },
+    {
+     "fr": "Une occasion qu’on a fêtée rien que tous les deux.",
+     "en": "Something we celebrated, just the two of us."
+    }
+   ]
+  },
+  {
+   "slug": "nos-moments-preferes",
+   "title_fr": "Nos moments préférés",
+   "title_en": "Our favourite moments",
+   "topics": [
+    "us",
+    "relationship"
+   ],
+   "tags": [],
+   "art": "Two hearts",
+   "items": [
+    {
+     "fr": "Une photo de moi qui te fait sourire.",
+     "en": "A photo of me that makes you smile."
+    },
+    {
+     "fr": "Une photo de moi prise en douce.",
+     "en": "A photo of me taken on the sly."
+    },
+    {
+     "fr": "Un repas partagé dont tu te souviens encore.",
+     "en": "A meal we shared that you still remember."
+    },
+    {
+     "fr": "Un moment tout simple avec moi que tu as voulu immortaliser.",
+     "en": "A simple moment with me you wanted to capture."
+    },
+    {
+     "fr": "Une photo de nous deux où on a l’air vraiment heureux.",
+     "en": "A photo of us looking truly happy."
+    },
+    {
+     "fr": "Un moment où tu étais fier ou fière de moi.",
+     "en": "A moment when you were proud of me."
+    },
+    {
+     "fr": "La photo de nous que tu imprimerais et encadrerais demain.",
+     "en": "The photo of us you’d print and frame tomorrow."
+    }
+   ]
+  },
+  {
+   "slug": "mon-quotidien-en-ce-moment",
+   "title_fr": "Mon quotidien en ce moment",
+   "title_en": "My life right now",
+   "topics": [
+    "lifestyle",
+    "knowyou"
+   ],
+   "tags": [],
+   "art": "Hot beverage",
+   "items": [
+    {
+     "fr": "La dernière photo de ta galerie, sans tricher.",
+     "en": "The last photo in your camera roll, no cheating."
+    },
+    {
+     "fr": "Ce que tu as mangé de meilleur cette semaine.",
+     "en": "The best thing you ate this week."
+    },
+    {
+     "fr": "Ta tenue préférée du moment.",
+     "en": "Your favourite outfit right now."
+    },
+    {
+     "fr": "Ton coin à toi en ce moment : bureau, canapé, balcon…",
+     "en": "Your spot at the moment: desk, sofa, balcony…"
+    },
+    {
+     "fr": "La vue que tu as le plus souvent sous les yeux.",
+     "en": "The view you see most often."
+    },
+    {
+     "fr": "Un objet que tu utilises tous les jours sans y penser.",
+     "en": "Something you use every day without thinking about it."
+    },
+    {
+     "fr": "Un petit truc qui t’a fait sourire récemment.",
+     "en": "A little thing that made you smile recently."
+    },
+    {
+     "fr": "Une photo qui résume ta semaine.",
+     "en": "A photo that sums up your week."
+    }
+   ]
+  },
+  {
+   "slug": "souvenirs-d-enfance",
+   "title_fr": "Souvenirs d’enfance",
+   "title_en": "Childhood memories",
+   "topics": [
+    "knowyou",
+    "family"
+   ],
+   "tags": [],
+   "art": "Teddy bear",
+   "items": [
+    {
+     "fr": "Une photo de toi enfant que je n’ai sûrement jamais vue.",
+     "en": "A childhood photo of you I’ve probably never seen."
+    },
+    {
+     "fr": "Ta coupe de cheveux la plus discutable.",
+     "en": "Your most questionable haircut."
+    },
+    {
+     "fr": "Le jouet ou la peluche dont tu ne te séparais jamais.",
+     "en": "The toy or cuddly friend you never let go of."
+    },
+    {
+     "fr": "La maison ou le quartier où tu as grandi.",
+     "en": "The house or neighbourhood where you grew up."
+    },
+    {
+     "fr": "Un lieu de vacances de ton enfance.",
+     "en": "A holiday spot from your childhood."
+    },
+    {
+     "fr": "Un plat qui a le goût de ton enfance.",
+     "en": "A dish that tastes like your childhood."
+    },
+    {
+     "fr": "Une photo de famille qui te rend nostalgique.",
+     "en": "A family photo that makes you nostalgic."
+    }
+   ]
+  },
+  {
+   "slug": "mes-coups-de-coeur",
+   "title_fr": "Mes coups de cœur",
+   "title_en": "Things I love",
+   "topics": [
+    "food",
+    "hobbies",
+    "lifestyle"
+   ],
+   "tags": [],
+   "art": "Smiling face with heart-eyes",
+   "items": [
+    {
+     "fr": "Le meilleur plat que tu aies mangé au restaurant.",
+     "en": "The best restaurant dish you’ve ever had."
+    },
+    {
+     "fr": "Une photo d’animal qui te fait fondre.",
+     "en": "An animal photo that melts your heart."
+    },
+    {
+     "fr": "Ton meilleur achat de l’année.",
+     "en": "Your best purchase of the year."
+    },
+    {
+     "fr": "Un objet auquel tu tiens plus que de raison.",
+     "en": "An object you’re far too attached to."
+    },
+    {
+     "fr": "Un livre, un disque ou un film qui compte pour toi.",
+     "en": "A book, record or film that matters to you."
+    },
+    {
+     "fr": "Un lieu près de chez nous que tu adores.",
+     "en": "A place near home that you love."
+    },
+    {
+     "fr": "Le café, bar ou resto où tu m’emmènerais demain.",
+     "en": "The café, bar or restaurant you’d take me to tomorrow."
+    },
+    {
+     "fr": "Un coin de nature qui te ressource.",
+     "en": "A spot in nature that recharges you."
+    }
+   ]
+  }
+ ]
+}
