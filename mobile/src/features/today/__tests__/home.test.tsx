@@ -108,9 +108,9 @@ it('invites to add the start date when it is missing', async () => {
   };
   backend({ couple });
   await render(couple);
-  expect(
-    await screen.findByText('Ajoute votre date de début dans Moi → Notre couple.'),
-  ).toBeTruthy();
+  // A tappable pill straight to the couple settings, not a hint to go and find them.
+  await fireEvent.press(await screen.findByTestId('hero-add-start-date'));
+  expect(routerMock().push).toHaveBeenCalledWith('/settings/couple');
   expect(screen.queryByTestId('milestone')).toBeNull();
 });
 

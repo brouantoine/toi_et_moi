@@ -14,6 +14,7 @@ import { BRAND } from '@/config/brand';
 import {
   Button,
   Card,
+  DateField,
   EmptyState,
   ErrorState,
   LoadingState,
@@ -203,6 +204,8 @@ export function CoupleSetupScreen() {
   const couple = useCouple({ pollWhilePending: true });
   const create = useCreateCouple();
   const signOut = useSignOut();
+  // Asked right away: the days counter and the anniversaries need it (optional).
+  const [startDate, setStartDate] = useState<string | null>(null);
 
   if (couple.isPending) return <LoadingState testID="couple-loading" />;
   if (couple.isError) {
@@ -247,6 +250,14 @@ export function CoupleSetupScreen() {
             title={t('couple.setup.title')}
             message={t('couple.setup.message')}
           />
+          <DateField
+            testID="couple-setup-start-date"
+            label={t('couple.setup.startDate')}
+            value={startDate}
+            onChange={setStartDate}
+            maximumDate={new Date()}
+            clearable
+          />
           <Button
             testID="couple-create"
             icon={Send}
@@ -255,7 +266,7 @@ export function CoupleSetupScreen() {
             loading={create.isPending}
             onPress={() =>
               create.mutate(
-                {},
+                { startDate },
                 {
                   // One tap: the space is created and the share sheet opens right away.
                   onSuccess: (created) => {

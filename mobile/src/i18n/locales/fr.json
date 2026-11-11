@@ -83,7 +83,8 @@
       "title": "Votre espace à deux",
       "message": "Invite ta moitié en un geste : on prépare votre espace et tu lui envoies le lien par message.",
       "create": "Inviter ta moitié",
-      "haveCode": "J’ai reçu un code"
+      "haveCode": "J’ai reçu un code",
+      "startDate": "Depuis quand êtes-vous ensemble ? (facultatif)"
     },
     "pending": {
       "title": "Ton invitation est prête",
@@ -191,8 +192,8 @@
       "title": "Ce que l’app ne fera jamais",
       "body": "Parce que la confiance compte plus que tout :",
       "items": {
-        "streaks": "Pas de séries, de points ni de score de couple.",
-        "tracking": "Pas de géolocalisation, pas de « vu à », pas d’accusés de lecture.",
+        "streaks": "Pas de points ni de score de couple, jamais de reproche si vous ne jouez pas.",
+        "tracking": "Ta position n’est partagée que si tu l’acceptes, et tu peux arrêter à tout moment.",
         "ads": "Pas de publicité, pas de pistage, aucune revente de données.",
         "private": "Ce que tu gardes pour toi reste à toi : l’autre ne le voit jamais."
       }
@@ -572,7 +573,8 @@
     "onThisDay_one": "Il y a {{count}} an aujourd’hui",
     "onThisDay_other": "Il y a {{count}} ans aujourd’hui",
     "today": "Aujourd’hui",
-    "tomorrow": "Demain"
+    "tomorrow": "Demain",
+    "addStartDate": "Ajouter notre date de début"
   },
   "messages": {
     "eyebrow": "Rien que vous deux",

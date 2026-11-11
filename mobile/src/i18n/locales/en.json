@@ -83,7 +83,8 @@
       "title": "Your space for two",
       "message": "Invite your partner in one tap: we set up your space and you send them the link.",
       "create": "Invite your partner",
-      "haveCode": "I received a code"
+      "haveCode": "I received a code",
+      "startDate": "Since when have you been together? (optional)"
     },
     "pending": {
       "title": "Your invitation is ready",
@@ -191,8 +192,8 @@
       "title": "What this app will never do",
       "body": "Because trust matters more than anything:",
       "items": {
-        "streaks": "No streaks, no points, no couple score.",
-        "tracking": "No location tracking, no “seen at”, no read receipts.",
+        "streaks": "No points, no couple score, never a reproach if you do not play.",
+        "tracking": "Your location is shared only if you agree, and you can stop at any time.",
         "ads": "No ads, no tracking, no selling of data.",
         "private": "What you keep to yourself stays yours: the other never sees it."
       }
@@ -572,7 +573,8 @@
     "onThisDay_one": "{{count}} year ago today",
     "onThisDay_other": "{{count}} years ago today",
     "today": "Today",
-    "tomorrow": "Tomorrow"
+    "tomorrow": "Tomorrow",
+    "addStartDate": "Add our start date"
   },
   "messages": {
     "eyebrow": "Just the two of you",

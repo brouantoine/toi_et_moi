@@ -118,6 +118,7 @@ function LinkedAvatars({ tone }: { tone: 'onScrim' | 'text' }) {
 /** The couple, first: both of you and the distance, names, days together, next milestone. */
 export function CoupleHero() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { colors, radii, spacing } = useTheme();
   const couple = useCouple();
   const me = useMe();
@@ -157,9 +158,25 @@ export function CoupleHero() {
             </Text>
           </View>
         ) : (
-          <Text variant="caption" color={tone} style={styles.textCenter}>
-            {t('today.togetherHint')}
-          </Text>
+          <PressableScale
+            testID="hero-add-start-date"
+            accessibilityRole="button"
+            onPress={() => router.push('/settings/couple')}
+            style={[
+              styles.pill,
+              {
+                gap: spacing.xs,
+                paddingHorizontal: spacing.md,
+                borderRadius: radii.pill,
+                backgroundColor: colors.surface,
+              },
+            ]}
+          >
+            <Icon icon={CalendarHeart} size={16} color="primary" />
+            <Text variant="caption" style={styles.bold}>
+              {t('today.addStartDate')}
+            </Text>
+          </PressableScale>
         )}
         {start ? <MilestonePill start={start} /> : null}
       </View>

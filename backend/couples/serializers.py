@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django.conf import settings
 from django.utils import timezone
 from drf_spectacular.utils import extend_schema_field
@@ -6,6 +8,13 @@ from rest_framework import serializers
 from accounts.models import User
 
 from .models import Couple, Invitation
+
+
+def validate_start_date(value: date | None) -> date | None:
+    """A couple cannot have started in the future (one day of margin for time zones)."""
+    if value is not None and value > timezone.localdate() + timedelta(days=1):
+        raise serializers.ValidationError("start_date_in_future")
+    return value
 
 
 class MemberSerializer(serializers.ModelSerializer[User]):
@@ -81,6 +90,9 @@ class CoupleSerializer(serializers.ModelSerializer[Couple]):
         ).first()
         return InvitationSerializer(invitation).data if invitation else None
 
+    def validate_start_date(self, value: date | None) -> date | None:
+        return validate_start_date(value)
+
     def validate_currency(self, value: str) -> str:
         value = value.upper()
         if len(value) != 3 or not value.isalpha():
@@ -91,6 +103,9 @@ class CoupleSerializer(serializers.ModelSerializer[Couple]):
 class CreateCoupleSerializer(serializers.Serializer[None]):
     start_date = serializers.DateField(required=False, allow_null=True)
     currency = serializers.CharField(required=False, default="EUR", max_length=3)
+
+    def validate_start_date(self, value: date | None) -> date | None:
+        return validate_start_date(value)
 
 
 class JoinCoupleSerializer(serializers.Serializer[None]):
