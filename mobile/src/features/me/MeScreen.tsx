@@ -15,7 +15,7 @@ export function MeScreen() {
   const me = useMe();
   const signOut = useSignOut();
   return (
-    <Screen testID="tab-me">
+    <Screen testID="tab-me" wash>
       {me.data ? (
         <PressableScale
           testID="me-avatar"

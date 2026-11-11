@@ -31,7 +31,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/icon.png',
   // White-dominant app: system dialogs, pickers and the keyboard stay light too.
-  userInterfaceStyle: 'light',
+  userInterfaceStyle: 'automatic',
   ios: {
     supportsTablet: false,
     bundleIdentifier: BRAND.bundleId,
@@ -47,7 +47,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundImage: './assets/android-icon-background.png',
       monochromeImage: './assets/android-icon-monochrome.png',
     },
-    predictiveBackGestureEnabled: false,
+    predictiveBackGestureEnabled: true,
     ...(LINK_HOST
       ? {
           intentFilters: [

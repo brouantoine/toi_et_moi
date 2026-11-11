@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +41,13 @@ function WelcomeContent() {
           <CoupleIllustration accessibilityLabel={t('welcome.illustration')} />
           <FadeIn delay={200}>
             <View style={[styles.copy, { gap: spacing.sm }]}>
+              <Image
+                testID="welcome-logo"
+                source={require('../../../assets/logo-symbol-dark.png')}
+                style={styles.logo}
+                contentFit="contain"
+                accessibilityIgnoresInvertColors
+              />
               <Text variant="display" style={styles.center}>
                 {t('welcome.title', { brand: BRAND.name })}
               </Text>
@@ -75,4 +83,5 @@ const styles = StyleSheet.create({
   center: { textAlign: 'center' },
   hero: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   copy: { maxWidth: 340, alignItems: 'center' },
+  logo: { width: 52, height: 62 },
 });

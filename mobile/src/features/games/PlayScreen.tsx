@@ -1,7 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
-import { ImagePlus, X } from 'lucide-react-native';
+import { ImagePlus } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
@@ -11,10 +10,10 @@ import { ApiError } from '@/api';
 import { pickImages, type LocalImage } from '@/media/images';
 import {
   Avatar,
+  BackButton,
   Button,
   ErrorState,
   FadeIn,
-  IconButton,
   Input,
   LoadingState,
   Notice,
@@ -203,7 +202,6 @@ const STEPS = { choice: ChoiceStep, text: TextStep, drawing: DrawStep, photo: Ph
 /** Play a pack item by item, then discover the results together. */
 export function PlayScreen({ packId }: { packId: string }) {
   const { t } = useTranslation();
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { colors, hues, spacing } = useTheme();
   const faces = useCoupleFaces();
@@ -215,13 +213,7 @@ export function PlayScreen({ packId }: { packId: string }) {
     <View
       style={[styles.close, { paddingTop: insets.top + spacing.xs, paddingHorizontal: spacing.md }]}
     >
-      <IconButton
-        testID="pack-close"
-        icon={X}
-        variant="plain"
-        label={t('games.close')}
-        onPress={() => router.back()}
-      />
+      <BackButton testID="pack-close" />
     </View>
   );
 
@@ -319,7 +311,7 @@ export function PlayScreen({ packId }: { packId: string }) {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  close: { flexDirection: 'row', justifyContent: 'flex-end' },
+  close: { flexDirection: 'row', justifyContent: 'flex-start' },
   head: { alignItems: 'center' },
   row: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' },
   art: { width: 88, height: 88 },

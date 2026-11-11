@@ -15,7 +15,8 @@
     "confirm": "Valider",
     "save": "Enregistrer",
     "saved": "C’est enregistré.",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "back": "Retour"
   },
   "errors": {
     "title": "Petit contretemps",

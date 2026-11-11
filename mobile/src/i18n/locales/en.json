@@ -15,7 +15,8 @@
     "confirm": "Confirm",
     "save": "Save",
     "saved": "Saved.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "back": "Back"
   },
   "errors": {
     "title": "A small hiccup",

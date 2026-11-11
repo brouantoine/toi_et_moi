@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
 import { enablePush, pushStatus } from '@/notifications/push';
-import { Button, Card, ErrorState, FadeIn, Skeleton, Text, useTheme } from '@/ui';
+import { Button, Card, ErrorState, FadeIn, Skeleton, Text, ScreenWash, useTheme } from '@/ui';
 
 import { HomeSections } from '@/features/home/HomeSections';
 
@@ -90,6 +90,7 @@ export function TodayScreen() {
       edges={['top']}
       style={[styles.root, { backgroundColor: colors.background }]}
     >
+      <ScreenWash />
       <ScrollView
         contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}
         refreshControl={

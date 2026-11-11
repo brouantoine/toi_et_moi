@@ -16,6 +16,7 @@ import {
   Skeleton,
   Text,
   useTheme,
+  ScreenWash,
 } from '@/ui';
 
 import { EMOJI, kindArt, topicArt } from './art';
@@ -250,6 +251,7 @@ export function GamesScreen() {
       edges={['top']}
       style={[styles.root, { backgroundColor: colors.background }]}
     >
+      <ScreenWash />
       <ScrollView
         contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}
         refreshControl={

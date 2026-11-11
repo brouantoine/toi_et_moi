@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useOnline } from '@/api/offline';
-import { Chip, IconButton, Notice, Text, useTheme } from '@/ui';
+import { Chip, IconButton, Notice, Text, ScreenWash, useTheme } from '@/ui';
 
 import { AgendaView } from './agenda/AgendaView';
 import { BudgetView } from './budget/BudgetView';
@@ -35,6 +35,7 @@ export function OrganizeScreen() {
       edges={['top']}
       style={[styles.root, { backgroundColor: colors.background }]}
     >
+      <ScreenWash />
       <View
         style={[
           styles.header,

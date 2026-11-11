@@ -107,3 +107,10 @@ Format : date — choix — raison — alternative écartée.
 - Révélation : la réponse de l'autre n'est jamais renvoyée avant que tu aies répondu au même élément ; les résultats (similarité %) s'affichent quand vous avez fini tous les deux. Une seule notification par paquet terminé.
 - Premium : les 3 premiers paquets de chaque type restent gratuits ; le verrou ne s'active qu'avec `GAMES_PREMIUM_ENFORCED` (désactivé tant que les achats n'existent pas).
 - Migration : les réponses de l'ancien catalogue (ids sans point) sont supprimées (app non publiée).
+
+## 2026-11-11 — Charte rouge et blanc, mode nuit, retour, loader, logos
+- Charte (précision de l'utilisateur) : pas « blanc uniquement » mais blanc + rouge Bolingo #D0112B qui joue en nuances (comme Couple Joy avec le rose) : dégradé rouge (`wash`) en haut des onglets principaux, teintes rouges des cartes, `primarySoft` rose-rouge.
+- Mode nuit : l'app suit le réglage du téléphone (`userInterfaceStyle: 'automatic'`), ce qui remplace la décision « toujours blanc ».
+- Navigation : bouton retour rond identique partout (`BackButton`) + retour par glissement depuis n'importe où sur l'écran (iOS, `fullScreenGestureEnabled`) ; écran de jeu : glissement depuis le bord seulement (le centre sert au dessin) ; Android : geste prédictif activé.
+- Chargement : loader Bolingo fourni par l'utilisateur (deux boules rouge et blanche/encre), adapté au thème et au mode « mouvement réduit ».
+- Logos de l'utilisateur (`~/Bureau/Bolingo_logo`) : icône, écran de démarrage, icônes Android adaptative et monochrome, favicon, symbole sur l'écran d'accueil.

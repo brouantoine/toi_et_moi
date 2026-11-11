@@ -1,4 +1,6 @@
 export { Avatar, initials } from './Avatar';
+export { BackButton } from './BackButton';
+export { BolingoFullScreenLoader, BolingoLoader } from './BolingoLoader';
 export { AVATAR_PEOPLE, AVATAR_PRESETS, AVATAR_TONES, presetId } from './avatarPresets';
 export { Button } from './Button';
 export { Card, useSurfaceStyle } from './Card';
@@ -17,6 +19,7 @@ export { Celebration, FadeIn, usePop } from './motion';
 export { Notice } from './Notice';
 export { PressableScale } from './PressableScale';
 export { Screen } from './Screen';
+export { ScreenWash } from './ScreenWash';
 export { SearchField } from './SearchField';
 export { Segmented } from './Segmented';
 export { Sheet } from './Sheet';

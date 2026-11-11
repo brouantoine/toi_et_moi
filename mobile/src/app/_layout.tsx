@@ -18,7 +18,7 @@ import { QueryProvider } from '@/api/QueryProvider';
 import { useCoupleAccent } from '@/features/couple/useCouple';
 import { useGate } from '@/navigation/useGate';
 import { configureNotifications } from '@/notifications/setup';
-import { ThemeProvider, useTheme } from '@/ui';
+import { BackButton, ThemeProvider, useTheme } from '@/ui';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -41,12 +41,16 @@ function GuardedStack() {
   useEffect(() => {
     void configureNotifications(t).catch(() => {});
   }, [t]);
+  // Pushed screens: the round back button on the left, and a swipe from anywhere on the
+  // screen goes back (iOS; Android has its system back gesture).
   const header = {
     headerShown: true,
     headerStyle: { backgroundColor: colors.background },
     headerTintColor: colors.primary,
     headerTitleStyle: { color: colors.text, fontWeight: '700' as const },
     headerShadowVisible: false,
+    headerBackVisible: false,
+    headerLeft: () => <BackButton />,
   };
 
   useEffect(() => {
@@ -57,7 +61,12 @@ function GuardedStack() {
     <>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       <Stack
-        screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.background },
+          gestureEnabled: true,
+          fullScreenGestureEnabled: true,
+        }}
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="join/[code]" />
@@ -89,7 +98,8 @@ function GuardedStack() {
           />
           <Stack.Screen
             name="games/[id]"
-            options={{ presentation: 'fullScreenModal', gestureEnabled: false }}
+            // Swipe from the left edge only: the middle of the screen is for drawing.
+            options={{ fullScreenGestureEnabled: false }}
           />
           <Stack.Screen name="premium" options={{ presentation: 'modal' }} />
           <Stack.Screen name="coach" options={{ ...header, title: t('coach.title') }} />

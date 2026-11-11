@@ -29,10 +29,17 @@ export type Palette = {
   scrim: string;
   /** Text and icons on the scrim: light in both schemes. */
   onScrim: string;
+  /** Colour wash at the top of the main screens, fading into the background. */
+  wash: string;
+  /** Bolingo red, whatever the couple's colour: the logo and the loader. */
+  brand: string;
 };
 
-/** The four accent-driven slots of the palette. */
-export type AccentColors = Pick<Palette, 'primary' | 'onPrimary' | 'primarySoft' | 'onPrimarySoft'>;
+/** The accent-driven slots of the palette. */
+export type AccentColors = Pick<
+  Palette,
+  'primary' | 'onPrimary' | 'primarySoft' | 'onPrimarySoft' | 'wash'
+>;
 
 export const ACCENT_IDS = ['rouge', 'ambre', 'sauge', 'lagon', 'bleu', 'violet', 'encre'] as const;
 export type AccentId = (typeof ACCENT_IDS)[number];
@@ -44,14 +51,16 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
     light: {
       primary: '#D0112B',
       onPrimary: '#FFFFFF',
-      primarySoft: '#FDE4DC',
+      primarySoft: '#FFE1E6',
       onPrimarySoft: '#86101E',
+      wash: '#FFD3DA',
     },
     dark: {
       primary: '#FF5A62',
       onPrimary: '#140405',
       primarySoft: '#4A1A1C',
       onPrimarySoft: '#FFB9B3',
+      wash: '#4D0D17',
     },
   },
   ambre: {
@@ -60,12 +69,14 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       onPrimary: '#FFFFFF',
       primarySoft: '#FDEBD3',
       onPrimarySoft: '#6E3300',
+      wash: '#FFE3BF',
     },
     dark: {
       primary: '#FFB35C',
       onPrimary: '#1A0E00',
       primarySoft: '#42300F',
       onPrimarySoft: '#FFD9A0',
+      wash: '#452B07',
     },
   },
   sauge: {
@@ -74,12 +85,14 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       onPrimary: '#FFFFFF',
       primarySoft: '#E2EEE0',
       onPrimarySoft: '#2C4A33',
+      wash: '#D5EAD1',
     },
     dark: {
       primary: '#8FD19A',
       onPrimary: '#0B1A0E',
       primarySoft: '#1F3324',
       onPrimarySoft: '#BFE5C4',
+      wash: '#1C3822',
     },
   },
   lagon: {
@@ -88,12 +101,14 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       onPrimary: '#FFFFFF',
       primarySoft: '#D6EEF0',
       onPrimarySoft: '#0B4C53',
+      wash: '#CBEEF1',
     },
     dark: {
       primary: '#5ED6E0',
       onPrimary: '#04191B',
       primarySoft: '#0F3A3E',
       onPrimarySoft: '#A8EEF3',
+      wash: '#0B3C42',
     },
   },
   bleu: {
@@ -102,12 +117,14 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       onPrimary: '#FFFFFF',
       primarySoft: '#DFE9FB',
       onPrimarySoft: '#163F8C',
+      wash: '#D4E2FF',
     },
     dark: {
       primary: '#7FA8FF',
       onPrimary: '#08142E',
       primarySoft: '#182A4D',
       onPrimarySoft: '#C3D5FF',
+      wash: '#122757',
     },
   },
   violet: {
@@ -116,12 +133,14 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       onPrimary: '#FFFFFF',
       primarySoft: '#ECE4F9',
       onPrimarySoft: '#482A86',
+      wash: '#E4D8FB',
     },
     dark: {
       primary: '#B79BFF',
       onPrimary: '#160B33',
       primarySoft: '#2E2550',
       onPrimarySoft: '#DCCFFF',
+      wash: '#2C1E59',
     },
   },
   encre: {
@@ -130,12 +149,14 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       onPrimary: '#FFFFFF',
       primarySoft: '#EBEBEF',
       onPrimarySoft: '#1C1C1E',
+      wash: '#E4E4EA',
     },
     dark: {
       primary: '#F2F2F7',
       onPrimary: '#1C1C1E',
       primarySoft: '#2C2C2E',
       onPrimarySoft: '#F2F2F7',
+      wash: '#2A2A2E',
     },
   },
 };
@@ -161,6 +182,7 @@ export const palettes: Record<ColorScheme, Palette> = {
     danger: '#B3261E',
     scrim: 'rgba(0, 0, 0, 0.42)',
     onScrim: '#FFFFFF',
+    brand: '#D0112B',
   },
   dark: {
     background: '#000000',
@@ -177,6 +199,7 @@ export const palettes: Record<ColorScheme, Palette> = {
     danger: '#FF8A80',
     scrim: 'rgba(0, 0, 0, 0.5)',
     onScrim: '#FFFFFF',
+    brand: '#E8243F',
   },
 };
 

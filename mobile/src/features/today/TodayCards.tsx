@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { CalendarHeart, ChevronRight, History, PartyPopper, Pencil } from 'lucide-react-native';
+import { CalendarHeart, ChevronRight, History, PartyPopper, Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
@@ -61,11 +61,11 @@ function MilestonePill({ start }: { start: string }) {
   );
 }
 
-const AVATAR = 76;
-const DASHES = Array.from({ length: 6 }, (_, index) => index);
+const AVATAR = 88;
+const DASHES = Array.from({ length: 9 }, (_, index) => index);
 
 /** Both of you, linked by the distance between you. My avatar opens the avatar picker. */
-function LinkedAvatars({ tone }: { tone: 'onScrim' | 'onPrimarySoft' }) {
+function LinkedAvatars({ tone }: { tone: 'onScrim' | 'text' }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { colors } = useTheme();
@@ -90,8 +90,10 @@ function LinkedAvatars({ tone }: { tone: 'onScrim' | 'onPrimarySoft' }) {
           size={AVATAR}
           ring
         />
-        <View style={[styles.edit, { backgroundColor: colors.text, borderColor: colors.surface }]}>
-          <Icon icon={Pencil} size={11} color="background" strokeWidth={2.6} />
+        <View
+          style={[styles.edit, { backgroundColor: colors.primary, borderColor: colors.surface }]}
+        >
+          <Icon icon={Plus} size={14} color="onPrimary" strokeWidth={3} />
         </View>
       </PressableScale>
       <View style={styles.bridge}>
@@ -128,10 +130,19 @@ export function CoupleHero() {
   });
   const start = data.start_date;
   const milestoneToday = start ? nextMilestone(start)?.inDays === 0 : false;
-  const tone = data.photo_url ? 'onScrim' : 'onPrimarySoft';
+  const tone = data.photo_url ? 'onScrim' : 'text';
 
   const content = (
-    <View style={[styles.heroContent, { gap: spacing.md, padding: spacing.lg }]}>
+    <View
+      style={[
+        styles.heroContent,
+        {
+          gap: spacing.md,
+          paddingVertical: spacing.lg,
+          paddingHorizontal: data.photo_url ? spacing.lg : 0,
+        },
+      ]}
+    >
       <LinkedAvatars tone={tone} />
       <View style={[styles.heroText, { gap: spacing.xs }]}>
         <Text variant="title" color={tone} style={styles.textCenter}>
@@ -159,16 +170,11 @@ export function CoupleHero() {
     </View>
   );
 
+  // Without a couple photo the card has no box: it sits on the screen's red wash.
   return (
     <View
       testID="couple-hero"
-      style={[
-        styles.hero,
-        {
-          borderRadius: radii.xl,
-          backgroundColor: data.photo_url ? undefined : colors.primarySoft,
-        },
-      ]}
+      style={[styles.hero, { borderRadius: data.photo_url ? radii.xl : 0 }]}
     >
       {data.photo_url ? (
         <>
@@ -309,16 +315,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    opacity: 0.35,
+    opacity: 0.45,
   },
-  dash: { width: 8, height: 2, borderRadius: 1 },
+  dash: { width: 7, height: 2.5, borderRadius: 1.25 },
   edit: {
     position: 'absolute',
-    right: -2,
+    left: -2,
     bottom: -2,
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     borderWidth: 2.5,
     alignItems: 'center',
     justifyContent: 'center',

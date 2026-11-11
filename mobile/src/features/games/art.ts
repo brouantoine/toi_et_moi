@@ -76,7 +76,7 @@ const KINDS: Record<string, Art> = {
   photo: { image: E.photo, hue: 'lagoon' },
 };
 
-const CYCLE: readonly Hue[] = ['violet', 'lagoon', 'amber', 'red', 'sage'];
+const CYCLE: readonly Hue[] = ['red', 'violet', 'red', 'amber', 'lagoon', 'red', 'sage'];
 
 /** Packs of a list take turns among the hues, like a deck of coloured cards. */
 export const packHue = (pack: { position: number; kind: string }): Hue =>
