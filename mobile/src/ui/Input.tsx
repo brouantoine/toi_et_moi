@@ -14,7 +14,7 @@ type Props = Omit<TextInputProps, 'style' | 'ref'> & {
 };
 
 export function Input({ ref, label, error, hint, testID, onFocus, onBlur, ...rest }: Props) {
-  const { colors, radii, spacing, typography } = useTheme();
+  const { colors, radii, scheme, spacing, typography } = useTheme();
   const [focused, setFocused] = useState(false);
   // Filled field: the border only shows on focus or error.
   const borderColor = error ? colors.danger : focused ? colors.primary : 'transparent';
@@ -27,6 +27,10 @@ export function Input({ ref, label, error, hint, testID, onFocus, onBlur, ...res
         accessibilityLabel={label}
         accessibilityHint={error ?? hint}
         placeholderTextColor={colors.textMuted}
+        // Caret and selection in the couple's colour instead of the system blue.
+        selectionColor={colors.primary}
+        cursorColor={colors.primary}
+        keyboardAppearance={scheme}
         onFocus={(e) => {
           setFocused(true);
           onFocus?.(e);

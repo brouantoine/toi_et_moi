@@ -5,7 +5,7 @@ import type { TFunction } from 'i18next';
 import { Check, Copy, HeartHandshake, PartyPopper, QrCode, Send } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Share, StyleSheet, View } from 'react-native';
+import { Alert, Share, StyleSheet, View } from 'react-native';
 import QRCodeSvg from 'react-native-qrcode-svg';
 
 import { ApiError } from '@/api';
@@ -17,6 +17,7 @@ import {
   EmptyState,
   ErrorState,
   LoadingState,
+  Notice,
   palettes,
   Screen,
   Text,
@@ -57,14 +58,48 @@ function InvitationCard({ couple }: { couple: Couple }) {
   const [showQr, setShowQr] = useState(false);
   const invitation = couple.invitation;
 
+  // Cancelling makes the code already sent useless: ask first.
+  const confirmCancel = () =>
+    Alert.alert(t('couple.pending.cancelTitle'), t('couple.pending.cancelMessage'), [
+      { text: t('couple.pending.cancelKeep'), style: 'cancel' },
+      {
+        text: t('couple.pending.cancelConfirm'),
+        style: 'destructive',
+        onPress: () => cancel.mutate(undefined),
+      },
+    ]);
+  const failed =
+    renew.isError || cancel.isError ? (
+      <Notice testID="couple-pending-error" tone="warning" message={t('errors.generic')} />
+    ) : null;
+  const cancelButton = (
+    <Button
+      testID="couple-cancel"
+      variant="ghost"
+      label={t('couple.pending.cancel')}
+      loading={cancel.isPending}
+      onPress={confirmCancel}
+    />
+  );
+
+  // The code expired (48 h): say so, and offer a fresh one in one tap.
   if (!invitation) {
     return (
-      <Button
-        testID="couple-new-code"
-        label={t('couple.pending.newCode')}
-        loading={renew.isPending}
-        onPress={() => renew.mutate(undefined)}
-      />
+      <>
+        <Card testID="couple-code-expired">
+          <Text variant="heading">{t('couple.pending.expiredTitle')}</Text>
+          <Text muted>{t('couple.pending.expiredMessage')}</Text>
+        </Card>
+        {failed}
+        <Button
+          testID="couple-new-code"
+          size="lg"
+          label={t('couple.pending.newCode')}
+          loading={renew.isPending}
+          onPress={() => renew.mutate(undefined)}
+        />
+        {cancelButton}
+      </>
     );
   }
 
@@ -149,6 +184,7 @@ function InvitationCard({ couple }: { couple: Couple }) {
         </View>
       </View>
       <Text muted>{t('couple.pending.waiting')}</Text>
+      {failed}
       <Button
         testID="couple-new-code"
         variant="ghost"
@@ -156,13 +192,7 @@ function InvitationCard({ couple }: { couple: Couple }) {
         loading={renew.isPending}
         onPress={() => renew.mutate(undefined)}
       />
-      <Button
-        testID="couple-cancel"
-        variant="ghost"
-        label={t('couple.pending.cancel')}
-        loading={cancel.isPending}
-        onPress={() => cancel.mutate(undefined)}
-      />
+      {cancelButton}
     </>
   );
 }
@@ -177,7 +207,19 @@ export function CoupleSetupScreen() {
   if (couple.isPending) return <LoadingState testID="couple-loading" />;
   if (couple.isError) {
     const code = couple.error instanceof ApiError ? couple.error.code : 'network';
-    return <ErrorState code={code} error={couple.error} onRetry={() => void couple.refetch()} />;
+    // Never a dead end: a person stuck offline here can still sign out.
+    return (
+      <Screen testID="couple-error">
+        <ErrorState code={code} error={couple.error} onRetry={() => void couple.refetch()} />
+        <Button
+          testID="couple-sign-out"
+          variant="ghost"
+          label={t('me.signOut')}
+          loading={signOut.isPending}
+          onPress={() => signOut.mutate()}
+        />
+      </Screen>
+    );
   }
 
   if (couple.data?.status === 'active') {
@@ -229,7 +271,9 @@ export function CoupleSetupScreen() {
             label={t('couple.setup.haveCode')}
             onPress={() => router.push('/couple/join')}
           />
-          {create.isError ? <Text accessibilityRole="alert">{t('errors.generic')}</Text> : null}
+          {create.isError ? (
+            <Notice testID="couple-create-error" tone="warning" message={t('errors.generic')} />
+          ) : null}
         </>
       )}
       <Button

@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import * as Clipboard from 'expo-clipboard';
-import { Share } from 'react-native';
+import { Alert, Share } from 'react-native';
 
 import {
   jsonResponse,
@@ -149,10 +149,32 @@ describe('CoupleSetupScreen', () => {
     const fetchMock = mockFetch().mockImplementation(async (input) =>
       methodOf(input) === 'DELETE' ? new Response(null, { status: 204 }) : jsonResponse(pending),
     );
+    // Confirmed first: the code already sent stops working.
+    const alert = jest.spyOn(Alert, 'alert').mockImplementation((_title, _message, buttons) => {
+      buttons?.find((button) => button.style === 'destructive')?.onPress?.();
+    });
     await renderWithProviders(<CoupleSetupScreen />);
     await fireEvent.press(await screen.findByTestId('couple-cancel'));
+    expect(alert).toHaveBeenCalledWith(
+      'Annuler cet espace ?',
+      expect.any(String),
+      expect.any(Array),
+    );
     expect(await screen.findByTestId('couple-create')).toBeTruthy();
     expect(fetchMock.mock.calls.some(([i]) => methodOf(i) === 'DELETE')).toBe(true);
+  });
+
+  it('explains an expired code and offers a new one', async () => {
+    const fetchMock = mockFetch().mockImplementation(async (input) =>
+      methodOf(input) === 'POST'
+        ? jsonResponse(pending)
+        : jsonResponse({ ...pending, invitation: null }),
+    );
+    await renderWithProviders(<CoupleSetupScreen />);
+    expect(await screen.findByText('Ton code a expiré')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('couple-new-code'));
+    expect(await screen.findByTestId('couple-code')).toHaveTextContent('ABC234');
+    expect(urlOf(fetchMock.mock.calls.at(-1)![0])).toContain('/api/v1/couple/invitation/');
   });
 
   it('celebrates an active couple and enters the app', async () => {
@@ -180,6 +202,8 @@ describe('CoupleSetupScreen', () => {
     mockFetch().mockResolvedValue(jsonResponse({}, 503));
     await renderWithProviders(<CoupleSetupScreen />);
     expect(await screen.findByText(/Le service se repose/)).toBeTruthy();
+    // Never a dead end: signing out stays possible.
+    expect(screen.getByTestId('couple-sign-out')).toBeTruthy();
   });
 });
 
@@ -223,6 +247,17 @@ describe('JoinCoupleScreen', () => {
     await waitFor(() => expect(routerMock().replace).toHaveBeenCalledWith('/'));
     expect(urlOf(fetchMock.mock.calls[0]![0])).toContain('/api/v1/couple/join/');
     expect(await requestBody(fetchMock.mock.calls[0]![0])).toEqual({ code: 'ABC234' });
+    expect(usePendingInvite.getState().code).toBeNull();
+  });
+
+  it('leaves a link-opened join screen for the setup screen, forgetting the code', async () => {
+    usePendingInvite.setState({ code: 'ABC234' });
+    mockFetch();
+    const router = routerMock() as ReturnType<typeof routerMock> & { canGoBack?: jest.Mock };
+    router.canGoBack = jest.fn(() => false);
+    await renderWithProviders(<JoinCoupleScreen />);
+    await fireEvent.press(screen.getByTestId('back-button'));
+    expect(router.replace).toHaveBeenCalledWith('/couple');
     expect(usePendingInvite.getState().code).toBeNull();
   });
 

@@ -31,6 +31,8 @@ export function useListItems(listId: number) {
   });
 }
 
+const isPendingItem = (item: ListItem) => item.id < 0;
+
 /** Item writes: instant on screen (optimistic), queued when offline. */
 export function useItemActions(listId: number) {
   const client = useQueryClient();
@@ -70,7 +72,10 @@ export function useItemActions(listId: number) {
             body: { text },
           }),
       ),
-    toggle: (item: ListItem) =>
+    // An item just added on screen has a temporary (negative) id until the server answers:
+    // it cannot be changed yet, the refresh brings its real id a moment later.
+    toggle: async (item: ListItem) =>
+      isPendingItem(item) ||
       run(
         (items) =>
           items.map((i) =>
@@ -84,7 +89,8 @@ export function useItemActions(listId: number) {
             body: { done: !item.done },
           }),
       ),
-    remove: (item: ListItem) =>
+    remove: async (item: ListItem) =>
+      isPendingItem(item) ||
       run(
         (items) => items.filter((i) => i.id !== item.id),
         () =>
@@ -94,7 +100,8 @@ export function useItemActions(listId: number) {
             pathParams: { ...path, id: item.id },
           }),
       ),
-    reorder: (ids: number[]) =>
+    reorder: async (ids: number[]) =>
+      ids.some((id) => id < 0) ||
       run(
         (items) =>
           ids.map((id) => items.find((i) => i.id === id)).filter((i): i is ListItem => Boolean(i)),

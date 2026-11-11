@@ -11,6 +11,8 @@ type Props = {
   progress?: number;
   played: string;
   idle: string;
+  /** Unplayed bars can be a faded ink, readable on any bubble in both schemes. */
+  idleOpacity?: number;
   height?: number;
   /** Tapping a bar seeks there (fraction 0-1). */
   onSeek?: (fraction: number) => void;
@@ -18,7 +20,16 @@ type Props = {
 };
 
 /** Snapchat-like bars: rounded, centred, filling with colour as the note plays. */
-export function Waveform({ bars, progress = 0, played, idle, height = 30, onSeek, testID }: Props) {
+export function Waveform({
+  bars,
+  progress = 0,
+  played,
+  idle,
+  idleOpacity = 1,
+  height = 30,
+  onSeek,
+  testID,
+}: Props) {
   const [width, setWidth] = useState(0);
   const playedBars = Math.round(progress * bars.length);
   const content = (
@@ -36,6 +47,7 @@ export function Waveform({ bars, progress = 0, played, idle, height = 30, onSeek
             borderRadius: BAR / 2,
             height: Math.max(MIN_BAR, Math.round((value / 100) * height)),
             backgroundColor: index < playedBars ? played : idle,
+            opacity: index < playedBars ? 1 : idleOpacity,
           }}
         />
       ))}
@@ -45,6 +57,7 @@ export function Waveform({ bars, progress = 0, played, idle, height = 30, onSeek
   return (
     <Pressable
       accessible={false}
+      hitSlop={{ top: 8, bottom: 8 }}
       onPress={(event) => {
         if (width > 0) onSeek(Math.min(1, Math.max(0, event.nativeEvent.locationX / width)));
       }}

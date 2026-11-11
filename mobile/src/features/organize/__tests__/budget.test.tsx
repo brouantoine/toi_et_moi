@@ -13,7 +13,7 @@ import {
   routerMock,
 } from '@/test-utils';
 
-import { expensePayload, emptyExpenseForm } from '../budget/expenseForm';
+import { expensePayload, expenseSchema, emptyExpenseForm } from '../budget/expenseForm';
 import { ExpenseFormScreen } from '../budget/ExpenseFormScreen';
 import { formatMoney, parseAmount } from '../budget/money';
 import { OrganizeScreen } from '../OrganizeScreen';
@@ -127,6 +127,19 @@ describe('money', () => {
       split: 'custom',
       my_share: 2000,
     });
+  });
+
+  it('accepts a share of zero, as shown when editing ("0,00")', () => {
+    expect(parseAmount('0,00', 'EUR', true)).toBe(0);
+    const values = {
+      ...emptyExpenseForm(new Date(2026, 10, 7)),
+      title: 'Cadeau',
+      amount: '30',
+      split: 'custom' as const,
+      myShare: '0,00',
+    };
+    expect(expenseSchema('EUR').safeParse(values).success).toBe(true);
+    expect(expensePayload(values, 'EUR')).toMatchObject({ my_share: 0 });
   });
 });
 

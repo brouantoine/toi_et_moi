@@ -28,7 +28,13 @@ jest.mock('expo-router', () => {
   const React = require('react');
   const { Pressable, Text } = require('react-native');
   /* eslint-enable @typescript-eslint/no-require-imports */
-  const router = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), dismissAll: jest.fn() };
+  const router = {
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    dismissAll: jest.fn(),
+    canGoBack: jest.fn(() => true),
+  };
   const Link = ({ href, children, testID }: { href: string; children: unknown; testID?: string }) =>
     React.createElement(
       Pressable,

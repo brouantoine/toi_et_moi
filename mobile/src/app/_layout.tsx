@@ -10,8 +10,10 @@ import {
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as SystemUI from 'expo-system-ui';
 import { useEffect, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { QueryProvider } from '@/api/QueryProvider';
@@ -41,6 +43,11 @@ function GuardedStack() {
   useEffect(() => {
     void configureNotifications(t).catch(() => {});
   }, [t]);
+  // The window behind the screens (transitions, keyboard, rotation) follows day and night,
+  // so no white flash shows through at night.
+  useEffect(() => {
+    void SystemUI.setBackgroundColorAsync(colors.background).catch(() => {});
+  }, [colors.background]);
   // Pushed screens: the round back button on the left, and a swipe from anywhere on the
   // screen goes back (iOS; Android has its system back gesture).
   const header = {
@@ -48,9 +55,19 @@ function GuardedStack() {
     headerStyle: { backgroundColor: colors.background },
     headerTintColor: colors.primary,
     headerTitleStyle: { color: colors.text, fontWeight: '700' as const },
+    // Centred on both platforms: on Android a left-aligned title would touch the button.
+    headerTitleAlign: 'center' as const,
     headerShadowVisible: false,
     headerBackVisible: false,
     headerLeft: () => <BackButton />,
+    // iOS 26 wraps bar items in a shared glass capsule: the round button already is one.
+    ...(Platform.OS === 'ios'
+      ? {
+          unstable_headerLeftItems: () => [
+            { type: 'custom' as const, element: <BackButton />, hidesSharedBackground: true },
+          ],
+        }
+      : {}),
   };
 
   useEffect(() => {
@@ -75,7 +92,11 @@ function GuardedStack() {
         </Stack.Protected>
         <Stack.Protected guard={gate === 'couple'}>
           <Stack.Screen name="couple/index" />
-          <Stack.Screen name="couple/join" />
+          {/* Opened from the setup screen: the round back button returns to it. */}
+          <Stack.Screen
+            name="couple/join"
+            options={{ ...header, title: t('couple.join.title'), headerTitle: '' }}
+          />
         </Stack.Protected>
         <Stack.Protected guard={gate === 'app'}>
           <Stack.Screen name="(tabs)" />
@@ -115,7 +136,11 @@ function GuardedStack() {
             name="settings/couple"
             options={{ ...header, title: t('me.couple'), headerTitle: '' }}
           />
-          <Stack.Screen name="memories/[id]/index" />
+          <Stack.Screen
+            name="memories/[id]/index"
+            // Swipe back from the left edge only: the photos scroll sideways.
+            options={{ fullScreenGestureEnabled: false }}
+          />
           <Stack.Screen name="memories/new" options={{ presentation: 'modal' }} />
           <Stack.Screen name="organize/list/[id]" />
           <Stack.Screen name="organize/event/new" options={{ presentation: 'modal' }} />

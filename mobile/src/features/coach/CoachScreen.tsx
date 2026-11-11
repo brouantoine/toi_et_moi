@@ -59,6 +59,9 @@ function Intro({ thread, partnerName }: { thread: CoachThread; partnerName: stri
       {mine && !thread.consent.partner ? (
         <Notice testID="coach-waiting" message={t('coach.waiting', { name: partnerName })} />
       ) : null}
+      {consent.isError ? (
+        <Notice testID="coach-consent-error" tone="warning" message={t('coach.actionError')} />
+      ) : null}
       <Button
         testID="coach-consent"
         size="lg"
@@ -124,12 +127,14 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
   const { send, erase, consent } = useCoachActions();
   const [text, setText] = useState('');
   const messages = [...thread.messages].reverse();
+  const canSend = thread.available && !send.isPending && text.trim().length > 0;
 
   const submit = () => {
     const clean = text.trim();
-    if (!clean) return;
+    if (!clean || !canSend) return;
     setText('');
-    send.mutate(clean);
+    // On failure the message comes back in the field instead of being lost.
+    send.mutate(clean, { onError: () => setText((current) => current || clean) });
   };
   const confirmErase = () =>
     Alert.alert(t('coach.eraseTitle'), t('coach.eraseMessage'), [
@@ -184,14 +189,18 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
           <Notice testID="coach-send-error" tone="warning" message={t('coach.sendError')} />
         </View>
       ) : null}
+      {erase.isError || consent.isError ? (
+        <View style={{ paddingHorizontal: spacing.md }}>
+          <Notice testID="coach-action-error" tone="warning" message={t('coach.actionError')} />
+        </View>
+      ) : null}
       <View
         style={[
           styles.composer,
           {
             gap: spacing.sm,
             paddingHorizontal: spacing.md,
-            paddingTop: spacing.sm,
-            paddingBottom: Math.max(insets.bottom, spacing.sm),
+            paddingVertical: spacing.sm,
             borderTopColor: colors.border,
           },
         ]}
@@ -217,15 +226,23 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
             },
           ]}
         />
-        <IconButton
-          testID="coach-send"
-          icon={Send}
-          variant="primary"
-          label={t('coach.send')}
-          onPress={submit}
-        />
+        {/* Dimmed and inert until there is something to send. */}
+        <View
+          style={{ opacity: canSend ? 1 : 0.45 }}
+          pointerEvents={canSend ? 'auto' : 'none'}
+          accessibilityState={{ disabled: !canSend }}
+        >
+          <IconButton
+            testID="coach-send"
+            icon={Send}
+            variant="primary"
+            label={t('coach.send')}
+            onPress={submit}
+          />
+        </View>
       </View>
-      <View style={[styles.center, { paddingBottom: spacing.xs }]}>
+      {/* The home indicator sits under this last row, not under the composer. */}
+      <View style={[styles.center, { paddingBottom: Math.max(insets.bottom, spacing.xs) }]}>
         <Button
           testID="coach-disable"
           variant="ghost"

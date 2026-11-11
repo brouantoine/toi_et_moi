@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
@@ -74,7 +75,10 @@ class CoupleSerializer(serializers.ModelSerializer[Couple]):
     def get_invitation(self, obj: Couple) -> dict[str, str] | None:
         if obj.status != "pending":
             return None
-        invitation = obj.invitations.filter(used_at__isnull=True, revoked=False).first()
+        # An expired code is useless: the app then offers a fresh one instead of showing it.
+        invitation = obj.invitations.filter(
+            used_at__isnull=True, revoked=False, expires_at__gt=timezone.now()
+        ).first()
         return InvitationSerializer(invitation).data if invitation else None
 
     def validate_currency(self, value: str) -> str:

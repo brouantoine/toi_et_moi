@@ -1,4 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react-native';
+import { Alert } from 'react-native';
 
 import { coupleKey } from '@/features/couple/useCouple';
 import { meKey } from '@/features/me/useProfile';
@@ -177,4 +178,40 @@ it('celebrates a milestone on its very day', async () => {
   expect(await screen.findByTestId('milestone')).toHaveTextContent(
     /C’est aujourd’hui\s: 1000 jours ensemble/,
   );
+});
+
+it('reads a whole note on tap, and only my own notes offer to be deleted', async () => {
+  const couple = {
+    id: 3,
+    status: 'active',
+    start_date: null,
+    photo_url: null,
+    members: [member(1, 'Antoine'), member(2, 'Sam')],
+  };
+  const notes = [
+    { id: 7, text: 'Pense au pain', color: 'amber', author: 'me', created_at: '' },
+    { id: 8, text: 'Je t’aime', color: 'red', author: 'you', created_at: '' },
+  ];
+  mockFetch().mockImplementation(async (arg) => {
+    const { pathname } = new URL((arg as Request).url);
+    if (pathname === '/api/v1/me/') return jsonResponse(me);
+    if (pathname === '/api/v1/couple/') return jsonResponse(couple);
+    if (pathname === '/api/v1/notes/') return jsonResponse(notes);
+    // An older cached home without its lists must not break the screen.
+    if (pathname === '/api/v1/games/home/') return jsonResponse({});
+    if (pathname.endsWith('/occurrences/')) return jsonResponse([]);
+    if (pathname.endsWith('/on-this-day/')) return jsonResponse({ date: '2026-11-09' });
+    return jsonResponse({ date: '2026-11-09', mine: null, partner: null });
+  });
+  const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  await render(couple);
+  await fireEvent.press(await screen.findByTestId('note-7'));
+  const mine = alert.mock.calls[0]!;
+  expect(mine[0]).toBe('Toi');
+  expect(mine[1]).toBe('Pense au pain');
+  expect(mine[2]?.some((button) => button.style === 'destructive')).toBe(true);
+  await fireEvent.press(screen.getByTestId('note-8'));
+  const theirs = alert.mock.calls[1]!;
+  expect(theirs[0]).toBe('Sam');
+  expect(theirs[2]?.some((button) => button.style === 'destructive')).toBe(false);
 });

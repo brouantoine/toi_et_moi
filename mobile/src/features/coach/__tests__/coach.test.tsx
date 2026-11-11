@@ -118,3 +118,16 @@ it('erases the conversation for both after confirmation', async () => {
     expect(fetchMock.mock.calls.some(([i]) => methodOf(i) === 'DELETE')).toBe(true),
   );
 });
+
+it('gives the message back in the field when it could not be sent', async () => {
+  mockFetch().mockImplementation(async (input) => {
+    if (methodOf(input) === 'POST') return jsonResponse({ code: 'server' }, 500);
+    if (urlOf(input).endsWith('/me/')) return jsonResponse({ id: 1, display_name: 'Antoine' });
+    return jsonResponse(on);
+  });
+  await renderWithProviders(<CoachScreen />);
+  await fireEvent.changeText(await screen.findByTestId('coach-input'), 'Aide-nous');
+  await fireEvent.press(screen.getByTestId('coach-send'));
+  expect(await screen.findByTestId('coach-send-error')).toBeTruthy();
+  expect(screen.getByTestId('coach-input').props.value).toBe('Aide-nous');
+});

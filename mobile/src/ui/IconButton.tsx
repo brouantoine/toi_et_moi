@@ -14,6 +14,8 @@ type Props = {
   label: string;
   onPress: () => void;
   variant?: Variant;
+  /** Greyed out and not pressable (e.g. send with nothing to send). */
+  disabled?: boolean;
   testID?: string;
 };
 
@@ -26,7 +28,14 @@ const VARIANTS: Record<Variant, { bg: keyof Palette | null; fg: keyof Palette }>
 };
 
 /** Round icon-only button, always at least MIN_TOUCH_TARGET wide. */
-export function IconButton({ icon, label, onPress, variant = 'soft', testID }: Props) {
+export function IconButton({
+  icon,
+  label,
+  onPress,
+  variant = 'soft',
+  disabled = false,
+  testID,
+}: Props) {
   const { colors, elevation } = useTheme();
   const { bg, fg } = VARIANTS[variant];
   return (
@@ -34,13 +43,15 @@ export function IconButton({ icon, label, onPress, variant = 'soft', testID }: P
       testID={testID}
       accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityState={{ disabled }}
+      disabled={disabled}
       onPress={onPress}
       scaleTo={0.92}
       style={[
         styles.base,
         {
           backgroundColor: bg ? colors[bg] : 'transparent',
-          boxShadow: variant === 'primary' ? elevation.card : undefined,
+          boxShadow: variant === 'primary' && !disabled ? elevation.card : undefined,
         },
       ]}
     >

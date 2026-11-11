@@ -16,7 +16,7 @@ import { registerOfflineMutations } from '@/api/offline';
 import { toIsoDate } from '@/ui';
 
 import { agendaRange, dayTitle, groupByDay, relativeDay, toInstant } from '../agenda/agendaDates';
-import { eventPayload, emptyEventForm } from '../agenda/eventForm';
+import { eventPayload, emptyEventForm, formFromEvent } from '../agenda/eventForm';
 import { EventFormScreen } from '../agenda/EventFormScreen';
 import { OrganizeScreen } from '../OrganizeScreen';
 
@@ -129,6 +129,19 @@ describe('agenda helpers', () => {
     expect(timed).toMatchObject({ all_day: false, recurrence: 'yearly', reminder_minutes: 1440 });
     expect(timed).not.toHaveProperty('date');
     expect(new Date((timed as { starts_at: string }).starts_at).getMinutes()).toBe(15);
+  });
+
+  it('edits a timed event on the local day of its time, not the stored day', () => {
+    const startsAt = toInstant('2026-11-20', '23:30');
+    const values = formFromEvent({
+      id: 1,
+      title: 'Train de nuit',
+      all_day: false,
+      // Stored day of another timezone (the profile's), one day off from this phone.
+      date: '2026-11-21',
+      starts_at: startsAt,
+    } as Parameters<typeof formFromEvent>[0]);
+    expect(values).toMatchObject({ allDay: false, date: '2026-11-20', time: '23:30' });
   });
 });
 

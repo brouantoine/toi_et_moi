@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ApiError } from '@/api';
 import { pickImages } from '@/media/images';
 import {
   Avatar,
@@ -13,6 +14,7 @@ import {
   AVATAR_PRESETS,
   AVATAR_TONES,
   Button,
+  ErrorState,
   Icon,
   LoadingState,
   Notice,
@@ -32,12 +34,23 @@ export function AvatarScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const { colors, radii, spacing } = useTheme();
+  const { colors, spacing } = useTheme();
   const me = useMe();
   const { choosePreset, uploadPhoto, removePhoto } = useAvatarActions();
   const [denied, setDenied] = useState(false);
 
-  if (!me.data) return <LoadingState testID="avatar-loading" />;
+  if (!me.data) {
+    if (me.isError) {
+      return (
+        <ErrorState
+          testID="avatar-load-error"
+          code={me.error instanceof ApiError ? me.error.code : 'network'}
+          onRetry={() => void me.refetch()}
+        />
+      );
+    }
+    return <LoadingState testID="avatar-loading" />;
+  }
   const current = me.data;
   const hasPhoto = Boolean(current.avatar_url);
   const gap = spacing.smd;
@@ -50,11 +63,13 @@ export function AvatarScreen() {
     if (result.status === 'picked' && result.images[0]) uploadPhoto.mutate(result.images[0]);
   };
 
-  const failed = choosePreset.isError
-    ? t('avatar.error')
-    : uploadPhoto.isError
-      ? t('avatar.uploadError')
-      : null;
+  const failed =
+    choosePreset.isError || removePhoto.isError
+      ? t('avatar.error')
+      : uploadPhoto.isError
+        ? t('avatar.uploadError')
+        : null;
+  const busy = uploadPhoto.isPending || removePhoto.isPending;
 
   return (
     <ScrollView
@@ -92,6 +107,7 @@ export function AvatarScreen() {
           icon={ImagePlus}
           label={t(hasPhoto ? 'avatar.changePhoto' : 'avatar.photo')}
           loading={uploadPhoto.isPending}
+          disabled={removePhoto.isPending}
           onPress={() => void pickPhoto()}
         />
         {hasPhoto ? (
@@ -101,6 +117,7 @@ export function AvatarScreen() {
             icon={Trash2}
             label={t('avatar.removePhoto')}
             loading={removePhoto.isPending}
+            disabled={uploadPhoto.isPending}
             onPress={() => removePhoto.mutate()}
           />
         ) : null}
@@ -120,7 +137,7 @@ export function AvatarScreen() {
       <View style={{ gap: spacing.smd }}>
         <Text variant="heading">{t('avatar.illustrations')}</Text>
         <View accessibilityRole="radiogroup" style={[styles.grid, { gap }]}>
-          {AVATAR_PEOPLE.flatMap((person) =>
+          {AVATAR_PEOPLE.flatMap((person, personIndex) =>
             AVATAR_TONES.map((tone) => {
               const id = presetId(person, tone);
               const source = AVATAR_PRESETS[id];
@@ -131,10 +148,13 @@ export function AvatarScreen() {
                   key={id}
                   testID={`avatar-preset-${id}`}
                   accessibilityRole="radio"
-                  accessibilityLabel={t(`avatar.tones.${tone}`)}
-                  accessibilityState={{ selected }}
+                  accessibilityLabel={`${t('avatar.presetLabel', { index: personIndex + 1 })}, ${t(`avatar.tones.${tone}`)}`}
+                  accessibilityState={{ checked: selected, disabled: busy }}
                   scaleTo={0.92}
+                  // A character chosen while a photo is being sent would be overwritten by it.
+                  disabled={busy}
                   onPress={() => {
+                    if (selected) return;
                     void Haptics.selectionAsync().catch(() => {});
                     choosePreset.mutate({ preset: id, hadPhoto: hasPhoto });
                   }}
@@ -170,7 +190,7 @@ export function AvatarScreen() {
           )}
         </View>
       </View>
-      <Text variant="caption" muted style={[styles.textCenter, { borderRadius: radii.sm }]}>
+      <Text variant="caption" muted style={styles.textCenter}>
         Fluent Emoji (Microsoft, MIT)
       </Text>
     </ScrollView>

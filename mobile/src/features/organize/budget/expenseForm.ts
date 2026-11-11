@@ -27,7 +27,7 @@ export function expenseSchema(currency: string) {
         return;
       }
       if (values.split === 'custom') {
-        const share = values.myShare.trim() === '0' ? 0 : parseAmount(values.myShare, currency);
+        const share = parseAmount(values.myShare, currency, true);
         if (share === null || share > amount) {
           ctx.addIssue({
             code: 'custom',
@@ -78,6 +78,6 @@ export function expensePayload(values: ExpenseFormValues, currency: string) {
     spent_on: values.date,
   };
   if (values.split === 'equal') return base;
-  const share = values.myShare.trim() === '0' ? 0 : (parseAmount(values.myShare, currency) ?? 0);
+  const share = parseAmount(values.myShare, currency, true) ?? 0;
   return { ...base, my_share: share };
 }

@@ -4,19 +4,40 @@
  */
 import * as Haptics from 'expo-haptics';
 import { Eraser, Undo2 } from 'lucide-react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-import { IconButton, inks, PressableScale, useTheme } from '@/ui';
+import { IconButton, inks, palettes, PressableScale, useTheme } from '@/ui';
 
 import type { Stroke } from './useGames';
 
 const GRID = 1000;
 const MIN_STEP = 6; // grid units between two kept points
 const MAX_POINTS = 7800;
+/** The server keeps at most 300 strokes per drawing. */
+const MAX_STROKES = 300;
 export const WIDTHS = [8, 18] as const;
+/**
+ * The paper stays white in night mode too: the first ink is near-black, and a drawing
+ * must look the same on both phones.
+ */
+const PAPER = palettes.light.surface;
+/** Swatches are drawn small; this brings their touch area to 44 pt. */
+const SWATCH_SLOP = 6;
+
+/** Keeps only well-formed strokes (an answer from the server is never trusted blindly). */
+function validStrokes(strokes: unknown): Stroke[] {
+  if (!Array.isArray(strokes)) return [];
+  return strokes.filter(
+    (stroke): stroke is Stroke =>
+      Boolean(stroke) &&
+      Array.isArray((stroke as Stroke).p) &&
+      typeof (stroke as Stroke).w === 'number' &&
+      typeof (stroke as Stroke).c === 'number',
+  );
+}
 
 function pathOf(points: number[], scale: number): string {
   if (points.length < 2) return '';
@@ -33,12 +54,13 @@ export function DrawingView({
   size,
   testID,
 }: {
-  strokes: Stroke[];
+  strokes: unknown;
   size: number;
   testID?: string;
 }) {
   const { colors, radii } = useTheme();
   const scale = size / GRID;
+  const lines = validStrokes(strokes);
   return (
     <View
       testID={testID}
@@ -48,13 +70,13 @@ export function DrawingView({
           width: size,
           height: size,
           borderRadius: radii.lg,
-          backgroundColor: colors.surface,
+          backgroundColor: PAPER,
           borderColor: colors.border,
         },
       ]}
     >
       <Svg width={size} height={size}>
-        {strokes.map((stroke, index) => (
+        {lines.map((stroke, index) => (
           <Path
             key={index}
             d={pathOf(stroke.p, scale)}
@@ -70,15 +92,23 @@ export function DrawingView({
   );
 }
 
-type CanvasProps = { strokes: Stroke[]; onChange: (strokes: Stroke[]) => void };
+type CanvasProps = {
+  strokes: Stroke[];
+  onChange: (strokes: Stroke[]) => void;
+  /** A finger is drawing (true) or lifted (false): the screen stops scrolling meanwhile. */
+  onDrawing?: (drawing: boolean) => void;
+};
 
 /** Drawing surface with a palette, two pen sizes, undo and clear. */
-export function DrawingCanvas({ strokes, onChange }: CanvasProps) {
+export function DrawingCanvas({ strokes, onChange, onDrawing }: CanvasProps) {
   const { t } = useTranslation();
   const { colors, radii, spacing } = useTheme();
   const [size, setSize] = useState(0);
   const [ink, setInk] = useState(0);
   const [width, setWidth] = useState<number>(WIDTHS[0]);
+  // The stroke being drawn lives in a ref: move events come faster than renders, and
+  // reading it from state would drop points (stale closure).
+  const liveRef = useRef<number[] | null>(null);
   const [live, setLive] = useState<number[] | null>(null);
   const point = (event: GestureResponderEvent): [number, number] => {
     const s = size || 1;
@@ -87,23 +117,41 @@ export function DrawingCanvas({ strokes, onChange }: CanvasProps) {
   };
   const used = strokes.reduce((sum, stroke) => sum + stroke.p.length / 2, 0);
 
+  const full = strokes.length >= MAX_STROKES || used >= MAX_POINTS;
+  const end = (keep: boolean) => {
+    const points = liveRef.current;
+    liveRef.current = null;
+    setLive(null);
+    onDrawing?.(false);
+    if (keep && points && points.length >= 2) {
+      onChange([...strokes, { c: ink, w: width, p: points }]);
+    }
+  };
+
   const responder = {
-    onStartShouldSetResponder: () => true,
-    onMoveShouldSetResponder: () => true,
+    onStartShouldSetResponder: () => !full,
+    onMoveShouldSetResponder: () => !full,
     onResponderTerminationRequest: () => false,
-    onResponderGrant: (event: GestureResponderEvent) => setLive(point(event)),
+    // Returning true keeps the scroll view (Android) from stealing the gesture.
+    onResponderGrant: (event: GestureResponderEvent) => {
+      onDrawing?.(true);
+      liveRef.current = point(event);
+      setLive(liveRef.current);
+      return true;
+    },
     onResponderMove: (event: GestureResponderEvent) => {
-      if (!live || used + live.length / 2 >= MAX_POINTS) return;
+      const current = liveRef.current;
+      if (!current || used + current.length / 2 >= MAX_POINTS) return;
       const [x, y] = point(event);
-      const lx = live[live.length - 2] ?? x;
-      const ly = live[live.length - 1] ?? y;
+      const lx = current[current.length - 2] ?? x;
+      const ly = current[current.length - 1] ?? y;
       if (Math.hypot(x - lx, y - ly) < MIN_STEP) return;
-      setLive([...live, x, y]);
+      liveRef.current = [...current, x, y];
+      setLive(liveRef.current);
     },
-    onResponderRelease: () => {
-      if (live && live.length >= 2) onChange([...strokes, { c: ink, w: width, p: live }]);
-      setLive(null);
-    },
+    onResponderRelease: () => end(true),
+    // The system took the touch (back swipe from the edge, a call): drop the stroke.
+    onResponderTerminate: () => end(false),
   };
 
   const onLayout = (event: LayoutChangeEvent) => setSize(event.nativeEvent.layout.width);
@@ -117,11 +165,12 @@ export function DrawingCanvas({ strokes, onChange }: CanvasProps) {
         {...responder}
         style={[
           styles.canvas,
-          { borderRadius: radii.xl, backgroundColor: colors.surface, borderColor: colors.border },
+          { borderRadius: radii.xl, backgroundColor: PAPER, borderColor: colors.border },
         ]}
       >
         {size ? (
-          <Svg width={size} height={size}>
+          // Touches go to the canvas, never to a path: coordinates stay canvas-relative.
+          <Svg width={size} height={size} pointerEvents="none">
             {strokes.map((stroke, index) => (
               <Path
                 key={index}
@@ -155,13 +204,14 @@ export function DrawingCanvas({ strokes, onChange }: CanvasProps) {
               accessibilityRole="button"
               accessibilityLabel={t('games.draw.ink', { n: index + 1 })}
               accessibilityState={{ selected: ink === index }}
+              hitSlop={SWATCH_SLOP}
               onPress={() => {
                 void Haptics.selectionAsync().catch(() => {});
                 setInk(index);
               }}
-              style={[styles.swatch, { borderColor: ink === index ? colors.text : colors.surface }]}
+              style={[styles.swatch, { borderColor: ink === index ? colors.text : 'transparent' }]}
             >
-              <View style={[styles.dot, { backgroundColor: colour }]} />
+              <View style={[styles.dot, { backgroundColor: colour, borderColor: colors.border }]} />
             </PressableScale>
           ))}
         </View>
@@ -218,6 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dot: { width: 24, height: 24, borderRadius: 12 },
+  // The outline keeps the near-black ink visible on a dark background.
+  dot: { width: 24, height: 24, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth },
   pen: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
 });

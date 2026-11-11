@@ -50,7 +50,10 @@ export function formFromEvent(event: AgendaEvent): EventFormValues {
     title: event.title,
     kind: event.kind ?? 'event',
     allDay: event.all_day ?? true,
-    date: event.date ?? toIsoDate(new Date()),
+    // A timed event is edited on this phone's calendar day, the same clock as its time.
+    date: event.starts_at
+      ? toIsoDate(new Date(event.starts_at))
+      : (event.date ?? toIsoDate(new Date())),
     time: event.starts_at ? toLocalTime(event.starts_at) : '19:00',
     place: event.place ?? '',
     concerns: event.concerns ?? 'us',

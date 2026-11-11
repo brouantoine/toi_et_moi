@@ -57,14 +57,14 @@ function CoupleInfoForm({ couple }: { couple: Couple }) {
         error={currencyError}
       />
       {update.isError ? (
-        <Text accessibilityRole="alert">
+        <Text accessibilityRole="alert" color="danger">
           {t(update.error instanceof ApiError ? `errors.${update.error.code}` : 'errors.generic', {
             defaultValue: t('errors.generic'),
           })}
         </Text>
       ) : null}
       {update.isSuccess ? (
-        <Text accessibilityLiveRegion="polite" testID="couple-saved">
+        <Text accessibilityLiveRegion="polite" testID="couple-saved" color="secondary">
           {t('common.saved')}
         </Text>
       ) : null}

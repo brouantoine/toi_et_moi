@@ -10,7 +10,13 @@ import { createTestQueryClient, jsonResponse, mockFetch, renderWithProviders } f
 
 import { enablePush, forgetThisPhone } from '../push';
 import { handleResponse, routeFor, runAction } from '../responses';
-import { configureNotifications, moodAction, replyAction } from '../setup';
+import {
+  configureNotifications,
+  moodAction,
+  replyAction,
+  setConversationOpen,
+  showInForeground,
+} from '../setup';
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'fr' }],
@@ -44,6 +50,8 @@ function backend(prefs: Record<string, unknown> = {}) {
         thinking_of_you: true,
         pause: true,
         organization: true,
+        messages: true,
+        proximity: true,
         morning_time: '08:00:00',
         discreet: false,
         ...prefs,
@@ -144,6 +152,16 @@ describe('taps and buttons', () => {
   });
 });
 
+it('shows no banner for a message while the conversation is open', () => {
+  expect(showInForeground({ screen: 'messages' })).toBe(true);
+  setConversationOpen(true);
+  expect(showInForeground({ screen: 'messages' })).toBe(false);
+  expect(showInForeground({ screen: 'today' })).toBe(true);
+  expect(showInForeground(undefined)).toBe(true);
+  setConversationOpen(false);
+  expect(showInForeground({ screen: 'messages' })).toBe(true);
+});
+
 describe('Notification settings', () => {
   function render() {
     const client = createTestQueryClient();
@@ -168,10 +186,12 @@ describe('Notification settings', () => {
     const calls = backend();
     await render();
     await fireEvent(await screen.findByTestId('notif-kind-memory_of_day'), 'valueChange', false);
+    await fireEvent(screen.getByTestId('notif-kind-messages'), 'valueChange', false);
     await fireEvent(screen.getByTestId('notif-discreet'), 'valueChange', true);
     await waitFor(() =>
       expect(writes(calls).map((c) => c.body)).toEqual([
         { memory_of_day: false },
+        { messages: false },
         { discreet: true },
       ]),
     );

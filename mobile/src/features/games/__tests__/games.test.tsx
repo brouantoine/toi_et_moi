@@ -3,6 +3,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { elapsedParts, HomeSections } from '@/features/home/HomeSections';
 import { PremiumScreen } from '@/features/premium/PremiumScreen';
 import i18n from '@/i18n';
+import { palettes } from '@/ui';
 import {
   jsonResponse,
   mockFetch,
@@ -13,6 +14,7 @@ import {
 
 import { GamesScreen } from '../GamesScreen';
 import { PackListScreen } from '../PackListScreen';
+import { DrawingView } from '../Drawing';
 import { PlayScreen } from '../PlayScreen';
 import { isGamesHome, type Pack, type PackDetail, type PackItem } from '../useGames';
 
@@ -246,6 +248,36 @@ describe('PlayScreen', () => {
     expect(await screen.findByText('Je n’ai jamais · 2 / 2')).toBeTruthy();
   });
 
+  it('sends a locked pack to premium instead of letting me answer', async () => {
+    backend({ detail: detail({ locked: true, premium: true }) });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    expect(await screen.findByTestId('pack-locked')).toBeTruthy();
+    expect(screen.queryByTestId('option-0')).toBeNull();
+    await fireEvent.press(screen.getByTestId('pack-unlock'));
+    expect(routerMock().push).toHaveBeenCalledWith('/premium');
+  });
+
+  it('shows a calm message for a kind of game this version cannot play', async () => {
+    backend({ detail: detail({ mode: 'video' as PackDetail['mode'] }) });
+    await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
+    expect(await screen.findByTestId('pack-unsupported')).toBeTruthy();
+  });
+
+  it('keeps the drawing paper white in night mode and survives a malformed drawing', async () => {
+    const strokes = [{ c: 0, w: 8, p: [10, 10, 500, 500] }];
+    await renderWithProviders(
+      <>
+        <DrawingView testID="good" strokes={strokes} size={100} />
+        <DrawingView testID="bad" strokes={null} size={100} />
+        <DrawingView testID="partial" strokes={[{ c: 1 }, ...strokes]} size={100} />
+      </>,
+      'dark',
+    );
+    expect(screen.getByTestId('good')).toHaveStyle({ backgroundColor: palettes.light.surface });
+    expect(screen.getByTestId('bad')).toBeTruthy();
+    expect(screen.getByTestId('partial')).toBeTruthy();
+  });
+
   it('can skip an item', async () => {
     const fetchMock = backend({ answered: item({ mine: given(null, { skipped: true }) }) });
     await renderWithProviders(<PlayScreen packId="vie-quotidienne" />);
@@ -361,7 +393,7 @@ describe('PremiumScreen', () => {
     await renderWithProviders(<PremiumScreen />);
     expect(await screen.findByText('Sam n’a pas à payer')).toBeTruthy();
     expect(screen.getByTestId('premium-plan-yearly').props.accessibilityState).toMatchObject({
-      selected: true,
+      checked: true,
     });
     await fireEvent.press(screen.getByTestId('premium-continue'));
     expect(screen.getByTestId('premium-not-yet')).toBeTruthy();

@@ -73,7 +73,7 @@ function LinkedAvatars({ tone }: { tone: 'onScrim' | 'text' }) {
   const me = useMe();
   const partner = usePartner();
   if (!me.data) return null;
-  const myMember = couple.data?.members.find((m) => m.id === me.data?.id);
+  const myMember = couple.data?.members?.find((m) => m.id === me.data?.id);
   return (
     <View testID="couple-link" style={styles.link}>
       <PressableScale
@@ -260,10 +260,10 @@ export function OnThisDayCard() {
   const { hues, radii, spacing } = useTheme();
   const surface = useSurfaceStyle();
   const query = useOnThisDay();
-  const item = query.data?.items[0];
+  const item = query.data?.items?.[0];
   if (!item) return null;
   const { memory } = item;
-  const cover = memory.photos[0];
+  const cover = memory.photos?.[0];
   return (
     <PressableScale
       testID="on-this-day"

@@ -18,14 +18,30 @@ export const PROXIMITY_CHANNEL = 'proximity';
 export const moodAction = (mood: string) => `mood:${mood}`;
 export const replyAction = (reply: string) => `reply:${reply}`;
 
+/** True while the conversation is on screen: its own messages need no banner. */
+let conversationOpen = false;
+
+export function setConversationOpen(open: boolean): void {
+  conversationOpen = open;
+}
+
+/** A message notification is not shown while that very conversation is open. */
+export function showInForeground(data: unknown): boolean {
+  const screen = (data as { screen?: unknown } | null | undefined)?.screen;
+  return !(conversationOpen && screen === 'messages');
+}
+
 export async function configureNotifications(t: TFunction): Promise<void> {
   Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowBanner: true,
-      shouldShowList: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
+    handleNotification: async (notification) => {
+      const show = showInForeground(notification?.request?.content?.data);
+      return {
+        shouldShowBanner: show,
+        shouldShowList: show,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      };
+    },
   });
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL, {

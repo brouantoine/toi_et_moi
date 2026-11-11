@@ -4,7 +4,7 @@ import { Check, Trash2, X } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Animated, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
@@ -23,6 +23,8 @@ import {
   useTheme,
 } from '@/ui';
 
+import { FormFallback } from '../FormFallback';
+import { useKeyboardInset } from '../useKeyboardInset';
 import { usePersonLabel } from '../usePersonLabel';
 import {
   emptyEventForm,
@@ -37,15 +39,22 @@ import { EVENT_KINDS, eventsKey, useEvent, useQueuedWrite, type AgendaEvent } fr
 
 export function EventFormScreen({ eventId }: { eventId?: number }) {
   const existing = useEvent(eventId);
-  if (eventId !== undefined && existing.isPending)
-    return <LoadingState testID="event-form-loading" />;
+  if (eventId !== undefined && existing.isPending) {
+    return (
+      <FormFallback closeTestID="event-form-close">
+        <LoadingState testID="event-form-loading" />
+      </FormFallback>
+    );
+  }
   if (eventId !== undefined && existing.isError) {
     return (
-      <ErrorState
-        testID="event-form-error"
-        code={existing.error instanceof ApiError ? existing.error.code : 'network'}
-        onRetry={() => void existing.refetch()}
-      />
+      <FormFallback closeTestID="event-form-close">
+        <ErrorState
+          testID="event-form-error"
+          code={existing.error instanceof ApiError ? existing.error.code : 'network'}
+          onRetry={() => void existing.refetch()}
+        />
+      </FormFallback>
     );
   }
   return <EventForm initial={existing.data} />;
@@ -58,6 +67,7 @@ function EventForm({ initial }: { initial?: AgendaEvent }) {
   const person = usePersonLabel();
   const { write, isPending } = useQueuedWrite(eventsKey);
   const [notice, setNotice] = useState<'error' | null>(null);
+  const { ref: keyboardRef, inset: keyboardInset } = useKeyboardInset();
   const isEdit = initial !== undefined;
 
   const { control, handleSubmit, reset } = useForm<EventFormValues>({
@@ -126,12 +136,10 @@ function EventForm({ initial }: { initial?: AgendaEvent }) {
         </Text>
         <View style={styles.spacer} />
       </View>
-      <KeyboardAvoidingView
-        style={styles.root}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+      <Animated.View ref={keyboardRef} style={[styles.root, { paddingBottom: keyboardInset }]}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
           contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}
         >
           {notice === 'error' ? (
@@ -309,7 +317,7 @@ function EventForm({ initial }: { initial?: AgendaEvent }) {
             onPress={() => void submit()}
           />
         </View>
-      </KeyboardAvoidingView>
+      </Animated.View>
     </SafeAreaView>
   );
 }

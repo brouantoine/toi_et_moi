@@ -1,10 +1,18 @@
+import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useFocusEffect } from 'expo-router';
-import { ImagePlus, MessageCircleHeart, Mic, Send } from 'lucide-react-native';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ChevronDown, ImagePlus, MessageCircleHeart, Mic, Send } from 'lucide-react-native';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentRef,
+  type RefObject,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  ActivityIndicator,
   Alert,
   Animated,
   Easing,
@@ -23,7 +31,9 @@ import { ApiError } from '@/api';
 import { usePartner } from '@/features/couple/usePartner';
 import { floatingTabBarHeight } from '@/features/shell/FloatingTabBar';
 import { pickImages } from '@/media/images';
+import { setConversationOpen } from '@/notifications/setup';
 import {
+  BolingoLoader,
   EmptyState,
   ErrorState,
   Icon,
@@ -36,9 +46,23 @@ import {
   useTheme,
 } from '@/ui';
 
-import { formatDuration, MessageBubble, TypingBubble } from './MessageBubbles';
+import {
+  dayKey,
+  DaySeparator,
+  formatDuration,
+  MessageBubble,
+  TypingBubble,
+} from './MessageBubbles';
+import { PhotoViewer } from './PhotoViewer';
 import { reportTyping, useTypingStore } from './typing';
-import { useMarkRead, useMessageActions, useMessages, type Message } from './useMessages';
+import {
+  retryFailed,
+  useMarkRead,
+  useMessageActions,
+  useMessages,
+  useOutbox,
+  type Message,
+} from './useMessages';
 import { useVoiceRecorder } from './useVoiceRecorder';
 import { Waveform } from './Waveform';
 
@@ -59,13 +83,46 @@ function RecordingTimer({ startedAt }: { startedAt: number }) {
 export const CANCEL_SLIDE = 90;
 
 /**
- * Sits the composer right on top of the keyboard, like WhatsApp: the padding is the
- * keyboard height minus what already lies under this screen (the floating tab bar),
- * animated with the keyboard itself. Android resizes the window on its own.
+ * Sits the composer right on top of the keyboard, like WhatsApp.
+ * iOS: the keyboard height minus what already lies under this screen (the floating tab
+ * bar), animated with the keyboard itself.
+ * Android (edge-to-edge, the window is not always resized): the part of this area the
+ * keyboard really covers, measured, so it never pads twice when the system did resize.
  */
-function useKeyboardPadding(occupiedBelow: number) {
+type ViewRef = ComponentRef<typeof View>;
+
+function useKeyboardPadding(occupiedBelow: number, area: RefObject<ViewRef | null>) {
   const [padding] = useState(() => new Animated.Value(0));
+  const keyboardTop = useRef<number | null>(null);
+
+  const measure = useCallback(() => {
+    if (Platform.OS !== 'android') return;
+    const top = keyboardTop.current;
+    if (top === null) {
+      padding.setValue(0);
+      return;
+    }
+    area.current?.measureInWindow((_x, y, _width, height) => {
+      if (keyboardTop.current === null) return;
+      padding.setValue(Math.max(0, y + height - keyboardTop.current));
+    });
+  }, [area, padding]);
+
   useEffect(() => {
+    if (Platform.OS === 'android') {
+      const show = Keyboard.addListener('keyboardDidShow', (event) => {
+        keyboardTop.current = event.endCoordinates.screenY;
+        measure();
+      });
+      const hide = Keyboard.addListener('keyboardDidHide', () => {
+        keyboardTop.current = null;
+        padding.setValue(0);
+      });
+      return () => {
+        show.remove();
+        hide.remove();
+      };
+    }
     if (Platform.OS !== 'ios') return undefined;
     const move = (to: number, duration?: number) =>
       Animated.timing(padding, {
@@ -82,8 +139,9 @@ function useKeyboardPadding(occupiedBelow: number) {
       show.remove();
       hide.remove();
     };
-  }, [occupiedBelow, padding]);
-  return padding;
+  }, [occupiedBelow, padding, measure]);
+  // The area moves when the tab bar hides for the keyboard: measure again.
+  return { padding, onLayout: measure };
 }
 
 /** Live bars of the microphone level while recording. */
@@ -103,7 +161,7 @@ function LiveWave({ levels }: { levels: number[] }) {
   );
 }
 
-function Composer() {
+function Composer({ onSent }: { onSent: () => void }) {
   const { t } = useTranslation();
   const { colors, radii, spacing, typography } = useTheme();
   const { sendText, sendPhoto, sendVoice } = useMessageActions();
@@ -111,6 +169,7 @@ function Composer() {
   const reduced = useReducedMotion();
   const [text, setText] = useState('');
   const [failed, setFailed] = useState(false);
+  const [photoDenied, setPhotoDenied] = useState(false);
   const [hint, setHint] = useState(false);
   const [slide, setSlide] = useState(0);
   const [holding, setHolding] = useState(false);
@@ -137,15 +196,20 @@ function Composer() {
     setText('');
     reportTyping(false);
     guard(sendText(clean));
+    onSent();
   };
 
-  const addPhoto = () =>
+  const addPhoto = () => {
+    setPhotoDenied(false);
     guard(
       pickImages(1).then((result) => {
-        if (result.status === 'picked' && result.images[0]) return sendPhoto(result.images[0]);
-        return undefined;
+        if (result.status === 'denied') setPhotoDenied(true);
+        if (result.status !== 'picked' || !result.images[0]) return undefined;
+        onSent();
+        return sendPhoto(result.images[0]);
       }),
     );
+  };
 
   /** Finger down on the mic: record at once. */
   const pressIn = (pageX: number) => {
@@ -155,7 +219,7 @@ function Composer() {
     setHint(false);
     setHolding(true);
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
-    void voice.start();
+    void voice.start().catch(() => false);
   };
 
   /** Finger up: send, unless it slid away to cancel or was just a tap. */
@@ -173,6 +237,7 @@ function Composer() {
     }
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     guard(sendVoice(note.uri, note.durationMs, note.waveform));
+    onSent();
   };
 
   const move = (pageX: number) => {
@@ -204,6 +269,15 @@ function Composer() {
           testID="mic-denied"
           tone="warning"
           message={t('messages.micDenied')}
+          actionLabel={t('memories.form.openSettings')}
+          onAction={() => void Linking.openSettings()}
+        />
+      ) : null}
+      {photoDenied ? (
+        <Notice
+          testID="photo-denied"
+          tone="warning"
+          message={t('messages.photoDenied')}
           actionLabel={t('memories.form.openSettings')}
           onAction={() => void Linking.openSettings()}
         />
@@ -319,37 +393,106 @@ function Composer() {
   );
 }
 
-/** The couple's private thread. No read receipts, no "online", no typing indicator. */
+/** Scrolled this far up into the history, a button brings back the latest message. */
+const JUMP_THRESHOLD = 600;
+
+/** The couple's private thread: read receipts and "typing…", like WhatsApp. */
 export function MessagesScreen() {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { colors, radii, spacing } = useTheme();
   const thread = useMessages();
+  const failed = useOutbox((state) => state.failed);
   const { remove } = useMessageActions();
   const insets = useSafeAreaInsets();
-  const keyboardPadding = useKeyboardPadding(floatingTabBarHeight(insets.bottom));
+  const area = useRef<ViewRef>(null);
+  const list = useRef<FlatList<Message>>(null);
+  const keyboard = useKeyboardPadding(floatingTabBarHeight(insets.bottom), area);
   const partner = usePartner();
   const partnerTyping = useTypingStore((state) => state.partnerTyping);
   const [focused, setFocused] = useState(false);
+  const [viewing, setViewing] = useState<Message | null>(null);
+  const [farFromLatest, setFarFromLatest] = useState(false);
   useFocusEffect(
     useCallback(() => {
       setFocused(true);
-      return () => setFocused(false);
+      // No banner for a message I am already reading.
+      setConversationOpen(true);
+      return () => {
+        setFocused(false);
+        setConversationOpen(false);
+      };
     }, []),
   );
   useMarkRead(thread.messages, focused);
+
+  const failedIds = useMemo(() => new Set(failed.map((f) => f.message.id)), [failed]);
+  // Newest first, like the thread: what did not go stays at the bottom, where it was typed.
+  const messages = useMemo(
+    () => [...failed.map((f) => f.message), ...thread.messages],
+    [failed, thread.messages],
+  );
+
+  const scrollToLatest = () => list.current?.scrollToOffset({ offset: 0, animated: true });
 
   const confirmDelete = (message: Message) =>
     Alert.alert(t('messages.deleteTitle'), undefined, [
       { text: t('common.cancel'), style: 'cancel' },
       {
-        text: t('memories.detail.deleteConfirm'),
+        text: t('messages.delete'),
+        style: 'destructive',
+        onPress: () => void remove(message).catch(() => Alert.alert(t('messages.deleteFailed'))),
+      },
+    ]);
+
+  /** Long press: copy a text, delete my own (sent) message. */
+  const openOptions = (message: Message) => {
+    const mine = message.author === 'me';
+    const copyable = message.kind === 'text' && !!message.text;
+    const deletable = mine && message.id > 0;
+    if (!copyable && !deletable) return;
+    void Haptics.selectionAsync().catch(() => {});
+    Alert.alert(t('messages.optionsTitle'), undefined, [
+      ...(copyable
+        ? [
+            {
+              text: t('messages.copy'),
+              onPress: () => void Clipboard.setStringAsync(message.text).catch(() => false),
+            },
+          ]
+        : []),
+      ...(deletable
+        ? [
+            {
+              text: t('messages.delete'),
+              style: 'destructive' as const,
+              onPress: () => confirmDelete(message),
+            },
+          ]
+        : []),
+      { text: t('common.cancel'), style: 'cancel' as const },
+    ]);
+  };
+
+  /** Tap on a message that did not go: send it again, or let it go. */
+  const offerRetry = (message: Message) =>
+    Alert.alert(t('messages.notSentTitle'), undefined, [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('messages.discard'),
         style: 'destructive',
         onPress: () => void remove(message),
+      },
+      {
+        text: t('common.retry'),
+        onPress: () => {
+          scrollToLatest();
+          void retryFailed(message.id);
+        },
       },
     ]);
 
   let body;
-  if (thread.isPending) {
+  if (thread.isPending && failed.length === 0) {
     body = (
       <View testID="messages-loading" style={{ padding: spacing.lg, gap: spacing.md }}>
         <Skeleton width="60%" height={44} radius={radii.lg} />
@@ -358,7 +501,7 @@ export function MessagesScreen() {
         </View>
       </View>
     );
-  } else if (thread.isError && thread.messages.length === 0) {
+  } else if (thread.isError && messages.length === 0) {
     body = (
       <ErrorState
         testID="messages-error"
@@ -367,7 +510,7 @@ export function MessagesScreen() {
         onRetry={() => void thread.refetch()}
       />
     );
-  } else if (thread.messages.length === 0) {
+  } else if (messages.length === 0 && !partnerTyping) {
     body = (
       <EmptyState
         testID="messages-empty"
@@ -378,28 +521,72 @@ export function MessagesScreen() {
     );
   } else {
     body = (
-      <FlatList
-        testID="messages-list"
-        inverted
-        data={thread.messages}
-        keyExtractor={(m) => String(m.id)}
-        renderItem={({ item }) => (
-          <MessageBubble message={item} onLongPress={() => confirmDelete(item)} />
-        )}
-        contentContainerStyle={{ padding: spacing.md }}
-        keyboardDismissMode="interactive"
-        onEndReachedThreshold={0.4}
-        onEndReached={() => {
-          if (thread.hasNextPage && !thread.isFetchingNextPage) void thread.fetchNextPage();
-        }}
-        // Inverted list: the header sits at the bottom, right under the newest message.
-        ListHeaderComponent={
-          partnerTyping ? <TypingBubble name={partner?.display_name ?? ''} /> : undefined
-        }
-        ListFooterComponent={
-          thread.isFetchingNextPage ? <ActivityIndicator color={colors.primary} /> : undefined
-        }
-      />
+      <>
+        <FlatList
+          ref={list}
+          testID="messages-list"
+          inverted
+          data={messages}
+          keyExtractor={(m) => String(m.id)}
+          renderItem={({ item, index }) => {
+            const isFailed = failedIds.has(item.id);
+            const older = messages[index + 1];
+            // Inverted list: the first message of a day carries the day above it.
+            const firstOfDay = !older || dayKey(older.created_at) !== dayKey(item.created_at);
+            return (
+              <View>
+                {firstOfDay && (older || !thread.hasNextPage) ? (
+                  <DaySeparator iso={item.created_at} />
+                ) : null}
+                <MessageBubble
+                  message={item}
+                  failed={isFailed}
+                  onPress={
+                    isFailed
+                      ? () => offerRetry(item)
+                      : item.kind === 'photo' && item.media_url
+                        ? () => setViewing(item)
+                        : undefined
+                  }
+                  onLongPress={isFailed ? () => offerRetry(item) : () => openOptions(item)}
+                />
+              </View>
+            );
+          }}
+          extraData={`${failedIds.size}-${i18n.language}`}
+          contentContainerStyle={{ padding: spacing.md }}
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
+          onScroll={(event) => setFarFromLatest(event.nativeEvent.contentOffset.y > JUMP_THRESHOLD)}
+          scrollEventThrottle={100}
+          onEndReachedThreshold={0.4}
+          onEndReached={() => {
+            if (thread.hasNextPage && !thread.isFetchingNextPage) void thread.fetchNextPage();
+          }}
+          // Inverted list: the header sits at the bottom, right under the newest message.
+          ListHeaderComponent={
+            partnerTyping ? (
+              <TypingBubble name={partner?.display_name || t('messages.fromPartner')} />
+            ) : undefined
+          }
+          ListFooterComponent={
+            thread.isFetchingNextPage ? (
+              <BolingoLoader testID="messages-older-loading" size={28} style={styles.older} />
+            ) : undefined
+          }
+        />
+        {farFromLatest ? (
+          <View style={[styles.jump, { right: spacing.md, bottom: spacing.md }]}>
+            <IconButton
+              testID="messages-jump-latest"
+              icon={ChevronDown}
+              variant="soft"
+              label={t('messages.scrollToLatest')}
+              onPress={scrollToLatest}
+            />
+          </View>
+        ) : null}
+      </>
     );
   }
 
@@ -417,10 +604,13 @@ export function MessagesScreen() {
         </Text>
         <Text variant="title">{t('tabs.us.title')}</Text>
       </View>
-      <Animated.View style={[styles.root, { paddingBottom: keyboardPadding }]}>
-        <View style={styles.root}>{body}</View>
-        <Composer />
-      </Animated.View>
+      <View ref={area} style={styles.root} onLayout={keyboard.onLayout}>
+        <Animated.View style={[styles.root, { paddingBottom: keyboard.padding }]}>
+          <View style={styles.root}>{body}</View>
+          <Composer onSent={scrollToLatest} />
+        </Animated.View>
+      </View>
+      <PhotoViewer message={viewing} onClose={() => setViewing(null)} />
     </SafeAreaView>
   );
 }
@@ -451,4 +641,6 @@ const styles = StyleSheet.create({
   bold: { fontWeight: '600' },
   center: { textAlign: 'center' },
   rightSkeleton: { alignItems: 'flex-end' },
+  older: { alignSelf: 'center', marginVertical: 8 },
+  jump: { position: 'absolute' },
 });

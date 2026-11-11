@@ -62,7 +62,7 @@ export function SocialButtons() {
         />
       ) : null}
       {errorText ? (
-        <Text accessibilityRole="alert" testID="social-error">
+        <Text accessibilityRole="alert" testID="social-error" color="danger">
           {errorText}
         </Text>
       ) : null}

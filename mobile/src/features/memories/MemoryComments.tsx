@@ -45,6 +45,7 @@ function CommentRow({ comment, onDelete }: { comment: MemoryComment; onDelete: (
           accessibilityRole="button"
           accessibilityLabel={t('memories.detail.deleteComment')}
           onPress={onDelete}
+          hitSlop={4}
           style={styles.delete}
         >
           <Icon icon={Trash2} size={18} color="onPrimarySoft" />

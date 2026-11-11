@@ -92,7 +92,8 @@ export function MyMorningCard({ today }: { today: MorningToday }) {
   const takeBack = useTakeBackMood();
   const mine = today.mine;
   // Celebrate replies that arrive while the screen is open (not those already seen).
-  const replyCount = mine?.replies.length ?? 0;
+  const myReplies = mine?.replies ?? [];
+  const replyCount = myReplies.length;
   const [seenReplies] = useState(replyCount);
 
   const choose = (mood: Mood) => {
@@ -143,9 +144,9 @@ export function MyMorningCard({ today }: { today: MorningToday }) {
               />
             ))}
           </View>
-          {mine.replies.length && partner ? (
+          {myReplies.length && partner ? (
             <View style={{ gap: spacing.xs }}>
-              {mine.replies.map((reply, index) => (
+              {myReplies.map((reply, index) => (
                 <Text
                   key={`${reply}-${index}`}
                   testID="received-reply"
@@ -242,7 +243,7 @@ export function PartnerMorningCard({ today }: { today: MorningToday }) {
               key={code}
               testID={`reply-${code}`}
               label={t(`morning.replies.${code}`)}
-              selected={theirs.replies.includes(code)}
+              selected={(theirs.replies ?? []).includes(code)}
               onPress={() => {
                 void Haptics.selectionAsync().catch(() => {});
                 reply.mutate(code);

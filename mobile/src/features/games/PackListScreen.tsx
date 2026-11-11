@@ -46,6 +46,9 @@ function AdultGate({ hidden }: { hidden: number }) {
       {mine && !home?.adult.partner ? (
         <Notice message={t('games.adultWaiting', { name: partner?.display_name ?? '' })} />
       ) : null}
+      {setAdult.isError ? (
+        <Notice testID="adult-error" tone="warning" message={t('games.adultError')} />
+      ) : null}
       <Button
         testID="adult-toggle"
         variant={mine ? 'ghost' : 'primary'}

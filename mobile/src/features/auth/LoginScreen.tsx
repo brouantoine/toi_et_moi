@@ -1,18 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { ApiError, devDetail } from '@/api';
-import { Button, Screen, Text } from '@/ui';
+import { Button, Text } from '@/ui';
 
 import { FormField } from './FormField';
+import { FormScreen } from './FormScreen';
 import { SocialButtons } from './social/SocialButtons';
 import { loginSchema, type LoginForm } from './schemas';
 import { useLogin } from './useAuthActions';
 
 export function LoginScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const login = useLogin();
   const { control, handleSubmit } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -31,7 +33,7 @@ export function LoginScreen() {
   const detail = login.error && !badCredentials ? devDetail(login.error) : null;
 
   return (
-    <Screen testID="login-screen">
+    <FormScreen testID="login-screen">
       <Text variant="title">{t('auth.login.title')}</Text>
       <FormField
         control={control}
@@ -53,7 +55,7 @@ export function LoginScreen() {
         testID="login-password"
       />
       {serverError ? (
-        <Text accessibilityRole="alert" testID="login-error">
+        <Text accessibilityRole="alert" testID="login-error" color="danger">
           {serverError}
           {detail ? `\n${detail}` : ''}
         </Text>
@@ -65,12 +67,19 @@ export function LoginScreen() {
         onPress={handleSubmit((form) => login.mutate(form))}
       />
       <SocialButtons />
-      <Link href="/forgot-password" testID="login-forgot">
-        <Text muted>{t('auth.login.forgot')}</Text>
-      </Link>
-      <Link href="/register" testID="login-to-register">
-        <Text muted>{t('auth.login.noAccount')}</Text>
-      </Link>
-    </Screen>
+      <Button
+        testID="login-forgot"
+        variant="ghost"
+        label={t('auth.login.forgot')}
+        onPress={() => router.push('/forgot-password')}
+      />
+      <Button
+        testID="login-to-register"
+        variant="ghost"
+        label={t('auth.login.noAccount')}
+        // Replace, not push: switching between sign in and sign up never piles screens up.
+        onPress={() => router.replace('/register')}
+      />
+    </FormScreen>
   );
 }

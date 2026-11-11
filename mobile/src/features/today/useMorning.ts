@@ -61,7 +61,10 @@ export function useReply() {
     onSuccess: (_d, reply) => {
       client.setQueryData<MorningToday>(morningKey, (old) =>
         old?.partner
-          ? { ...old, partner: { ...old.partner, replies: [...old.partner.replies, reply] } }
+          ? {
+              ...old,
+              partner: { ...old.partner, replies: [...(old.partner.replies ?? []), reply] },
+            }
           : old,
       );
     },

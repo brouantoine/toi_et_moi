@@ -327,3 +327,11 @@
 
 ## 2026-11-11
 - Jeux reconstruits en paquets : 146 paquets / 1 543 éléments, résultats avec jauge de similarité, dessin au doigt, réponse photo (stockage S3 requis), recherche et filtres, badges, accès 18+ à double accord. Tests backend et mobile verts.
+
+## 2026-11-11 — Audit complet par 5 agents (supervisé)
+- Accueil, onglets, couple, distance, connexion : retour et clavier des écrans de connexion, notes cliquables, confirmation avant d'annuler l'espace, code d'invitation expiré (backend + test), protections contre les anciens caches, carte qui suit le mode nuit.
+- Jeux, coach, premium : encre visible la nuit, tracés fiables, écran de dessin qui défile, paquet verrouillé → Débloquer, message du coach conservé si l'envoi échoue, avatars qui se chevauchent.
+- Messages, notifications : messages non envoyés gardés avec « Réessayer », vocaux qui ne s'interrompent plus, séparateurs de jour, photo plein écran, appui long copier/supprimer, clavier Android bord à bord, réglage « Messages et coach ».
+- Souvenirs, organisation : bouton retour rond, croix sur les formulaires en erreur, clavier des feuilles iOS, part nulle d'une dépense, date des événements, actions sur éléments pas encore confirmés.
+- Design system, profil : un seul rouge la nuit (#FF3B4E), tests de contraste sur `wash`/`brand`, feuille et interrupteur lisibles la nuit, curseur à la couleur du couple, `IconButton disabled`, bouton retour sans capsule iOS 26, pas de flash blanc la nuit.
+- Vérifié : tsc, eslint, jest 695/695, backend ruff/mypy/pytest. Non vérifié sur un vrai téléphone.

@@ -57,7 +57,7 @@ function Terms({ version, name }: { version: number; name: string }) {
         value={accepted}
         onChange={setAccepted}
       />
-      <ShareError error={share.error} />
+      <ShareError error={share.error ?? accept.error} />
       <Button
         testID="distance-share"
         icon={Navigation}

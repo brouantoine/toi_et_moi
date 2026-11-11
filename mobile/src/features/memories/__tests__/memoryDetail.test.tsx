@@ -188,6 +188,8 @@ describe('MemoryDetailScreen', () => {
     mockFetch().mockRejectedValue(new TypeError('Network request failed'));
     await renderWithProviders(<MemoryDetailScreen memoryId={5} />);
     expect(await screen.findByTestId('memory-detail-error')).toBeTruthy();
+    // The shared BackButton asks the router whether there is a screen to go back to.
+    Object.assign(routerMock(), { canGoBack: jest.fn(() => true) });
     await fireEvent.press(screen.getByRole('button', { name: 'Retour' }));
     expect(routerMock().back).toHaveBeenCalled();
   });

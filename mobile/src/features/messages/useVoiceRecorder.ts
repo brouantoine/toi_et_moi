@@ -43,6 +43,9 @@ export function useVoiceRecorder() {
   }, [state, recorder]);
 
   const begin = async (): Promise<boolean> => {
+    // Forget the previous note first: a failed start must never resend it.
+    startedAt.current = 0;
+    samples.current = [];
     const permission = await requestRecordingPermissionsAsync().catch(() => ({ granted: false }));
     if (!permission.granted) {
       setState('denied');
@@ -51,7 +54,6 @@ export function useVoiceRecorder() {
     await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
     await recorder.prepareToRecordAsync();
     recorder.record();
-    samples.current = [];
     setLive([]);
     startedAt.current = Date.now();
     setState('recording');
@@ -59,15 +61,27 @@ export function useVoiceRecorder() {
   };
 
   const start = (): Promise<boolean> => {
-    starting.current = begin().finally(() => {
-      starting.current = null;
-    });
+    starting.current = begin()
+      .catch(() => {
+        startedAt.current = 0;
+        return false;
+      })
+      .finally(() => {
+        starting.current = null;
+      });
     return starting.current;
   };
 
   const finish = async () => {
     // Released before the microphone was even ready: wait for it, then stop cleanly.
     if (starting.current) await starting.current.catch(() => false);
+    if (!startedAt.current) {
+      // Never really started (refused, or the microphone is busy, e.g. during a call).
+      await setAudioModeAsync({ allowsRecording: false, playsInSilentMode: true }).catch(() => {});
+      setState((current) => (current === 'denied' ? current : 'idle'));
+      setLive([]);
+      return;
+    }
     await recorder.stop().catch(() => {});
     await setAudioModeAsync({ allowsRecording: false, playsInSilentMode: true }).catch(() => {});
     setState((current) => (current === 'denied' ? current : 'idle'));

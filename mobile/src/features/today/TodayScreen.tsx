@@ -18,7 +18,9 @@ function EnablePushCard() {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    void pushStatus().then((status) => setVisible(status === 'undetermined'));
+    void pushStatus()
+      .then((status) => setVisible(status === 'undetermined'))
+      .catch(() => {});
   }, []);
   if (!visible) return null;
   return (

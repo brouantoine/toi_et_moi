@@ -4,14 +4,25 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { useSignOut } from '@/auth/useSignOut';
-import { Avatar, Button, Card, Icon, ListRow, PressableScale, Screen, Text, useTheme } from '@/ui';
+import {
+  Avatar,
+  Button,
+  Card,
+  Icon,
+  ListRow,
+  Notice,
+  PressableScale,
+  Screen,
+  Text,
+  useTheme,
+} from '@/ui';
 
 import { useMe } from './useProfile';
 
 export function MeScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors } = useTheme();
+  const { colors, spacing } = useTheme();
   const me = useMe();
   const signOut = useSignOut();
   return (
@@ -22,7 +33,7 @@ export function MeScreen() {
           accessibilityRole="button"
           accessibilityLabel={t('avatar.edit')}
           onPress={() => router.push('/settings/avatar')}
-          style={styles.header}
+          style={[styles.header, { gap: spacing.smd, paddingTop: spacing.sm }]}
         >
           <View>
             <Avatar
@@ -38,11 +49,22 @@ export function MeScreen() {
               <Icon icon={Pencil} size={14} color="background" strokeWidth={2.4} />
             </View>
           </View>
-          <Text variant="title">{me.data.display_name}</Text>
+          <Text variant="title" style={styles.name}>
+            {me.data.display_name}
+          </Text>
         </PressableScale>
       ) : (
         <Text variant="title">{t('tabs.me.title')}</Text>
       )}
+      {me.isError && !me.data ? (
+        <Notice
+          testID="me-error"
+          tone="warning"
+          message={t('errors.network')}
+          actionLabel={t('common.retry')}
+          onAction={() => void me.refetch()}
+        />
+      ) : null}
       <Card>
         <ListRow
           testID="me-avatar-row"
@@ -80,9 +102,6 @@ export function MeScreen() {
           onPress={() => router.push('/settings/notifications')}
         />
       </Card>
-      <Text variant="caption" muted>
-        {t('tabs.me.emptyMessage')}
-      </Text>
       <Button
         testID="me-sign-out"
         variant="ghost"
@@ -95,7 +114,8 @@ export function MeScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { alignItems: 'center', gap: 12, paddingTop: 8 },
+  header: { alignItems: 'center' },
+  name: { textAlign: 'center' },
   edit: {
     position: 'absolute',
     right: 2,

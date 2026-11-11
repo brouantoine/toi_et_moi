@@ -26,7 +26,7 @@ export function AccentPicker({ value, onChange }: Props) {
               testID={`accent-${id}`}
               accessibilityRole="radio"
               accessibilityLabel={t(`coupleInfo.colors.${id}`)}
-              accessibilityState={{ selected }}
+              accessibilityState={{ selected, checked: selected }}
               onPress={() => {
                 void Haptics.selectionAsync().catch(() => {});
                 onChange(id);

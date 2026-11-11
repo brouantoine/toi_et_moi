@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { ChevronLeft, Heart, MapPin, Pencil, Quote, Trash2 } from 'lucide-react-native';
+import { Heart, MapPin, Pencil, Quote, Trash2 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import {
   Alert,
@@ -16,6 +16,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ApiError } from '@/api';
 import { usePartner } from '@/features/couple/usePartner';
 import {
+  BackButton,
   Button,
   ErrorState,
   fromIsoDate,
@@ -175,17 +176,19 @@ export function MemoryDetailScreen({ memoryId }: { memoryId: number }) {
   const query = useMemory(memoryId);
   const remove = useDeleteMemory(memoryId);
 
-  if (query.isPending) return <LoadingState testID="memory-detail-loading" />;
+  if (query.isPending) {
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background }]}>
+        <LoadingState testID="memory-detail-loading" />
+        <BackButton floating testID="memory-back" />
+      </View>
+    );
+  }
   if (query.isError) {
     return (
       <SafeAreaView style={[styles.root, { backgroundColor: colors.background }]}>
         <View style={{ paddingHorizontal: spacing.md }}>
-          <IconButton
-            icon={ChevronLeft}
-            variant="plain"
-            label={t('memories.detail.back')}
-            onPress={() => router.back()}
-          />
+          <BackButton testID="memory-back" />
         </View>
         <ErrorState
           testID="memory-detail-error"
@@ -211,13 +214,7 @@ export function MemoryDetailScreen({ memoryId }: { memoryId: number }) {
 
   const actions = (variant: 'overlay' | 'plain') => (
     <View style={[styles.actions, { paddingHorizontal: spacing.md }]}>
-      <IconButton
-        testID="memory-back"
-        icon={ChevronLeft}
-        variant={variant}
-        label={t('memories.detail.back')}
-        onPress={() => router.back()}
-      />
+      <BackButton testID="memory-back" />
       <IconButton
         testID="memory-edit"
         icon={Pencil}

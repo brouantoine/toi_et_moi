@@ -1,7 +1,9 @@
 /**
- * Design tokens. White-dominant, Apple Music-like: pure white canvas, quiet grey fills,
- * bold system titles and ONE accent colour, chosen by each couple (see `accents`).
- * Pink stays out of the accent set (couple-app cliché, docs/DECISIONS.md).
+ * Design tokens. White and Bolingo red by day, red on black by night (the app follows the
+ * phone's setting): white canvas, quiet grey fills, bold system titles and ONE accent
+ * colour, chosen by each couple (see `accents`). The default red plays in shades, like
+ * light through a window: `wash` at the top of the main screens, rose-red `primarySoft`
+ * fills, deep red text on them (docs/DECISIONS.md, 2026-11-11).
  * Every text/background pair is checked for WCAG AA contrast in tests.
  */
 export type ColorScheme = 'light' | 'dark';
@@ -56,7 +58,8 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
       wash: '#FFD3DA',
     },
     dark: {
-      primary: '#FF5A62',
+      // Red on black: the brand red, lifted just enough to read on the night surfaces.
+      primary: '#FF3B4E',
       onPrimary: '#140405',
       primarySoft: '#4A1A1C',
       onPrimarySoft: '#FFB9B3',
@@ -172,7 +175,8 @@ export const palettes: Record<ColorScheme, Palette> = {
     surface: '#FFFFFF',
     surfaceMuted: '#F2F2F5',
     text: '#1C1C1E',
-    textMuted: '#636368',
+    // A shade darker than iOS grey so captions stay AA on the red wash and tinted cards.
+    textMuted: '#5F5F64',
     ...accents[DEFAULT_ACCENT].light,
     secondary: '#4F6B52', // sage (deep)
     onSecondary: '#FFFFFF',
@@ -199,7 +203,7 @@ export const palettes: Record<ColorScheme, Palette> = {
     danger: '#FF8A80',
     scrim: 'rgba(0, 0, 0, 0.5)',
     onScrim: '#FFFFFF',
-    brand: '#E8243F',
+    brand: '#FF3B4E',
   },
 };
 
@@ -208,7 +212,7 @@ export function paletteFor(scheme: ColorScheme, accent: AccentId = DEFAULT_ACCEN
 }
 
 /**
- * Category hues: a small family of warm-to-cool accents (no pink) used to tell kinds
+ * Category hues: a small family of warm-to-cool accents used to tell kinds
  * of content apart at a glance, e.g. one hue per memory type. `fg` on `bg` is AA.
  */
 export type Hue = 'red' | 'amber' | 'sage' | 'lagoon' | 'violet';
@@ -216,14 +220,15 @@ export type HueColors = { fg: string; bg: string };
 
 export const hues: Record<ColorScheme, Record<Hue, HueColors>> = {
   light: {
-    red: { fg: '#7D0A1C', bg: '#FCE3D8' },
+    // Same rose-red shades as the default accent: one red family across the app.
+    red: { fg: '#86101E', bg: '#FFE1E6' },
     amber: { fg: '#6E4300', bg: '#FCEBC8' },
     sage: { fg: '#32493A', bg: '#E2ECDF' },
     lagoon: { fg: '#0B5057', bg: '#D3ECEE' },
     violet: { fg: '#4A3478', bg: '#E9E3F5' },
   },
   dark: {
-    red: { fg: '#FFB7AC', bg: '#4A1A16' },
+    red: { fg: '#FFB9B3', bg: '#4A1A1C' },
     amber: { fg: '#F6CD7C', bg: '#43320F' },
     sage: { fg: '#BCD5BE', bg: '#223027' },
     lagoon: { fg: '#9FE3E8', bg: '#123A3E' },

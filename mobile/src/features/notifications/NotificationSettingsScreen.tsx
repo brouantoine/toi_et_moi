@@ -29,6 +29,7 @@ const KINDS = [
   'thinking_of_you',
   'pause',
   'organization',
+  'messages',
   'proximity',
 ] as const satisfies readonly (keyof Preferences)[];
 
@@ -95,6 +96,7 @@ export function NotificationSettingsScreen() {
   }
   const p = prefs.data;
   const set = (patch: Partial<Preferences>) => update.mutate(patch);
+  const failed = update.isError || updateMe.isError;
 
   return (
     <ScrollView
@@ -104,6 +106,13 @@ export function NotificationSettingsScreen() {
     >
       <Text variant="title">{t('notifications.settings.title')}</Text>
       <PermissionCard />
+      {failed ? (
+        <Notice
+          testID="notif-save-failed"
+          tone="warning"
+          message={t('notifications.settings.saveFailed')}
+        />
+      ) : null}
 
       <View style={{ gap: spacing.sm }}>
         <Text variant="overline" muted>

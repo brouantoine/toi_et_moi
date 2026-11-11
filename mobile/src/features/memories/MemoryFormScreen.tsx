@@ -5,19 +5,12 @@ import { Check, ImageOff, X } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Linking,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, Animated, Linking, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
+import { FormFallback } from '@/features/organize/FormFallback';
+import { useKeyboardInset } from '@/features/organize/useKeyboardInset';
 import { pickImages } from '@/media/images';
 import {
   Button,
@@ -49,15 +42,21 @@ const nextDraftId = () => `draft-${Date.now()}-${(draftSeq += 1)}`;
 export function MemoryFormScreen({ memoryId }: Props) {
   const existing = useMemory(memoryId);
   if (memoryId !== undefined && existing.isPending) {
-    return <LoadingState testID="memory-form-loading" />;
+    return (
+      <FormFallback closeTestID="memory-form-close">
+        <LoadingState testID="memory-form-loading" />
+      </FormFallback>
+    );
   }
   if (memoryId !== undefined && existing.isError) {
     return (
-      <ErrorState
-        testID="memory-form-error"
-        code={existing.error instanceof ApiError ? existing.error.code : 'network'}
-        onRetry={() => void existing.refetch()}
-      />
+      <FormFallback closeTestID="memory-form-close">
+        <ErrorState
+          testID="memory-form-error"
+          code={existing.error instanceof ApiError ? existing.error.code : 'network'}
+          onRetry={() => void existing.refetch()}
+        />
+      </FormFallback>
     );
   }
   return <MemoryForm initial={existing.data} />;
@@ -69,6 +68,7 @@ function MemoryForm({ initial }: { initial?: Memory }) {
   const { colors, hues, radii, spacing, typography } = useTheme();
   const paper = useSurfaceStyle();
   const save = useSaveMemory();
+  const { ref: keyboardRef, inset: keyboardInset } = useKeyboardInset();
 
   const [memoryId, setMemoryId] = useState(initial?.id);
   const [savedPhotos, setSavedPhotos] = useState(initial?.photos ?? []);
@@ -192,12 +192,10 @@ function MemoryForm({ initial }: { initial?: Memory }) {
         <View style={styles.topSpacer} />
       </View>
 
-      <KeyboardAvoidingView
-        style={styles.root}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+      <Animated.View ref={keyboardRef} style={[styles.root, { paddingBottom: keyboardInset }]}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
           contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}
         >
           {notice === 'denied' ? (
@@ -390,7 +388,7 @@ function MemoryForm({ initial }: { initial?: Memory }) {
             onPress={() => void submit()}
           />
         </View>
-      </KeyboardAvoidingView>
+      </Animated.View>
     </SafeAreaView>
   );
 }

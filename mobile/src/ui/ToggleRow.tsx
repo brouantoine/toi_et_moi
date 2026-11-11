@@ -14,7 +14,7 @@ type Props = {
 
 /** A labelled native switch; the whole row is one accessible control. */
 export function ToggleRow({ label, hint, value, onChange, testID }: Props) {
-  const { colors, spacing } = useTheme();
+  const { colors, scheme, spacing } = useTheme();
   return (
     <View style={[styles.row, { gap: spacing.md }]}>
       <View style={styles.text} importantForAccessibility="no-hide-descendants">
@@ -32,7 +32,11 @@ export function ToggleRow({ label, hint, value, onChange, testID }: Props) {
         value={value}
         onValueChange={onChange}
         trackColor={{ true: colors.primary, false: colors.border }}
-        thumbColor={colors.surface}
+        // The thumb must contrast with its track: at night a dark thumb on the grey "off"
+        // track disappeared, and a light one vanishes on the light "on" track of `encre`.
+        thumbColor={
+          value ? colors.onPrimary : scheme === 'dark' ? colors.textMuted : colors.surface
+        }
         ios_backgroundColor={colors.border}
       />
     </View>

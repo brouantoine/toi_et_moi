@@ -5,7 +5,9 @@ export function formatKm(km: number, locale: string): string {
 
 /** "il y a 5 min", "à l'instant"… from an ISO date. */
 export function formatAgo(iso: string, locale: string, now = Date.now()): string {
-  const seconds = Math.round((new Date(iso).getTime() - now) / 1000);
+  const time = new Date(iso).getTime();
+  if (Number.isNaN(time)) return '';
+  const seconds = Math.round((time - now) / 1000);
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   const abs = Math.abs(seconds);
   if (abs < 60) return rtf.format(0, 'second');

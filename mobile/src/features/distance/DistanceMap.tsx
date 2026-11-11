@@ -17,11 +17,18 @@ export type DistanceMapProps = {
 /** Both positions on the system map, linked by a dashed line. */
 export function DistanceMap({ mine, theirs, partnerName, partnerSeen }: DistanceMapProps) {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, scheme } = useTheme();
   const points = [mine, theirs].filter((p): p is Point => Boolean(p));
   if (!points.length) return null;
+  // A new position re-frames the map (initialRegion is only read once).
+  const frame = points.map((p) => `${p.latitude},${p.longitude}`).join(';');
   return (
-    <MapView style={StyleSheet.absoluteFill} initialRegion={regionFor(points)}>
+    <MapView
+      key={frame}
+      style={StyleSheet.absoluteFill}
+      initialRegion={regionFor(points)}
+      userInterfaceStyle={scheme}
+    >
       {mine ? (
         <Marker coordinate={mine} title={t('distance.you')} pinColor={colors.secondary} />
       ) : null}

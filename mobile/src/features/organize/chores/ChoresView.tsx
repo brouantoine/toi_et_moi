@@ -33,6 +33,7 @@ function ChoreRow({ chore }: { chore: Chore }) {
   const { t, i18n } = useTranslation();
   const { colors, spacing } = useTheme();
   const { complete, remove } = useChoreActions();
+  const recurrence = chore.recurrence ?? 'none';
   const date = chore.due_date
     ? t('organize.chores.due', {
         date: new Intl.DateTimeFormat(i18n.language, { weekday: 'long', day: 'numeric' }).format(
@@ -50,7 +51,7 @@ function ChoreRow({ chore }: { chore: Chore }) {
         accessibilityRole="button"
         accessibilityLabel={t('organize.chores.complete', { title: chore.title })}
         onPress={() => void complete(chore)}
-        hitSlop={8}
+        hitSlop={(MIN_TOUCH_TARGET - 30) / 2}
         style={[styles.check, { borderColor: colors.secondary }]}
       >
         <Icon icon={Check} size={16} color="secondary" strokeWidth={2.5} />
@@ -58,11 +59,9 @@ function ChoreRow({ chore }: { chore: Chore }) {
       <View style={styles.flex}>
         <Text>{chore.title}</Text>
         <View style={[styles.inline, { gap: spacing.xs }]}>
-          {chore.recurrence !== 'none' ? <Icon icon={Repeat} size={13} color="textMuted" /> : null}
+          {recurrence !== 'none' ? <Icon icon={Repeat} size={13} color="textMuted" /> : null}
           <Text variant="caption" muted>
-            {chore.recurrence !== 'none'
-              ? `${t(`organize.chores.recurrences.${chore.recurrence ?? 'none'}`)} · `
-              : ''}
+            {recurrence !== 'none' ? `${t(`organize.chores.recurrences.${recurrence}`)} · ` : ''}
             {date}
           </Text>
         </View>

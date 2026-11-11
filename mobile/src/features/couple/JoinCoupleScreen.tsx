@@ -4,7 +4,8 @@ import { ClipboardPaste } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Input, Screen, Text } from '@/ui';
+import { FormScreen } from '@/features/auth/FormScreen';
+import { Button, Input, Text } from '@/ui';
 
 import { extractCode, isValidCode, normalizeCode } from './inviteLink';
 import { usePendingInvite } from './pendingInvite';
@@ -27,6 +28,14 @@ export function JoinCoupleScreen() {
     if (found) setCode(found);
   };
 
+  // Opened straight from an invitation link there is nothing behind: going "home" would
+  // reopen this screen while the code is pending, so drop it and show the setup screen.
+  const leave = () => {
+    pending.set(null);
+    if (router.canGoBack()) router.back();
+    else router.replace('/couple');
+  };
+
   const invalid = touched && !isValidCode(code);
 
   const submit = () => {
@@ -41,7 +50,7 @@ export function JoinCoupleScreen() {
   };
 
   return (
-    <Screen testID="join-screen">
+    <FormScreen testID="join-screen" onBack={leave}>
       <Text variant="title">{t('couple.join.title')}</Text>
       <Text muted>{t('couple.join.explain')}</Text>
       <Input
@@ -49,6 +58,8 @@ export function JoinCoupleScreen() {
         label={t('couple.join.codeLabel')}
         value={code}
         onChangeText={(value) => setCode(normalizeCode(value).slice(0, 6))}
+        onSubmitEditing={submit}
+        returnKeyType="go"
         autoCapitalize="characters"
         autoCorrect={false}
         autoComplete="off"
@@ -68,7 +79,7 @@ export function JoinCoupleScreen() {
         </Text>
       ) : null}
       {join.isError ? (
-        <Text accessibilityRole="alert" testID="join-error">
+        <Text accessibilityRole="alert" testID="join-error" color="danger">
           {t(joinErrorKey(join.error))}
         </Text>
       ) : null}
@@ -78,6 +89,6 @@ export function JoinCoupleScreen() {
         loading={join.isPending}
         onPress={submit}
       />
-    </Screen>
+    </FormScreen>
   );
 }

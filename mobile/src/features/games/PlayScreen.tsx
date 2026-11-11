@@ -1,9 +1,10 @@
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
-import { ImagePlus } from 'lucide-react-native';
-import { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { ImagePlus, Lock } from 'lucide-react-native';
+import { useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
@@ -43,6 +44,8 @@ type StepProps = {
   faces: { me: Face; partner: Face };
   busy: boolean;
   send: (input: Omit<AnswerInput, 'question'>) => void;
+  /** A finger is on the drawing canvas: the screen must not scroll meanwhile. */
+  onDrawing: (drawing: boolean) => void;
 };
 
 /** Two big choices, one above the other, with "or" between them. */
@@ -57,7 +60,8 @@ function ChoiceStep({ pack, item, tint, faces, busy, send }: StepProps) {
     <View style={{ gap: spacing.sm }}>
       {item.options.map((option, index) => {
         const face = pack.kind === 'most_likely' ? (index === 0 ? faces.me : faces.partner) : null;
-        const label = face ? face.name : option.name;
+        // Names load with the couple: until then, the option's own label ("Me", "You").
+        const label = face?.name || option.name;
         return (
           <View key={index}>
             {index === 1 ? (
@@ -136,13 +140,13 @@ function TextStep({ busy, send }: StepProps) {
   );
 }
 
-function DrawStep({ busy, send }: StepProps) {
+function DrawStep({ busy, send, onDrawing }: StepProps) {
   const { t } = useTranslation();
   const { spacing } = useTheme();
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   return (
     <View style={{ gap: spacing.md }}>
-      <DrawingCanvas strokes={strokes} onChange={setStrokes} />
+      <DrawingCanvas strokes={strokes} onChange={setStrokes} onDrawing={onDrawing} />
       <Button
         testID="answer-send"
         size="lg"
@@ -182,6 +186,7 @@ function PhotoStep({ busy, send }: StepProps) {
         size="lg"
         icon={ImagePlus}
         label={t(photo ? 'games.photo.change' : 'games.photo.pick')}
+        disabled={busy}
         onPress={() => void pick()}
       />
       {photo ? (
@@ -202,11 +207,13 @@ const STEPS = { choice: ChoiceStep, text: TextStep, drawing: DrawStep, photo: Ph
 /** Play a pack item by item, then discover the results together. */
 export function PlayScreen({ packId }: { packId: string }) {
   const { t } = useTranslation();
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { colors, hues, spacing } = useTheme();
   const faces = useCoupleFaces();
   const query = usePack(packId);
   const answer = useAnswer(packId);
+  const [drawing, setDrawing] = useState(false);
   const pack = query.data;
 
   const close = (
@@ -217,7 +224,14 @@ export function PlayScreen({ packId }: { packId: string }) {
     </View>
   );
 
-  if (query.isPending) return <LoadingState testID="pack-loading" />;
+  if (query.isPending) {
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background }]}>
+        {close}
+        <LoadingState testID="pack-loading" />
+      </View>
+    );
+  }
   if (query.isError || !pack) {
     return (
       <View style={[styles.root, { backgroundColor: colors.background }]}>
@@ -235,21 +249,73 @@ export function PlayScreen({ packId }: { packId: string }) {
   const tint = hues[hue];
   const index = pack.items.findIndex((item) => item.mine === null);
   const item = index >= 0 ? pack.items[index] : undefined;
-  const Step = STEPS[pack.mode];
+  const Step = (STEPS as Partial<Record<string, (props: StepProps) => ReactElement>>)[pack.mode];
   const send = (input: Omit<AnswerInput, 'question'>) => {
     if (item) answer.mutate({ question: item.id, ...input });
   };
+  // A failed answer is shown on its own item only, not on the next one.
+  const failed = answer.isError && answer.variables?.question === item?.id;
+
+  let step;
+  if (pack.locked) {
+    step = (
+      <View style={{ gap: spacing.md }}>
+        <Notice testID="pack-locked" icon={Lock} message={t('games.lockedPack')} />
+        <Button
+          testID="pack-unlock"
+          size="lg"
+          label={t('games.cta.locked')}
+          onPress={() => router.push('/premium')}
+        />
+      </View>
+    );
+  } else if (!Step) {
+    step = <Notice testID="pack-unsupported" tone="warning" message={t('games.unsupported')} />;
+  } else if (item) {
+    step = (
+      <>
+        <Step
+          pack={pack}
+          item={item}
+          tint={tint}
+          faces={faces}
+          busy={answer.isPending}
+          send={send}
+          onDrawing={setDrawing}
+        />
+        {failed ? (
+          <Notice testID="answer-error" tone="warning" message={t('games.sendError')} />
+        ) : null}
+        <Button
+          testID="answer-skip"
+          variant="ghost"
+          label={t('games.skip')}
+          disabled={answer.isPending}
+          onPress={() => send({ skipped: true })}
+        />
+      </>
+    );
+  }
 
   return (
-    <KeyboardAvoidingView
-      testID="pack-screen"
-      style={[styles.root, { backgroundColor: colors.background }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <View testID="pack-screen" style={[styles.root, { backgroundColor: colors.background }]}>
       {close}
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        scrollEnabled={pack.mode !== 'drawing' || !item}
+        keyboardDismissMode="interactive"
+        // iOS: the keyboard insets the content and the focused answer field scrolls into view.
+        automaticallyAdjustKeyboardInsets
+        // Still scrollable while drawing (small phones), but frozen while a finger draws.
+        scrollEnabled={!drawing}
+        refreshControl={
+          item ? undefined : (
+            <RefreshControl
+              refreshing={query.isRefetching}
+              onRefresh={() => void query.refetch()}
+              tintColor={colors.primary}
+            />
+          )
+        }
         contentContainerStyle={{
           padding: spacing.lg,
           gap: spacing.lg,
@@ -280,32 +346,13 @@ export function PlayScreen({ packId }: { packId: string }) {
         </View>
         {item ? (
           <FadeIn key={item.id}>
-            <View style={{ gap: spacing.md }}>
-              <Step
-                pack={pack}
-                item={item}
-                tint={tint}
-                faces={faces}
-                busy={answer.isPending}
-                send={send}
-              />
-              {answer.isError ? (
-                <Notice testID="answer-error" tone="warning" message={t('games.sendError')} />
-              ) : null}
-              <Button
-                testID="answer-skip"
-                variant="ghost"
-                label={t('games.skip')}
-                disabled={answer.isPending}
-                onPress={() => send({ skipped: true })}
-              />
-            </View>
+            <View style={{ gap: spacing.md }}>{step}</View>
           </FadeIn>
         ) : (
           <Results pack={pack} faces={faces} tint={tint} />
         )}
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

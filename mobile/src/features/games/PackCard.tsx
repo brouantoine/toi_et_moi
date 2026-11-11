@@ -133,9 +133,11 @@ export function PackCard({ pack, width }: Props) {
         />
       </View>
       <View style={[styles.row, styles.between]}>
-        <View style={[styles.row, styles.players]}>
+        <View style={styles.row}>
           <Player face={faces.me} done={pack.mine === pack.total} />
-          <Player face={faces.partner} done={pack.theirs === pack.total} />
+          <View style={styles.overlap}>
+            <Player face={faces.partner} done={pack.theirs === pack.total} />
+          </View>
         </View>
         <View
           style={[
@@ -174,7 +176,8 @@ const styles = StyleSheet.create({
   top: { alignItems: 'flex-start' },
   wrap: { flexWrap: 'wrap' },
   between: { justifyContent: 'space-between' },
-  players: { gap: -8 },
+  // Yoga ignores a negative gap: the second avatar overlaps through its margin.
+  overlap: { marginLeft: -8 },
   flex: { flex: 1 },
   title: { fontSize: 17, lineHeight: 22 },
   art: { width: 52, height: 52 },

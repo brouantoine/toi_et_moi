@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 import pytest
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from accounts.tests.factories import UserFactory
@@ -100,6 +103,15 @@ def test_regenerate_invitation_and_cancel_pending() -> None:
     assert a.delete(COUPLE).status_code == 204
     assert not Couple.objects.exists()
     assert a.post(INVITE).json() == {"code": "no_pending_couple"}
+
+
+def test_expired_invitation_is_not_shown_and_can_be_renewed() -> None:
+    alice = UserFactory()
+    a = client_for(alice)
+    a.post(COUPLE, {}, format="json")
+    Couple.objects.get().invitations.update(expires_at=timezone.now() - timedelta(minutes=1))
+    assert a.get(COUPLE).json()["invitation"] is None
+    assert a.post(INVITE).json()["invitation"]["code"]
 
 
 def test_cannot_regenerate_for_active_couple_or_cancel_it() -> None:

@@ -27,7 +27,7 @@ function BalanceCard({ balance }: { balance: Balance }) {
   const { t, i18n } = useTranslation();
   const { colors, radii, spacing } = useTheme();
   const person = usePersonLabel();
-  const { write, isPending } = useQueuedWrite(expensesKey);
+  const { write, isPending, error } = useQueuedWrite(expensesKey);
   const amount = formatMoney(balance.amount, balance.currency, i18n.language);
   const name = person('you');
   const text =
@@ -42,11 +42,12 @@ function BalanceCard({ balance }: { balance: Balance }) {
       {
         text: t('organize.budget.settle'),
         onPress: () =>
+          // A refusal is shown under the button (see `error`), never left unhandled.
           void write({
             method: 'POST',
             path: '/api/v1/expenses/settle/',
             body: { currency: balance.currency },
-          }),
+          }).catch(() => {}),
       },
     ]);
   return (
@@ -77,6 +78,11 @@ function BalanceCard({ balance }: { balance: Balance }) {
           onPress={settle}
         />
       )}
+      {error ? (
+        <Text variant="caption" color="onPrimarySoft" testID={`settle-error-${balance.currency}`}>
+          {t('organize.budget.settleError')}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -91,15 +97,17 @@ function ExpenseRow({ expense }: { expense: Expense }) {
   const hue = hues[CATEGORY_HUES[category]];
   const amount = formatMoney(expense.amount, expense.currency ?? 'EUR', i18n.language);
   const myShare = formatMoney(expense.my_share ?? 0, expense.currency ?? 'EUR', i18n.language);
-  const date = new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short' }).format(
-    fromIsoDate(expense.spent_on ?? ''),
-  );
+  const date = expense.spent_on
+    ? new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short' }).format(
+        fromIsoDate(expense.spent_on),
+      )
+    : '';
   const payer = t('organize.budget.paidBy', { name: person(expense.paid_by ?? 'me') });
   return (
     <PressableScale
       testID={`expense-${expense.id}`}
       accessibilityRole="button"
-      accessibilityLabel={`${expense.title}, ${amount}, ${payer}, ${date}`}
+      accessibilityLabel={[expense.title, amount, payer, date].filter(Boolean).join(', ')}
       onPress={() => router.push(`/organize/expense/${expense.id}`)}
       style={[
         surface,
@@ -115,7 +123,7 @@ function ExpenseRow({ expense }: { expense: Expense }) {
           {expense.title}
         </Text>
         <Text variant="caption" muted numberOfLines={1}>
-          {`${date} · ${payer}`}
+          {date ? `${date} · ${payer}` : payer}
         </Text>
       </View>
       <View style={styles.amount}>

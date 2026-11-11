@@ -21,7 +21,16 @@ export function Screen({ children, scroll = true, testID, wash = false }: Props)
     <SafeAreaView testID={testID} style={[styles.root, { backgroundColor: colors.background }]}>
       {wash ? <ScreenWash /> : null}
       {scroll ? (
-        <ScrollView contentContainerStyle={content}>{children}</ScrollView>
+        <ScrollView
+          contentContainerStyle={content}
+          // A tap on a button while typing acts at once (no tap lost to close the keyboard),
+          // and on iOS the content scrolls above the keyboard so the save button stays in reach.
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets
+        >
+          {children}
+        </ScrollView>
       ) : (
         <>{children}</>
       )}

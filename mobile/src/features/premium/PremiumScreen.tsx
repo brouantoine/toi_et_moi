@@ -69,7 +69,7 @@ export function PremiumScreen() {
                   key={id}
                   testID={`premium-plan-${id}`}
                   accessibilityRole="radio"
-                  accessibilityState={{ selected }}
+                  accessibilityState={{ checked: selected }}
                   onPress={() => setPlan(id)}
                   style={[
                     styles.plan,
@@ -113,7 +113,8 @@ export function PremiumScreen() {
           icon={X}
           variant="overlay"
           label={t('premium.close')}
-          onPress={() => router.back()}
+          // Opened from a link or a notification there may be nothing to go back to.
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         />
       </View>
     </View>

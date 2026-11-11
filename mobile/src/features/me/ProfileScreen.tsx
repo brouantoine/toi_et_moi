@@ -21,6 +21,14 @@ function ProfileForm({ me }: { me: Me }) {
 
   const firstNameError = firstName.trim() ? undefined : t('auth.errors.firstNameRequired');
 
+  /** Editing again clears the last "saved" or error message, so it never looks stale. */
+  const edit =
+    <T,>(set: (value: T) => void) =>
+    (value: T) => {
+      if (!update.isIdle && !update.isPending) update.reset();
+      set(value);
+    };
+
   const save = () => {
     if (firstNameError) return;
     update.mutate({
@@ -39,7 +47,7 @@ function ProfileForm({ me }: { me: Me }) {
         testID="profile-first-name"
         label={t('auth.fields.firstName')}
         value={firstName}
-        onChangeText={setFirstName}
+        onChangeText={edit(setFirstName)}
         error={firstNameError}
         autoComplete="given-name"
       />
@@ -48,14 +56,14 @@ function ProfileForm({ me }: { me: Me }) {
         label={t('profile.nickname')}
         hint={t('profile.nicknameHint')}
         value={nickname}
-        onChangeText={setNickname}
+        onChangeText={edit(setNickname)}
         maxLength={60}
       />
       <DateField
         testID="profile-birth-date"
         label={t('profile.birthDate')}
         value={birthDate}
-        onChange={setBirthDate}
+        onChange={edit(setBirthDate)}
         maximumDate={new Date()}
         clearable
       />
@@ -63,7 +71,7 @@ function ProfileForm({ me }: { me: Me }) {
         testID="profile-language"
         label={t('profile.language')}
         value={language}
-        onChange={setLanguage}
+        onChange={edit(setLanguage)}
         options={[
           { value: 'fr', label: 'Français' },
           { value: 'en', label: 'English' },
@@ -78,11 +86,11 @@ function ProfileForm({ me }: { me: Me }) {
           testID="profile-use-device-tz"
           variant="ghost"
           label={t('profile.useDeviceTimezone', { tz: deviceTz })}
-          onPress={() => setTimezone(deviceTz)}
+          onPress={() => edit(setTimezone)(deviceTz)}
         />
       ) : null}
       {update.isError ? (
-        <Text accessibilityRole="alert" testID="profile-error">
+        <Text accessibilityRole="alert" color="danger" testID="profile-error">
           {t(
             update.error instanceof ApiError && update.error.status === 400
               ? 'profile.invalid'

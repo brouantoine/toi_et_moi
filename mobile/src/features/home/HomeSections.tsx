@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 
 import { useCouple } from '@/features/couple/useCouple';
+import { usePartner } from '@/features/couple/usePartner';
 import { EMOJI } from '@/features/games/art';
 import { SectionTitle, StreakBadge } from '@/features/games/GamesScreen';
 import { PackCard } from '@/features/games/PackCard';
@@ -126,11 +127,21 @@ type NoteColor = NonNullable<Note['color']>;
 
 const NOTE_COLORS: readonly NoteColor[] = ['amber', 'red', 'sage', 'lagoon', 'violet'];
 
+/** Spoken name of each note colour (the couple-colour names, already translated). */
+const NOTE_COLOR_NAMES: Record<NoteColor, string> = {
+  amber: 'ambre',
+  red: 'rouge',
+  sage: 'sauge',
+  lagoon: 'lagon',
+  violet: 'violet',
+};
+
 function NotesSection() {
   const { t } = useTranslation();
   const { colors, hues, radii, spacing } = useTheme();
   const { notes } = useNotes();
   const { add, remove } = useNoteActions();
+  const partner = usePartner();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
   const [color, setColor] = useState<NoteColor>('amber');
@@ -154,6 +165,22 @@ function NotesSection() {
         onPress: () => remove.mutate(note.id),
       },
     ]);
+  // A tap reads the whole note (the card cuts it); my own notes can be deleted from there.
+  const openNote = (note: Note) =>
+    Alert.alert(
+      note.author === 'me' ? t('notes.fromMe') : (partner?.display_name ?? t('notes.title')),
+      note.text,
+      note.author === 'me'
+        ? [
+            { text: t('common.close'), style: 'cancel' },
+            {
+              text: t('memories.detail.deleteConfirm'),
+              style: 'destructive',
+              onPress: () => confirmDelete(note),
+            },
+          ]
+        : [{ text: t('common.close') }],
+    );
 
   return (
     <View style={{ gap: spacing.smd }}>
@@ -188,7 +215,7 @@ function NotesSection() {
             testID={`note-${note.id}`}
             accessibilityRole="button"
             accessibilityLabel={note.text}
-            onPress={() => {}}
+            onPress={() => openNote(note)}
             onLongPress={() => {
               if (note.author === 'me') confirmDelete(note);
             }}
@@ -229,8 +256,8 @@ function NotesSection() {
               key={item}
               testID={`note-color-${item}`}
               accessibilityRole="radio"
-              accessibilityLabel={`${t('notes.color')} ${item}`}
-              accessibilityState={{ selected: color === item }}
+              accessibilityLabel={`${t('notes.color')} ${t(`coupleInfo.colors.${NOTE_COLOR_NAMES[item]}`)}`}
+              accessibilityState={{ checked: color === item }}
               onPress={() => setColor(item)}
               style={[
                 styles.swatch,
@@ -372,14 +399,14 @@ export function HomeSections() {
       <FadeIn delay={60}>
         <Shortcuts />
       </FadeIn>
-      {home?.daily.length ? (
+      {home?.daily?.length ? (
         <FadeIn delay={120}>
           <View testID="home-daily" style={{ gap: spacing.smd }}>
             <View style={[styles.row, { gap: spacing.sm }]}>
               <View style={styles.flex}>
                 <SectionTitle title={t('games.dailyTitle')} hint={t('games.dailyHint')} />
               </View>
-              <StreakBadge streak={home.streak} />
+              {home.streak ? <StreakBadge streak={home.streak} /> : null}
             </View>
             {home.daily.map((pack) => (
               <PackCard key={pack.id} pack={pack} />
@@ -389,7 +416,7 @@ export function HomeSections() {
       ) : null}
       <PremiumCard />
       <NotesSection />
-      {home?.your_turn.length ? (
+      {home?.your_turn?.length ? (
         <View testID="home-your-turn" style={{ gap: spacing.smd }}>
           <SectionTitle title={t('games.yourTurnTitle')} />
           <ScrollView
@@ -405,7 +432,7 @@ export function HomeSections() {
         </View>
       ) : null}
       {start ? <TogetherTimer start={start} /> : null}
-      {home ? <StatsGrid stats={home.stats} /> : null}
+      {home?.stats ? <StatsGrid stats={home.stats} /> : null}
     </>
   );
 }
@@ -416,15 +443,6 @@ const styles = StyleSheet.create({
   center: { alignItems: 'center', justifyContent: 'center' },
   bold: { fontWeight: '700' },
   tabular: { fontVariant: ['tabular-nums'] },
-  bubble: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderBottomLeftRadius: 4,
-  },
-  dots: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
-  dot: { width: 6, height: 3, borderRadius: 2 },
-  pill: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, height: 32 },
   shortcut: { width: 96, height: 104, justifyContent: 'space-between', borderCurve: 'continuous' },
   shortcutArt: { width: 44, height: 44 },
   premium: { flexDirection: 'row', alignItems: 'center', borderCurve: 'continuous' },
@@ -436,7 +454,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   note: { width: 150, height: 150, borderCurve: 'continuous' },
-  swatch: { width: 40, height: 40, borderRadius: 20, borderWidth: 3 },
+  swatch: { width: 44, height: 44, borderRadius: 22, borderWidth: 3 },
   widget: { gap: 8, borderCurve: 'continuous' },
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
   stat: { flexBasis: '47%', flexGrow: 1, gap: 2, borderCurve: 'continuous' },

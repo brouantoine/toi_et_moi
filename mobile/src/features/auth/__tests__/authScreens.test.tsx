@@ -76,7 +76,14 @@ describe('LoginScreen', () => {
     await renderWithProviders(<LoginScreen />);
     await fireEvent.press(screen.getByTestId('login-to-register'));
     await fireEvent.press(screen.getByTestId('login-forgot'));
-    expect(routerMock().push.mock.calls).toEqual([['/register'], ['/forgot-password']]);
+    expect(routerMock().push.mock.calls).toEqual([['/forgot-password']]);
+    // Sign in and sign up swap places: no pile of screens to go back through.
+    expect(routerMock().replace).toHaveBeenCalledWith('/register');
+  });
+
+  it('has a round back button', async () => {
+    await renderWithProviders(<LoginScreen />);
+    expect(screen.getByTestId('back-button')).toBeTruthy();
   });
 });
 
@@ -150,5 +157,11 @@ describe('ForgotPasswordScreen', () => {
     await fireEvent.press(screen.getByTestId('forgot-submit'));
     expect(await screen.findByText('Regarde tes emails')).toBeTruthy();
     expect(urlOf(fetchMock.mock.calls[0]![0])).toContain('/api/v1/auth/password-reset/');
+    // Back to the sign-in screen it came from, not a second copy of it.
+    const router = routerMock() as ReturnType<typeof routerMock> & { canGoBack?: jest.Mock };
+    router.canGoBack = jest.fn(() => true);
+    await fireEvent.press(screen.getByTestId('forgot-back-to-login'));
+    expect(router.back).toHaveBeenCalled();
+    expect(router.push).not.toHaveBeenCalled();
   });
 });

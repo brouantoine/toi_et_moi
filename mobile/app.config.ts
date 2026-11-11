@@ -30,7 +30,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: '0.1.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
-  // White-dominant app: system dialogs, pickers and the keyboard stay light too.
+  // Follows the phone: white and red by day, red on black at night (expo-system-ui applies
+  // it on Android). System dialogs, pickers and the keyboard follow the same setting.
   userInterfaceStyle: 'automatic',
   ios: {
     supportsTablet: false,
@@ -67,7 +68,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-secure-store',
     'expo-apple-authentication',
-    ['expo-notifications', { color: '#B3132B', defaultChannel: 'default' }],
+    // Android notification icon tint: the Bolingo red (tokens `brand`).
+    ['expo-notifications', { color: '#D0112B', defaultChannel: 'default' }],
     [
       'expo-audio',
       {

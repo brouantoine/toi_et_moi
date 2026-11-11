@@ -284,9 +284,13 @@ it('plays a voice note', async () => {
   await fireEvent.press(
     await screen.findByRole('button', { name: 'Écouter la note vocale (0:04)' }),
   );
-  expect(
-    (jest.requireMock('expo-audio') as { __player: { play: jest.Mock } }).__player.play,
-  ).toHaveBeenCalled();
+  // Heard even with the phone on silent.
+  await waitFor(() =>
+    expect(
+      (jest.requireMock('expo-audio') as { __player: { play: jest.Mock } }).__player.play,
+    ).toHaveBeenCalled(),
+  );
+  expect(audio.setAudioModeAsync).toHaveBeenCalledWith({ playsInSilentMode: true });
 });
 
 it('deletes my own message after confirmation, never the other’s', async () => {
@@ -296,14 +300,70 @@ it('deletes my own message after confirmation, never the other’s', async () =>
     message(1, { text: 'Coucou' }),
   ]);
   await render();
+  // The other's message: copy only.
   await fireEvent(await screen.findByTestId('message-1'), 'longPress');
-  expect(alert).not.toHaveBeenCalled();
+  const theirs = alert.mock.calls[0]?.[2] as AlertButton[];
+  expect(theirs.map((b) => b.text)).toEqual(['Copier', 'Annuler']);
+  theirs[0]?.onPress?.();
+  expect(jest.requireMock('expo-clipboard').setStringAsync).toHaveBeenCalledWith('Coucou');
+
   await fireEvent(screen.getByTestId('message-2'), 'longPress');
-  (alert.mock.calls[0]?.[2] as AlertButton[]).find((b) => b.style === 'destructive')?.onPress?.();
+  const options = alert.mock.calls[1]?.[2] as AlertButton[];
+  options.find((b) => b.style === 'destructive')?.onPress?.();
+  // Then a confirmation, like WhatsApp.
+  expect(alert.mock.calls[2]?.[0]).toBe(i18n.t('messages.deleteTitle'));
+  (alert.mock.calls[2]?.[2] as AlertButton[]).find((b) => b.style === 'destructive')?.onPress?.();
   await waitFor(() => expect(screen.queryByText('Oups')).toBeNull());
   expect(writes(calls)).toEqual([
     { method: 'DELETE', path: '/api/v1/messages/2/', body: undefined },
   ]);
+});
+
+it('keeps a text that did not go, and sends it again on tap', async () => {
+  const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  const calls = backend();
+  const fetchMock = globalThis.fetch as unknown as jest.Mock<
+    Promise<Response>,
+    [Request, RequestInit?]
+  >;
+  const normal = fetchMock.getMockImplementation()!;
+  fetchMock.mockImplementation(async (arg, init) => {
+    const request = arg as Request;
+    if (request.method === 'POST' && new URL(request.url).pathname === '/api/v1/messages/') {
+      return jsonResponse({ code: 'server' }, 500);
+    }
+    return normal(arg, init);
+  });
+  await render();
+  await screen.findByTestId('messages-empty');
+  await fireEvent.changeText(screen.getByTestId('message-input'), 'Tu me manques');
+  await fireEvent.press(screen.getByTestId('message-send'));
+  expect(await screen.findByText('Non envoyé')).toBeTruthy();
+  expect(screen.getByText('Tu me manques')).toBeTruthy();
+  expect(screen.getByLabelText('Non envoyé', { exact: true })).toBeTruthy();
+
+  fetchMock.mockImplementation(normal);
+  const failed = screen.getByTestId(/^failed-/).props.testID.replace('failed-', '');
+  await fireEvent.press(screen.getByTestId(`message-${failed}`));
+  await act(async () => {
+    (alert.mock.calls[0]?.[2] as AlertButton[]).find((b) => b.text === 'Réessayer')?.onPress?.();
+  });
+  await waitFor(() => expect(screen.queryByText('Non envoyé')).toBeNull());
+  await waitFor(() =>
+    expect(writes(calls).filter((c) => c.path === '/api/v1/messages/')).toHaveLength(1),
+  );
+  expect(await screen.findByText('Tu me manques')).toBeTruthy();
+});
+
+it('groups the thread by day', async () => {
+  backend([
+    message(2, { text: 'Ce matin', created_at: new Date().toISOString() }),
+    message(1, { text: 'Il y a longtemps', created_at: '2025-03-02T12:00:00Z' }),
+  ]);
+  await render();
+  await screen.findByText('Ce matin');
+  expect(screen.getByText('Aujourd’hui')).toBeTruthy();
+  expect(screen.getAllByTestId(/^day-/)).toHaveLength(2);
 });
 
 it('has calm loading and error states', async () => {

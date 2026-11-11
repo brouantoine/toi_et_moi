@@ -1,18 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { ApiError } from '@/api';
-import { Button, Screen, Text } from '@/ui';
+import { Button, Text } from '@/ui';
 
 import { FormField } from './FormField';
+import { FormScreen } from './FormScreen';
 import { SocialButtons } from './social/SocialButtons';
 import { registerSchema, type RegisterForm } from './schemas';
 import { registerFieldError, useRegister } from './useAuthActions';
 
 export function RegisterScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const register = useRegister();
   const { control, handleSubmit, setError } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
@@ -36,7 +38,7 @@ export function RegisterScreen() {
       : null;
 
   return (
-    <Screen testID="register-screen">
+    <FormScreen testID="register-screen">
       <Text variant="title">{t('auth.register.title')}</Text>
       <Text muted>{t('auth.register.subtitle')}</Text>
       <FormField
@@ -68,7 +70,7 @@ export function RegisterScreen() {
         testID="register-password"
       />
       {generalError ? (
-        <Text accessibilityRole="alert" testID="register-error">
+        <Text accessibilityRole="alert" testID="register-error" color="danger">
           {generalError}
         </Text>
       ) : null}
@@ -79,9 +81,12 @@ export function RegisterScreen() {
         onPress={onSubmit}
       />
       <SocialButtons />
-      <Link href="/login" testID="register-to-login">
-        <Text muted>{t('auth.register.haveAccount')}</Text>
-      </Link>
-    </Screen>
+      <Button
+        testID="register-to-login"
+        variant="ghost"
+        label={t('auth.register.haveAccount')}
+        onPress={() => router.replace('/login')}
+      />
+    </FormScreen>
   );
 }

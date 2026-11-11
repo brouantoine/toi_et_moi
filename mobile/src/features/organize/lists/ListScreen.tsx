@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { ArrowDown, ArrowUp, Check, ChevronLeft, Plus, Trash2, X } from 'lucide-react-native';
+import { ArrowDown, ArrowUp, Check, Plus, Trash2, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Pressable, StyleSheet, TextInput, View } from 'react-native';
@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
 import {
+  BackButton,
   Button,
   EmptyState,
   ErrorState,
@@ -77,18 +78,27 @@ function ItemRow({
       </Pressable>
       {reordering ? (
         <>
-          <IconButton
-            icon={ArrowUp}
-            variant="plain"
-            label={t('organize.lists.moveUp', { text: item.text })}
-            onPress={() => !isFirst && onMove(-1)}
-          />
-          <IconButton
-            icon={ArrowDown}
-            variant="plain"
-            label={t('organize.lists.moveDown', { text: item.text })}
-            onPress={() => !isLast && onMove(1)}
-          />
+          {/* At the edges the arrow is left out (an empty slot keeps the column aligned). */}
+          {isFirst ? (
+            <View style={styles.slot} />
+          ) : (
+            <IconButton
+              icon={ArrowUp}
+              variant="plain"
+              label={t('organize.lists.moveUp', { text: item.text })}
+              onPress={() => onMove(-1)}
+            />
+          )}
+          {isLast ? (
+            <View style={styles.slot} />
+          ) : (
+            <IconButton
+              icon={ArrowDown}
+              variant="plain"
+              label={t('organize.lists.moveDown', { text: item.text })}
+              onPress={() => onMove(1)}
+            />
+          )}
         </>
       ) : (
         <IconButton
@@ -129,11 +139,14 @@ export function ListScreen({ listId }: { listId: number }) {
         text: t('memories.detail.deleteConfirm'),
         style: 'destructive',
         onPress: () => {
+          // Gone or not, the list is left; a refusal comes back with the next refresh.
           void write({
             method: 'DELETE',
             path: '/api/v1/lists/{id}/',
             pathParams: { id: listId },
-          }).finally(() => router.back());
+          })
+            .catch(() => {})
+            .finally(() => router.back());
         },
       },
     ]);
@@ -204,13 +217,7 @@ export function ListScreen({ listId }: { listId: number }) {
       style={[styles.root, { backgroundColor: colors.background }]}
     >
       <View style={[styles.topBar, { paddingHorizontal: spacing.md, gap: spacing.xs }]}>
-        <IconButton
-          testID="list-back"
-          icon={ChevronLeft}
-          variant="plain"
-          label={t('organize.lists.back')}
-          onPress={() => router.back()}
-        />
+        <BackButton testID="list-back" />
         <Text variant="heading" numberOfLines={1} style={styles.flex}>
           {list?.title ?? ''}
         </Text>
@@ -296,4 +303,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   done: { textDecorationLine: 'line-through' },
+  slot: { width: MIN_TOUCH_TARGET, height: MIN_TOUCH_TARGET },
 });

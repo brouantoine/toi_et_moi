@@ -16,7 +16,7 @@ type Props = Omit<TextInputProps, 'style' | 'value' | 'onChangeText'> & {
 
 /** Compact search field: tinted pill, leading magnifier, clear button when filled. */
 export function SearchField({ value, onChangeText, label, clearLabel, testID, ...rest }: Props) {
-  const { colors, radii, spacing, typography } = useTheme();
+  const { colors, radii, scheme, spacing, typography } = useTheme();
   return (
     <View
       style={[
@@ -36,6 +36,9 @@ export function SearchField({ value, onChangeText, label, clearLabel, testID, ..
         value={value}
         onChangeText={onChangeText}
         placeholderTextColor={colors.textMuted}
+        selectionColor={colors.primary}
+        cursorColor={colors.primary}
+        keyboardAppearance={scheme}
         returnKeyType="search"
         autoCorrect={false}
         style={[styles.input, typography.body, { color: colors.text }]}

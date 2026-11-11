@@ -5,7 +5,7 @@ import { Check, Trash2, X } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Animated, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { api, ApiError, unwrap } from '@/api';
@@ -24,8 +24,11 @@ import {
 } from '@/ui';
 
 import { useQueuedWrite } from '../agenda/useAgenda';
+import { FormFallback } from '../FormFallback';
+import { useKeyboardInset } from '../useKeyboardInset';
 import { usePersonLabel } from '../usePersonLabel';
 import { CATEGORY_HUES, CATEGORY_ICONS } from './categories';
+import { amountText } from './money';
 import {
   emptyExpenseForm,
   expensePayload,
@@ -45,15 +48,22 @@ export function ExpenseFormScreen({ expenseId }: { expenseId?: number }) {
     enabled: expenseId !== undefined,
   });
   const couple = useCouple();
-  if ((expenseId !== undefined && existing.isPending) || couple.isPending)
-    return <LoadingState testID="expense-form-loading" />;
+  if ((expenseId !== undefined && existing.isPending) || couple.isPending) {
+    return (
+      <FormFallback closeTestID="expense-form-close">
+        <LoadingState testID="expense-form-loading" />
+      </FormFallback>
+    );
+  }
   if (expenseId !== undefined && existing.isError) {
     return (
-      <ErrorState
-        testID="expense-form-error"
-        code={existing.error instanceof ApiError ? existing.error.code : 'network'}
-        onRetry={() => void existing.refetch()}
-      />
+      <FormFallback closeTestID="expense-form-close">
+        <ErrorState
+          testID="expense-form-error"
+          code={existing.error instanceof ApiError ? existing.error.code : 'network'}
+          onRetry={() => void existing.refetch()}
+        />
+      </FormFallback>
     );
   }
   const currency = existing.data?.currency ?? couple.data?.currency ?? 'EUR';
@@ -67,6 +77,7 @@ function ExpenseForm({ initial, currency }: { initial?: Expense; currency: strin
   const person = usePersonLabel();
   const { write, isPending } = useQueuedWrite(expensesKey);
   const [failed, setFailed] = useState(false);
+  const { ref: keyboardRef, inset: keyboardInset } = useKeyboardInset();
   const isEdit = initial !== undefined;
   const schema = useMemo(() => expenseSchema(currency), [currency]);
   const { control, handleSubmit } = useForm<ExpenseFormValues>({
@@ -133,12 +144,10 @@ function ExpenseForm({ initial, currency }: { initial?: Expense; currency: strin
         </Text>
         <View style={styles.spacer} />
       </View>
-      <KeyboardAvoidingView
-        style={styles.root}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+      <Animated.View ref={keyboardRef} style={[styles.root, { paddingBottom: keyboardInset }]}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
           contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}
         >
           {failed ? (
@@ -171,7 +180,7 @@ function ExpenseForm({ initial, currency }: { initial?: Expense; currency: strin
                 testID="expense-form-amount"
                 label={t('organize.budget.form.amountLabel', { currency })}
                 keyboardType="decimal-pad"
-                placeholder="0,00"
+                placeholder={amountText(0, currency, i18n.language)}
                 value={field.value}
                 onChangeText={field.onChange}
                 error={errorText(fieldState.error?.message)}
@@ -294,7 +303,7 @@ function ExpenseForm({ initial, currency }: { initial?: Expense; currency: strin
             onPress={() => void submit()}
           />
         </View>
-      </KeyboardAvoidingView>
+      </Animated.View>
     </SafeAreaView>
   );
 }

@@ -8,5 +8,5 @@ export function usePartner() {
   const couple = useCouple();
   const myId = me.data?.id;
   if (myId === undefined) return null;
-  return couple.data?.members.find((member) => member.id !== myId) ?? null;
+  return couple.data?.members?.find((member) => member.id !== myId) ?? null;
 }

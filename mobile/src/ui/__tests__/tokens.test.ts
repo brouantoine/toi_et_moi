@@ -54,3 +54,40 @@ describe.each(schemes)('%s couple accents meet WCAG AA', (scheme) => {
     expect(contrastRatio(p.textMuted, p.primarySoft)).toBeGreaterThanOrEqual(AA_TEXT);
   });
 });
+
+/** WCAG 1.4.11: icons, borders and other graphics need 3:1 against what they sit on. */
+const AA_GRAPHIC = 3;
+
+describe.each(schemes)('%s red shades and wash stay readable', (scheme) => {
+  it.each(ACCENT_IDS)('%s', (accent) => {
+    const p = paletteFor(scheme, accent);
+    // Titles and captions sit on the top of the wash, where it is the most saturated.
+    expect(contrastRatio(p.text, p.wash)).toBeGreaterThanOrEqual(AA_TEXT);
+    expect(contrastRatio(p.textMuted, p.wash)).toBeGreaterThanOrEqual(AA_TEXT);
+    // Buttons, icons and the round back button over the wash.
+    expect(contrastRatio(p.primary, p.wash)).toBeGreaterThanOrEqual(AA_GRAPHIC);
+    // Selected state on a rose-red fill (border, check badge).
+    expect(contrastRatio(p.primary, p.primarySoft)).toBeGreaterThanOrEqual(AA_GRAPHIC);
+    // Links and ghost buttons on the sunken grey fills.
+    expect(contrastRatio(p.primary, p.surfaceMuted)).toBeGreaterThanOrEqual(AA_GRAPHIC);
+    // The Bolingo red (logo, loader) reads on every background, wash included.
+    expect(contrastRatio(p.brand, p.background)).toBeGreaterThanOrEqual(AA_GRAPHIC);
+    expect(contrastRatio(p.brand, p.surface)).toBeGreaterThanOrEqual(AA_GRAPHIC);
+    expect(contrastRatio(p.brand, p.wash)).toBeGreaterThanOrEqual(AA_GRAPHIC);
+  });
+});
+
+describe.each(schemes)('%s night-safe pairs', (scheme) => {
+  const p = palettes[scheme];
+  it.each([
+    ['danger on surface (sheets, cards)', p.danger, p.surface],
+    ['danger on muted surface (field errors)', p.danger, p.surfaceMuted],
+    ['on-primary-soft on background', p.onPrimarySoft, p.background],
+  ])('%s', (_label, fg, bg) => {
+    expect(contrastRatio(fg, bg)).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+
+  it('keeps the default red the Bolingo red', () => {
+    expect(p.primary).toBe(p.brand);
+  });
+});

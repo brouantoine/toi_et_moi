@@ -13,13 +13,14 @@ import { Button, Celebration, Notice, Text, useTheme, type HueColors } from '@/u
 
 import { DrawingView } from './Drawing';
 import { Player, type Face } from './PackCard';
-import type { GivenAnswer, PackDetail, PackItem, Stroke } from './useGames';
+import type { GivenAnswer, PackDetail, PackItem } from './useGames';
 
 type Faces = { me: Face; partner: Face };
 
 /** A half ring filled up to `percent`. */
-export function SimilarityGauge({ percent, tint }: { percent: number; tint: HueColors }) {
+export function SimilarityGauge({ percent: raw, tint }: { percent: number; tint: HueColors }) {
   const { t } = useTranslation();
+  const percent = Math.max(0, Math.min(100, Math.round(raw)));
   const size = 220;
   const stroke = 22;
   const r = (size - stroke) / 2;
@@ -116,19 +117,24 @@ function ChoiceRow({
           <Text variant="label" style={[styles.center, { color: tint.fg }]}>
             {label}
           </Text>
-          <View style={[styles.faces, { gap: -6 }]}>
+          <View style={styles.faces}>
             {mine === index ? <Player face={faces.me} done={false} size={30} /> : null}
-            {theirs === index ? <Player face={faces.partner} done={false} size={30} /> : null}
+            {theirs === index ? (
+              <View style={mine === index ? styles.overlap : undefined}>
+                <Player face={faces.partner} done={false} size={30} />
+              </View>
+            ) : null}
           </View>
         </View>
       ))}
-      {item.mine?.skipped || item.theirs?.skipped ? (
-        <Text variant="caption" muted style={styles.skippedNote}>
-          {t('games.results.skippedBy', {
-            name: item.mine?.skipped ? faces.me.name : faces.partner.name,
-          })}
-        </Text>
-      ) : null}
+      {[item.mine?.skipped ? faces.me : null, item.theirs?.skipped ? faces.partner : null].map(
+        (face, index) =>
+          face ? (
+            <Text key={index} variant="caption" muted style={styles.skippedNote}>
+              {t('games.results.skippedBy', { name: face.name })}
+            </Text>
+          ) : null,
+      )}
     </View>
   );
 }
@@ -149,8 +155,7 @@ function Given({
   let body;
   if (!answer) body = <Text muted>{t('games.results.notYet')}</Text>;
   else if (answer.skipped) body = <Text muted>{t('games.results.skipped')}</Text>;
-  else if (mode === 'drawing')
-    body = <DrawingView strokes={answer.drawing as unknown as Stroke[]} size={width} />;
+  else if (mode === 'drawing') body = <DrawingView strokes={answer.drawing} size={width} />;
   else if (mode === 'photo')
     body = answer.photo_url ? (
       <Image
@@ -159,7 +164,7 @@ function Given({
         contentFit="cover"
       />
     ) : null;
-  else body = <Text>{answer.text}</Text>;
+  else body = <Text selectable>{answer.text}</Text>;
   return (
     <View style={[styles.given, { gap: spacing.sm, width: mode === 'text' ? undefined : width }]}>
       <View style={[styles.row, { gap: spacing.sm }]}>
@@ -254,6 +259,7 @@ const styles = StyleSheet.create({
   column: { flex: 1, alignItems: 'center', minHeight: 64 },
   optionArt: { width: 36, height: 36 },
   faces: { flexDirection: 'row', minHeight: 32 },
+  overlap: { marginLeft: -6 },
   skippedNote: { width: '100%', textAlign: 'center' },
   given: {},
   row: { flexDirection: 'row', alignItems: 'center' },
