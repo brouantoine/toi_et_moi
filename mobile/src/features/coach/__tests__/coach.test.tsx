@@ -2,7 +2,13 @@ import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { Alert } from 'react-native';
 
 import i18n from '@/i18n';
-import { jsonResponse, mockFetch, renderWithProviders, requestBody } from '@/test-utils';
+import {
+  jsonResponse,
+  mockFetch,
+  renderWithProviders,
+  requestBody,
+  routerMock,
+} from '@/test-utils';
 
 import { CoachScreen } from '../CoachScreen';
 
@@ -13,6 +19,7 @@ const off = {
   available: true,
   consent: { mine: false, partner: false },
   active: false,
+  access: { state: 'trial', trial_ends_at: null, days_left: 30 },
   thinking: false,
   messages: [],
 };
@@ -20,6 +27,7 @@ const on = {
   available: true,
   consent: { mine: true, partner: true },
   active: true,
+  access: { state: 'trial', trial_ends_at: null, days_left: 30 },
   thinking: false,
   messages: [
     {
@@ -130,4 +138,25 @@ it('gives the message back in the field when it could not be sent', async () => 
   await fireEvent.press(screen.getByTestId('coach-send'));
   expect(await screen.findByTestId('coach-send-error')).toBeTruthy();
   expect(screen.getByTestId('coach-input').props.value).toBe('Aide-nous');
+});
+
+describe('free month, then Plus', () => {
+  it('shows the days left, then a Plus wall that keeps the thread readable', async () => {
+    backend({
+      ...on,
+      access: { state: 'trial', trial_ends_at: '2026-12-10T10:00:00Z', days_left: 3 },
+    });
+    await renderWithProviders(<CoachScreen />);
+    expect(await screen.findByText('Essai gratuit : encore 3 jours')).toBeTruthy();
+
+    backend({
+      ...on,
+      access: { state: 'expired', trial_ends_at: '2026-11-01T10:00:00Z', days_left: 0 },
+    });
+    await renderWithProviders(<CoachScreen />);
+    expect(await screen.findByTestId('coach-plus-wall')).toBeTruthy();
+    expect(screen.getByTestId('coach-input').props.editable).toBe(false);
+    await fireEvent.press(screen.getByTestId('coach-go-plus'));
+    expect(routerMock().push).toHaveBeenCalledWith('/premium');
+  });
 });

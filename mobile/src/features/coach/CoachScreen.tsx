@@ -1,5 +1,6 @@
 import { Image } from 'expo-image';
-import { Send, ShieldCheck, Trash2 } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
+import { Crown, Send, ShieldCheck, Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -32,7 +33,70 @@ import {
 
 import { useCoach, useCoachActions, type CoachMessage, type CoachThread } from './useCoach';
 
-const INTRO = [1, 2, 3, 4] as const;
+const INTRO = [1, 2, 3, 4, 5] as const;
+
+/** Free month running: how many days are left, and the way to Plus. */
+function TrialBar({ thread }: { thread: CoachThread }) {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { colors, radii, spacing } = useTheme();
+  const { state, days_left: daysLeft, trial_ends_at: endsAt } = thread.access;
+  if (state !== 'trial' || !endsAt || daysLeft == null) return null;
+  return (
+    <View
+      testID="coach-trial"
+      style={[
+        styles.row,
+        {
+          gap: spacing.sm,
+          marginHorizontal: spacing.lg,
+          paddingHorizontal: spacing.md,
+          paddingVertical: spacing.xs,
+          borderRadius: radii.pill,
+          backgroundColor: colors.primarySoft,
+        },
+      ]}
+    >
+      <Icon icon={Crown} size={16} color="onPrimarySoft" />
+      <Text variant="caption" color="onPrimarySoft" style={styles.flex}>
+        {t('coach.trialLeft', { count: daysLeft })}
+      </Text>
+      <Button
+        testID="coach-trial-plus"
+        variant="ghost"
+        label={t('coach.goPlus')}
+        onPress={() => router.push('/premium')}
+      />
+    </View>
+  );
+}
+
+/** The free month is over: the thread stays readable, writing needs Plus. */
+function PlusWall() {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { spacing } = useTheme();
+  return (
+    <View style={{ paddingHorizontal: spacing.md, paddingTop: spacing.sm }}>
+      <Card testID="coach-plus-wall">
+        <View style={[styles.row, { gap: spacing.sm }]}>
+          <Icon icon={Crown} size={22} color="primary" />
+          <Text variant="heading" style={styles.flex}>
+            {t('coach.trialOverTitle')}
+          </Text>
+        </View>
+        <Text muted>{t('coach.trialOverMessage')}</Text>
+        <Button
+          testID="coach-go-plus"
+          size="lg"
+          icon={Crown}
+          label={t('coach.goPlus')}
+          onPress={() => router.push('/premium')}
+        />
+      </Card>
+    </View>
+  );
+}
 
 /** Before the coach opens: what it is, and each partner turning it on for themselves. */
 function Intro({ thread, partnerName }: { thread: CoachThread; partnerName: string }) {
@@ -127,7 +191,8 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
   const { send, erase, consent } = useCoachActions();
   const [text, setText] = useState('');
   const messages = [...thread.messages].reverse();
-  const canSend = thread.available && !send.isPending && text.trim().length > 0;
+  const expired = thread.access.state === 'expired';
+  const canSend = thread.available && !expired && !send.isPending && text.trim().length > 0;
 
   const submit = () => {
     const clean = text.trim();
@@ -165,6 +230,7 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
           <Notice testID="coach-unavailable" message={t('coach.unavailable')} />
         </View>
       )}
+      <TrialBar thread={thread} />
       <FlatList
         testID="coach-list"
         inverted
@@ -194,6 +260,7 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
           <Notice testID="coach-action-error" tone="warning" message={t('coach.actionError')} />
         </View>
       ) : null}
+      {expired ? <PlusWall /> : null}
       <View
         style={[
           styles.composer,
@@ -212,7 +279,7 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
           placeholderTextColor={colors.textMuted}
           value={text}
           onChangeText={setText}
-          editable={thread.available}
+          editable={thread.available && !expired}
           multiline
           maxLength={2000}
           style={[
@@ -227,19 +294,14 @@ function Conversation({ thread, partnerName }: { thread: CoachThread; partnerNam
           ]}
         />
         {/* Dimmed and inert until there is something to send. */}
-        <View
-          style={{ opacity: canSend ? 1 : 0.45 }}
-          pointerEvents={canSend ? 'auto' : 'none'}
-          accessibilityState={{ disabled: !canSend }}
-        >
-          <IconButton
-            testID="coach-send"
-            icon={Send}
-            variant="primary"
-            label={t('coach.send')}
-            onPress={submit}
-          />
-        </View>
+        <IconButton
+          testID="coach-send"
+          icon={Send}
+          variant="primary"
+          label={t('coach.send')}
+          disabled={!canSend}
+          onPress={submit}
+        />
       </View>
       {/* The home indicator sits under this last row, not under the composer. */}
       <View style={[styles.center, { paddingBottom: Math.max(insets.bottom, spacing.xs) }]}>

@@ -73,7 +73,7 @@ def is_premium(pack: Pack) -> bool:
 
 def is_locked(couple: Couple, pack: Pack) -> bool:
     """Premium packs lock only once subscriptions exist (no purchase yet: all open)."""
-    return premium_enforced() and is_premium(pack) and not getattr(couple, "premium", False)
+    return premium_enforced() and is_premium(pack) and not couple.premium
 
 
 def _visible(couple: Couple, user: User) -> list[Pack]:

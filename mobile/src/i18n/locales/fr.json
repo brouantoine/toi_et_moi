@@ -692,7 +692,7 @@
     "waitingFor": "En attente de {{name}}. Vos résultats s’afficheront dès que vous aurez terminé tous les deux.",
     "adultBadge": "18+",
     "locked": "Verrouillé",
-    "lockedPack": "Ce jeu fait partie de Bolingo Premium.",
+    "lockedPack": "Ce jeu fait partie de Bolingo Plus.",
     "unsupported": "Ce jeu demande une version plus récente de l’app. Mets-la à jour pour y jouer.",
     "adultError": "Le réglage n’a pas pu être enregistré. Réessaie.",
     "adultTitle": "Jeux réservés aux adultes",
@@ -769,7 +769,7 @@
       "notes": "Notes partagées"
     },
     "morningTitle": "Votre météo du jour",
-    "premiumTitle": "Bolingo Premium",
+    "premiumTitle": "Bolingo Plus",
     "premiumText": "Tous les jeux, des parcours guidés et les widgets, pour vous deux.",
     "premiumCta": "Découvrir"
   },
@@ -786,7 +786,7 @@
     "error": "La note n’a pas pu être enregistrée."
   },
   "premium": {
-    "title": "Essaie Bolingo Premium",
+    "title": "Essaie Bolingo Plus",
     "partnerFree": "{{name}} n’a pas à payer",
     "partnerFreeAlone": "Un seul achat pour vous deux",
     "monthly": "Mensuel",
@@ -798,10 +798,10 @@
     "restore": "Restaurer",
     "notYet": "Les achats seront activés à la publication de l’app sur les stores. Rien n’est débité pour le moment.",
     "close": "Fermer",
-    "feature1": "Premium pour vous deux",
+    "feature1": "Bolingo Plus pour vous deux",
     "feature2": "Tous les sujets et tous les jeux",
     "feature3": "Parcours guidés de 7 jours",
-    "feature4": "Coach IA partagé",
+    "feature4": "Coach IA partagé, sans limite après le mois offert",
     "feature5": "Widgets de l’écran d’accueil"
   },
   "coach": {
@@ -828,7 +828,13 @@
     "eraseTitle": "Effacer toute la conversation ?",
     "eraseMessage": "Elle sera effacée pour vous deux.",
     "eraseConfirm": "Effacer",
-    "writing": "Le coach écrit…"
+    "writing": "Le coach écrit…",
+    "intro5": "Gratuit pendant un mois dès que vous l’ouvrez tous les deux, puis inclus dans Bolingo Plus.",
+    "trialLeft_one": "Essai gratuit : encore {{count}} jour",
+    "trialLeft_other": "Essai gratuit : encore {{count}} jours",
+    "goPlus": "Passer à Plus",
+    "trialOverTitle": "Votre mois d’essai est terminé",
+    "trialOverMessage": "Vous pouvez relire toute votre conversation. Pour continuer à écrire au coach, passez à Bolingo Plus : un seul abonnement pour vous deux."
   },
   "avatar": {
     "title": "Ta photo de profil",

@@ -1351,6 +1351,23 @@ export interface components {
       /** @description ISO 3166-1 alpha-2 code. */
       country: string;
     };
+    CoachAccess: {
+      state: components['schemas']['CoachAccessStateEnum'];
+      /**
+       * Format: date-time
+       * @description Null while the free month has not started, and with Plus.
+       */
+      trial_ends_at: string | null;
+      /** @description Days of free month left. */
+      days_left: number | null;
+    };
+    /**
+     * @description * `trial` - trial
+     *     * `plus` - plus
+     *     * `expired` - expired
+     * @enum {string}
+     */
+    CoachAccessStateEnum: 'trial' | 'plus' | 'expired';
     CoachConsent: {
       mine: boolean;
       partner: boolean;
@@ -1382,6 +1399,7 @@ export interface components {
       consent: components['schemas']['CoachConsent'];
       /** @description Both partners turned the coach on. */
       active: boolean;
+      access: components['schemas']['CoachAccess'];
       /** @description The coach is writing its answer. */
       thinking: boolean;
       messages: components['schemas']['CoachMessage'][];
@@ -1875,7 +1893,7 @@ export interface components {
       mine: number;
       /** @description Items my partner answered. */
       theirs: number;
-      state: components['schemas']['StateEnum'];
+      state: components['schemas']['StateE13Enum'];
       similarity: number | null;
     };
     PackDetail: {
@@ -1895,7 +1913,7 @@ export interface components {
       mine: number;
       /** @description Items my partner answered. */
       theirs: number;
-      state: components['schemas']['StateEnum'];
+      state: components['schemas']['StateE13Enum'];
       similarity: number | null;
       mode: components['schemas']['ModeEnum'];
       items: components['schemas']['Item'][];
@@ -2191,7 +2209,7 @@ export interface components {
      *     * `done` - done
      * @enum {string}
      */
-    StateEnum: 'new' | 'in_progress' | 'your_turn' | 'waiting' | 'done';
+    StateE13Enum: 'new' | 'in_progress' | 'your_turn' | 'waiting' | 'done';
     Stats: {
       days_together: number | null;
       answered_percent: number;

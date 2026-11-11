@@ -34,7 +34,7 @@ from notifications.models import Kind
 from notifications.services import notify, preference_for
 
 from . import messages, prompts
-from .models import CoachConsent, CoachMessage, CoachRole
+from .models import CoachConsent, CoachMessage, CoachRole, CoachTrial
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +67,31 @@ def active(couple: Couple, user: User) -> bool:
     return consented(user) and consented(couple.partner_of(user))
 
 
+def access(couple: Couple) -> dict[str, Any]:
+    """Free month from the first time the coach opened for both, then Bolingo Plus.
+
+    state: "plus" (subscribed), "trial" (free month running or not started yet),
+    "expired" (free month over, Plus needed).
+    """
+    if couple.premium:
+        return {"state": "plus", "trial_ends_at": None, "days_left": None}
+    trial = CoachTrial.objects.filter(couple=couple).first()
+    days = settings.COACH_TRIAL_DAYS
+    if trial is None:
+        return {"state": "trial", "trial_ends_at": None, "days_left": days}
+    ends = trial.started_at + timedelta(days=days)
+    remaining = ends - timezone.now()
+    if remaining.total_seconds() <= 0:
+        return {"state": "expired", "trial_ends_at": ends, "days_left": 0}
+    # A started day counts as a day left: "1 day left" until the very end.
+    days_left = remaining.days + (1 if remaining.seconds or remaining.microseconds else 0)
+    return {"state": "trial", "trial_ends_at": ends, "days_left": days_left}
+
+
+def allowed(couple: Couple) -> bool:
+    return bool(access(couple)["state"] != "expired")
+
+
 def _author(message: CoachMessage, reader: User) -> str:
     if message.role != CoachRole.PARTNER:
         return str(message.role)
@@ -75,17 +100,22 @@ def _author(message: CoachMessage, reader: User) -> str:
 
 def thread(couple: Couple, user: User) -> dict[str, Any]:
     is_active = active(couple, user)
+    if is_active:
+        # Couples who turned the coach on before the free month existed start it now.
+        CoachTrial.objects.get_or_create(couple=couple)
     stored = list(CoachMessage.objects.filter(couple=couple)) if is_active else []
     last = stored[-1] if stored else None
     return {
         "available": available(),
         "consent": {"mine": consented(user), "partner": consented(couple.partner_of(user))},
         "active": is_active,
+        "access": access(couple),
         # The coach is writing: a partner spoke last, recently, and it can answer.
         "thinking": bool(
             last
             and last.role == CoachRole.PARTNER
             and available()
+            and allowed(couple)
             and timezone.now() - last.created_at < THINKING_FOR
         ),
         "messages": [
@@ -102,6 +132,9 @@ def thread(couple: Couple, user: User) -> dict[str, Any]:
 
 def set_consent(couple: Couple, user: User, enabled: bool) -> None:
     CoachConsent.objects.update_or_create(user=user, defaults={"enabled": enabled})
+    if active(couple, user):
+        # The free month starts the first time the coach opens for both of you.
+        CoachTrial.objects.get_or_create(couple=couple)
     notify_changed(couple.pk, "coach", 0, "consent")
 
 
@@ -113,6 +146,8 @@ def post(couple: Couple, user: User, text: str) -> CoachMessage:
         raise CoachError("not_active")
     if not available():
         raise CoachError("unavailable")
+    if not allowed(couple):
+        raise CoachError("plus_required")
     message = CoachMessage(couple=couple, author=user, role=CoachRole.PARTNER)
     message.text = text
     message.save()
@@ -286,6 +321,8 @@ def answer(couple_id: int, message_id: int) -> None:
     members = list(couple.members.all())
     if len(members) != 2 or not all(consented(member) for member in members):
         return
+    if not allowed(couple):
+        return  # the free month ended while the message was waiting
     history = list(
         CoachMessage.objects.filter(couple=couple)
         .select_related("author")

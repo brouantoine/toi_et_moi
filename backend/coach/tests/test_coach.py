@@ -64,6 +64,7 @@ def test_needs_both_partners_before_anything_is_said(claude) -> None:
         "available": True,
         "consent": {"mine": False, "partner": False},
         "active": False,
+        "access": {"state": "trial", "trial_ends_at": None, "days_left": 30},
         "thinking": False,
         "messages": [],
     }
@@ -267,3 +268,72 @@ def test_openrouter_retries_a_dropped_connection_once(monkeypatch, settings) -> 
     monkeypatch.setattr(services, "_post_json", dropped)
     assert services.ask_openrouter(system_blocks("A", "B", "fr"), []) is None
     assert len(calls) == services.OPENROUTER_ATTEMPTS
+
+
+@KEY
+def test_one_free_month_from_the_first_opening_then_plus(claude) -> None:
+    from datetime import timedelta
+
+    from django.utils import timezone
+
+    from coach.models import CoachTrial
+
+    couple, me, partner = make_couple()
+    turn_on(me)
+    assert not CoachTrial.objects.exists()  # not open for both yet: nothing counts
+    turn_on(partner)
+    data = client_for(me).get(THREAD).json()
+    assert data["access"]["state"] == "trial" and data["access"]["days_left"] == 30
+    assert client_for(me).post(POST, {"text": "Bonjour"}, format="json").status_code == 201
+
+    CoachTrial.objects.filter(couple=couple).update(
+        started_at=timezone.now() - timedelta(days=29, hours=1)
+    )
+    assert client_for(me).get(THREAD).json()["access"]["days_left"] == 1
+
+    CoachTrial.objects.filter(couple=couple).update(started_at=timezone.now() - timedelta(days=31))
+    assert client_for(partner).get(THREAD).json()["access"]["state"] == "expired"
+    refused = client_for(partner).post(POST, {"text": "Encore ?"}, format="json")
+    assert refused.status_code == 400 and refused.json()["code"] == "plus_required"
+    # The thread stays readable; only new messages need Plus.
+    assert len(client_for(partner).get(THREAD).json()["messages"]) == 2
+
+    couple.plus_until = timezone.now() + timedelta(days=30)
+    couple.save()
+    assert client_for(me).get(THREAD).json()["access"]["state"] == "plus"
+    assert client_for(me).post(POST, {"text": "Merci"}, format="json").status_code == 201
+
+
+@KEY
+def test_a_message_waiting_when_the_month_ends_is_not_answered(claude) -> None:
+    from datetime import timedelta
+
+    from django.utils import timezone
+
+    from coach.models import CoachTrial
+
+    couple, me, partner = make_couple()
+    turn_on(me, partner)
+    message = CoachMessage(couple=couple, author=me, role="partner")
+    message.text = "Juste avant la fin"
+    message.save()
+    CoachTrial.objects.update_or_create(couple=couple)
+    CoachTrial.objects.filter(couple=couple).update(started_at=timezone.now() - timedelta(days=40))
+    services.answer(couple.pk, message.pk)
+    assert claude == []
+
+
+@KEY
+def test_couples_who_turned_it_on_before_get_their_month_when_they_open_it(claude) -> None:
+    from coach.models import CoachConsent, CoachTrial
+
+    couple, me, partner = make_couple()
+    for user in (me, partner):  # consent stored directly, as before the free month
+        CoachConsent.objects.create(user=user, enabled=True)
+    assert not CoachTrial.objects.exists()
+    client_for(me).get(THREAD)
+    assert CoachTrial.objects.filter(couple=couple).exists()
+
+
+def test_the_charter_forbids_selling() -> None:
+    assert "Pas de vente" in CHARTER

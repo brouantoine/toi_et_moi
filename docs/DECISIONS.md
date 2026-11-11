@@ -123,3 +123,8 @@ Format : date — choix — raison — alternative écartée.
 ## 2026-11-11 — Coach via OpenRouter
 - L'utilisateur a fourni une clé OpenRouter et choisi `google/gemini-2.5-flash` (`OPENROUTER_API_KEY`, `OPENROUTER_MODEL` dans `backend/.env`). Quand cette clé est présente, le coach passe par OpenRouter (API compatible chat completions, bibliothèque standard, sans nouvelle dépendance) ; sinon par l'API Claude. Même charte, même isolation par couple, même avis calme en cas d'échec.
 - Réseau de dev : la route IPv6 bloque les grosses requêtes (la charte pèse ~40 Ko) ; l'appel OpenRouter force l'IPv4, avec une seconde tentative en cas de coupure. Essai réel validé : le coach refuse de parler d'autres couples et répond aux deux partenaires.
+
+## 2026-11-11 — Coach : un mois offert, puis Bolingo Plus
+- Règle de l'utilisateur : le coach IA est gratuit un mois, puis il faut passer à Plus. Essai par couple (fil partagé), qui démarre la première fois que le coach s'ouvre pour les deux (`CoachTrial`) ; les couples qui l'avaient déjà activé démarrent leur mois à la prochaine ouverture. Après 30 jours (`COACH_TRIAL_DAYS`), écrire au coach demande Plus (`plus_required`) ; la conversation reste lisible.
+- Abonnement : `Couple.plus_until` (partagé par les deux), lu par le coach et les jeux ; il sera rempli par les achats, et peut être réglé à la main dans l'admin pour tester.
+- L'offre payante s'appelle « Bolingo Plus » (au lieu de « Premium »). La charte interdit au coach de parler d'abonnement ou de prix (« Pas de vente »).

@@ -692,7 +692,7 @@
     "waitingFor": "Waiting for {{name}}. Your results appear as soon as you have both finished.",
     "adultBadge": "18+",
     "locked": "Locked",
-    "lockedPack": "This game is part of Bolingo Premium.",
+    "lockedPack": "This game is part of Bolingo Plus.",
     "unsupported": "This game needs a newer version of the app. Update it to play.",
     "adultError": "The setting could not be saved. Try again.",
     "adultTitle": "Adults-only games",
@@ -769,7 +769,7 @@
       "notes": "Shared notes"
     },
     "morningTitle": "Your weather today",
-    "premiumTitle": "Bolingo Premium",
+    "premiumTitle": "Bolingo Plus",
     "premiumText": "Every game, guided journeys and widgets, for both of you.",
     "premiumCta": "Discover"
   },
@@ -786,7 +786,7 @@
     "error": "The note could not be saved."
   },
   "premium": {
-    "title": "Try Bolingo Premium",
+    "title": "Try Bolingo Plus",
     "partnerFree": "{{name}} does not have to pay",
     "partnerFreeAlone": "One purchase for both of you",
     "monthly": "Monthly",
@@ -798,10 +798,10 @@
     "restore": "Restore",
     "notYet": "Purchases will be turned on when the app is published on the stores. Nothing is charged for now.",
     "close": "Close",
-    "feature1": "Premium for both of you",
+    "feature1": "Bolingo Plus for both of you",
     "feature2": "Every topic and every game",
     "feature3": "7-day guided journeys",
-    "feature4": "Shared AI coach",
+    "feature4": "Shared AI coach, unlimited after the free month",
     "feature5": "Home screen widgets"
   },
   "coach": {
@@ -828,7 +828,13 @@
     "eraseTitle": "Erase the whole conversation?",
     "eraseMessage": "It will be erased for both of you.",
     "eraseConfirm": "Erase",
-    "writing": "The coach is writing…"
+    "writing": "The coach is writing…",
+    "intro5": "Free for a month once you both open it, then included in Bolingo Plus.",
+    "trialLeft_one": "Free trial: {{count}} day left",
+    "trialLeft_other": "Free trial: {{count}} days left",
+    "goPlus": "Go Plus",
+    "trialOverTitle": "Your free month is over",
+    "trialOverMessage": "You can still read your whole conversation. To keep writing to the coach, go Bolingo Plus: one subscription for both of you."
   },
   "avatar": {
     "title": "Your profile picture",

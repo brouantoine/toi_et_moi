@@ -11,7 +11,7 @@ class CoupleMemberInline(admin.TabularInline[CoupleMember, Couple]):
 
 @admin.register(Couple)
 class CoupleAdmin(admin.ModelAdmin[Couple]):
-    list_display = ["id", "status", "start_date", "currency", "created_at"]
+    list_display = ["id", "status", "start_date", "currency", "plus_until", "created_at"]
     list_filter = ["status"]
     inlines = [CoupleMemberInline]
 

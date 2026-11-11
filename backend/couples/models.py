@@ -47,6 +47,8 @@ class Couple(models.Model):
     activated_at = models.DateTimeField(null=True, blank=True)
     dissolution_started_at = models.DateTimeField(null=True, blank=True)
     dissolve_at = models.DateTimeField(null=True, blank=True)
+    #: Bolingo Plus, shared by both partners: paid until this moment (set by purchases).
+    plus_until = models.DateTimeField(null=True, blank=True)
 
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, through="CoupleMember", related_name="couples"
@@ -61,6 +63,11 @@ class Couple(models.Model):
     @property
     def is_active(self) -> bool:
         return self.status == CoupleStatus.ACTIVE
+
+    @property
+    def premium(self) -> bool:
+        """Bolingo Plus is active for this couple."""
+        return bool(self.plus_until and self.plus_until > timezone.now())
 
     def partner_of(self, user: User) -> User | None:
         return next((m for m in self.members.all() if m.pk != user.pk), None)

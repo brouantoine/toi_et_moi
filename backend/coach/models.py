@@ -17,6 +17,18 @@ class CoachConsent(models.Model):
         return f"coach consent of {self.user_id}"
 
 
+class CoachTrial(models.Model):
+    """The couple's free month of coach, counted from the first time it opened for both."""
+
+    couple = models.OneToOneField(
+        "couples.Couple", on_delete=models.CASCADE, related_name="coach_trial"
+    )
+    started_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"coach trial of couple {self.couple_id}"
+
+
 class CoachRole(models.TextChoices):
     PARTNER = "partner"  # written by one of the two partners
     COACH = "coach"  # written by the AI

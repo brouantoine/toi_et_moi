@@ -2948,6 +2948,34 @@ components:
       required:
       - country
       - name
+    CoachAccess:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/CoachAccessStateEnum'
+        trial_ends_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Null while the free month has not started, and with Plus.
+        days_left:
+          type: integer
+          nullable: true
+          description: Days of free month left.
+      required:
+      - days_left
+      - state
+      - trial_ends_at
+    CoachAccessStateEnum:
+      enum:
+      - trial
+      - plus
+      - expired
+      type: string
+      description: |-
+        * `trial` - trial
+        * `plus` - plus
+        * `expired` - expired
     CoachConsent:
       type: object
       properties:
@@ -3014,6 +3042,8 @@ components:
         active:
           type: boolean
           description: Both partners turned the coach on.
+        access:
+          $ref: '#/components/schemas/CoachAccess'
         thinking:
           type: boolean
           description: The coach is writing its answer.
@@ -3022,6 +3052,7 @@ components:
           items:
             $ref: '#/components/schemas/CoachMessage'
       required:
+      - access
       - active
       - available
       - consent
@@ -4231,7 +4262,7 @@ components:
           type: integer
           description: Items my partner answered.
         state:
-          $ref: '#/components/schemas/StateEnum'
+          $ref: '#/components/schemas/StateE13Enum'
         similarity:
           type: integer
           nullable: true
@@ -4290,7 +4321,7 @@ components:
           type: integer
           description: Items my partner answered.
         state:
-          $ref: '#/components/schemas/StateEnum'
+          $ref: '#/components/schemas/StateE13Enum'
         similarity:
           type: integer
           nullable: true
@@ -4932,7 +4963,7 @@ components:
       description: |-
         * `equal` - 50/50
         * `custom` - Personnalisée
-    StateEnum:
+    StateE13Enum:
       enum:
       - new
       - in_progress
