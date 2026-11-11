@@ -1,7 +1,11 @@
 """Hardened production settings. Every secret MUST come from the environment."""
 
-from .base import *  # noqa: F403
-from .env import env_int, env_list, env_str
+from .env import load_env_file
+
+load_env_file()  # backend/.env (secrets of this machine) before the base settings read them
+
+from .base import *  # noqa: E402, F403
+from .env import env_int, env_list, env_str  # noqa: E402
 
 DEBUG = False
 SECRET_KEY = env_str("DJANGO_SECRET_KEY")

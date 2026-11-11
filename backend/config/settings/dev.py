@@ -1,5 +1,9 @@
-from .base import *  # noqa: F403
-from .env import env_bool
+from .env import load_env_file
+
+load_env_file()  # backend/.env (secrets of this machine) before the base settings read them
+
+from .base import *  # noqa: E402, F403
+from .env import env_bool  # noqa: E402
 
 DEBUG = env_bool("DJANGO_DEBUG", True)
 ALLOWED_HOSTS = ["*"]

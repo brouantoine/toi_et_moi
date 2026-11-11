@@ -15,6 +15,7 @@ import anthropic
 from anthropic.types.beta import (
     BetaAssistantMessageParam,
     BetaMessageParam,
+    BetaTextBlockParam,
     BetaUserMessageParam,
 )
 from django.conf import settings
@@ -149,7 +150,7 @@ def build_messages(history: list[CoachMessage]) -> list[BetaMessageParam]:
     return result
 
 
-def ask_claude(system: str, turns: list[BetaMessageParam]) -> str | None:
+def ask_claude(system: list[BetaTextBlockParam], turns: list[BetaMessageParam]) -> str | None:
     """One Messages API call. Returns the reply text, or None when Claude declined."""
     client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
     response = client.beta.messages.create(
@@ -187,8 +188,16 @@ def answer(couple_id: int, message_id: int) -> None:
         .select_related("author")
         .order_by("-created_at", "-id")[:HISTORY_LIMIT]
     )[::-1]
+    # Each couple is an island: nothing from another thread may ever reach the model.
+    member_ids = {member.pk for member in members}
+    if any(
+        m.couple_id != couple.pk or (m.author_id is not None and m.author_id not in member_ids)
+        for m in history
+    ):
+        logger.error("coach: foreign message in thread of couple %s, not answered", couple.pk)
+        return
     language = trigger.author.language if trigger.author else "fr"
-    system = prompts.system_prompt(members[0].display_name, members[1].display_name, language)
+    system = prompts.system_blocks(members[0].display_name, members[1].display_name, language)
     reply = CoachMessage(couple=couple, role=CoachRole.COACH)
     try:
         text = ask_claude(system, build_messages(history))

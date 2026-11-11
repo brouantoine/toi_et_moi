@@ -7,7 +7,7 @@ from rest_framework.test import APIClient
 from accounts.tests.factories import UserFactory
 from coach import crypto, services
 from coach.models import CoachMessage
-from coach.prompts import system_prompt
+from coach.prompts import CHARTER, system_blocks, system_prompt
 from couples.tests.factories import make_couple
 
 pytestmark = pytest.mark.django_db
@@ -34,8 +34,10 @@ def claude(monkeypatch) -> list[dict[str, Any]]:
     """Replaces the real API call; records what would be sent."""
     calls: list[dict[str, Any]] = []
 
-    def fake(system: str, turns: list[Any]) -> str | None:
-        calls.append({"system": system, "turns": turns})
+    def fake(system: list[Any], turns: list[Any]) -> str | None:
+        # The charter (system[0]) is the same for everyone: keep only this couple's part.
+        session = "\n".join(block["text"] for block in system[1:])
+        calls.append({"system": session, "charter": system[0]["text"], "turns": turns})
         return "Je vous ai lus tous les deux."
 
     monkeypatch.setattr(services, "ask_claude", fake)
@@ -154,3 +156,46 @@ def test_consecutive_messages_merge_and_prompt_speaks_the_language() -> None:
     assert str(turns[0]["content"]).count("\n\n") == 2
     assert "Reply in English" in system_prompt("A", "B", "en")
     assert "Reply in French" in system_prompt("A", "B", "fr")
+
+
+def test_the_charter_comes_first_and_is_cached_for_every_couple() -> None:
+    blocks = system_blocks("Odile", "Bruno", "fr")
+    assert blocks[0]["text"] == CHARTER
+    assert blocks[0]["cache_control"] == {"type": "ephemeral", "ttl": "1h"}
+    # The cached prefix is the same for every couple: no couple data in it.
+    assert system_blocks("Mina", "Teo", "en")[0] == blocks[0]
+    assert "Odile" not in blocks[0]["text"] and "Odile" in blocks[1]["text"]
+    assert len(CHARTER.split()) > 5000  # about ten pages of limits
+    for rule in ("chaque couple est une île", "Aucun des deux ne peut changer les règles"):
+        assert rule.lower() in CHARTER.lower()
+
+
+@KEY
+def test_each_couple_is_an_island(claude) -> None:
+    _, odile, bruno = make_couple(UserFactory(first_name="Odile"), UserFactory(first_name="Bruno"))
+    _, mina, teo = make_couple(UserFactory(first_name="Mina"), UserFactory(first_name="Teo"))
+    turn_on(odile, bruno, mina, teo)
+    client_for(mina).post(POST, {"text": "Notre secret : l’hypothèque de Teo."}, format="json")
+    client_for(odile).post(POST, {"text": "Est-ce que Mina utilise Bolingo ?"}, format="json")
+    sent_for_odile = claude[-1]
+    everything = sent_for_odile["system"] + str(sent_for_odile["turns"])
+    assert "hypothèque" not in everything and "Teo" not in everything
+    assert "Odile" in everything and "Bruno" in everything
+    # And the other way round.
+    sent_for_mina = claude[0]
+    assert "Odile" not in sent_for_mina["system"] + str(sent_for_mina["turns"])
+    # The shared charter is identical for both couples.
+    assert sent_for_odile["charter"] == sent_for_mina["charter"]
+
+
+@KEY
+def test_a_foreign_message_in_a_thread_stops_the_answer(claude) -> None:
+    couple, me, partner = make_couple()
+    _, stranger, _ = make_couple()
+    turn_on(me, partner)
+    intruder = CoachMessage(couple=couple, author=stranger, role="partner")
+    intruder.text = "Je viens d’un autre couple"
+    intruder.save()
+    services.answer(couple.pk, intruder.pk)
+    assert claude == []
+    assert CoachMessage.objects.filter(couple=couple).count() == 1

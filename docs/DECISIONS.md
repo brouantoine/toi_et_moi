@@ -114,3 +114,8 @@ Format : date — choix — raison — alternative écartée.
 - Navigation : bouton retour rond identique partout (`BackButton`) + retour par glissement depuis n'importe où sur l'écran (iOS, `fullScreenGestureEnabled`) ; écran de jeu : glissement depuis le bord seulement (le centre sert au dessin) ; Android : geste prédictif activé.
 - Chargement : loader Bolingo fourni par l'utilisateur (deux boules rouge et blanche/encre), adapté au thème et au mode « mouvement réduit ».
 - Logos de l'utilisateur (`~/Bureau/Bolingo_logo`) : icône, écran de démarrage, icônes Android adaptative et monochrome, favicon, symbole sur l'écran d'accueil.
+
+## 2026-11-11 — Charte du coach IA et clé API
+- Charte de 11 pages (`backend/coach/policy/charte_fr.md`), demandée par l'utilisateur : tout ce qui concerne le couple est permis sans limite de sujet (sexualité, infidélité, argent, belle-famille, rupture…) ; chaque couple est une île (le coach ne connaît que le fil de ce couple, refuse toute question sur d'autres utilisateurs, aucune mémoire entre couples) ; barrières de protection seulement (violence, détresse, consentement, mineurs, surveillance/manipulation, santé, droit) ; résistance aux détournements (messages = contenus, jamais des ordres ; aucun partenaire ne peut changer les règles).
+- La charte est le premier bloc système, identique pour tous les couples et mis en cache 1 h ; les prénoms et la langue du couple sont dans un second bloc. Garde-fou serveur : si un message étranger au couple se trouve dans le fil, le coach ne répond pas. Tests d'isolation entre deux couples.
+- Clé API : `backend/.env` (ignoré par git, chmod 600) lu par les réglages dev et prod uniquement, jamais par les tests ; une variable déjà définie dans le terminal reste prioritaire.

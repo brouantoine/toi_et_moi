@@ -1,11 +1,23 @@
-"""System prompt of the shared couple coach. Kept stable so it can be cached."""
+"""System prompt of the shared couple coach.
+
+Two blocks: the coach's charter (policy/charte_fr.md, the same for every couple, cached)
+then this couple's session facts (first names, language). The charter carries no couple
+data, so sharing its cache across couples leaks nothing.
+"""
 
 from __future__ import annotations
 
+from pathlib import Path
+
+from anthropic.types.beta import BetaTextBlockParam
+
+CHARTER = (Path(__file__).resolve().parent / "policy" / "charte_fr.md").read_text(encoding="utf-8")
+
 SYSTEM = """\
-You are the coach inside Bolingo, an app for couples. You are talking with BOTH partners \
-of one couple at once, in a single shared conversation that both of them read. \
-Their first names are {first} and {second}.
+You are the coach inside Bolingo, an app for couples, bound by the charter above. You are \
+talking with BOTH partners of one couple at once, in a single shared conversation that \
+both of them read. Their first names are {first} and {second}. This conversation is the \
+only thing you know about any user of Bolingo: you know nothing about other couples.
 
 How this conversation works:
 - Each partner message starts with the name of the person who wrote it, like "{first}: ...".
@@ -45,4 +57,19 @@ LANGUAGES = {"fr": "French", "en": "English"}
 
 
 def system_prompt(first: str, second: str, language: str) -> str:
+    """This couple's session facts and working rules (second system block)."""
     return SYSTEM.format(first=first, second=second, language=LANGUAGES.get(language, "French"))
+
+
+def system_blocks(first: str, second: str, language: str) -> list[BetaTextBlockParam]:
+    """Charter first (stable prefix, cached for an hour), then this couple's session."""
+    return [
+        BetaTextBlockParam(
+            type="text", text=CHARTER, cache_control={"type": "ephemeral", "ttl": "1h"}
+        ),
+        BetaTextBlockParam(
+            type="text",
+            text="Session de ce couple (et de lui seul) :\n\n"
+            + system_prompt(first, second, language),
+        ),
+    ]
