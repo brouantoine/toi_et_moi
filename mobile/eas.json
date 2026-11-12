@@ -6,7 +6,7 @@
   "build": {
     "base": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.bolingo.app"
+        "EXPO_PUBLIC_API_URL": "https://api.bolingo.ci"
       }
     },
     "development": {

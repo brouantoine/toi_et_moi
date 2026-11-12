@@ -17,7 +17,7 @@ from accounts.models import User
 from billing import services as billing
 from couples.services import create_couple, get_current_couple, join_couple
 
-ACCOUNTS = (("review.a@bolingo.app", "Alex"), ("review.b@bolingo.app", "Sam"))
+ACCOUNTS = (("review.a@bolingo.ci", "Alex"), ("review.b@bolingo.ci", "Sam"))
 
 
 class Command(BaseCommand):

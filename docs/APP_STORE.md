@@ -115,8 +115,8 @@ Puis colle ce texte dans « Notes de revue » :
 ```
 Bolingo is a private space for two partners. Every feature needs a couple, so we created two linked demo accounts (already paired, with Bolingo Plus active):
 
-  Account A: review.a@bolingo.app
-  Account B: review.b@bolingo.app
+  Account A: review.a@bolingo.ci
+  Account B: review.b@bolingo.ci
   Password: <the password above>
 
 Sign in with account A. You can use account B on a second device to see real-time features (messages, games, shared coach).
@@ -140,7 +140,7 @@ Sign in with account A. You can use account B on a second device to see real-tim
    npx eas-cli build --profile production --platform ios
    npx eas-cli submit --profile production --platform ios
    ```
-4. `EXPO_PUBLIC_API_URL` vaut `https://api.bolingo.app` dans `eas.json` : remplace-le par ton vrai domaine de production.
+4. `EXPO_PUBLIC_API_URL` vaut `https://api.bolingo.ci` dans `eas.json` (domaine de production).
 
 ## 8. Ce qui reste à décider ou à fournir
 

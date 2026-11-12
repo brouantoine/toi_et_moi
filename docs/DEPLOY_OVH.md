@@ -14,7 +14,7 @@ Les photos et les vocaux vont dans l'**Object Storage** d'OVH, qui est compatibl
 
 | Quoi | Conseil | Ordre de prix |
 |---|---|---|
-| Nom de domaine | ex. `bolingo.app` ou `bolingo.fr` | 10 à 20 € par an |
+| Nom de domaine | ex. `bolingo.ci` | 10 à 20 € par an |
 | VPS | VPS-2 (4 Go de RAM), Ubuntu 24.04, datacenter Gravelines (GRA) ou Strasbourg | ~7 à 12 € par mois |
 | Object Storage | Public Cloud → Object Storage S3, région GRA, classe « Standard » | quelques centimes par Go |
 
@@ -91,7 +91,7 @@ Caddy obtient tout seul le certificat HTTPS, en une à deux minutes après que l
 
 ## 7. Brancher l'application dessus
 
-Dans `mobile/eas.json`, remplace `https://api.bolingo.app` par `https://api.<ton-domaine>` (profils `base` et `production`), puis compile.
+Dans `mobile/eas.json`, `EXPO_PUBLIC_API_URL` vaut déjà `https://api.bolingo.ci` : compile directement.
 
 ## 8. Les appels
 
