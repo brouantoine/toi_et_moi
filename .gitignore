@@ -43,3 +43,4 @@ Thumbs.db
 
 # Local phone-trial server log
 backend/dev-server.log
+!mobile/.env
