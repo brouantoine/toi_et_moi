@@ -26,6 +26,7 @@ urlpatterns = [
     path("legal/privacy/", legal.privacy, name="legal-privacy"),
     path("legal/terms/", legal.terms, name="legal-terms"),
     path("support/", legal.support, name="support"),
+    path("legal/delete-account/", legal.delete_account, name="legal-delete-account"),
     path(
         ".well-known/apple-app-site-association",
         couple_web.apple_app_site_association,

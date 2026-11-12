@@ -9,6 +9,10 @@ name: bolingo
 x-backend: &backend
   build: ../backend
   env_file: .env
+  # Bounded logs: the reverse proxy keeps the access log (14 days), not the containers.
+  logging:
+    driver: json-file
+    options: { max-size: "10m", max-file: "3" }
   environment:
     DJANGO_SETTINGS_MODULE: config.settings.prod
     DATABASE_URL: postgres://bolingo:${POSTGRES_PASSWORD}@postgres:5432/bolingo
@@ -38,7 +42,7 @@ services:
     command: >
       sh -c "python manage.py migrate --noinput
       && python manage.py collectstatic --noinput
-      && daphne -b 0.0.0.0 -p 8000 --proxy-headers config.asgi:application"
+      && daphne -b 0.0.0.0 -p 8000 --proxy-headers --access-log /dev/null config.asgi:application"
     volumes: ["${STATIC_DIR:-static}:/app/staticfiles"]
     expose: ["8000"]
     # Reachable from this machine only (the reverse proxy), never from the internet.

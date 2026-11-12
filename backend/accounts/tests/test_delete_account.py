@@ -1,8 +1,11 @@
+from io import StringIO
 from typing import Any
 
 import pytest
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from rest_framework.test import APIClient
 
 from accounts.models import User
@@ -67,3 +70,15 @@ def test_a_single_person_can_delete_too_and_english_works(pushes) -> None:
     assert not User.objects.filter(pk=lonely.pk).exists()
     assert pushes == []
     assert APIClient().delete(ME, {"confirm": "DELETE"}, format="json").status_code == 401
+
+
+def test_command_deletes_an_account_requested_by_email() -> None:
+    _couple, me, partner = make_couple(UserFactory(), UserFactory())
+    call_command("supprimer_compte", me.email.upper(), "--oui", stdout=StringIO())
+    assert not User.objects.filter(pk=me.pk).exists()
+    assert User.objects.filter(pk=partner.pk).exists()
+
+
+def test_command_refuses_an_unknown_email() -> None:
+    with pytest.raises(CommandError):
+        call_command("supprimer_compte", "personne@inconnu.test", "--oui")
