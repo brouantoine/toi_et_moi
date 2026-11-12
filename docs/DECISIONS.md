@@ -147,3 +147,9 @@ Format : date — choix — raison — alternative écartée.
 - Écran d'appel : vidéo de l'autre en plein écran, la sienne en vignette, micro, haut-parleur, caméra, retourner, et la bulle de messages par-dessus la vidéo (lire et répondre sans quitter l'appel).
 - Déploiement : `deploy/` (Docker Compose : Caddy HTTPS automatique, Daphne, Celery, Postgres, Redis, coturn) et OVH Object Storage (S3) ; guide `docs/DEPLOY_OVH.md`.
 - Reste : faire sonner l'app fermée (iOS CallKit + notifications VoIP PushKit via APNs ; Android notification plein écran haute priorité), à faire avec la version installée.
+
+## 2026-11-12 — Stockage des médias : Amazon S3 (Stockholm)
+- Compartiment privé `bolingo-media-ci` (eu-north-1), accès public bloqué, versions désactivées (une suppression de compte efface vraiment les fichiers), chiffrement SSE-S3.
+- Utilisateur IAM `bolingo-backend` limité à ce compartiment (Put/Get/Delete + List). Clés uniquement dans `deploy/.env` du serveur et `~/Bureau/backup/aws-s3.txt`.
+- Testé en production : envoi signé (POST) 204, lecture signée, suppression.
+- Compte AWS en plan gratuit (6 mois) : passer au plan payant ou migrer avant l'échéance (mai 2027).
