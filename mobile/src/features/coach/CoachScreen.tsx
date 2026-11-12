@@ -33,7 +33,7 @@ import {
 
 import { useCoach, useCoachActions, type CoachMessage, type CoachThread } from './useCoach';
 
-const INTRO = [1, 2, 3, 4, 5] as const;
+const INTRO = [1, 2, 3, 6, 4, 5] as const;
 
 /** Free month running: how many days are left, and the way to Plus. */
 function TrialBar({ thread }: { thread: CoachThread }) {

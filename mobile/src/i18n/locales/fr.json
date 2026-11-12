@@ -861,6 +861,7 @@
     "eraseConfirm": "Effacer",
     "writing": "Le coach écrit…",
     "intro5": "Gratuit pendant un mois dès que vous l’ouvrez tous les deux, puis inclus dans Bolingo Plus.",
+    "intro6": "Pour répondre, vos messages au coach sont envoyés à un fournisseur d’intelligence artificielle externe (Google, via OpenRouter), seulement pour produire ses réponses. En l’activant, tu acceptes ce partage.",
     "trialLeft_one": "Essai gratuit : encore {{count}} jour",
     "trialLeft_other": "Essai gratuit : encore {{count}} jours",
     "goPlus": "Passer à Plus",
