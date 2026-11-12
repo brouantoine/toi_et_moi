@@ -106,7 +106,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-audio',
       {
-        microphonePermission: `${BRAND.name} uses the microphone to record the voice notes you send to your partner.`,
+        microphonePermission: `${BRAND.name} uses the microphone for the voice notes and calls you share with your partner.`,
       },
     ],
     [
@@ -115,6 +115,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         locationWhenInUsePermission: `${BRAND.name} uses your location to show the distance and the map you choose to share with your partner.`,
         // "Continuous sharing" is a separate opt-in inside the app (PW.5b).
         locationAlwaysAndWhenInUsePermission: `If you turn on continuous sharing, ${BRAND.name} shares your location with your partner even when the app is closed, to tell you both when you are close. You can stop at any time.`,
+        locationAlwaysPermission: `If you turn on continuous sharing, ${BRAND.name} shares your location with your partner even when the app is closed, to tell you both when you are close. You can stop at any time.`,
         isIosBackgroundLocationEnabled: true,
         isAndroidBackgroundLocationEnabled: true,
         isAndroidForegroundServiceEnabled: true,
