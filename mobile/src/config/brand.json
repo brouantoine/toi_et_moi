@@ -2,5 +2,6 @@
   "name": "Bolingo",
   "slug": "bolingo",
   "scheme": "bolingo",
-  "bundleId": "com.bolingo.app"
+  "bundleId": "com.bolingo.app",
+  "androidPackage": "ci.bolingo.app"
 }

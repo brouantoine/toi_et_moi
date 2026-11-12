@@ -46,6 +46,18 @@ RevenueCat valide les achats auprès d'Apple et de Google, puis prévient notre 
    Commande : `npx eas-cli env:create --name EXPO_PUBLIC_REVENUECAT_IOS_KEY --value appl_xxx --environment production`.
 6. Sur le serveur de production, garde `BILLING_ACCEPT_SANDBOX=true`. L'équipe de revue d'Apple achète en mode test (sandbox) sur le serveur de production : si ces achats sont ignorés, Plus ne se débloque pas pendant la revue, et c'est un refus (règle 2.1).
 
+### Dans Google Play Console (Android)
+
+L'écran Plus, l'achat, la restauration et le webhook sont les mêmes que sur iPhone : seul le paramétrage côté Google est à faire. Identifiant de l'app Android : `ci.bolingo.app`.
+
+1. **Profil de paiement** : Play Console → Paramètres → Profil de paiement. Il faut un compte marchand pour vendre des abonnements. Vérifie que ton pays permet de le créer ; sinon, il faut un compte marchand dans un pays pris en charge.
+2. **Monétiser → Abonnements** : crée `bolingo_plus_monthly` et `bolingo_plus_yearly`, chacun avec un **forfait de base** à renouvellement automatique (1 mois, 1 an), puis active-les. Mêmes prix que sur l'App Store.
+3. Google n'accepte les abonnements qu'après l'envoi d'une première version avec la facturation : envoie d'abord une version en **test interne**.
+4. **Dans RevenueCat** : ajoute l'app Android (`ci.bolingo.app`) avec un **compte de service Google Cloud** (fichier JSON, accès « Gestion des commandes et abonnements » dans Play Console → Utilisateurs et autorisations). Active les **notifications en temps réel** (Pub/Sub) proposées par RevenueCat.
+5. Rattache les deux produits Google à l'entitlement `plus` et aux packages « Monthly » et « Annual » de l'offering par défaut.
+6. Donne la clé publique Android de RevenueCat (`goog_...`) : elle va dans `EXPO_PUBLIC_REVENUECAT_ANDROID_KEY` (`mobile/eas.json`, profil `base`), puis recompile.
+7. Pour tester sans payer : Play Console → Paramètres → **Test des licences**, ajoute ton adresse Gmail.
+
 ### Déjà fait dans le code
 
 - L'écran Plus affiche les vrais prix du store, dans la devise de la personne, avec la période et l'essai éventuel.
