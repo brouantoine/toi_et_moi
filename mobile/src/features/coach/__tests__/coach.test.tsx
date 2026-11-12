@@ -77,6 +77,8 @@ it('explains the coach and lets each partner turn it on for themselves', async (
   await renderWithProviders(<CoachScreen />);
   expect(await screen.findByTestId('coach-intro')).toBeTruthy();
   expect(screen.getByText(/aucun échange privé/)).toBeTruthy();
+  // App Store 5.1.2(i): the third-party AI sharing is stated before consent.
+  expect(screen.getByText(/fournisseur d’intelligence artificielle externe/)).toBeTruthy();
   await fireEvent.press(screen.getByTestId('coach-consent'));
   expect(await screen.findByTestId('coach-waiting')).toHaveTextContent(/En attente de Sam/);
   const put = fetchMock.mock.calls.find(([i]) => methodOf(i) === 'PUT')![0];
