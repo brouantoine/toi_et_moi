@@ -22,6 +22,7 @@ urlpatterns = [
     path("api/v1/", include("coach.urls")),
     path("account/", include("accounts.web_urls")),
     path("join/<str:code>/", couple_web.join_page, name="web-join"),
+    path("", legal.home, name="home"),
     path("legal/privacy/", legal.privacy, name="legal-privacy"),
     path("legal/terms/", legal.terms, name="legal-terms"),
     path("support/", legal.support, name="support"),

@@ -15,3 +15,10 @@ def test_terms_state_the_auto_renewal_rules() -> None:
     assert "se renouvelle automatiquement" in text and "24 heures" in text
     english = Client().get("/legal/terms/", HTTP_ACCEPT_LANGUAGE="en-GB").content.decode()
     assert "renews automatically" in english
+
+
+@pytest.mark.parametrize(("lang", "words"), [("fr", "couple"), ("en", "couple")])
+def test_home_page_presents_the_app_and_links_the_legal_pages(lang: str, words: str) -> None:
+    text = Client().get("/", {"lang": lang}).content.decode()
+    assert words in text
+    assert "/legal/terms/" in text and "/legal/privacy/" in text and "/support/" in text

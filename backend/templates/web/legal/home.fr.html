@@ -1,0 +1,29 @@
+{% extends "web/home_base.html" %}
+{% load static %}
+{% block title %}{{ brand }} · L'appli des couples{% endblock %}
+{% block description %}Bolingo, l'espace privé de votre couple : messages, appels, souvenirs, jeux à deux et un coach pour avancer ensemble.{% endblock %}
+{% block content %}
+<header class="hero">
+  <picture>
+    <source srcset="{% static 'web/logo-dark.png' %}" media="(prefers-color-scheme: dark)">
+    <img src="{% static 'web/logo.png' %}" alt="" width="120" height="140">
+  </picture>
+  <h1>{{ brand }}</h1>
+  <p class="tagline">L'espace privé de votre couple.</p>
+  <p class="soon">Bientôt sur l'App Store et Google Play</p>
+</header>
+
+<section class="grid">
+  <div class="card"><h2>Rien que vous deux</h2><p>Messages, notes vocales, photos et appels vidéo, dans un espace que personne d'autre ne voit.</p></div>
+  <div class="card"><h2>Vos souvenirs</h2><p>Les dates qui comptent, vos moments et vos photos, rangés au même endroit.</p></div>
+  <div class="card"><h2>Jouer à deux</h2><p>Des paquets de questions et de jeux pour mieux vous connaître et rire ensemble.</p></div>
+  <div class="card"><h2>Un coach pour avancer</h2><p>Un coach IA à l'écoute de votre couple, un mois offert à l'inscription.</p></div>
+</section>
+
+<nav class="links">
+  <a href="/legal/terms/">Conditions d'utilisation</a>
+  <a href="/legal/privacy/">Confidentialité</a>
+  <a href="/support/">Assistance</a>
+  <a href="?lang=en">English</a>
+</nav>
+{% endblock %}

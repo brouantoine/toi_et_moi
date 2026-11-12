@@ -1,0 +1,29 @@
+{% extends "web/home_base.html" %}
+{% load static %}
+{% block title %}{{ brand }} · The app for couples{% endblock %}
+{% block description %}Bolingo, your couple's private space: messages, calls, memories, games for two and a coach to grow together.{% endblock %}
+{% block content %}
+<header class="hero">
+  <picture>
+    <source srcset="{% static 'web/logo-dark.png' %}" media="(prefers-color-scheme: dark)">
+    <img src="{% static 'web/logo.png' %}" alt="" width="120" height="140">
+  </picture>
+  <h1>{{ brand }}</h1>
+  <p class="tagline">Your couple's private space.</p>
+  <p class="soon">Coming soon to the App Store and Google Play</p>
+</header>
+
+<section class="grid">
+  <div class="card"><h2>Just the two of you</h2><p>Messages, voice notes, photos and video calls, in a space no one else can see.</p></div>
+  <div class="card"><h2>Your memories</h2><p>The dates that matter, your moments and your photos, all in one place.</p></div>
+  <div class="card"><h2>Play together</h2><p>Question packs and games to know each other better and laugh together.</p></div>
+  <div class="card"><h2>A coach to grow</h2><p>An AI coach that listens to your couple, with one month free when you sign up.</p></div>
+</section>
+
+<nav class="links">
+  <a href="/legal/terms/?lang=en">Terms of use</a>
+  <a href="/legal/privacy/?lang=en">Privacy</a>
+  <a href="/support/?lang=en">Support</a>
+  <a href="?lang=fr">Français</a>
+</nav>
+{% endblock %}

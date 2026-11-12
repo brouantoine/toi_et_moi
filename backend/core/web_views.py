@@ -45,3 +45,7 @@ def terms(request: HttpRequest) -> HttpResponse:
 
 def support(request: HttpRequest) -> HttpResponse:
     return _page(request, "support")
+
+
+def home(request: HttpRequest) -> HttpResponse:
+    return _page(request, "home")
