@@ -29,10 +29,6 @@
     }
   },
   "submit": {
-    "production": {
-      "ios": {
-        "ascAppId": "REMPLACE_PAR_L_ID_APP_STORE_CONNECT"
-      }
-    }
+    "production": {}
   }
 }

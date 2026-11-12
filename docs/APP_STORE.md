@@ -10,7 +10,7 @@ Ce guide liste, dans l'ordre, ce qu'il faut faire pour que la première version 
 
    Sans ces deux étapes, les achats intégrés ne fonctionnent pas, même en test.
 2. Crée l'application avec l'identifiant de bundle `com.bolingo.app` (voir `mobile/src/config/brand.json`). Si cet identifiant est déjà pris, choisis-en un autre et change-le dans `brand.json`.
-3. Note l'identifiant numérique de l'app (Apple ID) et remplace `REMPLACE_PAR_L_ID_APP_STORE_CONNECT` dans `mobile/eas.json`.
+3. Note l'identifiant numérique de l'app (Apple ID) : `eas submit` le demande ou le retrouve tout seul.
 
 ## 2. L'abonnement Bolingo Plus
 
@@ -35,7 +35,7 @@ RevenueCat valide les achats auprès d'Apple et de Google, puis prévient notre 
 2. Crée un **entitlement** appelé exactement `plus`, et rattache-lui les deux produits.
 3. Crée une **offering** par défaut contenant deux packages : « Monthly » → `bolingo_plus_monthly` et « Annual » → `bolingo_plus_yearly`.
 4. Dans **Integrations → Webhooks** :
-   - URL : `https://<ton-domaine>/api/v1/billing/revenuecat/` ;
+   - URL : `https://api.bolingo.ci/api/v1/billing/revenuecat/` ;
    - Authorization header : une longue phrase secrète, par exemple `Bearer xxxxxxxx`.
 
    Recopie exactement la même valeur dans `REVENUECAT_WEBHOOK_AUTH` du `.env` du serveur.
@@ -44,7 +44,7 @@ RevenueCat valide les achats auprès d'Apple et de Google, puis prévient notre 
    - `EXPO_PUBLIC_REVENUECAT_ANDROID_KEY`.
 
    Commande : `npx eas-cli env:create --name EXPO_PUBLIC_REVENUECAT_IOS_KEY --value appl_xxx --environment production`.
-6. Sur le serveur de production, mets `BILLING_ACCEPT_SANDBOX=false`. Les achats de test (TestFlight, revue d'Apple) ne donneront alors pas Plus en production. Laisse `true` sur un serveur de test.
+6. Sur le serveur de production, garde `BILLING_ACCEPT_SANDBOX=true`. L'équipe de revue d'Apple achète en mode test (sandbox) sur le serveur de production : si ces achats sont ignorés, Plus ne se débloque pas pendant la revue, et c'est un refus (règle 2.1).
 
 ### Déjà fait dans le code
 
@@ -61,7 +61,7 @@ RevenueCat valide les achats auprès d'Apple et de Google, puis prévient notre 
 Deux moyens, selon le besoin.
 
 **a. Cadeau direct, illimité (déjà en place).** Pour un ami, un testeur, un partenaire ou un influenceur : il te suffit de son email.
-- **Depuis l'administration** : `https://<ton-domaine>/admin/` → Bolingo Plus → **Plus offerts** → Ajouter. Saisis l'email, le nombre de jours et une raison. Son couple a Plus immédiatement, pour les deux partenaires.
+- **Depuis l'administration** : `https://api.bolingo.ci/admin/` → Bolingo Plus → **Plus offerts** → Ajouter. Saisis l'email, le nombre de jours et une raison. Son couple a Plus immédiatement, pour les deux partenaires.
 - **Depuis le terminal du serveur** : `python manage.py offrir_plus email@exemple.com 30 --raison "ami"`.
 - **Pour plusieurs couples à la fois** : dans Admin → Couples, coche les couples puis choisis l'action « Offrir 30 jours de Plus ».
 - Les cadeaux s'ajoutent les uns aux autres. Ils n'écourtent jamais un cadeau ou un abonnement en cours.
@@ -78,20 +78,20 @@ Deux moyens, selon le besoin.
   - liens dans l'app (inscription, Moi, écran Plus).
 - **Textes des permissions** : en anglais par défaut, en français via `mobile/locales`. Chaque texte explique l'usage réel :
   - la position n'est utilisée que si tu acceptes, et « toujours » seulement si tu actives le partage en continu ;
-  - le micro sert aux notes vocales ;
+  - le micro sert aux notes vocales et aux appels ;
   - les photos ne servent que celles que tu choisis.
 - **Manifeste de confidentialité** (`privacyManifests` dans `app.config.ts`) : aucun pistage.
 - **Connexion avec Apple** : proposée, puisque Google l'est aussi (règle 4.8).
 - **Âge** : confirmation « 18 ans ou plus » obligatoire à l'inscription, vérifiée aussi par le serveur. Le contenu 18+ des jeux ne s'ouvre que si les deux partenaires l'activent.
-- **2.1 Fonctions incomplètes** : les boutons d'appel sont masqués dans la version publiée tant que la voix et l'image en direct ne sont pas branchées (`CALLS_MEDIA_READY`). Aucun testeur ne tombera sur un appel qui ne connecte pas.
+- **2.1 Fonctions incomplètes** : les appels voix et vidéo sont branchés (WebRTC, relais coturn sur le serveur, `CALLS_MEDIA_READY=true`). Limite connue : l'app doit être ouverte pour sonner, faute de CallKit pour l'instant.
 - **Coach IA** : sa charte interdit le contenu dangereux et oriente vers les secours en cas de danger. Il ne parle jamais d'un autre couple.
 
 ## 5. Fiche App Store (métadonnées)
 
 - **Classification d'âge** : réponds honnêtement au questionnaire. Les thèmes sexuels et suggestifs fréquents, à cause des paquets 18+, conduisent à la classification la plus élevée (18+).
 - **Catégorie** : Style de vie. Catégorie secondaire : Réseaux sociaux.
-- **URL de confidentialité** : `https://<ton-domaine>/legal/privacy/`.
-- **URL d'assistance** : `https://<ton-domaine>/support/`.
+- **URL de confidentialité** : `https://bolingo.ci/legal/privacy/`.
+- **URL d'assistance** : `https://bolingo.ci/support/`.
 - **Contrat de licence** : celui d'Apple, par défaut. Nos conditions y font référence.
 - **Étiquettes de confidentialité (« App Privacy »)**, toutes liées à l'identité de la personne et sans pistage :
   - Coordonnées : email, nom.
@@ -144,7 +144,7 @@ Sign in with account A. You can use account B on a second device to see real-tim
 
 ## 8. Ce qui reste à décider ou à fournir
 
-- **Domaine de production et hébergement** du serveur. Il faut aussi un stockage S3 pour les photos et les notes vocales.
+- Domaine, serveur et stockage S3 : fait (bolingo.ci, OVH, Amazon S3).
 - **Identité de l'éditeur** sur les pages légales : `LEGAL_ENTITY`, `LEGAL_ADDRESS` et `SUPPORT_EMAIL` dans le `.env` du serveur.
 - **Relecture juridique** de la politique de confidentialité et des conditions d'utilisation.
 - **Prix définitifs** de Plus.
