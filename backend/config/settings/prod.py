@@ -4,11 +4,18 @@ from .env import load_env_file
 
 load_env_file()  # backend/.env (secrets of this machine) before the base settings read them
 
+from django.core.exceptions import ImproperlyConfigured  # noqa: E402
+
 from .base import *  # noqa: E402, F403
 from .env import env_int, env_list, env_str  # noqa: E402
 
 DEBUG = False
 SECRET_KEY = env_str("DJANGO_SECRET_KEY")
+
+# Messages and the coach thread are encrypted at rest: never start without a key, or
+# they would silently be stored in clear.
+if not [key for key in FIELD_ENCRYPTION_KEYS if key]:  # noqa: F405
+    raise ImproperlyConfigured("FIELD_ENCRYPTION_KEYS is required in production.")
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
 
