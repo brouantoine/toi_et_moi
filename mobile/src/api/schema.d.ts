@@ -239,6 +239,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/calls/ice/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Where the phones find each other: STUN, and the TURN relay with fresh credentials. */
+    get: operations['v1_calls_ice_retrieve'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/chores/': {
     parameters: {
       query?: never;
@@ -1705,6 +1722,16 @@ export interface components {
     Heart: {
       my_heart: boolean;
     };
+    IceServer: {
+      urls: string[];
+      username?: string;
+      credential?: string;
+    };
+    IceServers: {
+      ice_servers: components['schemas']['IceServer'][];
+      /** @description Seconds the TURN credentials stay valid. */
+      ttl: number;
+    };
     ImageKeyRequest: {
       key: string;
     };
@@ -2758,6 +2785,25 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['CurrentCall'];
+        };
+      };
+    };
+  };
+  v1_calls_ice_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['IceServers'];
         };
       };
     };

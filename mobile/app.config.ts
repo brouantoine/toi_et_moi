@@ -43,6 +43,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       // Permission texts in English by default, French from locales/fr.json.
       CFBundleAllowMixedLocalizations: true,
       CFBundleDevelopmentRegion: 'en',
+      // A call keeps its sound when the app goes to the background.
+      UIBackgroundModes: ['audio'],
     },
     // Reasons for the "required reason" APIs used by React Native and Expo modules
     // (App Store privacy manifest, mandatory since May 2024).
@@ -123,10 +125,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-image-picker',
       {
-        // Library only: no camera permission. The microphone is declared by expo-audio
-        // (voice notes); French texts are in locales/fr.json.
+        // The camera serves video calls only (WebRTC plugin below); French texts are in
+        // locales/fr.json.
         photosPermission: `${BRAND.name} uses your photos only when you choose some to share with your partner (messages, memories, profile picture).`,
-        cameraPermission: false,
+        cameraPermission: `${BRAND.name} uses the camera only during the video calls you make with your partner.`,
       },
     ],
     [
@@ -135,6 +137,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         image: './assets/splash-icon.png',
         imageWidth: 200,
         backgroundColor: '#1C1C1E',
+      },
+    ],
+    // Live voice and video calls (installed app only; Expo Go has no native WebRTC).
+    [
+      '@config-plugins/react-native-webrtc',
+      {
+        cameraPermission: `${BRAND.name} uses the camera only during the video calls you make with your partner.`,
+        microphonePermission: `${BRAND.name} uses the microphone for your voice notes and calls with your partner.`,
       },
     ],
     ...googlePlugin(),

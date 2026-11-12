@@ -163,6 +163,19 @@ jest.mock('expo-audio', () => {
 });
 
 /* Clipboard (invitation code) and QR code (svg) are replaced by light fakes. */
+/* WebRTC and in-call audio: native only (installed app). */
+jest.mock('react-native-webrtc', () => ({
+  RTCView: () => null,
+  mediaDevices: { getUserMedia: jest.fn() },
+  RTCPeerConnection: jest.fn(),
+  RTCSessionDescription: jest.fn(),
+  RTCIceCandidate: jest.fn(),
+}));
+jest.mock('react-native-incall-manager', () => ({
+  __esModule: true,
+  default: { start: jest.fn(), stop: jest.fn(), setForceSpeakerphoneOn: jest.fn() },
+}));
+
 /* RevenueCat: no store in tests. */
 jest.mock('react-native-purchases', () => ({
   __esModule: true,

@@ -909,6 +909,19 @@
       "declined": "Appel refusé",
       "missed": "Appel manqué",
       "cancelled": "Appel annulé"
+    },
+    "unmute": "Réactiver",
+    "flip": "Retourner",
+    "connectingMedia": "Connexion de la voix…",
+    "connectionFailed": "La connexion n’a pas pu s’établir. Raccroche et rappelle.",
+    "chat": {
+      "button": "Messages",
+      "me": "Moi",
+      "voice": "Note vocale",
+      "photo": "Photo",
+      "label": "Répondre pendant l’appel",
+      "placeholder": "Écrire un message…",
+      "send": "Envoyer"
     }
   },
   "legal": {

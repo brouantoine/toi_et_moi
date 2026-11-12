@@ -140,3 +140,10 @@ Format : date — choix — raison — alternative écartée.
 - Écran Plus conforme 3.1.2 : prix réels du store, période, essai, texte de renouvellement, Restaurer, Gérer, liens Conditions/Confidentialité/EULA ; sans clé RevenueCat (Expo Go), il le dit sans échouer.
 - Conformité : suppression de compte dans l'app (5.1.1(v), efface l'espace du couple, prévient le partenaire, fichiers effacés) ; pages `/legal/privacy/`, `/legal/terms/`, `/support/` (fr/en) ; permissions en anglais + français ; manifeste de confidentialité ; confirmation 18+ à l'inscription (serveur et app) ; boutons d'appel masqués en version publiée tant que la voix en direct n'existe pas (2.1) ; comptes de revue `comptes_revue`. Guide complet : docs/APP_STORE.md.
 - Compilation : `eas.json` (development / preview / production, version distante, numéros auto), `expo-dev-client`, version 1.0.0.
+
+## 2026-11-12 — Appels en direct (WebRTC) et déploiement OVH
+- Voix et vidéo en direct : `react-native-webrtc` (+ plugin Expo) et `react-native-incall-manager` (haut-parleur, capteur de proximité), chargés seulement s'ils existent (version installée) ; dans Expo Go, l'écran le dit. L'appelant envoie l'offre après le décroché, l'appelé répond, les candidats ICE arrivés tôt sont gardés.
+- Signalisation par le WebSocket existant (`type: "signal"`), relayée au seul partenaire, pour un appel en cours du couple, taille et débit bornés, jamais stockée. Identifiants TURN temporaires (coturn `use-auth-secret`, HMAC-SHA1) via `/api/v1/calls/ice/`.
+- Écran d'appel : vidéo de l'autre en plein écran, la sienne en vignette, micro, haut-parleur, caméra, retourner, et la bulle de messages par-dessus la vidéo (lire et répondre sans quitter l'appel).
+- Déploiement : `deploy/` (Docker Compose : Caddy HTTPS automatique, Daphne, Celery, Postgres, Redis, coturn) et OVH Object Storage (S3) ; guide `docs/DEPLOY_OVH.md`.
+- Reste : faire sonner l'app fermée (iOS CallKit + notifications VoIP PushKit via APNs ; Android notification plein écran haute priorité), à faire avec la version installée.

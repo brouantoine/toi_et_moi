@@ -1,0 +1,18 @@
+# HTTPS automatique (Let's Encrypt) pour l'API, le temps réel, l'admin et les pages légales.
+{$API_DOMAIN} {
+	encode zstd gzip
+
+	handle_path /static/* {
+		root * /srv/static
+		file_server
+	}
+
+	# API, WebSocket (/ws/v1/sync/), admin, pages légales, liens d'invitation.
+	reverse_proxy backend:8000
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options nosniff
+		Referrer-Policy same-origin
+	}
+}

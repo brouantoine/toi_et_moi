@@ -9,11 +9,15 @@ Protocol (JSON over WebSocket at /ws/v1/sync/):
    the only place where access is checked.
 4. Ephemeral "typing" signal: the client sends {"type": "typing", "active": bool}; the
    partner receives {"type": "typing", "active": bool}. Never stored, never echoed back.
+5. Call signalling (WebRTC offer / answer / ICE candidates): the client sends
+   {"type": "signal", "call": id, "data": {...}}; only for a call of its own couple that is
+   ringing or ongoing, bounded in size and rate; relayed to the partner only, never stored.
 """
 
 from __future__ import annotations
 
 import asyncio
+import json
 from collections.abc import Awaitable, Callable
 from typing import Any, cast
 
@@ -37,6 +41,10 @@ def couple_group(couple_id: int) -> str:
 
 
 TYPING_MIN_INTERVAL = 1.0
+#: WebRTC messages: an SDP is a few KB; a burst of ICE candidates is allowed.
+SIGNAL_MAX_BYTES = 64_000
+SIGNAL_BURST = 120
+SIGNAL_WINDOW = 60.0
 
 
 def _member_for_token(token: str) -> tuple[int, int] | None:
@@ -56,11 +64,22 @@ _member_for = cast(
 )
 
 
+def _call_is_live(call_id: int, couple_id: int) -> bool:
+    from calls.models import LIVE_STATES, Call
+
+    return Call.objects.filter(pk=call_id, couple_id=couple_id, state__in=LIVE_STATES).exists()
+
+
+_call_live = cast(Callable[[int, int], Awaitable[bool]], database_sync_to_async(_call_is_live))
+
+
 class SyncConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
     group: str | None = None
     user_id: int | None = None
     _auth_timer: asyncio.Task[None] | None = None
     _last_typing: float = 0.0
+    couple_id: int | None = None
+    _signals: list[float]
 
     async def connect(self) -> None:
         await self.accept()
@@ -83,6 +102,8 @@ class SyncConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
                 await self.close(code=CLOSE_UNAUTHORIZED)
                 return
             self.user_id, couple_id = member
+            self.couple_id = couple_id
+            self._signals = []
             self.group = couple_group(couple_id)
             await self.channel_layer.group_add(self.group, self.channel_name)
             await self.send_json({"type": "ready"})
@@ -90,6 +111,32 @@ class SyncConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
             await self.send_json({"type": "pong"})
         elif content.get("type") == "typing":
             await self._typing(bool(content.get("active")))
+        elif content.get("type") == "signal":
+            await self._signal(content)
+
+    async def _signal(self, content: dict[str, Any]) -> None:
+        call_id, data = content.get("call"), content.get("data")
+        if not isinstance(call_id, int) or not isinstance(data, dict):
+            return
+        if len(json.dumps(data)) > SIGNAL_MAX_BYTES:
+            return
+        now = asyncio.get_running_loop().time()
+        self._signals = [t for t in self._signals if now - t < SIGNAL_WINDOW]
+        if len(self._signals) >= SIGNAL_BURST:
+            return
+        self._signals.append(now)
+        assert self.couple_id is not None and self.group is not None  # noqa: S101 - authed
+        if not await _call_live(call_id, self.couple_id):
+            return
+        await self.channel_layer.group_send(
+            self.group, {"type": "sync.signal", "user": self.user_id, "call": call_id, "data": data}
+        )
+
+    async def sync_signal(self, event: dict[str, Any]) -> None:
+        if event.get("user") != self.user_id:
+            await self.send_json(
+                {"type": "signal", "call": event.get("call"), "data": event.get("data")}
+            )
 
     async def _typing(self, active: bool) -> None:
         now = asyncio.get_running_loop().time()

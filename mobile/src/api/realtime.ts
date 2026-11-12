@@ -73,6 +73,8 @@ export type SyncOptions = {
   onReady?: () => void;
   /** The partner started or stopped typing a message (ephemeral, never stored). */
   onTyping?: (active: boolean) => void;
+  /** WebRTC signalling from the partner for a live call (offer, answer, ICE candidate). */
+  onSignal?: (callId: number, data: Record<string, unknown>) => void;
   createSocket?: (url: string) => SocketLike;
 };
 
@@ -95,6 +97,13 @@ export class SyncClient {
   /** Tells the partner I am (or stopped) typing. Dropped when not connected. */
   sendTyping(active: boolean): void {
     if (this.ready) this.socket?.send(JSON.stringify({ type: 'typing', active }));
+  }
+
+  /** Sends WebRTC signalling to the partner. Returns false when not connected. */
+  sendSignal(callId: number, data: Record<string, unknown>): boolean {
+    if (!this.ready || !this.socket) return false;
+    this.socket.send(JSON.stringify({ type: 'signal', call: callId, data }));
+    return true;
   }
 
   stop(): void {
@@ -129,7 +138,12 @@ export class SyncClient {
   }
 
   private handle(raw: unknown): void {
-    let message: Omit<Partial<ChangedEvent>, 'type'> & { type?: string; active?: boolean };
+    let message: Omit<Partial<ChangedEvent>, 'type'> & {
+      type?: string;
+      active?: boolean;
+      call?: unknown;
+      data?: unknown;
+    };
     try {
       message = JSON.parse(String(raw)) as typeof message;
     } catch {
@@ -147,6 +161,13 @@ export class SyncClient {
       this.options.onChanged(message as ChangedEvent);
     } else if (message.type === 'typing') {
       this.options.onTyping?.(Boolean(message.active));
+    } else if (
+      message.type === 'signal' &&
+      typeof message.call === 'number' &&
+      message.data &&
+      typeof message.data === 'object'
+    ) {
+      this.options.onSignal?.(message.call, message.data as Record<string, unknown>);
     }
   }
 

@@ -163,3 +163,41 @@ def test_typing_reaches_the_partner_only_and_is_throttled() -> None:
             await ws.disconnect()
 
     run(scenario)
+
+
+def test_call_signals_reach_the_partner_only_during_a_live_call() -> None:
+    from calls.models import Call
+
+    couple, alice, bob = make_couple()
+    other, carol, _ = make_couple()
+    call = Call.objects.create(couple=couple, caller=alice, kind="video")
+    foreign = Call.objects.create(couple=other, caller=carol, kind="audio")
+    offer = {"sdp": {"type": "offer", "sdp": "v=0..."}}
+
+    async def scenario() -> None:
+        ws_alice, _ = await open_socket({"type": "auth", "token": token(alice)})
+        ws_bob, _ = await open_socket({"type": "auth", "token": token(bob)})
+        ws_carol, _ = await open_socket({"type": "auth", "token": token(carol)})
+        await ws_alice.send_json_to({"type": "signal", "call": call.pk, "data": offer})
+        assert await ws_bob.receive_json_from(timeout=2) == {
+            "type": "signal",
+            "call": call.pk,
+            "data": offer,
+        }
+        assert await ws_alice.receive_nothing(timeout=0.3)
+        assert await ws_carol.receive_nothing(timeout=0.3)
+        # Another couple's call, a malformed or oversized message: dropped.
+        await ws_alice.send_json_to({"type": "signal", "call": foreign.pk, "data": offer})
+        await ws_alice.send_json_to({"type": "signal", "call": "x", "data": offer})
+        await ws_alice.send_json_to(
+            {"type": "signal", "call": call.pk, "data": {"sdp": "x" * 70_000}}
+        )
+        assert await ws_bob.receive_nothing(timeout=0.3)
+        # Once the call is over, nothing goes through any more.
+        await sync_to_async(Call.objects.filter(pk=call.pk).update)(state="ended")
+        await ws_alice.send_json_to({"type": "signal", "call": call.pk, "data": offer})
+        assert await ws_bob.receive_nothing(timeout=0.3)
+        for ws in (ws_alice, ws_bob, ws_carol):
+            await ws.disconnect()
+
+    run(scenario)

@@ -7,7 +7,7 @@ paths:
     post:
       operationId: v1_auth_logout_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -21,7 +21,7 @@ paths:
               $ref: '#/components/schemas/LogoutRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '205':
           description: No response body
@@ -30,7 +30,7 @@ paths:
       operationId: v1_auth_password_reset_create
       description: 'Always answers 204: never reveals whether the email has an account.'
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -44,7 +44,7 @@ paths:
               $ref: '#/components/schemas/EmailRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '204':
           description: No response body
@@ -52,7 +52,7 @@ paths:
     post:
       operationId: v1_auth_password_reset_confirm_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -66,7 +66,7 @@ paths:
               $ref: '#/components/schemas/PasswordResetConfirmRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '204':
           description: No response body
@@ -76,7 +76,7 @@ paths:
     post:
       operationId: v1_auth_register_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -90,7 +90,7 @@ paths:
               $ref: '#/components/schemas/RegisterRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '201':
           content:
@@ -103,13 +103,13 @@ paths:
       operationId: v1_auth_social_create
       description: 'Sign in with Apple / Google: the identity token is verified server-side.'
       parameters:
-      - in: path
-        name: provider
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: provider
+          schema:
+            type: string
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -123,7 +123,7 @@ paths:
               $ref: '#/components/schemas/SocialLoginRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -144,7 +144,7 @@ paths:
         Takes a set of user credentials and returns an access and refresh JSON web
         token pair to prove the authentication of those credentials.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -171,7 +171,7 @@ paths:
         Takes a refresh type JSON web token and returns an access type JSON web
         token if the refresh token is valid.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -195,7 +195,7 @@ paths:
     post:
       operationId: v1_auth_verify_email_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -209,7 +209,7 @@ paths:
               $ref: '#/components/schemas/TokenRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '204':
           description: No response body
@@ -219,9 +219,9 @@ paths:
     post:
       operationId: v1_auth_verify_email_resend_create
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -229,7 +229,7 @@ paths:
     post:
       operationId: v1_calls_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -243,7 +243,7 @@ paths:
               $ref: '#/components/schemas/StartCallRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -255,15 +255,15 @@ paths:
     post:
       operationId: v1_calls_accept_create
       parameters:
-      - in: path
-        name: call_id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: call_id
+          schema:
+            type: integer
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -275,15 +275,15 @@ paths:
     post:
       operationId: v1_calls_decline_create
       parameters:
-      - in: path
-        name: call_id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: call_id
+          schema:
+            type: integer
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -295,15 +295,15 @@ paths:
     post:
       operationId: v1_calls_end_create
       parameters:
-      - in: path
-        name: call_id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: call_id
+          schema:
+            type: integer
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -317,9 +317,9 @@ paths:
       description: 'The call ringing or going on, if any: the phones check it to show
         the call screen.'
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -327,20 +327,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/CurrentCall'
           description: ''
+  /api/v1/calls/ice/:
+    get:
+      operationId: v1_calls_ice_retrieve
+      description: 'Where the phones find each other: STUN, and the TURN relay with
+        fresh credentials.'
+      tags:
+        - v1
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IceServers'
+          description: ''
   /api/v1/chores/:
     get:
       operationId: v1_chores_list
       description: 'Household tasks. No score, no tally: only who carries what.'
       parameters:
-      - in: query
-        name: done
-        schema:
-          type: boolean
-        description: Finished one-offs
+        - in: query
+          name: done
+          schema:
+            type: boolean
+          description: Finished one-offs
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -354,7 +370,7 @@ paths:
       operationId: v1_chores_create
       description: 'Household tasks. No score, no tally: only who carries what.'
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -368,7 +384,7 @@ paths:
               $ref: '#/components/schemas/ChoreRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -381,16 +397,16 @@ paths:
       operationId: v1_chores_retrieve
       description: 'Household tasks. No score, no tally: only who carries what.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) chore.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) chore.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -402,14 +418,14 @@ paths:
       operationId: v1_chores_update
       description: 'Household tasks. No score, no tally: only who carries what.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) chore.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) chore.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -423,7 +439,7 @@ paths:
               $ref: '#/components/schemas/ChoreRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -435,14 +451,14 @@ paths:
       operationId: v1_chores_partial_update
       description: 'Household tasks. No score, no tally: only who carries what.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) chore.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) chore.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -455,7 +471,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedChoreRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -467,16 +483,16 @@ paths:
       operationId: v1_chores_destroy
       description: 'Household tasks. No score, no tally: only who carries what.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) chore.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) chore.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -486,16 +502,16 @@ paths:
       description: 'Done: a one-off is closed, a recurring chore moves to its next
         due date.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) chore.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) chore.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -508,16 +524,16 @@ paths:
       operationId: v1_chores_reopen_create
       description: 'Household tasks. No score, no tally: only who carries what.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) chore.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) chore.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -531,9 +547,9 @@ paths:
       description: Open chores due this week (or without date), grouped by who carries
         them.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -546,9 +562,9 @@ paths:
       operationId: v1_coach_retrieve
       description: The couple's shared conversation with the AI coach.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -560,9 +576,9 @@ paths:
       operationId: v1_coach_destroy
       description: Erases the whole conversation, for both.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -570,7 +586,7 @@ paths:
     put:
       operationId: v1_coach_consent_update
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -584,7 +600,7 @@ paths:
               $ref: '#/components/schemas/CoachConsentInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -596,7 +612,7 @@ paths:
     post:
       operationId: v1_coach_messages_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -610,7 +626,7 @@ paths:
               $ref: '#/components/schemas/CoachPostRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -624,9 +640,9 @@ paths:
       description: The requester's current couple (pending or active). Only ever their
         own.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -641,7 +657,7 @@ paths:
       description: The requester's current couple (pending or active). Only ever their
         own.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -654,7 +670,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateCoupleRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -673,7 +689,7 @@ paths:
       description: The requester's current couple (pending or active). Only ever their
         own.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -686,7 +702,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedCoupleRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -701,9 +717,9 @@ paths:
       description: Cancel a pending couple nobody joined. Leaving an active couple
         is P9.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -719,9 +735,9 @@ paths:
       description: How far apart you are, from your real positions, only if both of
         you agree.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -733,7 +749,7 @@ paths:
       operationId: v1_couple_distance_update
       description: Shares the current position (sent by the app while it is open).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -747,7 +763,7 @@ paths:
               $ref: '#/components/schemas/PositionInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -759,9 +775,9 @@ paths:
       operationId: v1_couple_distance_destroy
       description: 'Stops sharing: consent withdrawn and position erased at once.'
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -770,7 +786,7 @@ paths:
       operationId: v1_couple_distance_consent_create
       description: Accepts the location terms (the version shown in the app).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -784,7 +800,7 @@ paths:
               $ref: '#/components/schemas/ConsentInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -798,7 +814,7 @@ paths:
       description: Turns sharing while the app is closed on or off (separate, explicit
         opt-in).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -812,7 +828,7 @@ paths:
               $ref: '#/components/schemas/ContinuousInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -824,9 +840,9 @@ paths:
     post:
       operationId: v1_couple_invitation_create
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -844,7 +860,7 @@ paths:
     post:
       operationId: v1_couple_join_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -858,7 +874,7 @@ paths:
               $ref: '#/components/schemas/JoinCoupleRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -877,7 +893,7 @@ paths:
       operationId: v1_couple_photo_update
       description: 'Shared couple photo: either partner can set or remove it.'
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -891,7 +907,7 @@ paths:
               $ref: '#/components/schemas/ImageKeyRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -909,9 +925,9 @@ paths:
       operationId: v1_couple_photo_destroy
       description: 'Shared couple photo: either partner can set or remove it.'
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -919,7 +935,7 @@ paths:
     post:
       operationId: v1_couple_photo_upload_url_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -933,7 +949,7 @@ paths:
               $ref: '#/components/schemas/ImageUploadRequestRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -953,9 +969,9 @@ paths:
       description: Shared calendar. Use `occurrences` to read a period (recurrences
         expanded).
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -970,7 +986,7 @@ paths:
       description: Shared calendar. Use `occurrences` to read a period (recurrences
         expanded).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -984,7 +1000,7 @@ paths:
               $ref: '#/components/schemas/EventRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -998,16 +1014,16 @@ paths:
       description: Shared calendar. Use `occurrences` to read a period (recurrences
         expanded).
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) event.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) event.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1020,14 +1036,14 @@ paths:
       description: Shared calendar. Use `occurrences` to read a period (recurrences
         expanded).
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) event.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) event.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1041,7 +1057,7 @@ paths:
               $ref: '#/components/schemas/EventRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1054,14 +1070,14 @@ paths:
       description: Shared calendar. Use `occurrences` to read a period (recurrences
         expanded).
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) event.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) event.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1074,7 +1090,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedEventRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1087,16 +1103,16 @@ paths:
       description: Shared calendar. Use `occurrences` to read a period (recurrences
         expanded).
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) event.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) event.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1105,22 +1121,22 @@ paths:
       operationId: v1_events_occurrences_list
       description: Events between `start` and `end` inclusive (at most 400 days).
       parameters:
-      - in: query
-        name: end
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: start
-        schema:
-          type: string
-          format: date
-        required: true
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1135,22 +1151,22 @@ paths:
       operationId: v1_expenses_list
       description: Shared expenses, the simple balance and the one-gesture reimbursement.
       parameters:
-      - name: cursor
-        required: false
-        in: query
-        description: La valeur du curseur de pagination.
-        schema:
-          type: string
-      - name: page_size
-        required: false
-        in: query
-        description: Nombre de résultats à retourner par page.
-        schema:
-          type: integer
+        - name: cursor
+          required: false
+          in: query
+          description: La valeur du curseur de pagination.
+          schema:
+            type: string
+        - name: page_size
+          required: false
+          in: query
+          description: Nombre de résultats à retourner par page.
+          schema:
+            type: integer
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1162,7 +1178,7 @@ paths:
       operationId: v1_expenses_create
       description: Shared expenses, the simple balance and the one-gesture reimbursement.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1176,7 +1192,7 @@ paths:
               $ref: '#/components/schemas/ExpenseRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -1189,16 +1205,16 @@ paths:
       operationId: v1_expenses_retrieve
       description: Shared expenses, the simple balance and the one-gesture reimbursement.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) expense.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) expense.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1210,14 +1226,14 @@ paths:
       operationId: v1_expenses_update
       description: Shared expenses, the simple balance and the one-gesture reimbursement.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) expense.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) expense.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1231,7 +1247,7 @@ paths:
               $ref: '#/components/schemas/ExpenseRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1243,14 +1259,14 @@ paths:
       operationId: v1_expenses_partial_update
       description: Shared expenses, the simple balance and the one-gesture reimbursement.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) expense.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) expense.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1263,7 +1279,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedExpenseRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1275,16 +1291,16 @@ paths:
       operationId: v1_expenses_destroy
       description: Shared expenses, the simple balance and the one-gesture reimbursement.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) expense.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) expense.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1293,9 +1309,9 @@ paths:
       operationId: v1_expenses_balance_list
       description: Who owes how much, per currency. Simple and neutral.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1310,7 +1326,7 @@ paths:
       operationId: v1_expenses_settle_create
       description: Records the reimbursement of the whole balance in this currency.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1324,7 +1340,7 @@ paths:
               $ref: '#/components/schemas/SettleRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1339,7 +1355,7 @@ paths:
       operationId: v1_games_adult_update
       description: 'Adults-only packs: each partner turns them on for themselves.'
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1353,7 +1369,7 @@ paths:
               $ref: '#/components/schemas/AdultInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1365,7 +1381,7 @@ paths:
     post:
       operationId: v1_games_answers_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1379,7 +1395,7 @@ paths:
               $ref: '#/components/schemas/AnswerInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -1390,12 +1406,12 @@ paths:
   /api/v1/games/home/:
     get:
       operationId: v1_games_home_retrieve
-      description: 'Everything the home and the games tab show: today''s packs, your
-        turn, progress.'
+      description: "Everything the home and the games tab show: today's packs, your
+        turn, progress."
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1407,31 +1423,31 @@ paths:
     get:
       operationId: v1_games_packs_retrieve
       parameters:
-      - in: query
-        name: kind
-        schema:
-          type: string
-      - in: query
-        name: q
-        schema:
-          type: string
-      - in: query
-        name: state
-        schema:
-          type: string
-          enum:
-          - done
-          - unanswered
-          - waiting
-          - your_turn
-      - in: query
-        name: topic
-        schema:
-          type: string
+        - in: query
+          name: kind
+          schema:
+            type: string
+        - in: query
+          name: q
+          schema:
+            type: string
+        - in: query
+          name: state
+          schema:
+            type: string
+            enum:
+              - done
+              - unanswered
+              - waiting
+              - your_turn
+        - in: query
+          name: topic
+          schema:
+            type: string
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1443,15 +1459,15 @@ paths:
     get:
       operationId: v1_games_packs_retrieve_2
       parameters:
-      - in: path
-        name: pack_id
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: pack_id
+          schema:
+            type: string
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1464,7 +1480,7 @@ paths:
       operationId: v1_games_upload_url_create
       description: Ticket to upload a photo answer straight to storage.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1478,7 +1494,7 @@ paths:
               $ref: '#/components/schemas/ImageUploadRequestRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1491,7 +1507,7 @@ paths:
       operationId: v1_health_retrieve
       description: Liveness probe used by Docker, load balancers and the mobile app.
       tags:
-      - v1
+        - v1
       responses:
         '200':
           content:
@@ -1504,9 +1520,9 @@ paths:
       operationId: v1_lists_list
       description: Shared lists, in the couple's order.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1520,7 +1536,7 @@ paths:
       operationId: v1_lists_create
       description: Shared lists, in the couple's order.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1534,7 +1550,7 @@ paths:
               $ref: '#/components/schemas/SharedListRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -1548,16 +1564,16 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1572,14 +1588,14 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1593,7 +1609,7 @@ paths:
               $ref: '#/components/schemas/ListItemRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -1607,22 +1623,22 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) list item.
-        required: true
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) list item.
+          required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1635,20 +1651,20 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) list item.
-        required: true
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) list item.
+          required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1662,7 +1678,7 @@ paths:
               $ref: '#/components/schemas/ListItemRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1675,20 +1691,20 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) list item.
-        required: true
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) list item.
+          required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1701,7 +1717,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedListItemRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1714,22 +1730,22 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) list item.
-        required: true
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) list item.
+          required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1738,16 +1754,16 @@ paths:
       operationId: v1_lists_items_clear_done_create
       description: Removes ticked items (e.g. after shopping).
       parameters:
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1757,14 +1773,14 @@ paths:
       description: Items of one list. Ticking records who did it, never a count per
         person.
       parameters:
-      - in: path
-        name: list_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: list_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1778,7 +1794,7 @@ paths:
               $ref: '#/components/schemas/ReorderRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1787,16 +1803,16 @@ paths:
       operationId: v1_lists_retrieve
       description: Shared lists, in the couple's order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1808,14 +1824,14 @@ paths:
       operationId: v1_lists_update
       description: Shared lists, in the couple's order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1829,7 +1845,7 @@ paths:
               $ref: '#/components/schemas/SharedListRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1841,14 +1857,14 @@ paths:
       operationId: v1_lists_partial_update
       description: Shared lists, in the couple's order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1861,7 +1877,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedSharedListRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1873,16 +1889,16 @@ paths:
       operationId: v1_lists_destroy
       description: Shared lists, in the couple's order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) shared list.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) shared list.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1891,7 +1907,7 @@ paths:
       operationId: v1_lists_reorder_create
       description: Shared lists, in the couple's order.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1905,7 +1921,7 @@ paths:
               $ref: '#/components/schemas/ReorderRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1915,9 +1931,9 @@ paths:
       description: The authenticated user's own profile. Nobody else's profile is
         reachable here.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1930,7 +1946,7 @@ paths:
       description: The authenticated user's own profile. Nobody else's profile is
         reachable here.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1943,7 +1959,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedUserRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1955,9 +1971,9 @@ paths:
       operationId: v1_me_destroy
       description: Deletes the account and the couple's shared space, for good.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -1969,7 +1985,7 @@ paths:
       description: PUT {key} sets my photo after upload; DELETE removes it (file really
         deleted).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -1983,7 +1999,7 @@ paths:
               $ref: '#/components/schemas/ImageKeyRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2002,9 +2018,9 @@ paths:
       description: PUT {key} sets my photo after upload; DELETE removes it (file really
         deleted).
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2012,7 +2028,7 @@ paths:
     post:
       operationId: v1_me_avatar_upload_url_create
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2026,7 +2042,7 @@ paths:
               $ref: '#/components/schemas/ImageUploadRequestRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2045,41 +2061,41 @@ paths:
       operationId: v1_memories_list
       description: Shared memories of the couple, newest first.
       parameters:
-      - name: cursor
-        required: false
-        in: query
-        description: La valeur du curseur de pagination.
-        schema:
-          type: string
-      - name: page_size
-        required: false
-        in: query
-        description: Nombre de résultats à retourner par page.
-        schema:
-          type: integer
-      - in: query
-        name: q
-        schema:
-          type: string
-        description: Full-text search
-      - in: query
-        name: tag
-        schema:
-          type: string
-      - in: query
-        name: type
-        schema:
-          type: string
-          enum:
-          - first_time
-          - inside_joke
-          - moment
-          - place
-          - quote
+        - name: cursor
+          required: false
+          in: query
+          description: La valeur du curseur de pagination.
+          schema:
+            type: string
+        - name: page_size
+          required: false
+          in: query
+          description: Nombre de résultats à retourner par page.
+          schema:
+            type: integer
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Full-text search
+        - in: query
+          name: tag
+          schema:
+            type: string
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - first_time
+              - inside_joke
+              - moment
+              - place
+              - quote
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2091,7 +2107,7 @@ paths:
       operationId: v1_memories_create
       description: Shared memories of the couple, newest first.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2105,7 +2121,7 @@ paths:
               $ref: '#/components/schemas/MemoryRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -2119,16 +2135,16 @@ paths:
       description: Short comments on a shared memory. Both partners read; only the
         author deletes.
       parameters:
-      - in: path
-        name: memory_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: memory_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2143,14 +2159,14 @@ paths:
       description: Short comments on a shared memory. Both partners read; only the
         author deletes.
       parameters:
-      - in: path
-        name: memory_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: memory_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2164,7 +2180,7 @@ paths:
               $ref: '#/components/schemas/MemoryCommentRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -2178,22 +2194,22 @@ paths:
       description: Short comments on a shared memory. Both partners read; only the
         author deletes.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory comment.
-        required: true
-      - in: path
-        name: memory_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory comment.
+          required: true
+        - in: path
+          name: memory_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2203,14 +2219,14 @@ paths:
       description: 'Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3)
         confirm, (delete).'
       parameters:
-      - in: path
-        name: memory_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: memory_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2224,7 +2240,7 @@ paths:
               $ref: '#/components/schemas/PhotoConfirmRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -2244,22 +2260,22 @@ paths:
       description: 'Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3)
         confirm, (delete).'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory photo.
-        required: true
-      - in: path
-        name: memory_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory photo.
+          required: true
+        - in: path
+          name: memory_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2269,14 +2285,14 @@ paths:
       description: 'Photos of a memory: 1) ask an upload URL, 2) upload to S3, 3)
         confirm, (delete).'
       parameters:
-      - in: path
-        name: memory_pk
-        schema:
-          type: string
-          pattern: ^\d+$
-        required: true
+        - in: path
+          name: memory_pk
+          schema:
+            type: string
+            pattern: ^\d+$
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2290,7 +2306,7 @@ paths:
               $ref: '#/components/schemas/PhotoUploadRequestRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2309,16 +2325,16 @@ paths:
       operationId: v1_memories_retrieve
       description: Shared memories of the couple, newest first.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2330,14 +2346,14 @@ paths:
       operationId: v1_memories_update
       description: Shared memories of the couple, newest first.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2351,7 +2367,7 @@ paths:
               $ref: '#/components/schemas/MemoryRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2363,14 +2379,14 @@ paths:
       operationId: v1_memories_partial_update
       description: Shared memories of the couple, newest first.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory.
+          required: true
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2383,7 +2399,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedMemoryRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2395,16 +2411,16 @@ paths:
       operationId: v1_memories_destroy
       description: Shared memories of the couple, newest first.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2414,16 +2430,16 @@ paths:
       description: 'A single gentle heart: POST gives it, DELETE takes it back. Never
         counted.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2436,16 +2452,16 @@ paths:
       description: 'A single gentle heart: POST gives it, DELETE takes it back. Never
         counted.'
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) memory.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) memory.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2458,9 +2474,9 @@ paths:
       operationId: v1_memories_on_this_day_retrieve
       description: N years ago today, computed in the requester time zone.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2474,22 +2490,22 @@ paths:
       description: The couple's private thread, newest first. Both read; each deletes
         their own.
       parameters:
-      - name: cursor
-        required: false
-        in: query
-        description: La valeur du curseur de pagination.
-        schema:
-          type: string
-      - name: page_size
-        required: false
-        in: query
-        description: Nombre de résultats à retourner par page.
-        schema:
-          type: integer
+        - name: cursor
+          required: false
+          in: query
+          description: La valeur du curseur de pagination.
+          schema:
+            type: string
+        - name: page_size
+          required: false
+          in: query
+          description: Nombre de résultats à retourner par page.
+          schema:
+            type: integer
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2502,7 +2518,7 @@ paths:
       description: The couple's private thread, newest first. Both read; each deletes
         their own.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2515,7 +2531,7 @@ paths:
             schema:
               $ref: '#/components/schemas/SendMessageRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -2529,28 +2545,28 @@ paths:
       description: The couple's private thread, newest first. Both read; each deletes
         their own.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) message.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) message.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
   /api/v1/messages/read/:
     post:
       operationId: v1_messages_read_create
-      description: 'The reader opened the conversation: the partner''s messages become
-        read.'
+      description: "The reader opened the conversation: the partner's messages become
+        read."
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2559,7 +2575,7 @@ paths:
       operationId: v1_messages_upload_url_create
       description: Ticket to upload a photo or a voice note straight to storage.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2573,7 +2589,7 @@ paths:
               $ref: '#/components/schemas/MediaUploadRequestRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2587,7 +2603,7 @@ paths:
       description: A one-tap answer to the partner's mood (3 a day at most, no read
         receipt).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2601,7 +2617,7 @@ paths:
               $ref: '#/components/schemas/ReplyInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2610,9 +2626,9 @@ paths:
       operationId: v1_morning_today_retrieve
       description: The morning weather of the couple, today.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2624,7 +2640,7 @@ paths:
       operationId: v1_morning_today_update
       description: The morning weather of the couple, today.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2638,7 +2654,7 @@ paths:
               $ref: '#/components/schemas/MoodInputRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2650,9 +2666,9 @@ paths:
       operationId: v1_morning_today_destroy
       description: Takes today's mood back (it is never mandatory).
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2662,9 +2678,9 @@ paths:
       description: Sticky notes of the couple. Both read and add; each removes their
         own.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2679,7 +2695,7 @@ paths:
       description: Sticky notes of the couple. Both read and add; each removes their
         own.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2693,7 +2709,7 @@ paths:
               $ref: '#/components/schemas/NoteRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -2707,16 +2723,16 @@ paths:
       description: Sticky notes of the couple. Both read and add; each removes their
         own.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: Un(une) valeur entière unique identifiant ce(cette) note.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Un(une) valeur entière unique identifiant ce(cette) note.
+          required: true
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2726,7 +2742,7 @@ paths:
       description: Registers this phone for push (a token always belongs to whoever
         registers it last).
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2740,7 +2756,7 @@ paths:
               $ref: '#/components/schemas/DeviceRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2749,7 +2765,7 @@ paths:
       operationId: v1_notifications_devices_forget_create
       description: Forgets this phone (sign out). Only one's own tokens can be removed.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2763,7 +2779,7 @@ paths:
               $ref: '#/components/schemas/DeviceRequest'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -2772,9 +2788,9 @@ paths:
       operationId: v1_notifications_preferences_retrieve
       description: My notification choices. Never visible to the partner.
       tags:
-      - v1
+        - v1
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2786,7 +2802,7 @@ paths:
       operationId: v1_notifications_preferences_partial_update
       description: My notification choices. Never visible to the partner.
       tags:
-      - v1
+        - v1
       requestBody:
         content:
           application/json:
@@ -2799,7 +2815,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedPreferenceRequest'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2811,13 +2827,13 @@ components:
   schemas:
     AccentEnum:
       enum:
-      - rouge
-      - ambre
-      - sauge
-      - lagon
-      - bleu
-      - violet
-      - encre
+        - rouge
+        - ambre
+        - sauge
+        - lagon
+        - bleu
+        - violet
+        - encre
       type: string
       description: |-
         * `rouge` - Rouge
@@ -2835,15 +2851,15 @@ components:
         partner:
           type: boolean
       required:
-      - mine
-      - partner
+        - mine
+        - partner
     AdultInputRequest:
       type: object
       properties:
         enabled:
           type: boolean
       required:
-      - enabled
+        - enabled
     AnswerInputRequest:
       type: object
       properties:
@@ -2872,7 +2888,7 @@ components:
           type: boolean
           default: false
       required:
-      - question
+        - question
     AuthResponse:
       type: object
       properties:
@@ -2883,35 +2899,35 @@ components:
         user:
           $ref: '#/components/schemas/User'
       required:
-      - access
-      - refresh
-      - user
+        - access
+        - refresh
+        - user
     AvatarPresetEnum:
       enum:
-      - man-beard-dark
-      - man-beard-light
-      - man-beard-medium
-      - man-beard-medium-dark
-      - man-curly-hair-dark
-      - man-curly-hair-light
-      - man-curly-hair-medium
-      - man-curly-hair-medium-dark
-      - man-dark
-      - man-light
-      - man-medium
-      - man-medium-dark
-      - woman-curly-hair-dark
-      - woman-curly-hair-light
-      - woman-curly-hair-medium
-      - woman-curly-hair-medium-dark
-      - woman-dark
-      - woman-light
-      - woman-medium
-      - woman-medium-dark
-      - woman-with-headscarf-dark
-      - woman-with-headscarf-light
-      - woman-with-headscarf-medium
-      - woman-with-headscarf-medium-dark
+        - man-beard-dark
+        - man-beard-light
+        - man-beard-medium
+        - man-beard-medium-dark
+        - man-curly-hair-dark
+        - man-curly-hair-light
+        - man-curly-hair-medium
+        - man-curly-hair-medium-dark
+        - man-dark
+        - man-light
+        - man-medium
+        - man-medium-dark
+        - woman-curly-hair-dark
+        - woman-curly-hair-light
+        - woman-curly-hair-medium
+        - woman-curly-hair-medium-dark
+        - woman-dark
+        - woman-light
+        - woman-medium
+        - woman-medium-dark
+        - woman-with-headscarf-dark
+        - woman-with-headscarf-light
+        - woman-with-headscarf-medium
+        - woman-with-headscarf-medium-dark
       type: string
       description: |-
         * `man-beard-dark` - man-beard-dark
@@ -2950,14 +2966,14 @@ components:
         direction:
           $ref: '#/components/schemas/BalanceDirectionEnum'
       required:
-      - amount
-      - currency
-      - direction
+        - amount
+        - currency
+        - direction
     BalanceDirectionEnum:
       enum:
-      - partner_owes_me
-      - i_owe_partner
-      - settled
+        - partner_owes_me
+        - i_owe_partner
+        - settled
       type: string
       description: |-
         * `partner_owes_me` - partner_owes_me
@@ -2965,7 +2981,7 @@ components:
         * `settled` - settled
     BlankEnum:
       enum:
-      - ''
+        - ''
     Call:
       type: object
       properties:
@@ -2993,30 +3009,30 @@ components:
           description: Live voice and video exist in this build (installed app, not
             Expo Go).
       required:
-      - answered_at
-      - created_at
-      - direction
-      - ended_at
-      - id
-      - kind
-      - media_ready
-      - state
+        - answered_at
+        - created_at
+        - direction
+        - ended_at
+        - id
+        - kind
+        - media_ready
+        - state
     CallDirectionEnum:
       enum:
-      - outgoing
-      - incoming
+        - outgoing
+        - incoming
       type: string
       description: |-
         * `outgoing` - outgoing
         * `incoming` - incoming
     CallStateEnum:
       enum:
-      - ringing
-      - ongoing
-      - ended
-      - declined
-      - missed
-      - cancelled
+        - ringing
+        - ongoing
+        - ended
+        - declined
+        - missed
+        - cancelled
       type: string
       description: |-
         * `ringing` - Ringing
@@ -3057,17 +3073,17 @@ components:
           format: date-time
           readOnly: true
       required:
-      - created_at
-      - done_at
-      - id
-      - last_done_at
-      - title
+        - created_at
+        - done_at
+        - id
+        - last_done_at
+        - title
     ChoreRecurrenceEnum:
       enum:
-      - none
-      - daily
-      - weekly
-      - monthly
+        - none
+        - daily
+        - weekly
+        - monthly
       type: string
       description: |-
         * `none` - Une fois
@@ -3090,7 +3106,7 @@ components:
           format: date
           nullable: true
       required:
-      - title
+        - title
     ChoreWeek:
       type: object
       description: 'Who carries what this week: three plain lists, never counts or
@@ -3115,11 +3131,11 @@ components:
           items:
             $ref: '#/components/schemas/Chore'
       required:
-      - end
-      - me
-      - start
-      - us
-      - you
+        - end
+        - me
+        - start
+        - us
+        - you
     City:
       type: object
       properties:
@@ -3129,8 +3145,8 @@ components:
           type: string
           description: ISO 3166-1 alpha-2 code.
       required:
-      - country
-      - name
+        - country
+        - name
     CoachAccess:
       type: object
       properties:
@@ -3146,14 +3162,14 @@ components:
           nullable: true
           description: Days of free month left.
       required:
-      - days_left
-      - state
-      - trial_ends_at
+        - days_left
+        - state
+        - trial_ends_at
     CoachAccessStateEnum:
       enum:
-      - trial
-      - plus
-      - expired
+        - trial
+        - plus
+        - expired
       type: string
       description: |-
         * `trial` - trial
@@ -3167,15 +3183,15 @@ components:
         partner:
           type: boolean
       required:
-      - mine
-      - partner
+        - mine
+        - partner
     CoachConsentInputRequest:
       type: object
       properties:
         enabled:
           type: boolean
       required:
-      - enabled
+        - enabled
     CoachMessage:
       type: object
       properties:
@@ -3189,16 +3205,16 @@ components:
           type: string
           format: date-time
       required:
-      - author
-      - created_at
-      - id
-      - text
+        - author
+        - created_at
+        - id
+        - text
     CoachMessageAuthorEnum:
       enum:
-      - me
-      - you
-      - coach
-      - notice
+        - me
+        - you
+        - coach
+        - notice
       type: string
       description: |-
         * `me` - me
@@ -3213,7 +3229,7 @@ components:
           minLength: 1
           maxLength: 2000
       required:
-      - text
+        - text
     CoachThread:
       type: object
       properties:
@@ -3235,19 +3251,19 @@ components:
           items:
             $ref: '#/components/schemas/CoachMessage'
       required:
-      - access
-      - active
-      - available
-      - consent
-      - messages
-      - thinking
+        - access
+        - active
+        - available
+        - consent
+        - messages
+        - thinking
     ColorEnum:
       enum:
-      - red
-      - amber
-      - sage
-      - lagoon
-      - violet
+        - red
+        - amber
+        - sage
+        - lagoon
+        - violet
       type: string
       description: |-
         * `red` - Red
@@ -3262,14 +3278,14 @@ components:
           type: integer
           minimum: 1
       required:
-      - terms_version
+        - terms_version
     ContinuousInputRequest:
       type: object
       properties:
         enabled:
           type: boolean
       required:
-      - enabled
+        - enabled
     Couple:
       type: object
       properties:
@@ -3278,7 +3294,7 @@ components:
           readOnly: true
         status:
           allOf:
-          - $ref: '#/components/schemas/CoupleStatusEnum'
+            - $ref: '#/components/schemas/CoupleStatusEnum'
           readOnly: true
         start_date:
           type: string
@@ -3300,7 +3316,7 @@ components:
           readOnly: true
         invitation:
           allOf:
-          - $ref: '#/components/schemas/Invitation'
+            - $ref: '#/components/schemas/Invitation'
           nullable: true
           readOnly: true
         activated_at:
@@ -3314,26 +3330,26 @@ components:
           readOnly: true
           nullable: true
       required:
-      - activated_at
-      - id
-      - invitation
-      - members
-      - photo_url
-      - plus_until
-      - status
+        - activated_at
+        - id
+        - invitation
+        - members
+        - photo_url
+        - plus_until
+        - status
     CoupleError:
       type: object
       properties:
         code:
           type: string
       required:
-      - code
+        - code
     CoupleStatusEnum:
       enum:
-      - pending
-      - active
-      - dissolving
-      - dissolved
+        - pending
+        - active
+        - dissolving
+        - dissolved
       type: string
       description: |-
         * `pending` - En attente du partenaire
@@ -3357,15 +3373,15 @@ components:
       properties:
         call:
           allOf:
-          - $ref: '#/components/schemas/Call'
+            - $ref: '#/components/schemas/Call'
           nullable: true
         media_ready:
           type: boolean
           description: Live voice/video exist on the server side; the app hides calls
             otherwise.
       required:
-      - call
-      - media_ready
+        - call
+        - media_ready
     DeviceRequest:
       type: object
       properties:
@@ -3377,8 +3393,8 @@ components:
         platform:
           $ref: '#/components/schemas/PlatformEnum'
       required:
-      - platform
-      - token
+        - platform
+        - token
     Distance:
       type: object
       properties:
@@ -3393,10 +3409,10 @@ components:
           nullable: true
           description: Rounded; 0 means less than 1 km. Null unless both share.
       required:
-      - km
-      - mine
-      - partner
-      - terms_version
+        - km
+        - mine
+        - partner
+        - terms_version
     EmailRequest:
       type: object
       properties:
@@ -3405,7 +3421,7 @@ components:
           format: email
           minLength: 1
       required:
-      - email
+        - email
     ErrorCode:
       type: object
       description: Business error with a stable machine code, translated by the app.
@@ -3413,7 +3429,7 @@ components:
         code:
           type: string
       required:
-      - code
+        - code
     Event:
       type: object
       properties:
@@ -3460,15 +3476,15 @@ components:
           format: date-time
           readOnly: true
       required:
-      - created_at
-      - id
-      - title
-      - updated_at
+        - created_at
+        - id
+        - title
+        - updated_at
     EventKindEnum:
       enum:
-      - event
-      - birthday
-      - reunion
+        - event
+        - birthday
+        - reunion
       type: string
       description: |-
         * `event` - Événement
@@ -3510,7 +3526,7 @@ components:
           format: int64
           nullable: true
       required:
-      - title
+        - title
     Expense:
       type: object
       description: Amounts in the currency's smallest unit (cents). Shares are relative
@@ -3550,20 +3566,20 @@ components:
           format: date-time
           readOnly: true
       required:
-      - amount
-      - created_at
-      - id
-      - partner_share
-      - title
+        - amount
+        - created_at
+        - id
+        - partner_share
+        - title
     ExpenseCategoryEnum:
       enum:
-      - groceries
-      - home
-      - outings
-      - travel
-      - gifts
-      - health
-      - other
+        - groceries
+        - home
+        - outings
+        - travel
+        - gifts
+        - health
+        - other
       type: string
       description: |-
         * `groceries` - Courses
@@ -3604,8 +3620,8 @@ components:
           maximum: 100000000
           minimum: 0
       required:
-      - amount
-      - title
+        - amount
+        - title
     GamesHome:
       type: object
       properties:
@@ -3638,16 +3654,16 @@ components:
         streak:
           $ref: '#/components/schemas/Streak'
       required:
-      - adult
-      - daily
-      - done_count
-      - kinds
-      - stats
-      - streak
-      - topics
-      - waiting_count
-      - your_turn
-      - your_turn_count
+        - adult
+        - daily
+        - done_count
+        - kinds
+        - stats
+        - streak
+        - topics
+        - waiting_count
+        - your_turn
+        - your_turn_count
     GivenAnswer:
       type: object
       properties:
@@ -3667,11 +3683,11 @@ components:
         skipped:
           type: boolean
       required:
-      - choice
-      - drawing
-      - photo_url
-      - skipped
-      - text
+        - choice
+        - drawing
+        - photo_url
+        - skipped
+        - text
     Health:
       type: object
       properties:
@@ -3680,15 +3696,41 @@ components:
         brand:
           type: string
       required:
-      - brand
-      - status
+        - brand
+        - status
     Heart:
       type: object
       properties:
         my_heart:
           type: boolean
       required:
-      - my_heart
+        - my_heart
+    IceServer:
+      type: object
+      properties:
+        urls:
+          type: array
+          items:
+            type: string
+        username:
+          type: string
+        credential:
+          type: string
+      required:
+        - urls
+    IceServers:
+      type: object
+      properties:
+        ice_servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/IceServer'
+        ttl:
+          type: integer
+          description: Seconds the TURN credentials stay valid.
+      required:
+        - ice_servers
+        - ttl
     ImageKeyRequest:
       type: object
       properties:
@@ -3697,7 +3739,7 @@ components:
           minLength: 1
           maxLength: 512
       required:
-      - key
+        - key
     ImageUploadRequestRequest:
       type: object
       properties:
@@ -3705,7 +3747,7 @@ components:
           type: string
           minLength: 1
       required:
-      - content_type
+        - content_type
     ImageUploadTicket:
       type: object
       properties:
@@ -3723,11 +3765,11 @@ components:
         expires_in:
           type: integer
       required:
-      - expires_in
-      - form_fields
-      - key
-      - max_bytes
-      - url
+        - expires_in
+        - form_fields
+        - key
+        - max_bytes
+        - url
     ImageUrl:
       type: object
       properties:
@@ -3735,7 +3777,7 @@ components:
           type: string
           nullable: true
       required:
-      - url
+        - url
     Invitation:
       type: object
       properties:
@@ -3755,10 +3797,10 @@ components:
             link).
           readOnly: true
       required:
-      - code
-      - expires_at
-      - link
-      - share_url
+        - code
+        - expires_at
+        - link
+        - share_url
     Item:
       type: object
       properties:
@@ -3772,26 +3814,26 @@ components:
             $ref: '#/components/schemas/Option'
         mine:
           allOf:
-          - $ref: '#/components/schemas/GivenAnswer'
+            - $ref: '#/components/schemas/GivenAnswer'
           nullable: true
         partner_answered:
           type: boolean
         theirs:
           allOf:
-          - $ref: '#/components/schemas/GivenAnswer'
+            - $ref: '#/components/schemas/GivenAnswer'
           nullable: true
           description: Only once I answered too.
         match:
           type: boolean
           nullable: true
       required:
-      - id
-      - match
-      - mine
-      - options
-      - partner_answered
-      - text
-      - theirs
+        - id
+        - match
+        - mine
+        - options
+        - partner_answered
+        - text
+        - theirs
     JoinCoupleRequest:
       type: object
       properties:
@@ -3800,7 +3842,7 @@ components:
           minLength: 1
           maxLength: 20
       required:
-      - code
+        - code
     Kind:
       type: object
       properties:
@@ -3811,27 +3853,27 @@ components:
         total:
           type: integer
       required:
-      - name
-      - slug
-      - total
+        - name
+        - slug
+        - total
     Kind53dEnum:
       enum:
-      - audio
-      - video
+        - audio
+        - video
       type: string
       description: |-
         * `audio` - Audio
         * `video` - Video
     KindCf9Enum:
       enum:
-      - most_likely
-      - draw
-      - this_or_that
-      - never
-      - rather
-      - conversation
-      - agree
-      - photo
+        - most_likely
+        - draw
+        - this_or_that
+        - never
+        - rather
+        - conversation
+        - agree
+        - photo
       type: string
       description: |-
         * `most_likely` - most_likely
@@ -3844,8 +3886,8 @@ components:
         * `photo` - photo
     LanguageEnum:
       enum:
-      - fr
-      - en
+        - fr
+        - en
       type: string
       description: |-
         * `fr` - Français
@@ -3880,12 +3922,12 @@ components:
           format: date-time
           readOnly: true
       required:
-      - created_at
-      - done_at
-      - done_by
-      - id
-      - position
-      - text
+        - created_at
+        - done_at
+        - done_by
+        - id
+        - position
+        - text
     ListItemRequest:
       type: object
       properties:
@@ -3896,11 +3938,11 @@ components:
         done:
           type: boolean
       required:
-      - text
+        - text
     ListKindEnum:
       enum:
-      - groceries
-      - free
+        - groceries
+        - free
       type: string
       description: |-
         * `groceries` - Courses
@@ -3912,7 +3954,7 @@ components:
           type: string
           minLength: 1
       required:
-      - refresh
+        - refresh
     MediaUploadRequestRequest:
       type: object
       properties:
@@ -3920,7 +3962,7 @@ components:
           type: string
           minLength: 1
       required:
-      - content_type
+        - content_type
     Member:
       type: object
       description: 'What a partner is allowed to see about the other: no email, no
@@ -3946,19 +3988,19 @@ components:
           readOnly: true
         avatar_preset:
           allOf:
-          - $ref: '#/components/schemas/AvatarPresetEnum'
+            - $ref: '#/components/schemas/AvatarPresetEnum'
           readOnly: true
         timezone:
           type: string
           readOnly: true
       required:
-      - avatar_preset
-      - avatar_url
-      - display_name
-      - first_name
-      - id
-      - nickname
-      - timezone
+        - avatar_preset
+        - avatar_url
+        - display_name
+        - first_name
+        - id
+        - nickname
+        - timezone
     Memory:
       type: object
       description: 'A shared memory. Hearts are booleans only: never a counter.'
@@ -4010,15 +4052,15 @@ components:
           format: date-time
           readOnly: true
       required:
-      - created_at
-      - created_by
-      - happened_on
-      - id
-      - my_heart
-      - partner_heart
-      - photos
-      - title
-      - updated_at
+        - created_at
+        - created_by
+        - happened_on
+        - id
+        - my_heart
+        - partner_heart
+        - photos
+        - title
+        - updated_at
     MemoryComment:
       type: object
       properties:
@@ -4044,12 +4086,12 @@ components:
           format: date-time
           readOnly: true
       required:
-      - author
-      - author_name
-      - body
-      - created_at
-      - id
-      - mine
+        - author
+        - author_name
+        - body
+        - created_at
+        - id
+        - mine
     MemoryCommentRequest:
       type: object
       properties:
@@ -4058,7 +4100,7 @@ components:
           minLength: 1
           maxLength: 500
       required:
-      - body
+        - body
     MemoryPhoto:
       type: object
       properties:
@@ -4085,12 +4127,12 @@ components:
           type: integer
           readOnly: true
       required:
-      - height
-      - id
-      - position
-      - thumbnail_url
-      - url
-      - width
+        - height
+        - id
+        - position
+        - thumbnail_url
+        - url
+        - width
     MemoryRequest:
       type: object
       description: 'A shared memory. Hearts are booleans only: never a counter.'
@@ -4118,15 +4160,15 @@ components:
             maxLength: 30
           maxItems: 50
       required:
-      - happened_on
-      - title
+        - happened_on
+        - title
     MemoryTypeEnum:
       enum:
-      - first_time
-      - inside_joke
-      - place
-      - moment
-      - quote
+        - first_time
+        - inside_joke
+        - place
+        - moment
+        - quote
       type: string
       description: |-
         * `first_time` - Première fois
@@ -4144,7 +4186,7 @@ components:
           readOnly: true
         kind:
           allOf:
-          - $ref: '#/components/schemas/MessageKindEnum'
+            - $ref: '#/components/schemas/MessageKindEnum'
           readOnly: true
         text:
           type: string
@@ -4185,22 +4227,22 @@ components:
           readOnly: true
           nullable: true
       required:
-      - author
-      - created_at
-      - duration_ms
-      - height
-      - id
-      - kind
-      - media_url
-      - read_at
-      - text
-      - waveform
-      - width
+        - author
+        - created_at
+        - duration_ms
+        - height
+        - id
+        - kind
+        - media_url
+        - read_at
+        - text
+        - waveform
+        - width
     MessageKindEnum:
       enum:
-      - text
-      - photo
-      - voice
+        - text
+        - photo
+        - voice
       type: string
       description: |-
         * `text` - Texte
@@ -4208,10 +4250,10 @@ components:
         * `voice` - Note vocale
     ModeEnum:
       enum:
-      - choice
-      - text
-      - drawing
-      - photo
+        - choice
+        - text
+        - drawing
+        - photo
       type: string
       description: |-
         * `choice` - choice
@@ -4230,15 +4272,15 @@ components:
           items:
             $ref: '#/components/schemas/MoodReplyEnum'
       required:
-      - mood
-      - need
-      - replies
+        - mood
+        - need
+        - replies
     MoodEnum:
       enum:
-      - joyful
-      - happy
-      - upset
-      - angry
+        - joyful
+        - happy
+        - upset
+        - angry
       type: string
       description: |-
         * `joyful` - Grande joie
@@ -4253,16 +4295,16 @@ components:
         need:
           default: ''
           oneOf:
-          - $ref: '#/components/schemas/NeedEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+            - $ref: '#/components/schemas/NeedEnum'
+            - $ref: '#/components/schemas/BlankEnum'
       required:
-      - mood
+        - mood
     MoodReplyEnum:
       enum:
-      - here
-      - courage
-      - tonight
-      - thinking
+        - here
+        - courage
+        - tonight
+        - thinking
       type: string
       description: |-
         * `here` - Je suis là
@@ -4279,16 +4321,16 @@ components:
           format: date
         mine:
           allOf:
-          - $ref: '#/components/schemas/Mood'
+            - $ref: '#/components/schemas/Mood'
           nullable: true
         partner:
           allOf:
-          - $ref: '#/components/schemas/Mood'
+            - $ref: '#/components/schemas/Mood'
           nullable: true
       required:
-      - date
-      - mine
-      - partner
+        - date
+        - mine
+        - partner
     MyLocation:
       type: object
       properties:
@@ -4300,7 +4342,7 @@ components:
           description: A position has been shared.
         city:
           allOf:
-          - $ref: '#/components/schemas/City'
+            - $ref: '#/components/schemas/City'
           nullable: true
         located_at:
           type: string
@@ -4308,25 +4350,25 @@ components:
           nullable: true
         position:
           allOf:
-          - $ref: '#/components/schemas/Position'
+            - $ref: '#/components/schemas/Position'
           nullable: true
         continuous:
           type: boolean
           description: Also shares while the app is closed.
       required:
-      - city
-      - consented
-      - continuous
-      - located_at
-      - position
-      - sharing
+        - city
+        - consented
+        - continuous
+        - located_at
+        - position
+        - sharing
     NeedEnum:
       enum:
-      - space
-      - hug
-      - help
-      - listen
-      - nothing
+        - space
+        - hug
+        - help
+        - listen
+        - nothing
       type: string
       description: |-
         * `space` - Espace
@@ -4347,17 +4389,17 @@ components:
           $ref: '#/components/schemas/ColorEnum'
         author:
           allOf:
-          - $ref: '#/components/schemas/PayerEnum'
+            - $ref: '#/components/schemas/PayerEnum'
           readOnly: true
         created_at:
           type: string
           format: date-time
           readOnly: true
       required:
-      - author
-      - created_at
-      - id
-      - text
+        - author
+        - created_at
+        - id
+        - text
     NoteRequest:
       type: object
       properties:
@@ -4368,7 +4410,7 @@ components:
         color:
           $ref: '#/components/schemas/ColorEnum'
       required:
-      - text
+        - text
     Occurrence:
       type: object
       description: One day on which an event happens (yearly events have one per year).
@@ -4387,10 +4429,10 @@ components:
         event:
           $ref: '#/components/schemas/Event'
       required:
-      - date
-      - ends_at
-      - event
-      - starts_at
+        - date
+        - ends_at
+        - event
+        - starts_at
     OnThisDay:
       type: object
       properties:
@@ -4402,8 +4444,8 @@ components:
           items:
             $ref: '#/components/schemas/OnThisDayItem'
       required:
-      - date
-      - items
+        - date
+        - items
     OnThisDayItem:
       type: object
       properties:
@@ -4412,8 +4454,8 @@ components:
         memory:
           $ref: '#/components/schemas/Memory'
       required:
-      - memory
-      - years_ago
+        - memory
+        - years_ago
     Option:
       type: object
       properties:
@@ -4423,8 +4465,8 @@ components:
           type: string
           nullable: true
       required:
-      - art
-      - name
+        - art
+        - name
     Pack:
       type: object
       properties:
@@ -4468,22 +4510,22 @@ components:
           type: integer
           nullable: true
       required:
-      - adult
-      - art
-      - id
-      - kind
-      - kind_name
-      - locked
-      - mine
-      - position
-      - premium
-      - similarity
-      - state
-      - tags
-      - theirs
-      - title
-      - topics
-      - total
+        - adult
+        - art
+        - id
+        - kind
+        - kind_name
+        - locked
+        - mine
+        - position
+        - premium
+        - similarity
+        - state
+        - tags
+        - theirs
+        - title
+        - topics
+        - total
     PackDetail:
       type: object
       properties:
@@ -4533,24 +4575,24 @@ components:
           items:
             $ref: '#/components/schemas/Item'
       required:
-      - adult
-      - art
-      - id
-      - items
-      - kind
-      - kind_name
-      - locked
-      - mine
-      - mode
-      - position
-      - premium
-      - similarity
-      - state
-      - tags
-      - theirs
-      - title
-      - topics
-      - total
+        - adult
+        - art
+        - id
+        - items
+        - kind
+        - kind_name
+        - locked
+        - mine
+        - mode
+        - position
+        - premium
+        - similarity
+        - state
+        - tags
+        - theirs
+        - title
+        - topics
+        - total
     PackList:
       type: object
       properties:
@@ -4562,12 +4604,12 @@ components:
           type: integer
           description: 18+ packs hidden until both opt in.
       required:
-      - adult_hidden
-      - packs
+        - adult_hidden
+        - packs
     PaginatedExpenseList:
       type: object
       required:
-      - results
+        - results
       properties:
         next:
           type: string
@@ -4586,7 +4628,7 @@ components:
     PaginatedMemoryList:
       type: object
       required:
-      - results
+        - results
       properties:
         next:
           type: string
@@ -4605,7 +4647,7 @@ components:
     PaginatedMessageList:
       type: object
       required:
-      - results
+        - results
       properties:
         next:
           type: string
@@ -4630,19 +4672,19 @@ components:
           type: boolean
         city:
           allOf:
-          - $ref: '#/components/schemas/City'
+            - $ref: '#/components/schemas/City'
           nullable: true
           description: Only when both of you share.
         position:
           allOf:
-          - $ref: '#/components/schemas/Position'
+            - $ref: '#/components/schemas/Position'
           nullable: true
           description: Last shared position, for the map. Only when both share.
       required:
-      - city
-      - continuous
-      - position
-      - sharing
+        - city
+        - continuous
+        - position
+        - sharing
     PasswordResetConfirmRequest:
       type: object
       properties:
@@ -4656,9 +4698,9 @@ components:
           type: string
           minLength: 1
       required:
-      - new_password
-      - token
-      - uid
+        - new_password
+        - token
+        - uid
     PatchedChoreRequest:
       type: object
       properties:
@@ -4839,8 +4881,8 @@ components:
           maxLength: 60
         avatar_preset:
           oneOf:
-          - $ref: '#/components/schemas/AvatarPresetEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+            - $ref: '#/components/schemas/AvatarPresetEnum'
+            - $ref: '#/components/schemas/BlankEnum'
         birth_date:
           type: string
           format: date
@@ -4861,8 +4903,8 @@ components:
           nullable: true
     PayerEnum:
       enum:
-      - me
-      - you
+        - me
+        - you
       type: string
       description: |-
         * `me` - me
@@ -4883,7 +4925,7 @@ components:
           minimum: 1
           nullable: true
       required:
-      - key
+        - key
     PhotoUploadRequestRequest:
       type: object
       properties:
@@ -4891,11 +4933,11 @@ components:
           type: string
           minLength: 1
       required:
-      - content_type
+        - content_type
     PlatformEnum:
       enum:
-      - ios
-      - android
+        - ios
+        - android
       type: string
       description: |-
         * `ios` - iOS
@@ -4913,9 +4955,9 @@ components:
           type: string
           format: date-time
       required:
-      - latitude
-      - located_at
-      - longitude
+        - latitude
+        - located_at
+        - longitude
     PositionInputRequest:
       type: object
       properties:
@@ -4930,8 +4972,8 @@ components:
           maximum: 180
           minimum: -180
       required:
-      - latitude
-      - longitude
+        - latitude
+        - longitude
     Preference:
       type: object
       properties:
@@ -4962,8 +5004,8 @@ components:
           type: boolean
     RecurrenceEnum:
       enum:
-      - none
-      - yearly
+        - none
+        - yearly
       type: string
       description: |-
         * `none` - Aucune
@@ -4985,7 +5027,7 @@ components:
           maxLength: 60
         language:
           allOf:
-          - $ref: '#/components/schemas/LanguageEnum'
+            - $ref: '#/components/schemas/LanguageEnum'
           default: fr
         timezone:
           type: string
@@ -4996,15 +5038,15 @@ components:
           type: boolean
           description: The person confirms being 18 or older (the app is for adults).
       required:
-      - email
-      - first_name
-      - is_adult
-      - password
+        - email
+        - first_name
+        - is_adult
+        - password
     RelativePersonEnum:
       enum:
-      - me
-      - you
-      - us
+        - me
+        - you
+        - us
       type: string
       description: |-
         * `me` - me
@@ -5020,20 +5062,20 @@ components:
             minimum: 1
           maxItems: 500
       required:
-      - ids
+        - ids
     ReplyInputRequest:
       type: object
       properties:
         reply:
           $ref: '#/components/schemas/MoodReplyEnum'
       required:
-      - reply
+        - reply
     SendMessageRequest:
       type: object
       properties:
         kind:
           allOf:
-          - $ref: '#/components/schemas/MessageKindEnum'
+            - $ref: '#/components/schemas/MessageKindEnum'
           default: text
         text:
           type: string
@@ -5066,7 +5108,7 @@ components:
           minLength: 1
           pattern: ^[A-Z]{3}$
       required:
-      - currency
+        - currency
     SharedList:
       type: object
       properties:
@@ -5093,12 +5135,12 @@ components:
           format: date-time
           readOnly: true
       required:
-      - created_at
-      - id
-      - open_items
-      - position
-      - title
-      - updated_at
+        - created_at
+        - id
+        - open_items
+        - position
+        - title
+        - updated_at
     SharedListRequest:
       type: object
       properties:
@@ -5109,14 +5151,14 @@ components:
         kind:
           $ref: '#/components/schemas/ListKindEnum'
       required:
-      - title
+        - title
     SlugEnum:
       enum:
-      - adult
-      - kids
-      - money
-      - wedding
-      - ex
+        - adult
+        - kids
+        - money
+        - wedding
+        - ex
       type: string
       description: |-
         * `adult` - adult
@@ -5136,10 +5178,10 @@ components:
         created:
           type: boolean
       required:
-      - access
-      - created
-      - refresh
-      - user
+        - access
+        - created
+        - refresh
+        - user
     SocialLoginRequest:
       type: object
       properties:
@@ -5156,14 +5198,14 @@ components:
           maxLength: 60
         language:
           allOf:
-          - $ref: '#/components/schemas/LanguageEnum'
+            - $ref: '#/components/schemas/LanguageEnum'
           default: fr
       required:
-      - id_token
+        - id_token
     SplitEnum:
       enum:
-      - equal
-      - custom
+        - equal
+        - custom
       type: string
       description: |-
         * `equal` - 50/50
@@ -5174,14 +5216,14 @@ components:
         kind:
           $ref: '#/components/schemas/Kind53dEnum'
       required:
-      - kind
+        - kind
     StateE13Enum:
       enum:
-      - new
-      - in_progress
-      - your_turn
-      - waiting
-      - done
+        - new
+        - in_progress
+        - your_turn
+        - waiting
+        - done
       type: string
       description: |-
         * `new` - new
@@ -5208,13 +5250,13 @@ components:
         notes:
           type: integer
       required:
-      - answered
-      - answered_percent
-      - days_together
-      - events
-      - memories
-      - messages
-      - notes
+        - answered
+        - answered_percent
+        - days_together
+        - events
+        - memories
+        - messages
+        - notes
     Streak:
       type: object
       properties:
@@ -5224,8 +5266,8 @@ components:
         today_done:
           type: boolean
       required:
-      - count
-      - today_done
+        - count
+        - today_done
     Tag:
       type: object
       properties:
@@ -5234,8 +5276,8 @@ components:
         name:
           type: string
       required:
-      - name
-      - slug
+        - name
+        - slug
     TokenObtainPair:
       type: object
       properties:
@@ -5246,8 +5288,8 @@ components:
           type: string
           readOnly: true
       required:
-      - access
-      - refresh
+        - access
+        - refresh
     TokenObtainPairRequest:
       type: object
       properties:
@@ -5260,8 +5302,8 @@ components:
           writeOnly: true
           minLength: 1
       required:
-      - email
-      - password
+        - email
+        - password
     TokenRefresh:
       type: object
       properties:
@@ -5271,8 +5313,8 @@ components:
         refresh:
           type: string
       required:
-      - access
-      - refresh
+        - access
+        - refresh
     TokenRefreshRequest:
       type: object
       properties:
@@ -5280,7 +5322,7 @@ components:
           type: string
           minLength: 1
       required:
-      - refresh
+        - refresh
     TokenRequest:
       type: object
       properties:
@@ -5288,7 +5330,7 @@ components:
           type: string
           minLength: 1
       required:
-      - token
+        - token
     Topic:
       type: object
       properties:
@@ -5307,13 +5349,13 @@ components:
         percent:
           type: integer
       required:
-      - adult
-      - done
-      - locked
-      - name
-      - percent
-      - slug
-      - total
+        - adult
+        - done
+        - locked
+        - name
+        - percent
+        - slug
+        - total
     User:
       type: object
       description: The authenticated user's own profile.
@@ -5342,8 +5384,8 @@ components:
           readOnly: true
         avatar_preset:
           oneOf:
-          - $ref: '#/components/schemas/AvatarPresetEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+            - $ref: '#/components/schemas/AvatarPresetEnum'
+            - $ref: '#/components/schemas/BlankEnum'
         birth_date:
           type: string
           format: date
@@ -5365,12 +5407,12 @@ components:
           type: boolean
           readOnly: true
       required:
-      - avatar_url
-      - display_name
-      - email
-      - email_verified
-      - first_name
-      - id
+        - avatar_url
+        - display_name
+        - email
+        - email_verified
+        - first_name
+        - id
   securitySchemes:
     jwtAuth:
       type: http

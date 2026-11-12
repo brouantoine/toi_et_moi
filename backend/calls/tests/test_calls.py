@@ -109,3 +109,24 @@ def test_strangers_and_singles(pushes) -> None:
     assert client_for(UserFactory()).get(CURRENT).status_code == 403
     assert APIClient().post(START, {"kind": "audio"}, format="json").status_code == 401
     assert client_for(me).post(START, {"kind": "fax"}, format="json").status_code == 400
+
+
+def test_ice_servers_give_short_lived_turn_credentials(settings) -> None:
+    import base64
+    import hashlib
+    import hmac
+
+    _, me, _ = make_couple()
+    settings.TURN_URLS = ["turn:turn.bolingo.test:3478", "turns:turn.bolingo.test:5349"]
+    settings.TURN_SECRET = "s3cret"
+    data = client_for(me).get(f"{START}ice/").json()
+    stun, turn = data["ice_servers"]
+    assert stun["urls"][0].startswith("stun:")
+    expiry, user_id = turn["username"].split(":")
+    assert user_id == str(me.pk) and int(expiry) > timezone.now().timestamp()
+    expected = hmac.new(b"s3cret", turn["username"].encode(), hashlib.sha1).digest()
+    assert turn["credential"] == base64.b64encode(expected).decode()
+    # No TURN configured: STUN only. And only couples may ask.
+    settings.TURN_URLS = []
+    assert len(client_for(me).get(f"{START}ice/").json()["ice_servers"]) == 1
+    assert client_for(UserFactory()).get(f"{START}ice/").status_code == 403

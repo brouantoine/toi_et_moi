@@ -7,7 +7,18 @@ import {
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Mic, Phone, PhoneOff, Video, Volume2, type LucideIcon } from 'lucide-react-native';
+import {
+  MessageCircle,
+  Mic,
+  MicOff,
+  Phone,
+  PhoneOff,
+  SwitchCamera,
+  Video,
+  VideoOff,
+  Volume2,
+  type LucideIcon,
+} from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Easing, StyleSheet, Vibration, View } from 'react-native';
@@ -24,10 +35,15 @@ import {
   useTheme,
 } from '@/ui';
 
+import { CallChat } from './CallChat';
+import { videoView } from './rtc';
 import { RING_VIBRATION, SOUNDS } from './sounds';
+import { useCallMedia } from './useCallMedia';
 import { isOver, useCallActions, useCurrentCall, type Call } from './useCalls';
 
 const AVATAR = 132;
+/** Resolved once: the native video view exists only in the installed app. */
+const NativeVideo = videoView();
 
 /** "02:15" since the call was picked up. */
 export function callDuration(answeredAt: string | null | undefined, now: number): string {
@@ -82,6 +98,37 @@ function Pulse({ active }: { active: boolean }) {
   );
 }
 
+/** The partner's video, behind everything, filling the screen. */
+function RemoteVideo({ url }: { url: string }) {
+  if (!NativeVideo) return null;
+  return (
+    <NativeVideo
+      testID="call-remote-video"
+      streamURL={url}
+      objectFit="cover"
+      style={StyleSheet.absoluteFill}
+    />
+  );
+}
+
+/** My own camera, small, in the corner (mirrored like a mirror). */
+function LocalVideo({ url }: { url: string }) {
+  const { radii } = useTheme();
+  if (!NativeVideo) return null;
+  return (
+    <View style={[styles.pip, { borderRadius: radii.lg }]}>
+      <NativeVideo
+        testID="call-local-video"
+        streamURL={url}
+        objectFit="cover"
+        mirror
+        zOrder={1}
+        style={StyleSheet.absoluteFill}
+      />
+    </View>
+  );
+}
+
 /** Big round call button with its label underneath. */
 function RoundButton({
   testID,
@@ -90,6 +137,7 @@ function RoundButton({
   tone,
   onPress,
   disabled = false,
+  active = false,
 }: {
   testID: string;
   icon: LucideIcon;
@@ -97,18 +145,26 @@ function RoundButton({
   tone: 'accept' | 'hangup' | 'neutral';
   onPress: () => void;
   disabled?: boolean;
+  /** A toggle that is on (muted, speaker, camera off...): drawn light on dark. */
+  active?: boolean;
 }) {
   const { colors, spacing } = useTheme();
   const background =
-    tone === 'accept' ? colors.secondary : tone === 'hangup' ? colors.brand : colors.surfaceMuted;
-  const ink = tone === 'neutral' ? colors.text : colors.onScrim;
+    tone === 'accept'
+      ? colors.secondary
+      : tone === 'hangup'
+        ? colors.brand
+        : active
+          ? colors.text
+          : colors.surfaceMuted;
+  const ink = tone === 'neutral' ? (active ? colors.background : colors.text) : colors.onScrim;
   return (
     <View style={[styles.action, { gap: spacing.sm, opacity: disabled ? 0.45 : 1 }]}>
       <PressableScale
         testID={testID}
         accessibilityRole="button"
         accessibilityLabel={label}
-        accessibilityState={{ disabled }}
+        accessibilityState={{ disabled, selected: active }}
         disabled={disabled}
         onPress={onPress}
         scaleTo={0.9}
@@ -191,6 +247,8 @@ function CallContent() {
   }
 
   useCallSounds(call, closing);
+  const media = useCallMedia(call);
+  const [chatOpen, setChatOpen] = useState(false);
 
   useEffect(() => {
     if (call?.state !== 'ongoing') return undefined;
@@ -246,18 +304,23 @@ function CallContent() {
         </Text>
       </View>
 
+      {media.available && video && media.state?.remoteUrl && !closing ? (
+        <RemoteVideo url={media.state.remoteUrl} />
+      ) : null}
       <View style={styles.middle}>
-        <View style={styles.avatarWrap}>
-          <Pulse active={shown?.state === 'ringing' && !closing} />
-          <Avatar
-            name={name || '?'}
-            uri={partner?.avatar_url}
-            preset={partner?.avatar_preset}
-            size={AVATAR}
-            ring
-          />
-        </View>
-        {shown?.state === 'ongoing' && !shown.media_ready && !closing ? (
+        {media.available && video && media.state?.remoteUrl && !closing ? null : (
+          <View style={styles.avatarWrap}>
+            <Pulse active={shown?.state === 'ringing' && !closing} />
+            <Avatar
+              name={name || '?'}
+              uri={partner?.avatar_url}
+              preset={partner?.avatar_preset}
+              size={AVATAR}
+              ring
+            />
+          </View>
+        )}
+        {shown?.state === 'ongoing' && !media.available && !closing ? (
           <Text
             testID="call-media-note"
             variant="caption"
@@ -266,37 +329,79 @@ function CallContent() {
             {t('calls.mediaSoon')}
           </Text>
         ) : null}
+        {media.available && media.state && media.state.connection !== 'connected' && !closing ? (
+          <Text
+            testID="call-connecting"
+            variant="caption"
+            style={[styles.note, { color: colors.textMuted, marginTop: spacing.lg }]}
+          >
+            {t(
+              media.state.connection === 'failed'
+                ? 'calls.connectionFailed'
+                : 'calls.connectingMedia',
+            )}
+          </Text>
+        ) : null}
       </View>
+      {media.available && video && media.state?.localUrl && media.state.cameraOn && !closing ? (
+        <LocalVideo url={media.state.localUrl} />
+      ) : null}
+      {chatOpen && shown?.state === 'ongoing' && !closing ? (
+        <View style={{ paddingHorizontal: spacing.md }}>
+          <CallChat partnerName={name} />
+        </View>
+      ) : null}
 
       <View style={[styles.bottom, { gap: spacing.xl, paddingBottom: spacing.xl }]}>
         {shown?.state === 'ongoing' && !closing ? (
-          <View style={[styles.row, { gap: spacing.xl }]}>
+          <View style={[styles.row, { gap: spacing.md }]}>
             <RoundButton
               testID="call-mute"
-              icon={Mic}
-              label={t('calls.mute')}
+              icon={media.state?.muted ? MicOff : Mic}
+              label={t(media.state?.muted ? 'calls.unmute' : 'calls.mute')}
               tone="neutral"
-              disabled={!shown.media_ready}
-              onPress={() => {}}
+              active={media.state?.muted}
+              disabled={!media.available}
+              onPress={media.toggleMute}
             />
             <RoundButton
               testID="call-speaker"
               icon={Volume2}
               label={t('calls.speaker')}
               tone="neutral"
-              disabled={!shown.media_ready}
-              onPress={() => {}}
+              active={media.state?.speaker}
+              disabled={!media.available}
+              onPress={media.toggleSpeaker}
             />
             {video ? (
               <RoundButton
                 testID="call-camera"
-                icon={Video}
+                icon={media.state?.cameraOn === false ? VideoOff : Video}
                 label={t('calls.camera')}
                 tone="neutral"
-                disabled={!shown.media_ready}
-                onPress={() => {}}
+                active={media.state?.cameraOn === false}
+                disabled={!media.available}
+                onPress={media.toggleCamera}
               />
             ) : null}
+            {video ? (
+              <RoundButton
+                testID="call-flip"
+                icon={SwitchCamera}
+                label={t('calls.flip')}
+                tone="neutral"
+                disabled={!media.available}
+                onPress={media.switchCamera}
+              />
+            ) : null}
+            <RoundButton
+              testID="call-chat-toggle"
+              icon={MessageCircle}
+              label={t('calls.chat.button')}
+              tone="neutral"
+              active={chatOpen}
+              onPress={() => setChatOpen((open) => !open)}
+            />
           </View>
         ) : null}
         <View style={[styles.row, { gap: spacing.xxl }]}>
@@ -359,12 +464,13 @@ const styles = StyleSheet.create({
   note: { textAlign: 'center', maxWidth: 300 },
   bottom: { alignItems: 'center' },
   row: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center' },
-  action: { alignItems: 'center', width: 84 },
+  action: { alignItems: 'center', width: 64 },
   round: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pip: { position: 'absolute', top: 110, right: 16, width: 108, height: 152, overflow: 'hidden' },
 });

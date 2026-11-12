@@ -6,6 +6,9 @@ which comes with the installed app; `MEDIA_READY` tells the phones whether it ex
 
 from __future__ import annotations
 
+import base64
+import hashlib
+import hmac
 from datetime import timedelta
 from typing import Any
 
@@ -142,3 +145,26 @@ def _close(call: Call, state: str) -> Call:
     call.save(update_fields=["state", "ended_at"])
     notify_changed(call.couple_id, "calls", call.pk, call.state)
     return call
+
+
+def ice_servers(user: User) -> dict[str, Any]:
+    """STUN, plus time-limited TURN credentials (coturn "use-auth-secret" REST scheme).
+
+    username = "<expiry timestamp>:<user id>", credential = base64(HMAC-SHA1(secret,
+    username)): coturn checks them itself, nothing is stored, and they expire.
+    """
+    servers: list[dict[str, Any]] = []
+    if settings.STUN_URLS:
+        servers.append({"urls": list(settings.STUN_URLS)})
+    if settings.TURN_URLS and settings.TURN_SECRET:
+        expiry = int(timezone.now().timestamp()) + settings.TURN_TTL_SECONDS
+        username = f"{expiry}:{user.pk}"
+        digest = hmac.new(settings.TURN_SECRET.encode(), username.encode(), hashlib.sha1)
+        servers.append(
+            {
+                "urls": list(settings.TURN_URLS),
+                "username": username,
+                "credential": base64.b64encode(digest.digest()).decode(),
+            }
+        )
+    return {"ice_servers": servers, "ttl": settings.TURN_TTL_SECONDS}

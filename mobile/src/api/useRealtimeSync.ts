@@ -5,6 +5,7 @@ import { AppState, Vibration } from 'react-native';
 import { useAuthStore } from '@/auth/authStore';
 import { API_URL } from '@/config/env';
 
+import { receiveSignal, setSignalSender } from '@/features/calls/signalBus';
 import { setTypingSender, useTypingStore } from '@/features/messages/typing';
 import { api } from './index';
 import { invalidationKeysFor, SyncClient, syncUrl } from './realtime';
@@ -50,10 +51,12 @@ export function useRealtimeSync(): void {
         });
       },
       onTyping: (active) => useTypingStore.getState().setPartnerTyping(active),
+      onSignal: receiveSignal,
       // Any authenticated call refreshes an expired access token (auth middleware).
       onUnauthorized: () => api.GET('/api/v1/me/'),
     });
     setTypingSender((active) => client.sendTyping(active));
+    setSignalSender((callId, data) => client.sendSignal(callId, data));
     if (AppState.currentState !== 'background') client.start();
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'active') client.start();
@@ -62,6 +65,7 @@ export function useRealtimeSync(): void {
     return () => {
       sub.remove();
       setTypingSender(null);
+      setSignalSender(null);
       client.stop();
     };
   }, [signedIn, queryClient]);

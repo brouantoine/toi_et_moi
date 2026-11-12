@@ -29,3 +29,14 @@ class CurrentCallSerializer(serializers.Serializer[Dict]):
 
 class StartCallSerializer(serializers.Serializer[Dict]):
     kind = serializers.ChoiceField(choices=CallKind.choices)
+
+
+class IceServerSerializer(serializers.Serializer[Dict]):
+    urls = serializers.ListField(child=serializers.CharField())
+    username = serializers.CharField(required=False)
+    credential = serializers.CharField(required=False)
+
+
+class IceServersSerializer(serializers.Serializer[Dict]):
+    ice_servers = IceServerSerializer(many=True)
+    ttl = serializers.IntegerField(help_text="Seconds the TURN credentials stay valid.")

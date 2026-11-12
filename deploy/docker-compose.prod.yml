@@ -1,0 +1,102 @@
+# Bolingo en production sur un VPS (OVH) : docker compose -f docker-compose.prod.yml up -d
+# Secrets et réglages : deploy/.env (copie de .env.example), jamais dans git.
+name: bolingo
+
+x-backend: &backend
+  build: ../backend
+  env_file: .env
+  environment:
+    DJANGO_SETTINGS_MODULE: config.settings.prod
+    DATABASE_URL: postgres://bolingo:${POSTGRES_PASSWORD}@postgres:5432/bolingo
+    REDIS_URL: redis://redis:6379/0
+  restart: unless-stopped
+  depends_on:
+    postgres: {condition: service_healthy}
+    redis: {condition: service_started}
+
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      API_DOMAIN: ${API_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - static:/srv/static:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [backend]
+
+  backend:
+    <<: *backend
+    command: >
+      sh -c "python manage.py migrate --noinput
+      && python manage.py collectstatic --noinput
+      && daphne -b 0.0.0.0 -p 8000 --proxy-headers config.asgi:application"
+    volumes: [static:/app/staticfiles]
+    expose: ["8000"]
+
+  celery-worker:
+    <<: *backend
+    command: celery -A config worker -l info --concurrency 2
+
+  celery-beat:
+    <<: *backend
+    command: celery -A config beat -l info
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bolingo
+      POSTGRES_USER: bolingo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bolingo"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes: [redisdata:/data]
+
+  # Relais des appels (TURN) : quand les deux téléphones ne peuvent pas se joindre
+  # directement (réseaux mobiles), la voix et l'image passent par ici, chiffrées de bout
+  # en bout par WebRTC. Identifiants temporaires signés par le backend (TURN_SECRET).
+  coturn:
+    image: coturn/coturn:4.7
+    restart: unless-stopped
+    network_mode: host
+    command:
+      - -n
+      - --log-file=stdout
+      - --listening-port=3478
+      - --fingerprint
+      - --use-auth-secret
+      - --static-auth-secret=${TURN_SECRET}
+      - --realm=${API_DOMAIN}
+      - --external-ip=${PUBLIC_IP}
+      - --min-port=49160
+      - --max-port=49400
+      - --no-cli
+      - --no-multicast-peers
+      - --no-tlsv1
+      - --no-tlsv1_1
+      # Never relay towards the server's own private networks.
+      - --denied-peer-ip=0.0.0.0-0.255.255.255
+      - --denied-peer-ip=10.0.0.0-10.255.255.255
+      - --denied-peer-ip=127.0.0.0-127.255.255.255
+      - --denied-peer-ip=169.254.0.0-169.254.255.255
+      - --denied-peer-ip=172.16.0.0-172.31.255.255
+      - --denied-peer-ip=192.168.0.0-192.168.255.255
+
+volumes:
+  pgdata:
+  redisdata:
+  static:
+  caddy_data:
+  caddy_config:

@@ -12,7 +12,12 @@ from couples.models import Couple
 
 from . import services
 from .models import Call
-from .serializers import CallSerializer, CurrentCallSerializer, StartCallSerializer
+from .serializers import (
+    CallSerializer,
+    CurrentCallSerializer,
+    IceServersSerializer,
+    StartCallSerializer,
+)
 
 
 class CallsView(APIView):
@@ -76,3 +81,12 @@ class CallActionView(CallsView):
         except services.CallError as error:
             raise _error(error) from error
         return self.respond(call)
+
+
+class IceServersView(CallsView):
+    """Where the phones find each other: STUN, and the TURN relay with fresh credentials."""
+
+    @extend_schema(responses={200: IceServersSerializer})
+    def get(self, request: Request) -> Response:
+        data = services.ice_servers(current_user(request))
+        return Response(IceServersSerializer(data).data)

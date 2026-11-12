@@ -255,6 +255,11 @@ ANTHROPIC_API_KEY = env_str("ANTHROPIC_API_KEY", "")
 COACH_MODEL = env_str("COACH_MODEL", "claude-opus-5-5")
 #: Live voice/video exist in this build (WebRTC module + TURN server): off in Expo Go.
 CALLS_MEDIA_READY = env_bool("CALLS_MEDIA_READY", False)
+#: STUN servers (public, free) and our TURN relay (coturn with use-auth-secret).
+STUN_URLS = env_list("STUN_URLS", "stun:stun.l.google.com:19302,stun:stun1.l.google.com:19302")
+TURN_URLS = env_list("TURN_URLS", "")
+TURN_SECRET = env_str("TURN_SECRET", "")
+TURN_TTL_SECONDS = env_int("TURN_TTL_SECONDS", 6 * 3600)
 #: RevenueCat webhook secret (Authorization header set in RevenueCat > Integrations > Webhooks).
 REVENUECAT_WEBHOOK_AUTH = env_str("REVENUECAT_WEBHOOK_AUTH", "")
 #: Sandbox purchases (TestFlight, review) count only where this is on (dev, staging).
