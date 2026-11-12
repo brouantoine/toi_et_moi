@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { Check, Crown, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, ScrollView, StyleSheet, View } from 'react-native';
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { API_URL } from '@/config/env';
@@ -228,9 +228,10 @@ export function PremiumScreen() {
                 loading={busy === 'buy' || plans.isPending}
                 onPress={() => void purchase()}
               />
-              {/* App Store 3.1.2: renewal terms right next to the purchase button. */}
+              {/* App Store 3.1.2: renewal terms right next to the purchase button. Each store is
+                  named only on its own platform (App Store 2.3.10). */}
               <Text testID="premium-renewal" variant="caption" muted style={styles.center}>
-                {t('premium.renewal')}
+                {t(Platform.OS === 'android' ? 'premium.renewalAndroid' : 'premium.renewal')}
               </Text>
             </View>
           )}
@@ -271,16 +272,19 @@ export function PremiumScreen() {
               >
                 {t('legal.privacy')}
               </Text>
-              <Text
-                testID="premium-eula"
-                variant="caption"
-                color="primary"
-                accessibilityRole="link"
-                onPress={open(APPLE_EULA_URL)}
-                style={styles.link}
-              >
-                {t('legal.eula')}
-              </Text>
+              {/* Apple's licence agreement concerns App Store purchases only. */}
+              {Platform.OS === 'ios' ? (
+                <Text
+                  testID="premium-eula"
+                  variant="caption"
+                  color="primary"
+                  accessibilityRole="link"
+                  onPress={open(APPLE_EULA_URL)}
+                  style={styles.link}
+                >
+                  {t('legal.eula')}
+                </Text>
+              ) : null}
             </View>
           </View>
         </View>

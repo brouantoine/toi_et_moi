@@ -73,7 +73,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ...(LINK_HOST ? { associatedDomains: [`applinks:${LINK_HOST}`] } : {}),
   },
   android: {
-    package: BRAND.bundleId,
+    // com.bolingo.app was already taken on Google Play; iOS keeps BRAND.bundleId.
+    package: BRAND.androidPackage,
     adaptiveIcon: {
       backgroundColor: '#1C1C1E',
       foregroundImage: './assets/android-icon-foreground.png',

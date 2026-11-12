@@ -19,6 +19,8 @@ BRAND_NAME = env_str("BRAND_NAME", "Bolingo")
 LEGAL_ENTITY = env_str("LEGAL_ENTITY", "Bolingo (éditeur à compléter)")
 LEGAL_ADDRESS = env_str("LEGAL_ADDRESS", "Adresse à compléter")
 SUPPORT_EMAIL = env_str("SUPPORT_EMAIL", "support@example.com")
+# Where deletion requests from people without the app go (Google Play data deletion URL).
+ACCOUNT_DELETION_EMAIL = env_str("ACCOUNT_DELETION_EMAIL", "") or SUPPORT_EMAIL
 
 SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
 

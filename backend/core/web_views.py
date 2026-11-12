@@ -28,6 +28,7 @@ def _page(request: HttpRequest, name: str) -> HttpResponse:
             "entity": settings.LEGAL_ENTITY,
             "address": settings.LEGAL_ADDRESS,
             "support": settings.SUPPORT_EMAIL,
+            "deletion_email": settings.ACCOUNT_DELETION_EMAIL,
             "updated": UPDATED_EN if language == "en" else UPDATED,
             "LANGUAGE_CODE": language,
             "other_language": "fr" if language == "en" else "en",
@@ -49,3 +50,8 @@ def support(request: HttpRequest) -> HttpResponse:
 
 def home(request: HttpRequest) -> HttpResponse:
     return _page(request, "home")
+
+
+def delete_account(request: HttpRequest) -> HttpResponse:
+    """How to delete an account, with or without the app (Google Play requirement)."""
+    return _page(request, "delete_account")

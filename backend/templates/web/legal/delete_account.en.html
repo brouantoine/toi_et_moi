@@ -1,0 +1,38 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Delete your account · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Delete your {{ brand }} account</h1>
+<p class="muted">{{ brand }} app, published by {{ entity }} · <a href="?lang={{ other_language }}">Français</a></p>
+
+<h2>1. In the app</h2>
+<p>Open {{ brand }}, go to <strong>Me</strong>, then <strong>Delete my account</strong>, and confirm. The deletion is immediate.</p>
+
+<h2>2. Without the app</h2>
+<p>If you no longer have the app, write to <a href="mailto:{{ deletion_email }}?subject=Delete%20my%20{{ brand }}%20account">{{ deletion_email }}</a>:</p>
+<ul>
+  <li>from the email address of your {{ brand }} account: this is how we check the request really comes from you;</li>
+  <li>with the subject "Delete my {{ brand }} account".</li>
+</ul>
+<p>We delete the account within 7 days at most and confirm by email.</p>
+
+<h2>What is deleted</h2>
+<ul>
+  <li>Your account: email, name, password, profile picture, settings.</li>
+  <li>Your couple's space: messages, voice notes, photos, memories, dates, lists, game answers, coach conversations, call history and shared locations.</li>
+  <li>Stored files (photos and voice notes).</li>
+</ul>
+<p>Your partner keeps their own account. They are told, and can start a new space.</p>
+
+<h2>What is kept</h2>
+<ul>
+  <li>No data from your account is kept in our database after the deletion.</li>
+  <li>Server technical logs (IP address, date, requested page, without any content) are erased automatically after 14 days.</li>
+  <li>Your Bolingo Plus purchase history stays with Apple or Google, under their own rules. Deleting your account does not cancel the subscription: cancel it in your Apple or Google account settings.</li>
+</ul>
+
+<h2>Delete only some data</h2>
+<p>Without deleting your account, you can delete a message, a memory or a photo in the app, or stop sharing your location at any time. For any other request, write to <a href="mailto:{{ deletion_email }}">{{ deletion_email }}</a>.</p>
+
+<p><a href="/legal/privacy/?lang=en">Privacy policy</a> · <a href="/support/?lang=en">Support</a></p>
+{% endblock %}

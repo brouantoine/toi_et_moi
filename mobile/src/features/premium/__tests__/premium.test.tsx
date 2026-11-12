@@ -1,5 +1,5 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 
 import i18n from '@/i18n';
 import { jsonResponse, mockFetch, renderWithProviders } from '@/test-utils';
@@ -86,4 +86,28 @@ it('shows an active Plus with the way to manage it', async () => {
   expect(screen.queryByTestId('premium-continue')).toBeNull();
   await fireEvent.press(screen.getByTestId('premium-manage'));
   expect(openURL).toHaveBeenCalledWith(purchases.MANAGE_URL);
+});
+
+it('names only its own store: Apple on iPhone, Google Play on Android', async () => {
+  backend();
+  await renderWithProviders(<PremiumScreen />);
+  const renewal = await screen.findByTestId('premium-renewal');
+  expect(renewal).toHaveTextContent(/compte Apple/);
+  expect(renewal).not.toHaveTextContent(/Google/);
+  expect(screen.getByTestId('premium-eula')).toBeTruthy();
+});
+
+it('shows the Google Play terms and no Apple licence on Android', async () => {
+  const original = Platform.OS;
+  Object.defineProperty(Platform, 'OS', { configurable: true, get: () => 'android' });
+  try {
+    backend();
+    await renderWithProviders(<PremiumScreen />);
+    const renewal = await screen.findByTestId('premium-renewal');
+    expect(renewal).toHaveTextContent(/Google Play/);
+    expect(renewal).not.toHaveTextContent(/Apple/);
+    expect(screen.queryByTestId('premium-eula')).toBeNull();
+  } finally {
+    Object.defineProperty(Platform, 'OS', { configurable: true, get: () => original });
+  }
 });

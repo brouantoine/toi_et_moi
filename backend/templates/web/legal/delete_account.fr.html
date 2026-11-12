@@ -1,0 +1,38 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Supprimer ton compte · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Supprimer ton compte {{ brand }}</h1>
+<p class="muted">Application {{ brand }}, éditée par {{ entity }} · <a href="?lang={{ other_language }}">English</a></p>
+
+<h2>1. Depuis l'application</h2>
+<p>Ouvre {{ brand }}, va dans <strong>Moi</strong>, puis <strong>Supprimer mon compte</strong>, et confirme. La suppression est immédiate.</p>
+
+<h2>2. Sans l'application</h2>
+<p>Si tu n'as plus l'application, écris à <a href="mailto:{{ deletion_email }}?subject=Suppression%20de%20mon%20compte%20{{ brand }}">{{ deletion_email }}</a> :</p>
+<ul>
+  <li>depuis l'adresse email de ton compte {{ brand }} : c'est ainsi que nous vérifions que la demande vient bien de toi ;</li>
+  <li>avec pour objet « Suppression de mon compte {{ brand }} ».</li>
+</ul>
+<p>Nous supprimons le compte sous 7 jours au plus et te le confirmons par email.</p>
+
+<h2>Ce qui est supprimé</h2>
+<ul>
+  <li>Ton compte : email, nom, mot de passe, photo de profil, réglages.</li>
+  <li>L'espace de ton couple : messages, notes vocales, photos, souvenirs, dates, listes, réponses aux jeux, conversations avec le coach, historique des appels et positions partagées.</li>
+  <li>Les fichiers stockés (photos et notes vocales).</li>
+</ul>
+<p>Ton ou ta partenaire garde son propre compte. Il ou elle est prévenu, et peut créer un nouvel espace.</p>
+
+<h2>Ce qui est conservé</h2>
+<ul>
+  <li>Aucune donnée de ton compte n'est conservée dans notre base après la suppression.</li>
+  <li>Les journaux techniques du serveur (adresse IP, date, page demandée, sans aucun contenu) sont effacés automatiquement au bout de 14 jours.</li>
+  <li>Ton historique d'achat de Bolingo Plus reste chez Apple ou Google, selon leurs propres règles. Supprimer ton compte ne résilie pas l'abonnement : résilie-le dans les réglages de ton compte Apple ou Google.</li>
+</ul>
+
+<h2>Supprimer seulement certaines données</h2>
+<p>Sans supprimer ton compte, tu peux supprimer un message, un souvenir ou une photo depuis l'application, ou arrêter le partage de ta position à tout moment. Pour toute autre demande, écris à <a href="mailto:{{ deletion_email }}">{{ deletion_email }}</a>.</p>
+
+<p><a href="/legal/privacy/">Politique de confidentialité</a> · <a href="/support/">Assistance</a></p>
+{% endblock %}

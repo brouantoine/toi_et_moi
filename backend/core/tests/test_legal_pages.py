@@ -22,3 +22,15 @@ def test_home_page_presents_the_app_and_links_the_legal_pages(lang: str, words: 
     text = Client().get("/", {"lang": lang}).content.decode()
     assert words in text
     assert "/legal/terms/" in text and "/legal/privacy/" in text and "/support/" in text
+
+
+@pytest.mark.parametrize(
+    ("lang", "word"), [("fr", "Sans l'application"), ("en", "Without the app")]
+)
+def test_deletion_page_explains_how_to_ask_without_the_app(
+    settings: object, lang: str, word: str
+) -> None:
+    settings.ACCOUNT_DELETION_EMAIL = "suppression@example.com"  # type: ignore[attr-defined]
+    text = Client().get("/legal/delete-account/", {"lang": lang}).content.decode()
+    assert word in text.replace("&#x27;", "'")
+    assert "suppression@example.com" in text and "14" in text
