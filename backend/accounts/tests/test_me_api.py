@@ -57,9 +57,10 @@ def test_read_only_fields_cannot_be_changed(user_client: APIClient, user: User) 
     assert user.email != "hacker@example.com"
 
 
-def test_put_and_delete_not_allowed(user_client: APIClient) -> None:
+def test_put_not_allowed_and_delete_needs_a_typed_confirmation(user_client: APIClient) -> None:
     assert user_client.put(ME, {}).status_code == 405
-    assert user_client.delete(ME).status_code == 405
+    # Deleting the account exists (App Store 5.1.1(v)) but never without "SUPPRIMER".
+    assert user_client.delete(ME).status_code == 400
 
 
 def test_user_only_ever_edits_themselves(api_client: APIClient) -> None:

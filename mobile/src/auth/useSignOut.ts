@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/api';
 import { queryPersister } from '@/api/queryClient';
 import { stopBackgroundUpdates } from '@/features/distance/background';
+import { forget as forgetPurchases } from '@/features/premium/purchases';
 import { forgetThisPhone } from '@/notifications/push';
 
 import { useAuthStore } from './authStore';
@@ -19,6 +20,7 @@ export function useSignOut() {
       await forgetThisPhone();
       // Signed out: this phone stops sending its position.
       await stopBackgroundUpdates();
+      await forgetPurchases();
       const refresh = useAuthStore.getState().tokens?.refresh;
       if (refresh) {
         try {

@@ -51,6 +51,14 @@ class RegisterSerializer(serializers.Serializer[None]):
     first_name = serializers.CharField(max_length=60)
     language = serializers.ChoiceField(choices=Language.choices, default=Language.FR)
     timezone = serializers.CharField(max_length=64, default="UTC")
+    is_adult = serializers.BooleanField(
+        help_text="The person confirms being 18 or older (the app is for adults)."
+    )
+
+    def validate_is_adult(self, value: bool) -> bool:
+        if not value:
+            raise serializers.ValidationError("adult_required")
+        return value
 
     def validate_email(self, value: str) -> str:
         if User.objects.filter(email__iexact=value).exists():
@@ -109,3 +117,14 @@ class SocialLoginSerializer(serializers.Serializer[None]):
 
 class SocialAuthResponseSerializer(AuthResponseSerializer):
     created = serializers.BooleanField()
+
+
+class DeleteAccountSerializer(serializers.Serializer[None]):
+    confirm = serializers.CharField(help_text='"SUPPRIMER" or "DELETE", typed by the person.')
+
+    def validate_confirm(self, value: str) -> str:
+        from .services import DELETE_CONFIRMATIONS
+
+        if value.strip().lower() not in DELETE_CONFIRMATIONS:
+            raise serializers.ValidationError("confirmation_mismatch")
+        return value

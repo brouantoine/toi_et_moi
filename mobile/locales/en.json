@@ -1,0 +1,7 @@
+{
+  "CFBundleDisplayName": "Bolingo",
+  "NSLocationWhenInUseUsageDescription": "Bolingo uses your location to show the distance and the map you choose to share with your partner.",
+  "NSLocationAlwaysAndWhenInUseUsageDescription": "If you turn on continuous sharing, Bolingo shares your location with your partner even when the app is closed, to tell you both when you are close. You can stop at any time.",
+  "NSMicrophoneUsageDescription": "Bolingo uses the microphone to record the voice notes you send to your partner.",
+  "NSPhotoLibraryUsageDescription": "Bolingo uses your photos only when you choose some to share with your partner (messages, memories, profile picture)."
+}

@@ -1,0 +1,60 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Politique de confidentialité · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Politique de confidentialité</h1>
+<p class="muted">Dernière mise à jour : {{ updated }} · <a href="?lang={{ other_language }}">English</a></p>
+
+<p>{{ brand }} est une application pour deux personnes en couple. Cette politique explique quelles données nous traitons, pourquoi, avec qui elles sont partagées et comment tu gardes la main dessus. Responsable du traitement : {{ entity }}, {{ address }}. Contact : <a href="mailto:{{ support }}">{{ support }}</a>.</p>
+
+<h2>Ce que nous ne faisons jamais</h2>
+<ul>
+  <li>Pas de publicité, pas de pistage publicitaire, aucune revente de données.</li>
+  <li>Ce que ton couple écrit n'est visible que par vous deux. Aucun autre utilisateur n'y a accès.</li>
+</ul>
+
+<h2>Les données que nous traitons</h2>
+<ul>
+  <li><strong>Compte</strong> : email, prénom, surnom, langue, fuseau horaire, mot de passe (stocké chiffré, jamais en clair) ou identifiant de connexion Apple ou Google, date de naissance si tu la donnes.</li>
+  <li><strong>Espace de couple</strong> : date de début, devise, couleur, messages, notes vocales, photos, souvenirs, agenda, listes, budget, réponses aux jeux, notes. Les messages et la conversation avec le coach sont chiffrés dans notre base de données.</li>
+  <li><strong>Position</strong> (facultative) : uniquement si tu acceptes de la partager. Elle sert à afficher la distance et la carte que tu partages avec l'autre, et, si tu actives le partage en continu, à vous prévenir quand vous êtes proches. Tu peux arrêter à tout moment ; la position est alors effacée.</li>
+  <li><strong>Appels</strong> : l'historique des appels entre vous deux (date, durée, type). Le contenu des appels n'est ni enregistré ni stocké.</li>
+  <li><strong>Notifications</strong> : l'identifiant de notification de ton téléphone, pour t'envoyer les notifications que tu as choisies.</li>
+  <li><strong>Abonnement</strong> : l'état de ton abonnement Bolingo Plus (produit, date d'expiration), reçu des stores. Nous ne recevons jamais tes coordonnées bancaires.</li>
+  <li><strong>Données techniques</strong> : journaux d'erreurs et de sécurité, conservés peu de temps.</li>
+</ul>
+
+<h2>Le coach IA</h2>
+<p>Le coach est facultatif et ne s'ouvre que si vous l'activez tous les deux. Les messages de votre conversation avec lui sont envoyés à un fournisseur d'intelligence artificielle pour produire ses réponses (aujourd'hui OpenRouter, qui transmet au modèle de Google choisi, ou Anthropic). Seule la conversation de votre couple est transmise, jamais celle d'un autre couple. Ces fournisseurs agissent comme sous-traitants et ne peuvent pas utiliser vos messages pour entraîner leurs modèles selon nos réglages. Vous pouvez effacer la conversation à tout moment.</p>
+
+<h2>Pourquoi nous les traitons</h2>
+<ul>
+  <li>Faire fonctionner l'application que tu as demandée (exécution du contrat).</li>
+  <li>Partager ta position, utiliser le coach, recevoir des notifications : sur la base de ton consentement, retirable à tout moment dans l'app.</li>
+  <li>Sécurité, prévention des abus et obligations légales (intérêt légitime et obligation légale).</li>
+</ul>
+
+<h2>Avec qui elles sont partagées</h2>
+<ul>
+  <li>Ton ou ta partenaire, pour tout ce qui appartient à votre espace commun.</li>
+  <li>Nos sous-traitants techniques, uniquement pour faire fonctionner le service : hébergement et stockage des fichiers, envoi des emails et des notifications (Expo, Apple, Google), coach IA (OpenRouter, Google, Anthropic), gestion des abonnements (Apple, Google, RevenueCat).</li>
+  <li>Les autorités, si la loi l'exige.</li>
+</ul>
+
+<h2>Combien de temps</h2>
+<p>Tant que ton compte existe. Si tu supprimes ton compte, il est effacé immédiatement avec l'espace de couple (messages, photos, souvenirs, jeux, coach) ; ton ou ta partenaire en est informé et garde son propre compte. Les sauvegardes techniques sont écrasées dans un délai de 30 jours.</p>
+
+<h2>Tes droits</h2>
+<p>Tu peux accéder à tes données, les corriger, les effacer, t'opposer à un traitement, retirer ton consentement et demander la portabilité. La suppression du compte se fait directement dans l'application : Moi, puis Supprimer mon compte. Pour toute autre demande, écris à <a href="mailto:{{ support }}">{{ support }}</a>. Tu peux aussi saisir l'autorité de protection des données de ton pays.</p>
+
+<h2>Mineurs</h2>
+<p>{{ brand }} est réservé aux personnes majeures. Nous ne collectons pas sciemment de données sur des mineurs.</p>
+
+<h2>Sécurité</h2>
+<p>Connexions chiffrées, messages chiffrés au repos, fichiers privés accessibles par des liens temporaires, accès limité à votre couple.</p>
+
+<h2>Changements</h2>
+<p>En cas de changement important, nous te prévenons dans l'application avant qu'il s'applique.</p>
+
+<p class="muted">Document à faire relire par un juriste avant la publication de l'application.</p>
+{% endblock %}

@@ -27,7 +27,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: BRAND.name,
   slug: BRAND.slug,
   scheme: BRAND.scheme,
-  version: '0.1.0',
+  // Store version; build numbers are incremented by EAS (eas.json, appVersionSource remote).
+  version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
   // Follows the phone: white and red by day, red on black at night (expo-system-ui applies
@@ -38,6 +39,35 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: BRAND.bundleId,
     usesAppleSignIn: true,
     config: { usesNonExemptEncryption: false },
+    infoPlist: {
+      // Permission texts in English by default, French from locales/fr.json.
+      CFBundleAllowMixedLocalizations: true,
+      CFBundleDevelopmentRegion: 'en',
+    },
+    // Reasons for the "required reason" APIs used by React Native and Expo modules
+    // (App Store privacy manifest, mandatory since May 2024).
+    privacyManifests: {
+      NSPrivacyTracking: false,
+      NSPrivacyTrackingDomains: [],
+      NSPrivacyAccessedAPITypes: [
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryUserDefaults',
+          NSPrivacyAccessedAPITypeReasons: ['CA92.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryFileTimestamp',
+          NSPrivacyAccessedAPITypeReasons: ['C617.1', '0A2A.1', '3B52.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategorySystemBootTime',
+          NSPrivacyAccessedAPITypeReasons: ['35F9.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryDiskSpace',
+          NSPrivacyAccessedAPITypeReasons: ['E174.1', '85F4.1'],
+        },
+      ],
+    },
     ...(LINK_HOST ? { associatedDomains: [`applinks:${LINK_HOST}`] } : {}),
   },
   android: {
@@ -63,6 +93,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       : {}),
   },
   web: { favicon: './assets/favicon.png' },
+  locales: { en: './locales/en.json', fr: './locales/fr.json' },
   plugins: [
     'expo-router',
     'expo-localization',
@@ -73,15 +104,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-audio',
       {
-        microphonePermission: `${BRAND.name} utilise le micro pour enregistrer tes notes vocales.`,
+        microphonePermission: `${BRAND.name} uses the microphone to record the voice notes you send to your partner.`,
       },
     ],
     [
       'expo-location',
       {
-        locationWhenInUsePermission: `${BRAND.name} utilise ta position pour la distance et la carte que tu partages avec l'autre.`,
+        locationWhenInUsePermission: `${BRAND.name} uses your location to show the distance and the map you choose to share with your partner.`,
         // "Continuous sharing" is a separate opt-in inside the app (PW.5b).
-        locationAlwaysAndWhenInUsePermission: `${BRAND.name} peut partager ta position avec l'autre même app fermée, si tu actives le partage en continu.`,
+        locationAlwaysAndWhenInUsePermission: `If you turn on continuous sharing, ${BRAND.name} shares your location with your partner even when the app is closed, to tell you both when you are close. You can stop at any time.`,
         isIosBackgroundLocationEnabled: true,
         isAndroidBackgroundLocationEnabled: true,
         isAndroidForegroundServiceEnabled: true,
@@ -93,8 +124,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-image-picker',
       {
         // Library only: no camera permission. The microphone is declared by expo-audio
-        // (voice notes); localized permission texts come with P11.1.
-        photosPermission: `${BRAND.name} a besoin de tes photos pour les ajouter à vos souvenirs.`,
+        // (voice notes); French texts are in locales/fr.json.
+        photosPermission: `${BRAND.name} uses your photos only when you choose some to share with your partner (messages, memories, profile picture).`,
         cameraPermission: false,
       },
     ],

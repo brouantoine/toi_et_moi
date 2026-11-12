@@ -1,5 +1,7 @@
 """Account business logic (kept out of views and serializers)."""
 
+import logging
+
 from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
@@ -13,6 +15,8 @@ from .models import SocialAccount, User
 from .social import SocialAuthError, SocialIdentity
 from .tasks import send_email_task
 from .tokens import make_email_verification_token, read_email_verification_token
+
+logger = logging.getLogger(__name__)
 
 
 def _absolute(path: str) -> str:
@@ -136,3 +140,66 @@ def sign_in_with_identity(identity: SocialIdentity, language: str = "fr") -> tup
         user.save(update_fields=["email_verified"])
     SocialAccount.objects.create(user=user, provider=identity.provider, subject=identity.subject)
     return user, created
+
+
+#: Typed by the person to confirm (case-insensitive), in either language.
+DELETE_CONFIRMATIONS = {"supprimer", "delete"}
+
+
+def delete_account(user: User) -> None:
+    """Erases the account for good (App Store guideline 5.1.1(v)).
+
+    The couple's shared space (messages, memories, games, coach, calls...) is erased with
+    it: the partner keeps their own account, is told, and can start a new space. Stored
+    files (photos, voice notes, avatars) are erased from storage once the deletion is
+    committed. App Store / Play subscriptions are cancelled in the store, not here.
+    """
+    from core import storage
+    from couples.services import get_current_couple
+    from games.models import Answer
+    from messaging.models import Message
+    from notifications.models import Kind
+    from notifications.services import notify
+
+    from . import messages
+
+    keys: list[str] = []
+    if user.avatar and user.avatar.name:
+        keys.append(user.avatar.name)
+    with transaction.atomic():
+        couple = get_current_couple(user)
+        partner = couple.partner_of(user) if couple else None
+        if couple is not None:
+            keys += list(
+                Message.objects.filter(couple=couple)
+                .exclude(media_key="")
+                .values_list("media_key", flat=True)
+            )
+            keys += list(
+                Answer.objects.filter(couple=couple)
+                .exclude(media_key="")
+                .values_list("media_key", flat=True)
+            )
+            if couple.photo and couple.photo.name:
+                keys.append(couple.photo.name)
+            couple.delete()  # memory photos are erased by their own signal
+        name = user.display_name
+        user.delete()
+
+        def erase_files() -> None:
+            for key in keys:
+                try:
+                    storage.delete_file(key)
+                except Exception:  # best effort: a lost file never blocks the deletion
+                    logger.warning("account deletion: could not erase a stored file")
+
+        transaction.on_commit(erase_files)
+    if partner is not None:
+        notify(
+            partner,
+            Kind.ORGANIZATION,
+            messages.text(partner.language, "partner_deleted_title"),
+            messages.text(partner.language, "partner_deleted_body", name=name),
+            {"screen": "couple"},
+            respect_quiet_hours=False,
+        )

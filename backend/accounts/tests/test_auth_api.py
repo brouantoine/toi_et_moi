@@ -19,6 +19,7 @@ def register_payload(**overrides):
         "email": "Lea@Example.com",
         "password": "une-phrase-de-passe-solide",
         "first_name": "Léa",
+        "is_adult": True,
         "language": "fr",
         "timezone": "Europe/Paris",
     }
@@ -100,3 +101,11 @@ def test_auth_endpoints_are_throttled(api_client: APIClient) -> None:
         for _ in range(12)
     ]
     assert 429 in statuses
+
+
+def test_register_requires_being_an_adult(api_client: APIClient) -> None:
+    payload = {"email": "jeune@example.com", "password": "Bolingo-2026!longue", "first_name": "J"}
+    missing = api_client.post(REGISTER, payload, format="json")
+    assert missing.status_code == 400 and "is_adult" in missing.json()
+    refused = api_client.post(REGISTER, {**payload, "is_adult": False}, format="json")
+    assert refused.status_code == 400

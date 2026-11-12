@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from billing.admin import offer_a_month
+
 from .models import Couple, CoupleMember, Invitation
 
 
@@ -14,6 +16,8 @@ class CoupleAdmin(admin.ModelAdmin[Couple]):
     list_display = ["id", "status", "start_date", "currency", "plus_until", "created_at"]
     list_filter = ["status"]
     inlines = [CoupleMemberInline]
+    readonly_fields = ["plus_until"]
+    actions = [offer_a_month]
 
 
 @admin.register(Invitation)

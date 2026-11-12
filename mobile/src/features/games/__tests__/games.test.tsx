@@ -388,14 +388,14 @@ describe('home sections', () => {
 });
 
 describe('PremiumScreen', () => {
-  it('offers one purchase for two and says purchases are not open yet', async () => {
+  it('says plainly that purchases open with the installed app, with the legal links', async () => {
     backend();
     await renderWithProviders(<PremiumScreen />);
     expect(await screen.findByText('Sam n’a pas à payer')).toBeTruthy();
-    expect(screen.getByTestId('premium-plan-yearly').props.accessibilityState).toMatchObject({
-      checked: true,
-    });
-    await fireEvent.press(screen.getByTestId('premium-continue'));
     expect(screen.getByTestId('premium-not-yet')).toBeTruthy();
+    expect(screen.queryByTestId('premium-continue')).toBeNull();
+    expect(screen.getByTestId('premium-terms')).toBeTruthy();
+    expect(screen.getByTestId('premium-privacy')).toBeTruthy();
+    expect(screen.getByTestId('premium-eula')).toBeTruthy();
   });
 });

@@ -40,7 +40,10 @@ class CurrentCallView(CallsView):
     @extend_schema(responses={200: CurrentCallSerializer})
     def get(self, request: Request) -> Response:
         call = services.live(self.couple())
-        data = {"call": services.payload(call, current_user(request)) if call else None}
+        data = {
+            "call": services.payload(call, current_user(request)) if call else None,
+            "media_ready": services.media_ready(),
+        }
         return Response(CurrentCallSerializer(data).data)
 
 

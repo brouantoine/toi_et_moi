@@ -1,0 +1,60 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Privacy policy · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Privacy policy</h1>
+<p class="muted">Last updated: {{ updated }} · <a href="?lang={{ other_language }}">Français</a></p>
+
+<p>{{ brand }} is an app for two people in a couple. This policy explains what data we process, why, who it is shared with and how you stay in control. Controller: {{ entity }}, {{ address }}. Contact: <a href="mailto:{{ support }}">{{ support }}</a>.</p>
+
+<h2>What we never do</h2>
+<ul>
+  <li>No ads, no advertising tracking, no sale of data.</li>
+  <li>What your couple writes is visible to the two of you only. No other user can access it.</li>
+</ul>
+
+<h2>Data we process</h2>
+<ul>
+  <li><strong>Account</strong>: email, first name, nickname, language, time zone, password (stored hashed, never in clear) or Apple / Google sign-in identifier, birth date if you give it.</li>
+  <li><strong>Couple space</strong>: start date, currency, colour, messages, voice notes, photos, memories, calendar, lists, budget, game answers, notes. Messages and the coach conversation are encrypted in our database.</li>
+  <li><strong>Location</strong> (optional): only if you agree to share it, to show the distance and the map you share with your partner and, if you turn on continuous sharing, to tell you when you are close. You can stop at any time; your location is then erased.</li>
+  <li><strong>Calls</strong>: the history of calls between the two of you (date, length, type). Call content is never recorded or stored.</li>
+  <li><strong>Notifications</strong>: your phone's notification token, to send the notifications you chose.</li>
+  <li><strong>Subscription</strong>: the state of your Bolingo Plus subscription (product, expiry), received from the stores. We never receive your payment details.</li>
+  <li><strong>Technical data</strong>: error and security logs, kept for a short time.</li>
+</ul>
+
+<h2>The AI coach</h2>
+<p>The coach is optional and opens only if you both turn it on. The messages of your conversation with it are sent to an AI provider to produce its answers (currently OpenRouter, which forwards them to the chosen Google model, or Anthropic). Only your couple's conversation is sent, never another couple's. These providers act as processors and, under our settings, may not train their models on your messages. You can erase the conversation at any time.</p>
+
+<h2>Why we process it</h2>
+<ul>
+  <li>To run the app you asked for (performance of a contract).</li>
+  <li>Location sharing, the coach and notifications: based on your consent, which you can withdraw at any time in the app.</li>
+  <li>Security, abuse prevention and legal obligations.</li>
+</ul>
+
+<h2>Who it is shared with</h2>
+<ul>
+  <li>Your partner, for everything in your shared space.</li>
+  <li>Our technical processors, only to run the service: hosting and file storage, email and notification delivery (Expo, Apple, Google), AI coach (OpenRouter, Google, Anthropic), subscription management (Apple, Google, RevenueCat).</li>
+  <li>Authorities, where the law requires it.</li>
+</ul>
+
+<h2>How long</h2>
+<p>As long as your account exists. If you delete your account, it is erased at once together with the couple space (messages, photos, memories, games, coach); your partner is told and keeps their own account. Technical backups are overwritten within 30 days.</p>
+
+<h2>Your rights</h2>
+<p>You can access, correct and erase your data, object, withdraw consent and ask for portability. Deleting your account is done in the app: Me, then Delete my account. For anything else, write to <a href="mailto:{{ support }}">{{ support }}</a>. You may also complain to your data protection authority.</p>
+
+<h2>Minors</h2>
+<p>{{ brand }} is for adults only. We do not knowingly collect data about minors.</p>
+
+<h2>Security</h2>
+<p>Encrypted connections, messages encrypted at rest, private files served through temporary links, access limited to your couple.</p>
+
+<h2>Changes</h2>
+<p>If something important changes, we tell you in the app before it applies.</p>
+
+<p class="muted">To be reviewed by a lawyer before the app is published.</p>
+{% endblock %}

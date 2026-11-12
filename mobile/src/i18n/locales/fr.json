@@ -31,7 +31,8 @@
     "fields": {
       "email": "Email",
       "password": "Mot de passe",
-      "firstName": "Prénom"
+      "firstName": "Prénom",
+      "isAdult": "J’ai 18 ans ou plus"
     },
     "login": {
       "title": "Content de te revoir",
@@ -62,7 +63,8 @@
       "firstNameRequired": "Indique ton prénom.",
       "emailTaken": "Un compte existe déjà avec cet email. Tu peux te connecter.",
       "passwordWeak": "Ce mot de passe est trop facile à deviner. Essaie une petite phrase.",
-      "badCredentials": "Email ou mot de passe incorrect."
+      "badCredentials": "Email ou mot de passe incorrect.",
+      "adultRequired": "Bolingo est réservé aux personnes majeures."
     },
     "social": {
       "or": "ou",
@@ -76,7 +78,8 @@
         "expired_token": "La connexion a expiré. Réessaie.",
         "invalid_nonce": "La connexion n’a pas pu être vérifiée. Réessaie."
       }
-    }
+    },
+    "socialAdult": "En continuant avec Apple ou Google, tu confirmes avoir 18 ans ou plus."
   },
   "couple": {
     "setup": {
@@ -177,7 +180,12 @@
     "distance": "Distance et carte",
     "distanceHint": "Partager ta position avec l’autre",
     "avatar": "Ta photo de profil",
-    "avatarHint": "Personnage ou photo"
+    "avatarHint": "Personnage ou photo",
+    "plus": "Bolingo Plus",
+    "plusHint": "Un abonnement pour vous deux",
+    "plusActive": "Actif jusqu’au {{date}}",
+    "help": "Aide et contact",
+    "delete": "Supprimer mon compte"
   },
   "onboarding": {
     "together": {
@@ -798,13 +806,33 @@
     "save": "Le plus avantageux",
     "continue": "Continuer",
     "restore": "Restaurer",
-    "notYet": "Les achats seront activés à la publication de l’app sur les stores. Rien n’est débité pour le moment.",
+    "notYet": "Les achats s’ouvrent avec la version installée de Bolingo (pas dans Expo Go). Rien n’est débité ici.",
     "close": "Fermer",
     "feature1": "Bolingo Plus pour vous deux",
     "feature2": "Tous les sujets et tous les jeux",
     "feature3": "Parcours guidés de 7 jours",
     "feature4": "Coach IA partagé, sans limite après le mois offert",
-    "feature5": "Widgets de l’écran d’accueil"
+    "feature5": "Widgets de l’écran d’accueil",
+    "introPrice": "Prix de lancement : {{price}}",
+    "trial": {
+      "day_one": "{{count}} jour gratuit",
+      "day_other": "{{count}} jours gratuits",
+      "week_one": "{{count}} semaine gratuite",
+      "week_other": "{{count}} semaines gratuites",
+      "month_one": "{{count}} mois gratuit",
+      "month_other": "{{count}} mois gratuits",
+      "year_one": "{{count}} an gratuit",
+      "year_other": "{{count}} ans gratuits"
+    },
+    "active": "Bolingo Plus est actif pour vous deux jusqu’au {{date}}.",
+    "manage": "Gérer mon abonnement",
+    "plansError": "Les offres n’ont pas pu être chargées. Vérifie ta connexion.",
+    "renewal": "Paiement débité sur ton compte Apple ou Google à la confirmation. L’abonnement se renouvelle automatiquement au même prix, sauf résiliation au moins 24 heures avant la fin de la période en cours. Gère ou résilie-le à tout moment dans les réglages de ton compte du store.",
+    "thanks": "Merci ! Bolingo Plus est actif pour vous deux.",
+    "buyError": "L’achat n’a pas abouti. Rien n’a été débité. Réessaie.",
+    "restored": "Ton abonnement est restauré.",
+    "nothingToRestore": "Aucun abonnement à restaurer pour ce compte du store.",
+    "restoreError": "La restauration n’a pas abouti. Réessaie."
   },
   "coach": {
     "title": "Coach",
@@ -882,5 +910,21 @@
       "missed": "Appel manqué",
       "cancelled": "Appel annulé"
     }
+  },
+  "legal": {
+    "terms": "Conditions d’utilisation",
+    "privacy": "Confidentialité",
+    "eula": "Contrat de licence (EULA)",
+    "support": "Aide et contact",
+    "consent": "En créant un compte, tu acceptes les Conditions d’utilisation et la Politique de confidentialité."
+  },
+  "deleteAccount": {
+    "title": "Supprimer mon compte",
+    "what": "Ton compte sera supprimé définitivement, avec tout votre espace de couple : messages, notes vocales, photos, souvenirs, agenda, budget, jeux et conversation avec le coach.",
+    "partner": "Ton ou ta partenaire sera prévenu et gardera son propre compte, sans votre espace commun.",
+    "subscription": "Si tu as un abonnement Bolingo Plus, supprimer ton compte ne l’arrête pas : résilie-le dans les réglages de ton compte Apple ou Google.",
+    "typeLabel": "Pour confirmer, écris {{word}}",
+    "submit": "Supprimer définitivement",
+    "error": "La suppression n’a pas abouti. Vérifie ta connexion et réessaie."
   }
 }

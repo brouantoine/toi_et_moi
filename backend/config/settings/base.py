@@ -15,6 +15,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Brand: change the product name here (mobile side: mobile/src/config/brand.ts).
 BRAND_NAME = env_str("BRAND_NAME", "Bolingo")
+#: Shown on the legal and support pages (App Store requires them). To fill in for real.
+LEGAL_ENTITY = env_str("LEGAL_ENTITY", "Bolingo (éditeur à compléter)")
+LEGAL_ADDRESS = env_str("LEGAL_ADDRESS", "Adresse à compléter")
+SUPPORT_EMAIL = env_str("SUPPORT_EMAIL", "support@example.com")
 
 SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
 
@@ -63,6 +67,7 @@ INSTALLED_APPS = [
     "rituals",
     "messaging",
     "calls",
+    "billing",
     "places",
     "games",
     "coach",
@@ -250,6 +255,10 @@ ANTHROPIC_API_KEY = env_str("ANTHROPIC_API_KEY", "")
 COACH_MODEL = env_str("COACH_MODEL", "claude-opus-5-5")
 #: Live voice/video exist in this build (WebRTC module + TURN server): off in Expo Go.
 CALLS_MEDIA_READY = env_bool("CALLS_MEDIA_READY", False)
+#: RevenueCat webhook secret (Authorization header set in RevenueCat > Integrations > Webhooks).
+REVENUECAT_WEBHOOK_AUTH = env_str("REVENUECAT_WEBHOOK_AUTH", "")
+#: Sandbox purchases (TestFlight, review) count only where this is on (dev, staging).
+BILLING_ACCEPT_SANDBOX = env_bool("BILLING_ACCEPT_SANDBOX", True)
 #: Free coach for this many days, then Bolingo Plus.
 COACH_TRIAL_DAYS = env_int("COACH_TRIAL_DAYS", 30)
 # Coach through OpenRouter (used instead of the Claude API when this key is set).

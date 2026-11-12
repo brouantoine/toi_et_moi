@@ -53,6 +53,7 @@ export function useRegister() {
             first_name: form.firstName.trim(),
             language: currentLanguage(),
             timezone: deviceTimezone(),
+            is_adult: form.isAdult,
           },
         }),
       ),

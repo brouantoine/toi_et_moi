@@ -35,6 +35,9 @@ export function SocialButtons() {
 
   return (
     <View style={{ gap: spacing.md }} testID="social-buttons">
+      <Text variant="caption" muted style={{ textAlign: 'center' }} testID="social-adult">
+        {t('auth.socialAdult')}
+      </Text>
       <Text muted style={styles.center}>
         {t('auth.social.or')}
       </Text>

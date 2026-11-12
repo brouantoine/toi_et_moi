@@ -1,0 +1,14 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Support · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Support</h1>
+<p class="muted"><a href="?lang={{ other_language }}">Français</a></p>
+<p>A question, a problem, an idea? Write to <a href="mailto:{{ support }}">{{ support }}</a>: we answer within 2 business days.</p>
+<h2>Frequent questions</h2>
+<p><strong>How do I invite my partner?</strong> Create your space, then share the invitation link or code shown on screen.</p>
+<p><strong>How do I cancel Bolingo Plus?</strong> On iPhone: Settings, your name, Subscriptions, Bolingo. On Android: Google Play, Payments and subscriptions, Subscriptions.</p>
+<p><strong>How do I delete my account?</strong> In the app: Me, then Delete my account. Your couple space is erased; your partner is told.</p>
+<p><strong>Stop sharing my location?</strong> Home, tap the distance, then Stop sharing.</p>
+<p><a href="/legal/privacy/?lang=en">Privacy policy</a> · <a href="/legal/terms/?lang=en">Terms of use</a></p>
+{% endblock %}

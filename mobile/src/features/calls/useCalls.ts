@@ -17,18 +17,27 @@ export const isOver = (call: Call | null | undefined) =>
  * The call ringing or going on. Pushed live by the realtime sync; while one rings, the
  * phone also checks every few seconds so the screen never misses a pick-up or hang-up.
  */
-export function useCurrentCall(enabled = true) {
+export function useCurrentCallInfo(enabled = true) {
   return useQuery({
     queryKey: currentKey,
     enabled,
-    queryFn: async () => unwrap(await api.GET('/api/v1/calls/current/')).call ?? null,
-    refetchInterval: (query) => (query.state.data ? 3000 : 15000),
+    queryFn: async () => unwrap(await api.GET('/api/v1/calls/current/')),
+    refetchInterval: (query) => (query.state.data?.call ? 3000 : 15000),
   });
+}
+
+export function useCurrentCall(enabled = true) {
+  const query = useCurrentCallInfo(enabled);
+  return { ...query, data: query.data ? (query.data.call ?? null) : undefined };
 }
 
 function useKeep() {
   const client = useQueryClient();
-  return (call: Call) => client.setQueryData(currentKey, isOver(call) ? null : call);
+  return (call: Call) =>
+    client.setQueryData(currentKey, (previous?: { media_ready: boolean }) => ({
+      media_ready: previous?.media_ready ?? false,
+      call: isOver(call) ? null : call,
+    }));
 }
 
 function useCallAction(path: 'accept' | 'decline' | 'end') {

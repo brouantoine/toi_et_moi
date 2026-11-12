@@ -1,0 +1,46 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Terms of use · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Terms of use</h1>
+<p class="muted">Last updated: {{ updated }} · <a href="?lang={{ other_language }}">Français</a></p>
+
+<p>These terms govern the use of {{ brand }}, published by {{ entity }}, {{ address }}. By creating an account you accept them.</p>
+
+<h2>1. The app</h2>
+<p>{{ brand }} is a private space for two adults in a couple: messages, calls, memories, organisation, question games and an AI coach. You must be at least 18.</p>
+
+<h2>2. Your account</h2>
+<p>You are responsible for your account and what you post. You can delete it at any time in the app (Me, then Delete my account), which also erases your couple's shared space.</p>
+
+<h2>3. What is not allowed</h2>
+<p>Using {{ brand }} to harass, threaten, monitor someone without their consent, share illegal content or intimate images without consent, or get around the service's security. We may suspend an account that breaks these rules.</p>
+
+<h2>4. The AI coach</h2>
+<p>The coach is an artificial intelligence. Its answers may be imperfect and do not replace a health professional, therapist, lawyer or emergency services. In an emergency, call your local emergency number.</p>
+
+<h2>5. Bolingo Plus subscription</h2>
+<ul>
+  <li>Bolingo Plus unlocks all games and question packs and the AI coach after the free month. One subscription covers both partners of the couple.</li>
+  <li>Plans: monthly or yearly. The exact price, in your currency, is shown in the app and on the App Store or Google Play before you buy.</li>
+  <li>Payment is charged to your Apple or Google account when you confirm the purchase.</li>
+  <li><strong>The subscription renews automatically</strong> for the same length and price unless you cancel at least 24 hours before the end of the current period. Renewal is charged within 24 hours before the period ends.</li>
+  <li>Manage and cancel your subscription in your Apple or Google account settings (on iPhone: Settings, your name, Subscriptions). Cancelling takes effect at the end of the period already paid. Deleting the app or your account does not cancel the subscription.</li>
+  <li>If a free trial is offered, any unused part is forfeited when you buy a subscription.</li>
+  <li>Refunds follow Apple's or Google's rules.</li>
+</ul>
+
+<h2>6. Your content</h2>
+<p>What you write and share remains yours. You only allow us to store and process it to run the service, as described in the <a href="/legal/privacy/?lang=en">privacy policy</a>.</p>
+
+<h2>7. Liability</h2>
+<p>We do our best to keep {{ brand }} running without interruption but cannot guarantee it. Nothing in these terms limits the rights your local law gives you as a consumer.</p>
+
+<h2>8. Changes</h2>
+<p>We may update these terms; if something important changes, we tell you in the app.</p>
+
+<h2>9. Contact</h2>
+<p><a href="mailto:{{ support }}">{{ support }}</a></p>
+
+<p class="muted">For App Store purchases, Apple's standard licensed application end user licence agreement (EULA) also applies. To be reviewed by a lawyer before publication.</p>
+{% endblock %}

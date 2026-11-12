@@ -61,7 +61,7 @@ def test_ring_pick_up_and_hang_up(pushes) -> None:
     assert picked["state"] == "ongoing" and picked["answered_at"]
     ended = client_for(me).post(f"{START}{call['id']}/end/").json()
     assert ended["state"] == "ended" and ended["ended_at"]
-    assert client_for(partner).get(CURRENT).json() == {"call": None}
+    assert client_for(partner).get(CURRENT).json() == {"call": None, "media_ready": False}
     # Hanging up twice is harmless.
     assert client_for(partner).post(f"{START}{call['id']}/end/").json()["state"] == "ended"
 
@@ -84,7 +84,7 @@ def test_unanswered_call_becomes_missed(pushes) -> None:
     _, me, partner = make_couple()
     call = client_for(me).post(START, {"kind": "audio"}, format="json").json()
     Call.objects.filter(pk=call["id"]).update(created_at=timezone.now() - timedelta(minutes=2))
-    assert client_for(partner).get(CURRENT).json() == {"call": None}
+    assert client_for(partner).get(CURRENT).json() == {"call": None, "media_ready": False}
     assert Call.objects.get(pk=call["id"]).state == "missed"
     late = client_for(partner).post(f"{START}{call['id']}/accept/")
     assert late.status_code == 400 and late.json()["code"] == "not_ringing"
@@ -103,7 +103,7 @@ def test_strangers_and_singles(pushes) -> None:
     _, me, _ = make_couple()
     _, stranger, _ = make_couple()
     call = client_for(me).post(START, {"kind": "audio"}, format="json").json()
-    assert client_for(stranger).get(CURRENT).json() == {"call": None}
+    assert client_for(stranger).get(CURRENT).json()["call"] is None
     assert client_for(stranger).post(f"{START}{call['id']}/accept/").status_code == 404
     assert client_for(stranger).post(f"{START}{call['id']}/end/").status_code == 404
     assert client_for(UserFactory()).get(CURRENT).status_code == 403

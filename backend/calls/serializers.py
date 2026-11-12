@@ -22,6 +22,9 @@ class CallSerializer(serializers.Serializer[Dict]):
 
 class CurrentCallSerializer(serializers.Serializer[Dict]):
     call = CallSerializer(allow_null=True)
+    media_ready = serializers.BooleanField(
+        help_text="Live voice/video exist on the server side; the app hides calls otherwise."
+    )
 
 
 class StartCallSerializer(serializers.Serializer[Dict]):

@@ -17,6 +17,7 @@ from . import services, social
 from .models import User
 from .serializers import (
     AuthResponseSerializer,
+    DeleteAccountSerializer,
     EmailSerializer,
     LogoutSerializer,
     PasswordResetConfirmSerializer,
@@ -41,7 +42,8 @@ class RegisterView(AuthThrottleMixin, APIView):
     def post(self, request: Request) -> Response:
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = services.register_user(**serializer.validated_data)
+        data = {k: v for k, v in serializer.validated_data.items() if k != "is_adult"}
+        user = services.register_user(**data)
         tokens = services.issue_tokens(user)
         payload = {**tokens, "user": UserSerializer(user, context={"request": request}).data}
         return Response(payload, status=status.HTTP_201_CREATED)
@@ -74,10 +76,18 @@ class MeView(generics.RetrieveUpdateAPIView[User]):
 
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
-    http_method_names = ["get", "patch", "head", "options"]
+    http_method_names = ["get", "patch", "delete", "head", "options"]
 
     def get_object(self) -> User:
         return self.request.user  # type: ignore[return-value]
+
+    @extend_schema(request=DeleteAccountSerializer, responses={204: None, 400: None})
+    def delete(self, request: Request, *args: object, **kwargs: object) -> Response:
+        """Deletes the account and the couple's shared space, for good."""
+        payload = DeleteAccountSerializer(data=request.data)
+        payload.is_valid(raise_exception=True)
+        services.delete_account(self.get_object())
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class VerifyEmailView(AuthThrottleMixin, APIView):

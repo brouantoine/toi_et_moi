@@ -163,6 +163,19 @@ jest.mock('expo-audio', () => {
 });
 
 /* Clipboard (invitation code) and QR code (svg) are replaced by light fakes. */
+/* RevenueCat: no store in tests. */
+jest.mock('react-native-purchases', () => ({
+  __esModule: true,
+  default: {
+    configure: jest.fn(),
+    logIn: jest.fn(async () => ({})),
+    logOut: jest.fn(async () => ({})),
+    getOfferings: jest.fn(async () => ({ current: null })),
+    purchasePackage: jest.fn(),
+    restorePurchases: jest.fn(async () => ({ entitlements: { active: {} } })),
+  },
+}));
+
 jest.mock('expo-clipboard', () => ({
   setStringAsync: jest.fn(async () => true),
   getStringAsync: jest.fn(async () => ''),

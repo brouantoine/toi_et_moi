@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
+  {% block robots %}<meta name="robots" content="noindex">{% endblock %}
   <title>{% block title %}{{ brand }}{% endblock %}</title>
   <style>
-    :root { --bg:#FFF8F2; --surface:#FFFFFF; --text:#231A16; --muted:#62564F; --primary:#B3132B; --on-primary:#FFFFFF; --soft:#FCE3D8; --border:#EEDFD4; }
+    :root { --bg:#FFFFFF; --surface:#FFFFFF; --text:#1C1C1E; --muted:#5F5F64; --primary:#D0112B; --on-primary:#FFFFFF; --soft:#FFE1E6; --border:#E5E5EA; }
     @media (prefers-color-scheme: dark) {
-      :root { --bg:#16120F; --surface:#211B17; --text:#F6EEE7; --muted:#C2B6AC; --primary:#FF5C5C; --on-primary:#16120F; --soft:#4A1A16; --border:#3A2F28; }
+      :root { --bg:#000000; --surface:#1C1C1E; --text:#FFFFFF; --muted:#AEAEB4; --primary:#FF3B4E; --on-primary:#140405; --soft:#4A1A1C; --border:#38383A; }
     }
     * { box-sizing: border-box; }
     body { margin:0; background:var(--bg); color:var(--text); font:17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }

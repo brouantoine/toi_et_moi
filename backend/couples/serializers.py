@@ -74,8 +74,9 @@ class CoupleSerializer(serializers.ModelSerializer[Couple]):
             "members",
             "invitation",
             "activated_at",
+            "plus_until",
         ]
-        read_only_fields = ["id", "status", "members", "invitation", "activated_at"]
+        read_only_fields = ["id", "status", "members", "invitation", "activated_at", "plus_until"]
 
     def get_photo_url(self, obj: Couple) -> str | None:
         return obj.photo.url if obj.photo else None

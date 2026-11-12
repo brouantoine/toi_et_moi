@@ -88,11 +88,22 @@ describe('LoginScreen', () => {
 });
 
 describe('RegisterScreen', () => {
-  async function fill(password = 'une-phrase-solide') {
+  async function fill(password = 'une-phrase-solide', adult = true) {
     await fireEvent.changeText(screen.getByTestId('register-first-name'), 'Léa');
     await fireEvent.changeText(screen.getByTestId('register-email'), 'lea@example.com');
     await fireEvent.changeText(screen.getByTestId('register-password'), password);
+    if (adult) await fireEvent(screen.getByTestId('register-adult'), 'valueChange', true);
   }
+
+  it('asks to confirm being 18 or older before calling the server', async () => {
+    const fetchMock = mockFetch();
+    await renderWithProviders(<RegisterScreen />);
+    await fill('une-phrase-solide', false);
+    await fireEvent.press(screen.getByTestId('register-submit'));
+    expect(await screen.findByText('Bolingo est réservé aux personnes majeures.')).toBeTruthy();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('register-consent')).toBeTruthy();
+  });
 
   it('requires a 10+ character password', async () => {
     const fetchMock = mockFetch();
@@ -117,6 +128,7 @@ describe('RegisterScreen', () => {
       first_name: 'Léa',
       language: 'fr',
       timezone: 'Europe/Paris',
+      is_adult: true,
     });
   });
 

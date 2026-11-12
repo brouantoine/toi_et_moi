@@ -898,7 +898,8 @@ export interface paths {
     get: operations['v1_me_retrieve'];
     put?: never;
     post?: never;
-    delete?: never;
+    /** @description Deletes the account and the couple's shared space, for good. */
+    delete: operations['v1_me_destroy'];
     options?: never;
     head?: never;
     /** @description The authenticated user's own profile. Nobody else's profile is reachable here. */
@@ -1549,6 +1550,8 @@ export interface components {
       readonly invitation: components['schemas']['Invitation'] | null;
       /** Format: date-time */
       readonly activated_at: string | null;
+      /** Format: date-time */
+      readonly plus_until: string | null;
     };
     CoupleError: {
       code: string;
@@ -1569,6 +1572,8 @@ export interface components {
     };
     CurrentCall: {
       call: components['schemas']['Call'] | null;
+      /** @description Live voice/video exist on the server side; the app hides calls otherwise. */
+      media_ready: boolean;
     };
     DeviceRequest: {
       token: string;
@@ -2250,6 +2255,8 @@ export interface components {
       language: components['schemas']['LanguageEnum'];
       /** @default UTC */
       timezone: string;
+      /** @description The person confirms being 18 or older (the app is for adults). */
+      is_adult: boolean;
     };
     /**
      * @description * `me` - me
@@ -4319,6 +4326,31 @@ export interface operations {
         content: {
           'application/json': components['schemas']['User'];
         };
+      };
+    };
+  };
+  v1_me_destroy: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No response body */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No response body */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

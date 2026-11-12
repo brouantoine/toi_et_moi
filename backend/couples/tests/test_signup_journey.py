@@ -18,6 +18,7 @@ def sign_up(email: str, first_name: str) -> APIClient:
             "email": email,
             "password": PASSWORD,
             "first_name": first_name,
+            "is_adult": True,
             "language": "fr",
             "timezone": "Africa/Abidjan",
         },
@@ -50,7 +51,12 @@ def test_sign_up_create_with_start_date_then_partner_joins() -> None:
     # The same address cannot sign up twice, whatever the case.
     duplicate = APIClient().post(
         "/api/v1/auth/register/",
-        {"email": "antoine@exemple.TEST", "password": PASSWORD, "first_name": "Bis"},
+        {
+            "email": "antoine@exemple.TEST",
+            "password": PASSWORD,
+            "first_name": "Bis",
+            "is_adult": True,
+        },
         format="json",
     )
     assert duplicate.status_code == 400

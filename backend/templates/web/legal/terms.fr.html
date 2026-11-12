@@ -1,0 +1,46 @@
+{% extends "web/base.html" %}
+{% block robots %}<meta name="robots" content="index">{% endblock %}
+{% block title %}Conditions d'utilisation · {{ brand }}{% endblock %}
+{% block content %}
+<h1>Conditions d'utilisation</h1>
+<p class="muted">Dernière mise à jour : {{ updated }} · <a href="?lang={{ other_language }}">English</a></p>
+
+<p>Ces conditions encadrent l'utilisation de {{ brand }}, éditée par {{ entity }}, {{ address }}. En créant un compte, tu les acceptes.</p>
+
+<h2>1. L'application</h2>
+<p>{{ brand }} est un espace privé pour deux personnes majeures en couple : messages, appels, souvenirs, organisation, jeux de questions et coach IA. Tu dois avoir au moins 18 ans.</p>
+
+<h2>2. Ton compte</h2>
+<p>Tu es responsable de ton compte et de ce que tu y publies. Tu peux le supprimer à tout moment dans l'application (Moi, puis Supprimer mon compte), ce qui efface aussi l'espace partagé de ton couple.</p>
+
+<h2>3. Ce qui est interdit</h2>
+<p>Utiliser {{ brand }} pour harceler, menacer, surveiller quelqu'un sans son accord, partager des contenus illégaux ou des images intimes sans consentement, ou contourner la sécurité du service. Nous pouvons suspendre un compte qui ne respecte pas ces règles.</p>
+
+<h2>4. Le coach IA</h2>
+<p>Le coach est une intelligence artificielle. Ses réponses peuvent être imparfaites et ne remplacent ni un professionnel de santé, ni un thérapeute, ni un avocat, ni les secours. En cas d'urgence, contacte les services d'urgence de ton pays.</p>
+
+<h2>5. Bolingo Plus : abonnement</h2>
+<ul>
+  <li>Bolingo Plus donne accès à tous les jeux et paquets de questions et au coach IA au-delà du mois offert. Un seul abonnement couvre les deux partenaires du couple.</li>
+  <li>Formules : mensuelle ou annuelle. Le prix exact, dans ta monnaie, est affiché dans l'application et sur l'App Store ou Google Play avant l'achat.</li>
+  <li>Le paiement est débité sur ton compte Apple ou Google à la confirmation de l'achat.</li>
+  <li><strong>L'abonnement se renouvelle automatiquement</strong> pour la même durée et au même prix, sauf si tu le résilies au moins 24 heures avant la fin de la période en cours. Le renouvellement est débité dans les 24 heures qui précèdent la fin de la période.</li>
+  <li>Tu gères et résilies ton abonnement dans les réglages de ton compte Apple ou Google (sur iPhone : Réglages, ton nom, Abonnements). La résiliation prend effet à la fin de la période déjà payée. Supprimer l'application ou ton compte ne résilie pas l'abonnement.</li>
+  <li>Si une période d'essai gratuite est proposée, toute partie non utilisée est perdue à l'achat d'un abonnement.</li>
+  <li>Les remboursements suivent les règles d'Apple ou de Google.</li>
+</ul>
+
+<h2>6. Ton contenu</h2>
+<p>Ce que vous écrivez et partagez reste à vous. Tu nous autorises seulement à le stocker et à le traiter pour faire fonctionner le service, comme décrit dans la <a href="/legal/privacy/">politique de confidentialité</a>.</p>
+
+<h2>7. Responsabilité</h2>
+<p>Nous faisons de notre mieux pour que {{ brand }} fonctionne sans interruption, sans pouvoir le garantir. Rien dans ces conditions ne limite les droits que la loi de ton pays te reconnaît en tant que consommateur.</p>
+
+<h2>8. Changements</h2>
+<p>Nous pouvons faire évoluer ces conditions ; en cas de changement important, nous te prévenons dans l'application.</p>
+
+<h2>9. Contact</h2>
+<p><a href="mailto:{{ support }}">{{ support }}</a></p>
+
+<p class="muted">Pour les achats faits sur l'App Store, le contrat de licence standard d'Apple (EULA) s'applique également. Document à faire relire par un juriste avant la publication.</p>
+{% endblock %}

@@ -1,38 +1,158 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Check, X } from 'lucide-react-native';
+import { Check, Crown, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { API_URL } from '@/config/env';
+import { coupleKey, useCouple } from '@/features/couple/useCouple';
 import { usePartner } from '@/features/couple/usePartner';
 import { Button, Icon, IconButton, Notice, palettes, PressableScale, Text, useTheme } from '@/ui';
 
+import {
+  APPLE_EULA_URL,
+  buy,
+  isPlusActive,
+  loadPlans,
+  openManage,
+  purchasesAvailable,
+  restore,
+  type Plan,
+} from './purchases';
+
 const COUPLE = require('../../../assets/welcome/couple.png');
 const INK = palettes.light.text;
-
-/**
- * Proposed prices, shown before purchases exist. The real ones will come from the
- * stores (localized) once the subscription products are created — see HUMAN_TODO.
- */
-export const PLANS = [
-  { id: 'monthly', price: '1,99 €' },
-  { id: 'yearly', price: '9,99 €' },
-] as const;
-type PlanId = (typeof PLANS)[number]['id'];
-
 const FEATURES = [1, 2, 3, 4, 5] as const;
 
-/** Premium offer: one purchase covers both partners. Purchases open at store release. */
-export function PremiumScreen() {
+/** Public pages served by the backend (also given to the stores). */
+export function legalUrl(page: 'privacy' | 'terms' | 'support', language: string): string {
+  const base = API_URL.replace(/\/api\/v1\/?$/, '').replace(/\/$/, '');
+  const path = page === 'support' ? '/support/' : `/legal/${page}/`;
+  return `${base}${path}?lang=${language === 'en' ? 'en' : 'fr'}`;
+}
+
+/** "jusqu'au 12 décembre 2026" */
+function untilDate(iso: string, language: string): string {
+  return new Intl.DateTimeFormat(language, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(iso));
+}
+
+function PlanCard({
+  plan,
+  selected,
+  onPress,
+}: {
+  plan: Plan;
+  selected: boolean;
+  onPress: () => void;
+}) {
   const { t } = useTranslation();
+  const { colors, radii, spacing } = useTheme();
+  return (
+    <PressableScale
+      testID={`premium-plan-${plan.period}`}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: selected }}
+      onPress={onPress}
+      style={[
+        styles.plan,
+        {
+          borderRadius: radii.xl,
+          padding: spacing.md,
+          backgroundColor: selected ? colors.primarySoft : colors.surfaceMuted,
+          borderColor: selected ? colors.primary : 'transparent',
+        },
+      ]}
+    >
+      <View style={styles.flex}>
+        <Text variant="heading">{t(`premium.${plan.period}`)}</Text>
+        <Text muted>
+          {t(plan.period === 'monthly' ? 'premium.perMonth' : 'premium.perYear', {
+            price: plan.price,
+          })}
+        </Text>
+        {plan.intro ? (
+          <Text variant="caption" color="primary" style={styles.bold}>
+            {plan.intro.price.match(/[1-9]/)
+              ? t('premium.introPrice', { price: plan.intro.price })
+              : t(`premium.trial.${plan.intro.periodUnit.toLowerCase()}`, {
+                  count: plan.intro.periodNumberOfUnits,
+                })}
+          </Text>
+        ) : null}
+      </View>
+      {plan.period === 'yearly' ? (
+        <View style={[styles.save, { backgroundColor: colors.primary }]}>
+          <Text variant="caption" color="onPrimary" style={styles.bold}>
+            {t('premium.save')}
+          </Text>
+        </View>
+      ) : null}
+    </PressableScale>
+  );
+}
+
+/** Bolingo Plus: one subscription for both partners, sold through the stores. */
+export function PremiumScreen() {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { colors, radii, spacing } = useTheme();
+  const client = useQueryClient();
+  const { colors, spacing } = useTheme();
   const partner = usePartner();
-  const [plan, setPlan] = useState<PlanId>('yearly');
-  const [asked, setAsked] = useState(false);
+  const couple = useCouple({ enabled: false });
+  const available = purchasesAvailable();
+  const plans = useQuery({ queryKey: ['plans'], queryFn: loadPlans, enabled: available });
+  const [picked, setPicked] = useState<string | null>(null);
+  const [busy, setBusy] = useState<'buy' | 'restore' | null>(null);
+  const [notice, setNotice] = useState<{ tone: 'info' | 'warning'; key: string } | null>(null);
+
+  const plusUntil = couple.data?.plus_until;
+  // The time is read once when the screen opens (pure render).
+  const [openedAt] = useState(() => Date.now());
+  const active = isPlusActive(plusUntil, openedAt);
+  const list = plans.data ?? [];
+  const chosen = list.find((p) => p.id === picked) ?? list[0];
+
+  const afterStore = async (ok: boolean, success: string) => {
+    if (ok) {
+      setNotice({ tone: 'info', key: success });
+      // The store tells our server within seconds; refresh to show it.
+      await client.invalidateQueries({ queryKey: coupleKey });
+    }
+  };
+  const purchase = async () => {
+    if (!chosen) return;
+    setBusy('buy');
+    setNotice(null);
+    try {
+      await afterStore((await buy(chosen)) === 'bought', 'premium.thanks');
+    } catch {
+      setNotice({ tone: 'warning', key: 'premium.buyError' });
+    } finally {
+      setBusy(null);
+    }
+  };
+  const restoreAll = async () => {
+    setBusy('restore');
+    setNotice(null);
+    try {
+      const found = await restore();
+      if (found) await afterStore(true, 'premium.restored');
+      else setNotice({ tone: 'info', key: 'premium.nothingToRestore' });
+    } catch {
+      setNotice({ tone: 'warning', key: 'premium.restoreError' });
+    } finally {
+      setBusy(null);
+    }
+  };
+  const open = (url: string) => () => void Linking.openURL(url).catch(() => {});
 
   return (
     <View testID="premium-screen" style={[styles.root, { backgroundColor: colors.background }]}>
@@ -61,50 +181,108 @@ export function PremiumScreen() {
               </View>
             ))}
           </View>
-          <View accessibilityRole="radiogroup" style={{ gap: spacing.smd }}>
-            {PLANS.map(({ id, price }) => {
-              const selected = plan === id;
-              return (
-                <PressableScale
-                  key={id}
-                  testID={`premium-plan-${id}`}
-                  accessibilityRole="radio"
-                  accessibilityState={{ checked: selected }}
-                  onPress={() => setPlan(id)}
-                  style={[
-                    styles.plan,
-                    {
-                      borderRadius: radii.xl,
-                      padding: spacing.md,
-                      backgroundColor: selected ? colors.primarySoft : colors.surfaceMuted,
-                      borderColor: selected ? colors.primary : 'transparent',
-                    },
-                  ]}
-                >
-                  <View style={styles.flex}>
-                    <Text variant="heading">{t(`premium.${id}`)}</Text>
-                    <Text muted>
-                      {t(id === 'monthly' ? 'premium.perMonth' : 'premium.perYear', { price })}
-                    </Text>
-                  </View>
-                  {id === 'yearly' ? (
-                    <View style={[styles.save, { backgroundColor: colors.primary }]}>
-                      <Text variant="caption" color="onPrimary" style={styles.bold}>
-                        {t('premium.save')}
-                      </Text>
-                    </View>
-                  ) : null}
-                </PressableScale>
-              );
-            })}
+
+          {active && plusUntil ? (
+            <View testID="premium-active" style={{ gap: spacing.smd }}>
+              <Notice
+                icon={Crown}
+                message={t('premium.active', { date: untilDate(plusUntil, i18n.language) })}
+              />
+              {available ? (
+                <Button
+                  testID="premium-manage"
+                  variant="ghost"
+                  label={t('premium.manage')}
+                  onPress={() => void openManage().catch(() => {})}
+                />
+              ) : null}
+            </View>
+          ) : !available ? (
+            <Notice testID="premium-not-yet" message={t('premium.notYet')} />
+          ) : (
+            <View style={{ gap: spacing.smd }}>
+              <View accessibilityRole="radiogroup" style={{ gap: spacing.smd }}>
+                {list.map((plan) => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    selected={plan.id === chosen?.id}
+                    onPress={() => setPicked(plan.id)}
+                  />
+                ))}
+              </View>
+              {plans.isError ? (
+                <Notice
+                  testID="premium-plans-error"
+                  tone="warning"
+                  message={t('premium.plansError')}
+                  actionLabel={t('common.retry')}
+                  onAction={() => void plans.refetch()}
+                />
+              ) : null}
+              <Button
+                testID="premium-continue"
+                size="lg"
+                label={t('premium.continue')}
+                disabled={!chosen || busy !== null}
+                loading={busy === 'buy' || plans.isPending}
+                onPress={() => void purchase()}
+              />
+              {/* App Store 3.1.2: renewal terms right next to the purchase button. */}
+              <Text testID="premium-renewal" variant="caption" muted style={styles.center}>
+                {t('premium.renewal')}
+              </Text>
+            </View>
+          )}
+
+          {notice ? (
+            <Notice testID="premium-notice" tone={notice.tone} message={t(notice.key)} />
+          ) : null}
+
+          <View style={[styles.links, { gap: spacing.xs }]}>
+            {available && !active ? (
+              <Button
+                testID="premium-restore"
+                variant="ghost"
+                label={t('premium.restore')}
+                loading={busy === 'restore'}
+                disabled={busy !== null}
+                onPress={() => void restoreAll()}
+              />
+            ) : null}
+            <View style={[styles.row, styles.wrap, { gap: spacing.md, justifyContent: 'center' }]}>
+              <Text
+                testID="premium-terms"
+                variant="caption"
+                color="primary"
+                accessibilityRole="link"
+                onPress={open(legalUrl('terms', i18n.language))}
+                style={styles.link}
+              >
+                {t('legal.terms')}
+              </Text>
+              <Text
+                testID="premium-privacy"
+                variant="caption"
+                color="primary"
+                accessibilityRole="link"
+                onPress={open(legalUrl('privacy', i18n.language))}
+                style={styles.link}
+              >
+                {t('legal.privacy')}
+              </Text>
+              <Text
+                testID="premium-eula"
+                variant="caption"
+                color="primary"
+                accessibilityRole="link"
+                onPress={open(APPLE_EULA_URL)}
+                style={styles.link}
+              >
+                {t('legal.eula')}
+              </Text>
+            </View>
           </View>
-          {asked ? <Notice testID="premium-not-yet" message={t('premium.notYet')} /> : null}
-          <Button
-            testID="premium-continue"
-            size="lg"
-            label={t('premium.continue')}
-            onPress={() => setAsked(true)}
-          />
         </View>
       </ScrollView>
       <View style={[styles.close, { top: insets.top + spacing.xs, left: spacing.md }]}>
@@ -127,6 +305,7 @@ const styles = StyleSheet.create({
   image: { width: '100%', height: 250 },
   center: { textAlign: 'center' },
   row: { flexDirection: 'row', alignItems: 'center' },
+  wrap: { flexWrap: 'wrap' },
   flex: { flex: 1 },
   bold: { fontWeight: '700' },
   check: {
@@ -139,4 +318,6 @@ const styles = StyleSheet.create({
   plan: { flexDirection: 'row', alignItems: 'center', borderWidth: 2, borderCurve: 'continuous' },
   save: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
   close: { position: 'absolute' },
+  links: { alignItems: 'center' },
+  link: { paddingVertical: 12, textDecorationLine: 'underline' },
 });

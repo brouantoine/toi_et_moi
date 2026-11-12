@@ -1,9 +1,24 @@
 import { useRouter } from 'expo-router';
-import { Bell, HeartHandshake, MapPin, Pencil, Smile, UserRound } from 'lucide-react-native';
+import {
+  Bell,
+  Crown,
+  FileText,
+  HeartHandshake,
+  LifeBuoy,
+  MapPin,
+  Pencil,
+  Shield,
+  Smile,
+  UserRound,
+} from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 
 import { useSignOut } from '@/auth/useSignOut';
+import { useCouple } from '@/features/couple/useCouple';
+import { legalUrl } from '@/features/premium/PremiumScreen';
+import { isPlusActive } from '@/features/premium/purchases';
 import {
   Avatar,
   Button,
@@ -20,11 +35,16 @@ import {
 import { useMe } from './useProfile';
 
 export function MeScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const { colors, spacing } = useTheme();
   const me = useMe();
   const signOut = useSignOut();
+  const plusUntil = useCouple({ enabled: false }).data?.plus_until;
+  const [openedAt] = useState(() => Date.now());
+  const plusActive = isPlusActive(plusUntil, openedAt);
+  const open = (page: 'privacy' | 'terms' | 'support') => () =>
+    void Linking.openURL(legalUrl(page, i18n.language)).catch(() => {});
   return (
     <Screen testID="tab-me" wash>
       {me.data ? (
@@ -102,12 +122,52 @@ export function MeScreen() {
           onPress={() => router.push('/settings/notifications')}
         />
       </Card>
+      <Card>
+        <ListRow
+          testID="me-plus"
+          icon={Crown}
+          label={t('me.plus')}
+          hint={
+            plusActive && plusUntil
+              ? t('me.plusActive', {
+                  date: new Intl.DateTimeFormat(i18n.language, {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  }).format(new Date(plusUntil)),
+                })
+              : t('me.plusHint')
+          }
+          onPress={() => router.push('/premium')}
+        />
+      </Card>
+      <Card>
+        <ListRow testID="me-help" icon={LifeBuoy} label={t('me.help')} onPress={open('support')} />
+        <ListRow
+          testID="me-privacy"
+          icon={Shield}
+          label={t('legal.privacy')}
+          onPress={open('privacy')}
+        />
+        <ListRow
+          testID="me-terms"
+          icon={FileText}
+          label={t('legal.terms')}
+          onPress={open('terms')}
+        />
+      </Card>
       <Button
         testID="me-sign-out"
         variant="ghost"
         label={t('me.signOut')}
         loading={signOut.isPending}
         onPress={() => signOut.mutate()}
+      />
+      <Button
+        testID="me-delete-account"
+        variant="ghost"
+        label={t('me.delete')}
+        onPress={() => router.push('/settings/delete-account')}
       />
     </Screen>
   );

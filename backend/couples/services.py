@@ -103,6 +103,10 @@ def join_couple(user: User, raw_code: str) -> Couple:
     couple.status = CoupleStatus.ACTIVE
     couple.activated_at = now
     couple.save(update_fields=["status", "activated_at"])
+    # Plus is shared: the newcomer's gift or subscription now covers both.
+    from billing.services import recompute_couple
+
+    recompute_couple(couple)
     return couple
 
 

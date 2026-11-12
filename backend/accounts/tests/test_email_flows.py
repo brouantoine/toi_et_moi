@@ -32,6 +32,7 @@ def test_register_sends_verification_email_in_user_language(api_client: APIClien
             "email": "sam@example.com",
             "password": "une-phrase-de-passe-solide",
             "first_name": "Sam",
+            "is_adult": True,
             "language": "en",
         },
         format="json",

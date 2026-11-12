@@ -138,6 +138,10 @@ function GuardedStack() {
             options={{ ...header, title: t('avatar.title'), headerTitle: '' }}
           />
           <Stack.Screen
+            name="settings/delete-account"
+            options={{ ...header, title: t('deleteAccount.title'), headerTitle: '' }}
+          />
+          <Stack.Screen
             name="settings/couple"
             options={{ ...header, title: t('me.couple'), headerTitle: '' }}
           />

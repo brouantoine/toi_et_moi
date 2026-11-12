@@ -16,6 +16,8 @@ export const registerSchema = z.object({
   firstName: z.string().trim().min(1, 'auth.errors.firstNameRequired').max(60),
   email,
   password: z.string().min(10, 'auth.errors.passwordTooShort'),
+  // The app is for adults (18+ content, App Store age rating): confirmed, not assumed.
+  isAdult: z.boolean().refine((value) => value, 'auth.errors.adultRequired'),
 });
 
 export const forgotPasswordSchema = z.object({ email });

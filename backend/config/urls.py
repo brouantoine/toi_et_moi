@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from core import web_views as legal
 from couples import web_views as couple_web
 
 urlpatterns = [
@@ -15,11 +16,15 @@ urlpatterns = [
     path("api/v1/", include("rituals.urls")),
     path("api/v1/", include("messaging.urls")),
     path("api/v1/", include("calls.urls")),
+    path("api/v1/", include("billing.urls")),
     path("api/v1/", include("places.urls")),
     path("api/v1/", include("games.urls")),
     path("api/v1/", include("coach.urls")),
     path("account/", include("accounts.web_urls")),
     path("join/<str:code>/", couple_web.join_page, name="web-join"),
+    path("legal/privacy/", legal.privacy, name="legal-privacy"),
+    path("legal/terms/", legal.terms, name="legal-terms"),
+    path("support/", legal.support, name="support"),
     path(
         ".well-known/apple-app-site-association",
         couple_web.apple_app_site_association,
