@@ -90,6 +90,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     package: BRAND.androidPackage,
     // No Android auto-backup: the cached couple data must never leave the phone.
     allowBackup: false,
+    // Firebase: Android push notifications (FCM), sent through Expo.
+    googleServicesFile: './google-services.json',
     adaptiveIcon: {
       backgroundColor: '#1C1C1E',
       foregroundImage: './assets/android-icon-foreground.png',
@@ -180,5 +182,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   extra: {
     eas: { projectId: EAS_PROJECT_ID },
     apiUrl: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000',
+    // Google Maps needs a key on Android; without one the map is hidden (it would crash).
+    hasAndroidMapsKey: Boolean(process.env.GOOGLE_MAPS_API_KEY),
   },
 });

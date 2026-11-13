@@ -13,6 +13,7 @@ import {
 } from '@/test-utils';
 
 import { handleLocations, LOCATION_TASK } from '../background';
+import { mapAvailable } from '../DistanceMap';
 import { DistancePill } from '../DistancePill';
 import { DistanceScreen } from '../DistanceScreen';
 import { formatAgo, formatKm } from '../format';
@@ -280,6 +281,19 @@ describe('position while the app is open', () => {
       await waitFor(() => expect(puts).toEqual(['PUT']));
     } finally {
       jest.useRealTimers();
+    }
+  });
+});
+
+describe('map availability', () => {
+  it('hides the map on Android while no Google Maps key is configured', () => {
+    expect(mapAvailable()).toBe(true);
+    const original = Platform.OS;
+    Object.defineProperty(Platform, 'OS', { value: 'android', configurable: true });
+    try {
+      expect(mapAvailable()).toBe(false);
+    } finally {
+      Object.defineProperty(Platform, 'OS', { value: original, configurable: true });
     }
   });
 });
