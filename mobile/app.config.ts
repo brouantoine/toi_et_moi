@@ -22,6 +22,9 @@ function googlePlugin(): PluginEntry[] {
  */
 const LINK_HOST = process.env.LINK_HOST;
 
+// Expo project @assanvo1/bolingo (push tokens and over-the-air updates). Not a secret.
+const EAS_PROJECT_ID = process.env.EAS_PROJECT_ID || 'cb906ed4-fc7a-4e43-9de7-5ea78f4b64c7';
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: BRAND.name,
@@ -33,15 +36,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   // review. An update only reaches builds with the same runtime version, so bump `version`
   // whenever a native change (new module, permission, icon, SDK) needs a new store build.
   runtimeVersion: { policy: 'appVersion' },
-  ...(process.env.EAS_PROJECT_ID
-    ? {
-        updates: {
-          url: `https://u.expo.dev/${process.env.EAS_PROJECT_ID}`,
-          // Local Gradle/Xcode builds get no channel from EAS: pin them to production.
-          requestHeaders: { 'expo-channel-name': 'production' },
-        },
-      }
-    : {}),
+  owner: 'assanvo1',
+  updates: {
+    url: `https://u.expo.dev/${EAS_PROJECT_ID}`,
+    // Local Gradle/Xcode builds get no channel from EAS: pin them to production.
+    requestHeaders: { 'expo-channel-name': 'production' },
+  },
   orientation: 'portrait',
   icon: './assets/icon.png',
   // Follows the phone: white and red by day, red on black at night (expo-system-ui applies
@@ -166,8 +166,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ],
   experiments: { typedRoutes: true },
   extra: {
-    // Set by `eas init` (see docs/HUMAN_TODO.md); push registration is skipped without it.
-    ...(process.env.EAS_PROJECT_ID ? { eas: { projectId: process.env.EAS_PROJECT_ID } } : {}),
+    eas: { projectId: EAS_PROJECT_ID },
     apiUrl: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000',
   },
 });
