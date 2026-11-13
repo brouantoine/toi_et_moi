@@ -88,6 +88,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     // com.bolingo.app was already taken on Google Play; iOS keeps BRAND.bundleId.
     package: BRAND.androidPackage,
+    // No Android auto-backup: the cached couple data must never leave the phone.
+    allowBackup: false,
     adaptiveIcon: {
       backgroundColor: '#1C1C1E',
       foregroundImage: './assets/android-icon-foreground.png',
