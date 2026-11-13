@@ -142,7 +142,7 @@ Sign in with account A. You can use account B on a second device to see real-tim
 
 ## 7. Compiler
 
-1. Lance `npx eas-cli login`, puis `npx eas-cli init` depuis `mobile/`. Cette commande crée le projet EAS et l'identifiant `EAS_PROJECT_ID`.
+1. Lance `npx eas-cli login`. Le projet Expo `@assanvo1/bolingo` existe déjà, et son identifiant est dans `app.config.ts` : ne relance pas `eas init`.
 2. **Version de développement installée** (pour tester les achats, les appels et les notifications) :
    ```
    npx eas-cli build --profile development --platform ios

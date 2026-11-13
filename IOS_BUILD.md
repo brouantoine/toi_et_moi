@@ -27,15 +27,11 @@ L'app mobile est dans `mobile/`. Le dossier `backend/` est le serveur : tu n'y t
 
 ## 3. Le projet Expo (notifications push et mises à jour)
 
-Le projet Expo appartient au compte Expo d'Antoine : c'est lui qui publie ensuite les mises à jour. Il t'invite dans son organisation Expo (expo.dev → Members), puis te donne l'identifiant du projet. S'il est déjà dans `mobile/.env` (`EAS_PROJECT_ID=...`), tu n'as rien à faire. Sinon, ajoute-le à la fin de `mobile/.env` :
+Le projet Expo est déjà créé sur le compte d'Antoine (`@assanvo1/bolingo`) et son identifiant est dans `mobile/app.config.ts` : c'est Antoine qui publie ensuite les mises à jour.
 
-```
-EAS_PROJECT_ID=1a2b3c4d-...
-```
-
-Puis connecte-toi avec ton compte Expo invité : `npx eas-cli@latest login`.
-
-Ne lance pas `eas init` : il créerait un second projet à ton nom, et les mises à jour d'Antoine n'arriveraient plus.
+- Crée un compte Expo gratuit et donne ton nom d'utilisateur à Antoine : il t'ajoute au projet (expo.dev → Members).
+- Puis connecte-toi : `npx eas-cli@latest login`.
+- Ne lance pas `eas init` : il créerait un second projet, et les mises à jour d'Antoine n'arriveraient plus.
 
 ## 4. L'abonnement Bolingo Plus
 
@@ -61,6 +57,8 @@ npx eas-cli@latest build --platform ios --profile production
 
 - La commande demande ton identifiant Apple. Laisse-la **créer les certificats, le profil et la clé push** : réponds oui à chaque question.
 - La compilation dure de 15 à 30 minutes dans le cloud d'Expo.
+
+Les compilations dans le cloud sont décomptées du quota gratuit d'Antoine (15 par mois pour iOS) : utilise-les pour les versions envoyées à Apple.
 
 Pour l'envoyer à App Store Connect :
 
