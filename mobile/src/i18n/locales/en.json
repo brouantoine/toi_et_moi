@@ -131,6 +131,10 @@
       "own_couple": "This is your own code: share it with the other person.",
       "already_in_couple": "You are already part of a space for two.",
       "couple_full": "This space is already complete."
+    },
+    "soloTest": {
+      "message": "Test phase: trying the app alone? A fictitious partner is added so you can discover every feature for two. It is removed if you delete your account.",
+      "start": "Test alone"
     }
   },
   "tabs": {

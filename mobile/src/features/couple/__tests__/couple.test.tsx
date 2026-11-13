@@ -198,6 +198,45 @@ describe('CoupleSetupScreen', () => {
     await waitFor(() => expect(useAuthStore.getState().status).toBe('signedOut'));
   });
 
+  it('offers "test alone" when the server allows it and links a fictitious partner', async () => {
+    const active = {
+      ...pending,
+      status: 'active',
+      invitation: null,
+      members: [member(1, 'Léa'), member(2, 'Partenaire test')],
+    };
+    let couple: unknown = null;
+    const fetchMock = mockFetch().mockImplementation(async (input) => {
+      if (urlOf(input).includes('/couple/solo-test/')) {
+        if (methodOf(input) === 'POST') {
+          couple = active;
+          return jsonResponse(active, 201);
+        }
+        return jsonResponse({ enabled: true });
+      }
+      return couple ? jsonResponse(couple) : jsonResponse({}, 404);
+    });
+    await renderWithProviders(<CoupleSetupScreen />);
+    await fireEvent.press(await screen.findByTestId('couple-solo-test-start'));
+    expect(await screen.findByTestId('couple-active')).toBeTruthy();
+    expect(
+      fetchMock.mock.calls.some(
+        ([i]) => methodOf(i) === 'POST' && urlOf(i).includes('/couple/solo-test/'),
+      ),
+    ).toBe(true);
+  });
+
+  it('hides "test alone" when the server has it off', async () => {
+    mockFetch().mockImplementation(async (input) =>
+      urlOf(input).includes('/couple/solo-test/')
+        ? jsonResponse({ enabled: false })
+        : jsonResponse({}, 404),
+    );
+    await renderWithProviders(<CoupleSetupScreen />);
+    expect(await screen.findByTestId('couple-create')).toBeTruthy();
+    expect(screen.queryByTestId('couple-solo-test')).toBeNull();
+  });
+
   it('shows a calm error state when loading fails', async () => {
     mockFetch().mockResolvedValue(jsonResponse({}, 503));
     await renderWithProviders(<CoupleSetupScreen />);

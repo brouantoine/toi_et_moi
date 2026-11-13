@@ -117,3 +117,34 @@ def cancel_pending_couple(user: User) -> None:
     if couple is None or couple.status != CoupleStatus.PENDING:
         raise CoupleError("no_pending_couple")
     couple.delete()
+
+
+#: Fictitious partners of the solo test mode live on a reserved, undeliverable domain.
+TEST_PARTNER_DOMAIN = "test.bolingo.invalid"
+TEST_PARTNER_NAMES = {"fr": "Partenaire test", "en": "Test partner"}
+
+
+def is_test_partner(user: User | None) -> bool:
+    return bool(user and user.email.endswith("@" + TEST_PARTNER_DOMAIN))
+
+
+@transaction.atomic
+def start_solo_test(user: User) -> Couple:
+    """Links the user to a fictitious partner (test phase): the space becomes active.
+
+    The partner cannot sign in (no usable password, reserved domain) and is erased with
+    the tester's account.
+    """
+    couple = get_current_couple(user)
+    if couple is not None and couple.status != CoupleStatus.PENDING:
+        raise CoupleError("already_in_couple")
+    if couple is None:
+        couple, _ = create_couple(user)
+    invitation = create_invitation(couple, user)
+    partner = User.objects.create_user(
+        f"partner-{user.pk}-{secrets.token_hex(4)}@{TEST_PARTNER_DOMAIN}",
+        None,
+        first_name=TEST_PARTNER_NAMES.get(user.language, TEST_PARTNER_NAMES["en"]),
+        language=user.language,
+    )
+    return join_couple(partner, invitation.code)

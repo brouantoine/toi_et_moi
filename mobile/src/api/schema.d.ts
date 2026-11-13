@@ -534,6 +534,24 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/couple/solo-test/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Test phase: try the app alone, with a fictitious partner (SOLO_TEST_ENABLED). */
+    get: operations['v1_couple_solo_test_retrieve'];
+    put?: never;
+    /** @description Test phase: try the app alone, with a fictitious partner (SOLO_TEST_ENABLED). */
+    post: operations['v1_couple_solo_test_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/events/': {
     parameters: {
       query?: never;
@@ -2349,6 +2367,9 @@ export interface components {
       /** @default fr */
       language: components['schemas']['LanguageEnum'];
     };
+    SoloTestAvailability: {
+      enabled: boolean;
+    };
     /**
      * @description * `equal` - 50/50
      *     * `custom` - Personnalisée
@@ -3474,6 +3495,59 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorCode'];
         };
+      };
+    };
+  };
+  v1_couple_solo_test_retrieve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SoloTestAvailability'];
+        };
+      };
+    };
+  };
+  v1_couple_solo_test_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Couple'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CoupleError'];
+        };
+      };
+      /** @description No response body */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

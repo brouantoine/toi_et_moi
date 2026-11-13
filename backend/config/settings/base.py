@@ -21,6 +21,9 @@ LEGAL_ADDRESS = env_str("LEGAL_ADDRESS", "Adresse à compléter")
 SUPPORT_EMAIL = env_str("SUPPORT_EMAIL", "support@example.com")
 # Where deletion requests from people without the app go (Google Play data deletion URL).
 ACCOUNT_DELETION_EMAIL = env_str("ACCOUNT_DELETION_EMAIL", "") or SUPPORT_EMAIL
+# Test phase only: a "test alone" button links the account to a fictitious partner, so a
+# single tester (Google Play closed test) can try every couple feature. Off at launch.
+SOLO_TEST_ENABLED = env_bool("SOLO_TEST_ENABLED", False)
 
 SECRET_KEY = env_str("DJANGO_SECRET_KEY", "insecure-dev-only-change-me")
 

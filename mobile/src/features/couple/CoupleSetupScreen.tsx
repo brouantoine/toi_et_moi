@@ -2,7 +2,15 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import type { TFunction } from 'i18next';
-import { Check, Copy, HeartHandshake, PartyPopper, QrCode, Send } from 'lucide-react-native';
+import {
+  Check,
+  Copy,
+  FlaskConical,
+  HeartHandshake,
+  PartyPopper,
+  QrCode,
+  Send,
+} from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Share, StyleSheet, View } from 'react-native';
@@ -30,6 +38,8 @@ import {
   useCouple,
   useCreateCouple,
   useNewInvitation,
+  useSoloTestAvailable,
+  useStartSoloTest,
   type Couple,
 } from './useCouple';
 
@@ -287,6 +297,7 @@ export function CoupleSetupScreen() {
           ) : null}
         </>
       )}
+      <SoloTest />
       <Button
         testID="couple-sign-out"
         variant="ghost"
@@ -298,9 +309,34 @@ export function CoupleSetupScreen() {
   );
 }
 
+/** Test phase only (server switch): try every couple feature alone. */
+function SoloTest() {
+  const { t } = useTranslation();
+  const available = useSoloTestAvailable();
+  const start = useStartSoloTest();
+  if (!available.data) return null;
+  return (
+    <View testID="couple-solo-test" style={styles.solo}>
+      <Text muted>{t('couple.soloTest.message')}</Text>
+      <Button
+        testID="couple-solo-test-start"
+        variant="secondary"
+        icon={FlaskConical}
+        label={t('couple.soloTest.start')}
+        loading={start.isPending}
+        onPress={() => start.mutate(undefined)}
+      />
+      {start.isError ? (
+        <Notice testID="couple-solo-test-error" tone="warning" message={t('errors.generic')} />
+      ) : null}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   code: { fontSize: 40, lineHeight: 52, fontWeight: '700', letterSpacing: 8, textAlign: 'center' },
   qr: { alignSelf: 'center', borderCurve: 'continuous' },
   row: { flexDirection: 'row' },
   flex: { flex: 1 },
+  solo: { gap: 8 },
 });

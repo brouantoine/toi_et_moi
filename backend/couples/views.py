@@ -1,5 +1,6 @@
-from drf_spectacular.utils import extend_schema
-from rest_framework import status
+from django.conf import settings
+from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework import serializers, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -112,3 +113,29 @@ class NewInvitationView(APIView):
         except services.CoupleError as exc:
             return _error(exc)
         return _couple_response(couple)
+
+
+class SoloTestView(APIView):
+    """Test phase: try the app alone, with a fictitious partner (SOLO_TEST_ENABLED)."""
+
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        responses=inline_serializer(
+            name="SoloTestAvailability", fields={"enabled": serializers.BooleanField()}
+        )
+    )
+    def get(self, request: Request) -> Response:
+        return Response({"enabled": settings.SOLO_TEST_ENABLED})
+
+    @extend_schema(
+        request=None, responses={201: CoupleSerializer, 400: CoupleErrorSerializer, 404: None}
+    )
+    def post(self, request: Request) -> Response:
+        if not settings.SOLO_TEST_ENABLED:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            couple = services.start_solo_test(_user(request))
+        except services.CoupleError as exc:
+            return _error(exc)
+        return _couple_response(couple, status.HTTP_201_CREATED)
