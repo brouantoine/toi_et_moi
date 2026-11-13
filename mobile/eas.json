@@ -6,7 +6,10 @@
   "build": {
     "base": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.bolingo.ci"
+        "EXPO_PUBLIC_API_URL": "https://api.bolingo.ci",
+        "LINK_HOST": "api.bolingo.ci",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "82716861670-j6fqaijvpeosh9m41n248frgkb3je028.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID": "82716861670-of4nmeocv35o6k4mqo4fhbc9fng7rbai.apps.googleusercontent.com"
       }
     },
     "development": {
