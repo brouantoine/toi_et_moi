@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
+import { Platform, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 import { useTheme } from '@/ui';
@@ -14,12 +15,18 @@ export type DistanceMapProps = {
   partnerSeen?: string;
 };
 
+/** Android draws the map with Google Maps, which needs an API key (else it crashes). */
+export function mapAvailable(): boolean {
+  if (Platform.OS !== 'android') return true;
+  return Boolean(Constants.expoConfig?.extra?.hasAndroidMapsKey);
+}
+
 /** Both positions on the system map, linked by a dashed line. */
 export function DistanceMap({ mine, theirs, partnerName, partnerSeen }: DistanceMapProps) {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
   const points = [mine, theirs].filter((p): p is Point => Boolean(p));
-  if (!points.length) return null;
+  if (!points.length || !mapAvailable()) return null;
   // A new position re-frames the map (initialRegion is only read once).
   const frame = points.map((p) => `${p.latitude},${p.longitude}`).join(';');
   return (
