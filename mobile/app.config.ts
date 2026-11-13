@@ -164,6 +164,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         microphonePermission: `${BRAND.name} uses the microphone for your voice notes and calls with your partner.`,
       },
     ],
+    // Release builds shrink the code with R8. The WebRTC AAR references JNI classes it does
+    // not ship (org.webrtc.Dav1dDecoder$Natives): tolerate them, exactly as debug builds do.
+    [
+      'expo-build-properties',
+      {
+        android: {
+          extraProguardRules: '-keep class org.webrtc.** { *; }\n-dontwarn org.webrtc.**',
+        },
+      },
+    ],
     ...googlePlugin(),
   ],
   experiments: { typedRoutes: true },
