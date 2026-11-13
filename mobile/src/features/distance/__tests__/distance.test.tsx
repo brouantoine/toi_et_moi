@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import * as Location from 'expo-location';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 import i18n from '@/i18n';
 
@@ -137,6 +137,20 @@ describe('DistanceScreen', () => {
     expect(await screen.findByTestId('distance-partner-marker')).toBeTruthy();
     expect(screen.getByTestId('distance-km')).toHaveTextContent(/4\s870 km vous séparent/);
     expect(screen.getByText(/Abidjan/)).toBeTruthy();
+  });
+
+  it('shows no map on Android (no Google Maps key), only the distance and the city', async () => {
+    const os = Platform.OS;
+    Platform.OS = 'android';
+    try {
+      routes(both);
+      await renderWithProviders(<DistanceScreen />);
+      expect(await screen.findByTestId('distance-km')).toHaveTextContent(/4\s870 km vous séparent/);
+      expect(screen.queryByTestId('distance-map')).toBeNull();
+      expect(screen.getByText(/Abidjan/)).toBeTruthy();
+    } finally {
+      Platform.OS = os;
+    }
   });
 
   it('waits for the other before showing a distance', async () => {
