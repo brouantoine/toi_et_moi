@@ -19,6 +19,9 @@ if not [key for key in FIELD_ENCRYPTION_KEYS if key]:  # noqa: F405
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
 
+# One trusted proxy (host Nginx, which overwrites X-Forwarded-For with the real address).
+REST_FRAMEWORK["NUM_PROXIES"] = env_int("NUM_PROXIES", 1)  # noqa: F405
+
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = env_int("SECURE_HSTS_SECONDS", 31536000)

@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
+from rest_framework.throttling import SimpleRateThrottle
 
 from accounts.models import User
 
@@ -99,6 +100,45 @@ def test_auth_endpoints_are_throttled(api_client: APIClient) -> None:
     statuses = [
         api_client.post(TOKEN, {"email": "x@example.com", "password": "nope"}).status_code
         for _ in range(12)
+    ]
+    assert 429 in statuses
+
+
+def _rates(monkeypatch, settings, **rates: str) -> None:
+    """Throttle rates are read once at import: patch them where DRF looks them up."""
+    settings.REST_FRAMEWORK = {**settings.REST_FRAMEWORK, "NUM_PROXIES": 1}
+    current = SimpleRateThrottle.THROTTLE_RATES
+    monkeypatch.setattr(SimpleRateThrottle, "THROTTLE_RATES", {**current, **rates})
+
+
+def test_login_is_throttled_per_email_whatever_the_ip(api_client, monkeypatch, settings) -> None:
+    """Password guessing spread over many IPs still hits the per-account limit."""
+    _rates(monkeypatch, settings, auth="1000/min", login_email="3/hour")
+    statuses = [
+        api_client.post(
+            TOKEN,
+            {"email": "Cible@Example.com", "password": "nope"},
+            HTTP_X_FORWARDED_FOR=f"203.0.113.{i}",
+        ).status_code
+        for i in range(5)
+    ]
+    assert statuses[:3] == [401, 401, 401] and statuses[3:] == [429, 429]
+    other = api_client.post(TOKEN, {"email": "autre@example.com", "password": "nope"})
+    assert other.status_code == 401
+
+
+def test_spoofed_forwarded_for_does_not_reset_the_ip_limit(
+    api_client, monkeypatch, settings
+) -> None:
+    """Behind Nginx only the last X-Forwarded-For entry (added by Nginx) is trusted."""
+    _rates(monkeypatch, settings, auth="3/min", login_email="1000/hour")
+    statuses = [
+        api_client.post(
+            TOKEN,
+            {"email": f"x{i}@example.com", "password": "nope"},
+            HTTP_X_FORWARDED_FOR=f"198.51.100.{i}, 192.0.2.7",
+        ).status_code
+        for i in range(5)
     ]
     assert 429 in statuses
 

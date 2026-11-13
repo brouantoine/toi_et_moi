@@ -1,3 +1,4 @@
+import hashlib
 from collections.abc import Sequence
 
 from django.core.exceptions import ValidationError as DjangoValidationError
@@ -6,7 +7,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.throttling import BaseThrottle, ScopedRateThrottle
+from rest_framework.throttling import BaseThrottle, ScopedRateThrottle, SimpleRateThrottle
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -34,6 +35,25 @@ class AuthThrottleMixin:
     throttle_scope = "auth"
 
 
+class EmailThrottle(SimpleRateThrottle):
+    """Limits attempts per target email (hashed), on top of the per-IP limit."""
+
+    def get_cache_key(self, request: Request, view: object) -> str | None:
+        email = request.data.get("email") if isinstance(request.data, dict) else None
+        if not isinstance(email, str) or not email.strip():
+            return None
+        ident = hashlib.sha256(email.strip().lower().encode()).hexdigest()
+        return self.cache_format % {"scope": self.scope, "ident": ident}
+
+
+class LoginEmailThrottle(EmailThrottle):
+    scope = "login_email"
+
+
+class ResetEmailThrottle(EmailThrottle):
+    scope = "reset_email"
+
+
 class RegisterView(AuthThrottleMixin, APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
@@ -50,7 +70,7 @@ class RegisterView(AuthThrottleMixin, APIView):
 
 
 class LoginView(AuthThrottleMixin, TokenObtainPairView):
-    pass
+    throttle_classes = [ScopedRateThrottle, LoginEmailThrottle]
 
 
 class RefreshView(AuthThrottleMixin, TokenRefreshView):
@@ -114,6 +134,7 @@ class ResendVerificationView(AuthThrottleMixin, APIView):
 class PasswordResetRequestView(AuthThrottleMixin, APIView):
     """Always answers 204: never reveals whether the email has an account."""
 
+    throttle_classes = [ScopedRateThrottle, ResetEmailThrottle]
     permission_classes = [AllowAny]
     authentication_classes = []
 
