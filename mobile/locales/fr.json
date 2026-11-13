@@ -1,9 +1,11 @@
 {
-  "CFBundleDisplayName": "Bolingo",
-  "NSLocationWhenInUseUsageDescription": "Bolingo utilise ta position pour afficher la distance et la carte que tu choisis de partager avec l'autre.",
-  "NSLocationAlwaysAndWhenInUseUsageDescription": "Si tu actives le partage en continu, Bolingo partage ta position avec l'autre même app fermée, pour vous prévenir quand vous êtes proches. Tu peux arrêter à tout moment.",
-  "NSLocationAlwaysUsageDescription": "Si tu actives le partage en continu, Bolingo partage ta position avec l'autre même app fermée, pour vous prévenir quand vous êtes proches. Tu peux arrêter à tout moment.",
-  "NSMicrophoneUsageDescription": "Bolingo utilise le micro pour tes notes vocales et tes appels avec l'autre.",
-  "NSPhotoLibraryUsageDescription": "Bolingo utilise tes photos seulement quand tu en choisis à partager avec l'autre (messages, souvenirs, photo de profil).",
-  "NSCameraUsageDescription": "Bolingo utilise la caméra seulement pendant tes appels vidéo avec l'autre."
+  "ios": {
+    "CFBundleDisplayName": "Bolingo",
+    "NSLocationWhenInUseUsageDescription": "Bolingo utilise ta position pour afficher la distance et la carte que tu choisis de partager avec l'autre.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Si tu actives le partage en continu, Bolingo partage ta position avec l'autre même app fermée, pour vous prévenir quand vous êtes proches. Tu peux arrêter à tout moment.",
+    "NSLocationAlwaysUsageDescription": "Si tu actives le partage en continu, Bolingo partage ta position avec l'autre même app fermée, pour vous prévenir quand vous êtes proches. Tu peux arrêter à tout moment.",
+    "NSMicrophoneUsageDescription": "Bolingo utilise le micro pour tes notes vocales et tes appels avec l'autre.",
+    "NSPhotoLibraryUsageDescription": "Bolingo utilise tes photos seulement quand tu en choisis à partager avec l'autre (messages, souvenirs, photo de profil).",
+    "NSCameraUsageDescription": "Bolingo utilise la caméra seulement pendant tes appels vidéo avec l'autre."
+  }
 }
