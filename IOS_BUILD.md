@@ -25,18 +25,17 @@ L'app mobile est dans `mobile/`. Le dossier `backend/` est le serveur : tu n'y t
 - S'il est déjà pris sur ton compte Apple, mets-en un autre dans `brand.json` (par exemple `com.tonnom.bolingo`). Préviens Antoine : le serveur doit connaître ce nom pour la connexion avec Apple.
 - Dans **App Store Connect** → Apps → **+** → Nouvelle app : nom **Bolingo**, langue principale Français, l'identifiant de bundle ci-dessus.
 
-## 3. Le projet Expo (notifications push)
+## 3. Le projet Expo (notifications push et mises à jour)
 
-```bash
-npx eas-cli@latest login
-npx eas-cli@latest init
-```
-
-`init` affiche un identifiant de projet (une suite comme `1a2b3c4d-...`). Ajoute-le à la fin de `mobile/.env` :
+Le projet Expo appartient au compte Expo d'Antoine : c'est lui qui publie ensuite les mises à jour. Il t'invite dans son organisation Expo (expo.dev → Members), puis te donne l'identifiant du projet. S'il est déjà dans `mobile/.env` (`EAS_PROJECT_ID=...`), tu n'as rien à faire. Sinon, ajoute-le à la fin de `mobile/.env` :
 
 ```
 EAS_PROJECT_ID=1a2b3c4d-...
 ```
+
+Puis connecte-toi avec ton compte Expo invité : `npx eas-cli@latest login`.
+
+Ne lance pas `eas init` : il créerait un second projet à ton nom, et les mises à jour d'Antoine n'arriveraient plus.
 
 ## 4. L'abonnement Bolingo Plus
 
@@ -101,7 +100,12 @@ Dans App Store Connect, remplis :
 - **Notes de revue** et **comptes de démonstration** : texte prêt dans `docs/APP_STORE.md`, section 6. Antoine crée les deux comptes sur le serveur et te donne le mot de passe.
 - **Classification d'âge**, **étiquettes de confidentialité** et **captures** : voir `docs/APP_STORE.md`, section 5.
 
-## 7. À renvoyer à Antoine
+## 7. Les versions suivantes
+
+- **Correction de code seulement** (écrans, textes, bugs) : Antoine la publie lui-même en mise à jour à distance (`npm run update:prod`). Tu n'as rien à faire.
+- **Changement natif** (nouveau module, permission, icône, version d'Expo) : Antoine augmente `version` dans `mobile/app.config.ts` (par exemple `1.0.1`). Tu refais alors l'étape 5, puis tu envoies la version en revue.
+
+## 8. À renvoyer à Antoine
 
 - Ton **Team ID** (developer.apple.com → Membership). Le serveur en a besoin pour que les liens d'invitation ouvrent l'app.
 - L'**identifiant de bundle**, si tu l'as changé.

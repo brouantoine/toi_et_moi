@@ -154,7 +154,29 @@ Sign in with account A. You can use account B on a second device to see real-tim
    ```
 4. `EXPO_PUBLIC_API_URL` vaut `https://api.bolingo.ci` dans `eas.json` (domaine de production).
 
-## 8. Ce qui reste à décider ou à fournir
+## 8. Mettre à jour l'app après la sortie
+
+Deux cas, selon ce qui change.
+
+**a. Serveur (`backend/`)** : aucune nouvelle version de l'app. Sur le serveur, lance `cd ~/apps/bolingo && git pull && cd deploy && docker compose -f docker-compose.prod.yml up -d --build`. Tous les téléphones en profitent tout de suite.
+
+**b. Code de l'app (`mobile/`)** :
+
+- **Code JavaScript seulement** (écrans, textes, traductions, corrections de bugs) : mise à jour à distance avec EAS Update, sans compilation et sans revue. Depuis `mobile/`, sur Linux :
+  ```
+  npx eas-cli login
+  npm run update:prod -- --message "Correction de l'écran Distance"
+  ```
+  La mise à jour part vers iPhone et Android en même temps. Chaque téléphone la télécharge à l'ouverture de l'app et l'applique à l'ouverture suivante. Si elle pose problème : `npx eas-cli update:republish` vers la publication précédente.
+- **Changement natif** (nouveau module installé avec `npx expo install`, permission, icône, splash, version d'Expo, `app.config.ts`) : la mise à jour à distance ne suffit pas. Augmente `version` dans `app.config.ts` (`1.0.0` → `1.0.1`), recompile (`eas build`) et renvoie en revue. Une mise à jour à distance n'atteint que les apps qui ont la même `version`.
+
+Règles :
+
+- Les mises à jour à distance ne servent qu'à corriger et améliorer. Apple interdit de changer le but de l'app ou d'ajouter une grosse fonction sans revue (règle 3.3.1 B du contrat développeur).
+- `npm run update:prod` fixe l'adresse du serveur (`https://api.bolingo.ci`). Ne lance jamais `eas update` sans ce script : l'app pointerait vers `localhost` et ne marcherait plus.
+- Offre gratuite d'Expo : mises à jour pour 1 000 utilisateurs actifs par mois. Au-delà, l'offre payante (environ 19 $ par mois) est nécessaire.
+
+## 9. Ce qui reste à décider ou à fournir
 
 - Domaine, serveur et stockage S3 : fait (bolingo.ci, OVH, Amazon S3).
 - **Identité de l'éditeur** sur les pages légales : `LEGAL_ENTITY`, `LEGAL_ADDRESS` et `SUPPORT_EMAIL` dans le `.env` du serveur.
