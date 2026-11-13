@@ -29,6 +29,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: BRAND.scheme,
   // Store version; build numbers are incremented by EAS (eas.json, appVersionSource remote).
   version: '1.0.0',
+  // Over-the-air updates (EAS Update): JS-only fixes reach installed apps without a store
+  // review. An update only reaches builds with the same runtime version, so bump `version`
+  // whenever a native change (new module, permission, icon, SDK) needs a new store build.
+  runtimeVersion: { policy: 'appVersion' },
+  ...(process.env.EAS_PROJECT_ID
+    ? { updates: { url: `https://u.expo.dev/${process.env.EAS_PROJECT_ID}` } }
+    : {}),
   orientation: 'portrait',
   icon: './assets/icon.png',
   // Follows the phone: white and red by day, red on black at night (expo-system-ui applies
