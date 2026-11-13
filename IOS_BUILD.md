@@ -5,9 +5,10 @@ Ce document est pour toi qui publies Bolingo sur l'App Store avec ton compte App
 ## 0. Ce qu'il te faut
 
 - Un Mac avec **Xcode à jour** (App Store), puis `xcode-select --install`.
-- **Node.js 22** (`brew install node@22`) et **CocoaPods** (`brew install cocoapods`), seulement pour la méthode B.
+- **Node.js 22** (`brew install node@22`) et **CocoaPods** (`brew install cocoapods`).
 - Ton compte **Apple Developer** payant, avec l'accord **Applications payantes** signé (App Store Connect → Accords, taxes et banques). Sans lui, l'abonnement ne marche pas, même en test.
-- Un compte **Expo** gratuit (https://expo.dev/signup) : il sert aux notifications push.
+
+Tu compiles avec Xcode : pas besoin de compte Expo.
 
 ## 1. Récupérer le code
 
@@ -25,13 +26,16 @@ L'app mobile est dans `mobile/`. Le dossier `backend/` est le serveur : tu n'y t
 - S'il est déjà pris sur ton compte Apple, mets-en un autre dans `brand.json` (par exemple `com.tonnom.bolingo`). Préviens Antoine : le serveur doit connaître ce nom pour la connexion avec Apple.
 - Dans **App Store Connect** → Apps → **+** → Nouvelle app : nom **Bolingo**, langue principale Français, l'identifiant de bundle ci-dessus.
 
-## 3. Le projet Expo (notifications push et mises à jour)
+## 3. Les notifications push (une seule fois)
 
-Le projet Expo est déjà créé sur le compte d'Antoine (`@assanvo1/bolingo`) et son identifiant est dans `mobile/app.config.ts` : c'est Antoine qui publie ensuite les mises à jour.
+Les notifications sont envoyées par le service Expo d'Antoine, qui a besoin d'une clé push de ton compte Apple :
 
-- Crée un compte Expo gratuit et donne ton nom d'utilisateur à Antoine : il t'ajoute au projet (expo.dev → Members).
-- Puis connecte-toi : `npx eas-cli@latest login`.
-- Ne lance pas `eas init` : il créerait un second projet, et les mises à jour d'Antoine n'arriveraient plus.
+1. developer.apple.com → Certificates, IDs & Profiles → **Keys** → **+**.
+2. Nom « Bolingo Push », coche **Apple Push Notifications service (APNs)**, puis Continue → Register.
+3. Télécharge le fichier `AuthKey_XXXXXXXXXX.p8`. Apple ne le donne qu'une fois : garde-le.
+4. Envoie à Antoine, en privé (jamais sur un groupe ou un dépôt Git) : le fichier `.p8`, son **Key ID** (10 caractères) et ton **Team ID**.
+
+L'identifiant du projet Expo est déjà dans `mobile/app.config.ts` : n'y touche pas.
 
 ## 4. L'abonnement Bolingo Plus
 
@@ -46,29 +50,7 @@ Les instructions détaillées sont dans `docs/APP_STORE.md`, section 2. En bref 
 
 Sans cette clé, l'app fonctionne, mais l'écran Plus indique que l'achat est indisponible. Apple refusera la version tant que l'achat ne marche pas.
 
-## 5A. Compiler et envoyer : méthode recommandée (EAS, dans le cloud)
-
-Depuis `mobile/` :
-
-```bash
-export $(grep -v '^#' .env | xargs)
-npx eas-cli@latest build --platform ios --profile production
-```
-
-- La commande demande ton identifiant Apple. Laisse-la **créer les certificats, le profil et la clé push** : réponds oui à chaque question.
-- La compilation dure de 15 à 30 minutes dans le cloud d'Expo.
-
-Les compilations dans le cloud sont décomptées du quota gratuit d'Antoine (15 par mois pour iOS) : utilise-les pour les versions envoyées à Apple.
-
-Pour l'envoyer à App Store Connect :
-
-```bash
-npx eas-cli@latest submit --platform ios --latest
-```
-
-Les numéros de build augmentent tout seuls.
-
-## 5B. Compiler avec Xcode sur ton Mac (sans le cloud)
+## 5. Compiler avec Xcode et envoyer à App Store Connect
 
 Depuis `mobile/` :
 
@@ -77,16 +59,17 @@ npx expo prebuild --platform ios --clean
 open ios/Bolingo.xcworkspace
 ```
 
+`prebuild` génère le projet Xcode à partir de `app.config.ts` et installe les pods. Il lit aussi `mobile/.env` (adresse du serveur, clé RevenueCat).
+
 Dans Xcode :
 
 1. Cible **Bolingo** → onglet **Signing & Capabilities** : coche *Automatically manage signing* et choisis ton **Team**. Les capacités Push, Sign in with Apple et Associated Domains sont déjà déclarées.
-2. Onglet **General** : version `1.0.0`. Augmente **Build** (1, 2, 3...) à chaque nouvel envoi.
-3. En haut, choisis la destination **Any iOS Device (arm64)**, puis **Product → Archive**.
-4. Dans la fenêtre Organizer : **Distribute App** → **App Store Connect** → **Upload**.
+2. Onglet **General** : version `1.0.0`. **Build** vaut 1 : augmente-le (2, 3...) à chaque nouvel envoi, car App Store Connect refuse deux fois le même numéro.
+3. Facultatif, mais conseillé : branche un iPhone, choisis-le en haut, schéma **Release** (Product → Scheme → Edit Scheme → Run → Build Configuration), puis ▶. Vérifie la connexion, les messages et l'écran Plus.
+4. En haut, choisis la destination **Any iOS Device (arm64)**, puis **Product → Archive**.
+5. Dans la fenêtre Organizer : **Distribute App** → **App Store Connect** → **Upload**. La version apparaît dans TestFlight au bout de 10 à 30 minutes.
 
-Pour les notifications push avec cette méthode, il faut aussi lancer une fois `npx eas-cli@latest credentials -p ios` (Push Notifications → créer une clé), car c'est Expo qui les envoie.
-
-Ne commite jamais le dossier `ios/` : il est régénéré à partir de `app.config.ts`.
+Ne commite jamais le dossier `ios/` : il est régénéré à chaque `prebuild`. Après un `git pull`, relance toujours `npx expo prebuild --platform ios --clean`, puis remets ton Team et un numéro de Build plus grand.
 
 ## 6. Avant d'envoyer en revue
 
@@ -101,7 +84,7 @@ Dans App Store Connect, remplis :
 ## 7. Les versions suivantes
 
 - **Correction de code seulement** (écrans, textes, bugs) : Antoine la publie lui-même en mise à jour à distance (`npm run update:prod`). Tu n'as rien à faire.
-- **Changement natif** (nouveau module, permission, icône, version d'Expo) : Antoine augmente `version` dans `mobile/app.config.ts` (par exemple `1.0.1`). Tu refais alors l'étape 5, puis tu envoies la version en revue.
+- **Changement natif** (nouveau module, permission, icône, version d'Expo) : Antoine augmente `version` dans `mobile/app.config.ts` (par exemple `1.0.1`). Tu fais `git pull`, puis l'étape 5, et tu envoies la version en revue.
 
 ## 8. À renvoyer à Antoine
 
