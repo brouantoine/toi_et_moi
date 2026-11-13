@@ -55,6 +55,19 @@ export function useJoinCouple() {
   );
 }
 
+/** Test phase: whether the server offers "test alone" (a fictitious partner). */
+export function useSoloTestAvailable() {
+  return useQuery({
+    queryKey: ['couple', 'solo-test'],
+    queryFn: async () => unwrap(await api.GET('/api/v1/couple/solo-test/')).enabled,
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useStartSoloTest() {
+  return useCoupleMutation(async () => unwrap(await api.POST('/api/v1/couple/solo-test/')));
+}
+
 export function useNewInvitation() {
   return useCoupleMutation(async () => unwrap(await api.POST('/api/v1/couple/invitation/')));
 }

@@ -1,6 +1,6 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import * as Location from 'expo-location';
-import { Alert, Platform } from 'react-native';
+import { Alert, AppState, Platform, View } from 'react-native';
 
 import i18n from '@/i18n';
 
@@ -17,7 +17,13 @@ import { DistancePill } from '../DistancePill';
 import { DistanceScreen } from '../DistanceScreen';
 import { formatAgo, formatKm } from '../format';
 import { regionFor } from '../region';
-import { isStale, REFRESH_AFTER_MS } from '../useDistance';
+import {
+  ACTIVE_REFRESH_MS,
+  isStale,
+  REFRESH_AFTER_MS,
+  useDistance,
+  useRefreshPositionOnOpen,
+} from '../useDistance';
 
 beforeEach(async () => {
   await i18n.changeLanguage('fr');
@@ -237,5 +243,43 @@ describe('continuous sharing', () => {
     jest.mocked(Location.hasStartedLocationUpdatesAsync).mockResolvedValueOnce(true);
     await handleLocations({ data: { locations } });
     expect(Location.stopLocationUpdatesAsync).toHaveBeenCalledWith(LOCATION_TASK);
+  });
+});
+
+describe('position while the app is open', () => {
+  function Refresher() {
+    useRefreshPositionOnOpen();
+    const { data } = useDistance();
+    return data?.mine.consented ? <View testID="refresher-ready" /> : null;
+  }
+
+  it('resends a consented position regularly, so the "close" alert works app open', async () => {
+    jest.useFakeTimers({ doNotFake: ['nextTick', 'setImmediate', 'queueMicrotask'] });
+    try {
+      jest.spyOn(Location, 'getForegroundPermissionsAsync').mockResolvedValue({
+        granted: true,
+      } as Awaited<ReturnType<typeof Location.getForegroundPermissionsAsync>>);
+      jest.spyOn(Location, 'getCurrentPositionAsync').mockResolvedValue({
+        coords: { latitude: 5.36, longitude: -4.0 },
+      } as Awaited<ReturnType<typeof Location.getCurrentPositionAsync>>);
+      Object.defineProperty(AppState, 'currentState', { value: 'active', configurable: true });
+      const puts: string[] = [];
+      const fetchMock = routes(both, (req) => {
+        puts.push(methodOf(req));
+        return jsonResponse(both);
+      });
+      await renderWithProviders(<Refresher />);
+      await screen.findByTestId('refresher-ready');
+      expect(fetchMock).toHaveBeenCalled();
+      // A fresh position is not resent on open...
+      expect(puts).toHaveLength(0);
+      // ...but it is after ACTIVE_REFRESH_MS with the app still open.
+      await act(async () => {
+        jest.advanceTimersByTime(ACTIVE_REFRESH_MS);
+      });
+      await waitFor(() => expect(puts).toEqual(['PUT']));
+    } finally {
+      jest.useRealTimers();
+    }
   });
 });

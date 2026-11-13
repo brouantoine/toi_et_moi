@@ -16,6 +16,9 @@ export type Distance = Schemas['Distance'];
 export const distanceKey = ['distance'] as const;
 /** A shared position older than this is refreshed when the app comes back. */
 export const REFRESH_AFTER_MS = 15 * 60 * 1000;
+/** While the app is open, the position is resent this often: the "you are close" alert
+ * then works without continuous (background) sharing. */
+export const ACTIVE_REFRESH_MS = 3 * 60 * 1000;
 
 async function fetchDistance(): Promise<Distance> {
   return unwrap(await api.GET('/api/v1/couple/distance/'));
@@ -114,8 +117,8 @@ export function isStale(locatedAt: string | null | undefined, now = Date.now()):
 
 /**
  * Keeps the distance correct: when the app opens or comes back to the foreground, a
- * consented, stale position is refreshed silently. Never asks for the permission here,
- * never runs in the background.
+ * consented, stale position is refreshed silently, then every ACTIVE_REFRESH_MS while the
+ * app stays open. Never asks for the permission here, never runs in the background.
  */
 export function useRefreshPositionOnOpen(): void {
   const client = useQueryClient();
@@ -143,4 +146,15 @@ export function useRefreshPositionOnOpen(): void {
     });
     return () => sub.remove();
   }, [consented, locatedAt, client]);
+
+  useEffect(() => {
+    if (!consented) return undefined;
+    const timer = setInterval(() => {
+      if (AppState.currentState !== 'active') return;
+      readAndSend(false)
+        .then((fresh) => client.setQueryData(distanceKey, fresh))
+        .catch(() => {});
+    }, ACTIVE_REFRESH_MS);
+    return () => clearInterval(timer);
+  }, [consented, client]);
 }

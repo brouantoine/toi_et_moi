@@ -155,7 +155,7 @@ def delete_account(user: User) -> None:
     committed. App Store / Play subscriptions are cancelled in the store, not here.
     """
     from core import storage
-    from couples.services import get_current_couple
+    from couples.services import get_current_couple, is_test_partner
     from games.models import Answer
     from messaging.models import Message
     from notifications.models import Kind
@@ -185,6 +185,11 @@ def delete_account(user: User) -> None:
             couple.delete()  # memory photos are erased by their own signal
         name = user.display_name
         user.delete()
+        if is_test_partner(partner):
+            # The fictitious partner of the solo test mode leaves with the tester.
+            assert partner is not None  # noqa: S101
+            partner.delete()
+            partner = None
 
         def erase_files() -> None:
             for key in keys:
