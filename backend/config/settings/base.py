@@ -233,7 +233,19 @@ EXPO_ACCESS_TOKEN = env_str("EXPO_ACCESS_TOKEN", "")
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {"hosts": [REDIS_URL]},
+        "CONFIG": {
+            # channels_redis waits up to 5 s (BZPOPMIN) for a message: the socket read
+            # timeout must be longer, or every idle connection dies with a TimeoutError.
+            "hosts": [
+                {
+                    "address": REDIS_URL,
+                    "socket_timeout": 30,
+                    "socket_connect_timeout": 5,
+                    "socket_keepalive": True,
+                    "health_check_interval": 30,
+                }
+            ]
+        },
     }
 }
 

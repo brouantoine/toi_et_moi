@@ -147,4 +147,9 @@ def start_solo_test(user: User) -> Couple:
         first_name=TEST_PARTNER_NAMES.get(user.language, TEST_PARTNER_NAMES["en"]),
         language=user.language,
     )
-    return join_couple(partner, invitation.code)
+    couple = join_couple(partner, invitation.code)
+    # The fictitious partner cannot tap "turn on": the coach opens as soon as the tester does.
+    from coach.models import CoachConsent
+
+    CoachConsent.objects.create(user=partner, enabled=True)
+    return couple

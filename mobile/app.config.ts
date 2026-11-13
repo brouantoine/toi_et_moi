@@ -98,7 +98,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundImage: './assets/android-icon-background.png',
       monochromeImage: './assets/android-icon-monochrome.png',
     },
-    predictiveBackGestureEnabled: true,
+    // Off: with it, Android 15 closes the app on back instead of going back (RN limit).
+    predictiveBackGestureEnabled: false,
     ...(LINK_HOST
       ? {
           intentFilters: [

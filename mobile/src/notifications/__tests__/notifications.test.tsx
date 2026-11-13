@@ -198,6 +198,15 @@ describe('Notification settings', () => {
     expect(screen.getByTestId('notif-discreet').props.value).toBe(true);
   });
 
+  it('still offers to turn them on when Android was never asked (denied, can ask again)', async () => {
+    backend();
+    notif.getPermissionsAsync.mockResolvedValue({ status: 'denied', canAskAgain: true } as never);
+    await render();
+    expect(await screen.findByTestId('notif-enable')).toBeTruthy();
+    expect(screen.queryByTestId('notif-denied')).toBeNull();
+    notif.getPermissionsAsync.mockResolvedValue({ status: 'undetermined' } as never);
+  });
+
   it('explains when notifications are off in the phone settings', async () => {
     backend();
     notif.getPermissionsAsync.mockResolvedValue({ status: 'denied' } as never);

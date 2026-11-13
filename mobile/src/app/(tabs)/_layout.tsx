@@ -7,7 +7,7 @@ import { CallWatcher } from '@/features/calls/CallWatcher';
 import { identify } from '@/features/premium/purchases';
 import { refreshPushRegistration } from '@/notifications/push';
 import { useNotificationResponses } from '@/notifications/responses';
-import { useApplyProfileLanguage, useMe } from '@/features/me/useProfile';
+import { useApplyProfileLanguage, useMe, useSyncDeviceTimezone } from '@/features/me/useProfile';
 import { useRefreshPositionOnOpen } from '@/features/distance/useDistance';
 import { FloatingTabBar } from '@/features/shell/FloatingTabBar';
 import { TABS } from '@/features/shell/tabs';
@@ -17,6 +17,7 @@ export default function TabsLayout() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   useApplyProfileLanguage();
+  useSyncDeviceTimezone();
   useRealtimeSync();
   useNotificationResponses();
   useRefreshPositionOnOpen();

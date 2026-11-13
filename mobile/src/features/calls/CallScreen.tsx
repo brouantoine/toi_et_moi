@@ -172,7 +172,7 @@ function RoundButton({
       >
         <Icon icon={icon} size={30} tint={ink} strokeWidth={2.2} />
       </PressableScale>
-      <Text variant="caption" style={{ color: colors.onScrim }}>
+      <Text variant="caption" numberOfLines={1} style={{ color: colors.onScrim }}>
         {label}
       </Text>
     </View>
@@ -464,7 +464,8 @@ const styles = StyleSheet.create({
   note: { textAlign: 'center', maxWidth: 300 },
   bottom: { alignItems: 'center' },
   row: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center' },
-  action: { alignItems: 'center', width: 64 },
+  // Wide enough for « Raccrocher » on one line (the round button itself stays 60).
+  action: { alignItems: 'center', minWidth: 64, maxWidth: 110 },
   round: {
     width: 60,
     height: 60,

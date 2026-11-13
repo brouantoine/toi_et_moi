@@ -75,8 +75,12 @@ export async function compressImage(image: LocalImage): Promise<LocalImage> {
   return { uri: saved.uri, width: saved.width, height: saved.height };
 }
 
-/** Sends any local file straight to storage with the presigned POST fields. */
-export async function uploadFile(
+/** Sends any local file straight to storage with the presigned POST fields.
+ *
+ * XMLHttpRequest, not fetch: Expo replaces the global fetch with expo/fetch, which does not
+ * support React Native's `{ uri, name, type }` file parts. Every upload failed with it.
+ */
+export function uploadFile(
   ticket: UploadTicket,
   file: { uri: string; name: string; type: string },
 ): Promise<void> {
@@ -84,11 +88,22 @@ export async function uploadFile(
   Object.entries(ticket.form_fields).forEach(([name, value]) => form.append(name, value));
   // React Native FormData file part. `file` must be the last field for S3.
   form.append('file', file as unknown as Blob);
-  const response = await fetch(ticket.url, { method: 'POST', body: form });
-  if (!response.ok) throw new UploadError(response.status);
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', ticket.url);
+    xhr.timeout = UPLOAD_TIMEOUT_MS;
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new UploadError(xhr.status));
+    xhr.onerror = () => reject(new UploadError(0));
+    xhr.ontimeout = () => reject(new UploadError(0));
+    xhr.send(form);
+  });
 }
 
 /** Sends a compressed photo straight to storage with the presigned POST fields. */
+/** Large voice notes on a slow mobile network still get through. */
+const UPLOAD_TIMEOUT_MS = 120_000;
+
 export async function uploadToTicket(ticket: UploadTicket, image: LocalImage): Promise<void> {
   await uploadFile(ticket, { uri: image.uri, name: 'photo.jpg', type: UPLOAD_CONTENT_TYPE });
 }

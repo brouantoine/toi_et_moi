@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { getCalendars } from 'expo-localization';
+
 import { api, unwrap, type Schemas } from '@/api';
 import i18n from '@/i18n';
 
@@ -36,4 +38,22 @@ export function useApplyProfileLanguage(): void {
   useEffect(() => {
     if (language && language !== i18n.language) void i18n.changeLanguage(language);
   }, [language]);
+}
+
+/**
+ * Accounts created with Apple or Google start on UTC: the first time the app opens, the
+ * profile takes the phone's time zone, so morning notifications arrive at the right hour.
+ */
+export function useSyncDeviceTimezone(): void {
+  const me = useMe();
+  const update = useUpdateMe();
+  const current = me.data?.timezone;
+  useEffect(() => {
+    const device = getCalendars()[0]?.timeZone;
+    if (current === 'UTC' && device && device !== 'UTC' && !update.isPending) {
+      update.mutate({ timezone: device });
+    }
+    // Once per stored value: a failed update is retried on the next launch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
 }
