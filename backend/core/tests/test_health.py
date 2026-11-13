@@ -12,7 +12,11 @@ def test_health_is_public_and_returns_brand() -> None:
 
 @pytest.mark.django_db
 def test_openapi_schema_is_generated() -> None:
-    response = APIClient().get(reverse("schema"))
+    from accounts.tests.factories import UserFactory
+
+    client = APIClient()
+    client.force_authenticate(UserFactory(is_staff=True))
+    response = client.get(reverse("schema"))
     assert response.status_code == 200
     assert b"/api/v1/health/" in response.content
 

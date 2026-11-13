@@ -159,7 +159,12 @@ REST_FRAMEWORK = {
         "messages": env_str("THROTTLE_MESSAGES", "60/min"),
         "places": env_str("THROTTLE_PLACES", "120/min"),
         "coach": env_str("THROTTLE_COACH", "20/min"),
+        # Per account, whatever the IP: stops password guessing spread over many addresses.
+        "login_email": env_str("THROTTLE_LOGIN_EMAIL", "20/hour"),
+        "reset_email": env_str("THROTTLE_RESET_EMAIL", "5/hour"),
     },
+    # Client IP for throttling: 0 = the socket address (no proxy). Production sets 1 (Nginx).
+    "NUM_PROXIES": env_int("NUM_PROXIES", 0),
     "DEFAULT_PAGINATION_CLASS": "core.pagination.DefaultCursorPagination",
     "PAGE_SIZE": 30,
 }
@@ -168,6 +173,8 @@ SPECTACULAR_SETTINGS = {
     "TITLE": f"{BRAND_NAME} API",
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    # The live schema and Swagger UI are for staff only (the app uses the generated file).
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "COMPONENT_SPLIT_REQUEST": True,
     "ENUM_NAME_OVERRIDES": {
         "MemoryTypeEnum": "memories.models.MemoryType",
