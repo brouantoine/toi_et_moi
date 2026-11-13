@@ -111,8 +111,34 @@ def update_position(user: User, couple: Couple, latitude: float, longitude: floa
     share.city_id = city.id if city else None
     share.located_at = timezone.now()
     share.save()
+    _mirror_test_partner(couple.partner_of(user), latitude, longitude)
     notify_changed(couple.pk, "distance", user.pk, "updated")
     _check_proximity(user, couple, share)
+
+
+#: Solo test mode: the fictitious partner "stands" about 300 m north of the tester.
+TEST_PARTNER_OFFSET_DEGREES = 0.0027
+
+
+def _mirror_test_partner(partner: User | None, latitude: float, longitude: float) -> None:
+    """Lets a lone tester see the distance and feel the "you are close" vibration."""
+    from couples.services import is_test_partner
+
+    if not is_test_partner(partner):
+        return
+    near = latitude + TEST_PARTNER_OFFSET_DEGREES
+    city = cities.nearest(near, longitude)
+    LocationShare.objects.update_or_create(
+        user=partner,
+        defaults={
+            "terms_version": TERMS_VERSION,
+            "consented_at": timezone.now(),
+            "latitude": near,
+            "longitude": longitude,
+            "city_id": city.id if city else None,
+            "located_at": timezone.now(),
+        },
+    )
 
 
 def _check_proximity(user: User, couple: Couple, mine: LocationShare) -> None:

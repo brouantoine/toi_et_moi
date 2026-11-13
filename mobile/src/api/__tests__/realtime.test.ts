@@ -128,6 +128,27 @@ describe('SyncClient', () => {
     client.stop();
   });
 
+  it('never throws when the socket is closing (an uncaught error closed the app)', () => {
+    jest.useFakeTimers();
+    try {
+      const { client, sockets } = setup();
+      client.start();
+      const socket = sockets[0] as FakeSocket & { readyState?: number };
+      socket.onopen?.();
+      socket.serverSays({ type: 'ready' });
+      // Closing, before onclose fires: React Native's WebSocket throws INVALID_STATE_ERR.
+      socket.readyState = 2;
+      socket.send = () => {
+        throw new Error('INVALID_STATE_ERR');
+      };
+      expect(() => client.sendTyping(true)).not.toThrow();
+      expect(client.sendSignal(1, { sdp: 'x' })).toBe(false);
+      expect(() => jest.advanceTimersByTime(PING_MS)).not.toThrow();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   it('stays quiet when stopped or signed out', () => {
     const signedOut = setup(null);
     signedOut.client.start();

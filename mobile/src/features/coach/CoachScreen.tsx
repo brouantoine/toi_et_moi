@@ -103,9 +103,17 @@ function Intro({ thread, partnerName }: { thread: CoachThread; partnerName: stri
   const { t } = useTranslation();
   const { spacing } = useTheme();
   const { consent } = useCoachActions();
+  const insets = useSafeAreaInsets();
   const mine = thread.consent.mine;
   return (
-    <ScrollView contentContainerStyle={{ padding: spacing.lg, gap: spacing.lg }}>
+    // Bottom inset: the "turn on" button stays above Android's navigation bar.
+    <ScrollView
+      contentContainerStyle={{
+        padding: spacing.lg,
+        gap: spacing.lg,
+        paddingBottom: insets.bottom + spacing.xl,
+      }}
+    >
       <View style={[styles.center, { gap: spacing.sm }]}>
         <Image source={EMOJI.robot} style={styles.hero} contentFit="contain" />
         <Text variant="title" style={styles.textCenter}>

@@ -46,6 +46,10 @@ def test_solo_test_links_a_fictitious_partner(settings) -> None:
     assert partner is not None and partner.email.endswith("@" + TEST_PARTNER_DOMAIN)
     assert partner.first_name == "Partenaire test"
     assert not partner.has_usable_password()
+    # The coach only waits for the tester.
+    from coach.services import consented
+
+    assert consented(partner)
 
 
 def test_solo_test_completes_a_pending_couple(settings) -> None:
@@ -72,3 +76,24 @@ def test_fictitious_partner_leaves_with_the_tester(settings) -> None:
     delete_account(user)
     assert not User.objects.filter(email__endswith=TEST_PARTNER_DOMAIN).exists()
     assert not Couple.objects.exists()
+
+
+def test_fictitious_partner_stands_close_so_the_alert_can_be_tested(settings) -> None:
+    from notifications.models import Kind
+    from places import services as places
+
+    settings.SOLO_TEST_ENABLED = True
+    user = UserFactory()
+    client_for(user).post(SOLO)
+    couple = get_current_couple(user)
+    assert couple is not None
+    places.accept_terms(user, places.TERMS_VERSION)
+    sent = []
+    from unittest import mock
+
+    with mock.patch.object(places, "notify", lambda person, kind, *a, **k: sent.append(kind)):
+        places.update_position(user, couple, 5.3600, -4.0083)
+    view = places.overview(user, couple)
+    assert view["partner"]["sharing"] is True
+    assert view["km"] is not None and view["km"] <= 1
+    assert Kind.PROXIMITY in sent

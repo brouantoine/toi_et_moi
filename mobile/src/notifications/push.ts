@@ -14,8 +14,11 @@ export type EnableResult = 'enabled' | 'denied' | 'unavailable';
 
 export async function pushStatus(): Promise<PushStatus> {
   try {
-    const { status } = await Notifications.getPermissionsAsync();
-    return status === 'granted' ? 'granted' : status === 'denied' ? 'denied' : 'undetermined';
+    const { status, canAskAgain } = await Notifications.getPermissionsAsync();
+    if (status === 'granted') return 'granted';
+    // Android 13+ reports a never-asked permission as "denied" (with canAskAgain): it is
+    // not a refusal, so the app must still offer to turn notifications on.
+    return status === 'denied' && !canAskAgain ? 'denied' : 'undetermined';
   } catch {
     return 'undetermined';
   }

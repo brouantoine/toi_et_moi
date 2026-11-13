@@ -231,3 +231,28 @@ jest.mock('react-native-maps', () => {
     Polyline: make('line'),
   };
 });
+
+// Uploads use XMLHttpRequest (expo/fetch cannot send React Native file parts). In tests it
+// goes through the same mocked global fetch, so upload tests keep asserting on fetch calls.
+class FetchBackedXMLHttpRequest {
+  status = 0;
+  timeout = 0;
+  onload: (() => void) | null = null;
+  onerror: (() => void) | null = null;
+  ontimeout: (() => void) | null = null;
+  private method = 'GET';
+  private url = '';
+  open(method: string, url: string) {
+    this.method = method;
+    this.url = url;
+  }
+  send(body?: unknown) {
+    Promise.resolve(globalThis.fetch(this.url, { method: this.method, body: body as BodyInit }))
+      .then((response) => {
+        this.status = response.status;
+        this.onload?.();
+      })
+      .catch(() => this.onerror?.());
+  }
+}
+(globalThis as { XMLHttpRequest: unknown }).XMLHttpRequest = FetchBackedXMLHttpRequest;

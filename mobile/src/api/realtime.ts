@@ -56,6 +56,8 @@ export const PING_MS = 25000;
 const CLOSE_UNAUTHORIZED = 4401;
 
 type SocketLike = {
+  /** 1 = OPEN (WebSocket). Absent in some test doubles: then the socket is trusted. */
+  readyState?: number;
   send: (data: string) => void;
   close: () => void;
   onopen: (() => void) | null;
@@ -96,14 +98,27 @@ export class SyncClient {
 
   /** Tells the partner I am (or stopped) typing. Dropped when not connected. */
   sendTyping(active: boolean): void {
-    if (this.ready) this.socket?.send(JSON.stringify({ type: 'typing', active }));
+    if (this.ready) this.send(this.socket, { type: 'typing', active });
   }
 
   /** Sends WebRTC signalling to the partner. Returns false when not connected. */
   sendSignal(callId: number, data: Record<string, unknown>): boolean {
-    if (!this.ready || !this.socket) return false;
-    this.socket.send(JSON.stringify({ type: 'signal', call: callId, data }));
-    return true;
+    if (!this.ready) return false;
+    return this.send(this.socket, { type: 'signal', call: callId, data });
+  }
+
+  /**
+   * Never throws: a socket that is closing (before onclose fires) throws INVALID_STATE_ERR
+   * on send, and an uncaught error closes the released app. The message is just dropped.
+   */
+  private send(socket: SocketLike | null, payload: Record<string, unknown>): boolean {
+    if (!socket || (socket.readyState !== undefined && socket.readyState !== 1)) return false;
+    try {
+      socket.send(JSON.stringify(payload));
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   stop(): void {
@@ -121,7 +136,7 @@ export class SyncClient {
     const create = this.options.createSocket ?? ((url) => new WebSocket(url) as SocketLike);
     const socket = create(this.options.url);
     this.socket = socket;
-    socket.onopen = () => socket.send(JSON.stringify({ type: 'auth', token }));
+    socket.onopen = () => void this.send(socket, { type: 'auth', token });
     socket.onmessage = (event) => this.handle(event.data);
     socket.onclose = (event) => {
       if (this.socket !== socket) return; // replaced or stopped
@@ -152,10 +167,7 @@ export class SyncClient {
     if (message.type === 'ready') {
       this.attempt = 0;
       this.ready = true;
-      this.pingTimer = setInterval(
-        () => this.socket?.send(JSON.stringify({ type: 'ping' })),
-        PING_MS,
-      );
+      this.pingTimer = setInterval(() => void this.send(this.socket, { type: 'ping' }), PING_MS);
       this.options.onReady?.();
     } else if (message.type === 'changed') {
       this.options.onChanged(message as ChangedEvent);
