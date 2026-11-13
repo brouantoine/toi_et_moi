@@ -63,7 +63,7 @@ Liste tenue à jour par l'agent. Chaque point est préparé dans le code ; il ne
 - [ ] Après publication : `IOS_STORE_URL` et `ANDROID_STORE_URL` pour afficher les boutons de téléchargement sur la page d'invitation.
 
 ## Carte de la distance (PW.5)
-- [ ] Android en production : créer une clé Google Maps SDK for Android (Google Cloud), la restreindre au paquet de l'app, et la fournir dans `GOOGLE_MAPS_API_KEY` au moment du build. (Inutile dans Expo Go et sur iPhone, qui utilise Apple Plans.)
+- [ ] (Plus tard, facultatif) Android : la carte est masquée sur Android (pas de clé Google Maps, il faut une carte bancaire sur Google Cloud). Pour la remettre : créer une clé Maps SDK for Android restreinte à `ci.bolingo.app`, la fournir dans `GOOGLE_MAPS_API_KEY` au build, et retirer la condition `Platform.OS !== 'android'` de `DistanceScreen.tsx`. L'iPhone garde la carte (Apple Plans, sans clé).
 
 ## Partage de position en continu (PW.5b)
 - [ ] Faire un build de développement (`npx eas-cli build --profile development`) : l'arrière-plan ne marche pas dans Expo Go. À tester sur deux vrais téléphones (déplacement de plus de 200 m, passage sous 1 km).

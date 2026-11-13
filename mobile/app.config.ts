@@ -34,7 +34,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   // whenever a native change (new module, permission, icon, SDK) needs a new store build.
   runtimeVersion: { policy: 'appVersion' },
   ...(process.env.EAS_PROJECT_ID
-    ? { updates: { url: `https://u.expo.dev/${process.env.EAS_PROJECT_ID}` } }
+    ? {
+        updates: {
+          url: `https://u.expo.dev/${process.env.EAS_PROJECT_ID}`,
+          // Local Gradle/Xcode builds get no channel from EAS: pin them to production.
+          requestHeaders: { 'expo-channel-name': 'production' },
+        },
+      }
     : {}),
   orientation: 'portrait',
   icon: './assets/icon.png',

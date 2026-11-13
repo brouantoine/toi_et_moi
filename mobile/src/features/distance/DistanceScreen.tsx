@@ -1,7 +1,7 @@
 import { MapPinned, Navigation, ShieldCheck } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Linking, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError } from '@/api';
@@ -96,6 +96,9 @@ function Shared({ data, name }: { data: Distance; name: string }) {
   const mine = data.mine.position;
   const theirs = data.partner.position;
   const points = [mine, theirs].filter(Boolean);
+  // Android maps need a paid-account Google Maps key: Android shows the summary card only.
+  // iOS keeps the map (Apple Maps, no key).
+  const showMap = Platform.OS !== 'android' && points.length > 0;
 
   const confirmStop = () =>
     Alert.alert(t('distance.stopTitle'), t('distance.stopMessage', { name }), [
@@ -105,7 +108,7 @@ function Shared({ data, name }: { data: Distance; name: string }) {
 
   return (
     <>
-      {points.length ? (
+      {showMap ? (
         <View
           testID="distance-map"
           style={[styles.map, { borderRadius: radii.xl, backgroundColor: colors.surfaceMuted }]}
