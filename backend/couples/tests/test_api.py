@@ -136,6 +136,6 @@ def test_couple_colour_is_shared_and_validated() -> None:
     assert client_for(a).patch(COUPLE, {"accent": "rose"}, format="json").status_code == 400
 
 
-def test_new_couples_start_in_red() -> None:
+def test_new_couples_start_in_brand_violet() -> None:
     _, a, _ = make_couple()
-    assert client_for(a).get(COUPLE).json()["accent"] == "rouge"
+    assert client_for(a).get(COUPLE).json()["accent"] == "violet"

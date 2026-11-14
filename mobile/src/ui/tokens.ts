@@ -1,9 +1,10 @@
 /**
- * Design tokens. White and Bolingo red by day, red on black by night (the app follows the
- * phone's setting): white canvas, quiet grey fills, bold system titles and ONE accent
- * colour, chosen by each couple (see `accents`). The default red plays in shades, like
- * light through a window: `wash` at the top of the main screens, rose-red `primarySoft`
- * fills, deep red text on them (docs/DECISIONS.md, 2026-11-11).
+ * Design tokens, brand guide v2 (the two violet swans): warm white and lavender by day,
+ * plum night by night (the app follows the phone's setting), plum ink, bold system titles
+ * and ONE accent colour chosen by each couple (see `accents`). The default violet plays in
+ * shades: lavender `wash` at the top of the main screens, `primarySoft` lavender fills,
+ * deep violet text on them. Magenta is the secondary accent; red is kept for errors and
+ * green for "answer" (system states) only (docs/DECISIONS.md, 2026-11-14).
  * Every text/background pair is checked for WCAG AA contrast in tests.
  */
 export type ColorScheme = 'light' | 'dark';
@@ -33,8 +34,11 @@ export type Palette = {
   onScrim: string;
   /** Colour wash at the top of the main screens, fading into the background. */
   wash: string;
-  /** Bolingo red, whatever the couple's colour: the logo and the loader. */
+  /** Bolingo violet, whatever the couple's colour: the logo and the loader. */
   brand: string;
+  /** Positive system state only (answer a call): never decorative. */
+  success: string;
+  onSuccess: string;
 };
 
 /** The accent-driven slots of the palette. */
@@ -43,9 +47,9 @@ export type AccentColors = Pick<
   'primary' | 'onPrimary' | 'primarySoft' | 'onPrimarySoft' | 'wash'
 >;
 
-export const ACCENT_IDS = ['rouge', 'ambre', 'sauge', 'lagon', 'bleu', 'violet', 'encre'] as const;
+export const ACCENT_IDS = ['violet', 'rouge', 'ambre', 'sauge', 'lagon', 'bleu', 'encre'] as const;
 export type AccentId = (typeof ACCENT_IDS)[number];
-export const DEFAULT_ACCENT: AccentId = 'rouge';
+export const DEFAULT_ACCENT: AccentId = 'violet';
 
 /** Couple colours, chosen in Settings. Each set is AA on white (light) and black (dark). */
 export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
@@ -131,19 +135,20 @@ export const accents: Record<AccentId, Record<ColorScheme, AccentColors>> = {
     },
   },
   violet: {
+    // Brand violet of the swans logo (guide v2): the default.
     light: {
-      primary: '#6A3FC1',
-      onPrimary: '#FFFFFF',
-      primarySoft: '#ECE4F9',
-      onPrimarySoft: '#482A86',
-      wash: '#E4D8FB',
+      primary: '#681BE8',
+      onPrimary: '#FFFBFF',
+      primarySoft: '#F2E8FF',
+      onPrimarySoft: '#32106B',
+      wash: '#E9DAFF',
     },
     dark: {
-      primary: '#B79BFF',
-      onPrimary: '#160B33',
-      primarySoft: '#2E2550',
-      onPrimarySoft: '#DCCFFF',
-      wash: '#2C1E59',
+      primary: '#B98CFF',
+      onPrimary: '#1A0B33',
+      primarySoft: '#2E1F4A',
+      onPrimarySoft: '#E2D0FF',
+      wash: '#2D1A52',
     },
   },
   encre: {
@@ -171,39 +176,43 @@ export function isAccentId(value: unknown): value is AccentId {
 /** Static palettes use the default accent; the theme swaps in the couple's accent. */
 export const palettes: Record<ColorScheme, Palette> = {
   light: {
-    background: '#FFFFFF',
-    surface: '#FFFFFF',
-    surfaceMuted: '#F2F2F5',
-    text: '#1C1C1E',
-    // A shade darker than iOS grey so captions stay AA on the red wash and tinted cards.
-    textMuted: '#5F5F64',
+    background: '#FFFBFF', // warm white
+    surface: '#FFFBFF',
+    surfaceMuted: '#F4EEF9',
+    text: '#211A29', // plum ink
+    // Violet grey, a shade darker than the guide's #756D7D so captions stay AA on the wash.
+    textMuted: '#625A6B',
     ...accents[DEFAULT_ACCENT].light,
-    secondary: '#4F6B52', // sage (deep)
-    onSecondary: '#FFFFFF',
-    secondarySoft: '#E2EEE0',
-    onSecondarySoft: '#2C4A33',
-    border: '#E5E5EA',
+    secondary: '#9B17BC', // magenta (deep enough for white text)
+    onSecondary: '#FFFBFF',
+    secondarySoft: '#F8E8F5', // lavender rose
+    onSecondarySoft: '#6B1280',
+    border: '#EADFF2',
     danger: '#B3261E',
-    scrim: 'rgba(0, 0, 0, 0.42)',
-    onScrim: '#FFFFFF',
-    brand: '#D0112B',
+    scrim: 'rgba(32, 27, 36, 0.45)',
+    onScrim: '#FFFBFF',
+    brand: '#681BE8',
+    success: '#1E7D45',
+    onSuccess: '#FFFFFF',
   },
   dark: {
-    background: '#000000',
-    surface: '#1C1C1E',
-    surfaceMuted: '#2C2C2E',
-    text: '#FFFFFF',
-    textMuted: '#AEAEB4',
+    background: '#14101A',
+    surface: '#201B24', // plum night
+    surfaceMuted: '#2C2533',
+    text: '#FFFBFF',
+    textMuted: '#B7AEC0',
     ...accents[DEFAULT_ACCENT].dark,
-    secondary: '#9DBBA0',
-    onSecondary: '#14201A',
-    secondarySoft: '#1F3324',
-    onSecondarySoft: '#BFE5C4',
-    border: '#38383A',
+    secondary: '#E27BFF',
+    onSecondary: '#2A0733',
+    secondarySoft: '#3A1A44',
+    onSecondarySoft: '#F3C6FF',
+    border: '#3A3242',
     danger: '#FF8A80',
     scrim: 'rgba(0, 0, 0, 0.5)',
-    onScrim: '#FFFFFF',
-    brand: '#FF3B4E',
+    onScrim: '#FFFBFF',
+    brand: '#B98CFF',
+    success: '#5BD68A',
+    onSuccess: '#08210F',
   },
 };
 
@@ -219,20 +228,21 @@ export type Hue = 'red' | 'amber' | 'sage' | 'lagoon' | 'violet';
 export type HueColors = { fg: string; bg: string };
 
 export const hues: Record<ColorScheme, Record<Hue, HueColors>> = {
+  // Brand guide v2: one calm lavender family (no decorative gold, green or cyan); the hue
+  // names stay as keys of stored categories.
   light: {
-    // Same rose-red shades as the default accent: one red family across the app.
-    red: { fg: '#86101E', bg: '#FFE1E6' },
-    amber: { fg: '#6E4300', bg: '#FCEBC8' },
-    sage: { fg: '#32493A', bg: '#E2ECDF' },
-    lagoon: { fg: '#0B5057', bg: '#D3ECEE' },
-    violet: { fg: '#4A3478', bg: '#E9E3F5' },
+    red: { fg: '#6B1280', bg: '#F8E8F5' }, // lavender rose
+    amber: { fg: '#5A1E78', bg: '#F6EBFA' }, // warm lilac
+    sage: { fg: '#32106B', bg: '#F2E8FF' }, // lavender
+    lagoon: { fg: '#2E2A85', bg: '#ECEBFF' }, // periwinkle
+    violet: { fg: '#32106B', bg: '#E9DAFF' },
   },
   dark: {
-    red: { fg: '#FFB9B3', bg: '#4A1A1C' },
-    amber: { fg: '#F6CD7C', bg: '#43320F' },
-    sage: { fg: '#BCD5BE', bg: '#223027' },
-    lagoon: { fg: '#9FE3E8', bg: '#123A3E' },
-    violet: { fg: '#CFC1F2', bg: '#2F2547' },
+    red: { fg: '#F3C6FF', bg: '#3A1A44' },
+    amber: { fg: '#EBC8F7', bg: '#3A2142' },
+    sage: { fg: '#E2D0FF', bg: '#2E1F4A' },
+    lagoon: { fg: '#D3D1FF', bg: '#25234D' },
+    violet: { fg: '#E2D0FF', bg: '#2D1A52' },
   },
 };
 

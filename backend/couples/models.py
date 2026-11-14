@@ -40,7 +40,7 @@ class Couple(models.Model):
     start_date = models.DateField(null=True, blank=True)
     currency = models.CharField(max_length=3, default="EUR")
     accent = models.CharField(
-        max_length=12, choices=CoupleAccent.choices, default=CoupleAccent.ROUGE
+        max_length=12, choices=CoupleAccent.choices, default=CoupleAccent.VIOLET
     )
     photo = models.FileField(upload_to=couple_photo_upload_to, blank=True, max_length=512)
     created_at = models.DateTimeField(auto_now_add=True)
