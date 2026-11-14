@@ -153,3 +153,11 @@ Format : date — choix — raison — alternative écartée.
 - Utilisateur IAM `bolingo-backend` limité à ce compartiment (Put/Get/Delete + List). Clés uniquement dans `deploy/.env` du serveur et `~/Bureau/backup/aws-s3.txt`.
 - Testé en production : envoi signé (POST) 204, lecture signée, suppression.
 - Compte AWS en plan gratuit (6 mois) : passer au plan payant ou migrer avant l'échéance (mai 2027).
+
+## 2026-11-14 — Charte graphique v2 : les deux cygnes violets
+
+- **Logo** : deux cygnes violets formant un cœur. Le fichier fourni contenait un carré arrondi et un halo : seuls les cygnes ont été extraits (fond transparent), puis toutes les icônes ont été reconstruites (iOS plein cadre, Android adaptatif et monochrome, splash sur prune `#201B24`, favicons, symbole de l'accueil, site).
+- **Palette** (`mobile/src/ui/tokens.ts`, site `templates/web/*base.html`) : blanc chaud `#FFFBFF`, encre prune `#211A29`, violet marque `#681BE8` (couleur du couple par défaut et `brand`), magenta `#9B17BC` / `#E27BFF` en secondaire, surfaces lavande `#F2E8FF` et rose lavande `#F8E8F5`, nuit prune en sombre (`#14101A` / `#201B24`).
+- **Couleurs retirées de la décoration** : rouge (gardé pour les erreurs `danger`), vert (gardé seulement pour « décrocher », token `success`), cyan et doré. Les catégories (`hues`) passent toutes dans la famille lavande ; leurs clés ne changent pas (catégories stockées).
+- **Couple** : `violet` devient la couleur par défaut ; migration `couples 0004` : les couples restés sur l'ancien défaut `rouge` passent en `violet`. Le rouge reste au choix dans les réglages.
+- Tous les couples texte/fond restent vérifiés AA par `tokens.test.ts` (paire `success` ajoutée).

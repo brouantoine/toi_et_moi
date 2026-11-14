@@ -151,13 +151,20 @@ function RoundButton({
   const { colors, spacing } = useTheme();
   const background =
     tone === 'accept'
-      ? colors.secondary
+      ? colors.success
       : tone === 'hangup'
         ? colors.brand
         : active
           ? colors.text
           : colors.surfaceMuted;
-  const ink = tone === 'neutral' ? (active ? colors.background : colors.text) : colors.onScrim;
+  const ink =
+    tone === 'neutral'
+      ? active
+        ? colors.background
+        : colors.text
+      : tone === 'accept'
+        ? colors.onSuccess
+        : colors.onScrim;
   return (
     <View style={[styles.action, { gap: spacing.sm, opacity: disabled ? 0.45 : 1 }]}>
       <PressableScale

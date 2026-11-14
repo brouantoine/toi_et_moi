@@ -14,6 +14,7 @@ describe.each(schemes)('%s palette meets WCAG AA', (scheme) => {
     ['muted text on surface', p.textMuted, p.surface],
     ['on-primary on primary', p.onPrimary, p.primary],
     ['on-secondary on secondary', p.onSecondary, p.secondary],
+    ['on-success on success (answer a call)', p.onSuccess, p.success],
     ['primary (ghost button) on background', p.primary, p.background],
     ['danger on background', p.danger, p.background],
     ['text on muted surface (chips, search)', p.text, p.surfaceMuted],
