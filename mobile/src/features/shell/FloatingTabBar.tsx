@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import type { Tabs } from 'expo-router';
-import { useEffect, useRef, useState, type ComponentProps } from 'react';
+import { useEffect, useState, type ComponentProps } from 'react';
 import { Animated, Keyboard, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { Icon, useReducedMotion, useTheme } from '@/ui';
@@ -33,9 +33,6 @@ function useKeyboardShown(): boolean {
   }, []);
   return shown;
 }
-/** A press already handled on touch-down is not handled again on release. */
-const PRESS_DEDUPE_MS = 700;
-
 type ItemProps = {
   name: string;
   label: string | undefined;
@@ -46,13 +43,14 @@ type ItemProps = {
 
 /**
  * One tab: no background shape. Selected = the icon fills in and pops slightly.
- * It reacts on touch-DOWN, so switching tabs feels instant and never needs a second tap.
+ * It switches on release, like every button: switching on touch-down swapped the screen
+ * while the finger was still down, Android lost the release, and the NEXT tap anywhere
+ * was swallowed (found on device, 2026-11-14).
  */
 function TabItem({ name, label, focused, onSelect, onLongPress }: ItemProps) {
   const reduced = useReducedMotion();
   const tab = TABS.find((item) => item.name === name);
   const [pop] = useState(() => new Animated.Value(focused ? 1 : 0));
-  const handledAt = useRef(0);
 
   useEffect(() => {
     if (reduced) {
@@ -74,14 +72,7 @@ function TabItem({ name, label, focused, onSelect, onLongPress }: ItemProps) {
       accessibilityRole="tab"
       accessibilityLabel={label}
       accessibilityState={{ selected: focused }}
-      onPressIn={() => {
-        handledAt.current = Date.now();
-        onSelect();
-      }}
-      // Screen readers and switch controls activate with "press": same action, once.
-      onPress={() => {
-        if (Date.now() - handledAt.current > PRESS_DEDUPE_MS) onSelect();
-      }}
+      onPress={onSelect}
       onLongPress={onLongPress}
       hitSlop={{ top: 12, bottom: 12 }}
       style={styles.item}
