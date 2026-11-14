@@ -43,8 +43,9 @@ describe('FloatingTabBar', () => {
   it('navigates to another tab unless the press is prevented', async () => {
     const { props, emitter, navigateToTab } = makeProps(0);
     await render(<FloatingTabBar {...props} />);
-    // Reacts on touch-down; the release that follows does not navigate twice.
+    // Touch-down alone does nothing: switching mid-touch made Android swallow the next tap.
     await fireEvent(screen.getByTestId('tabbar-us'), 'pressIn');
+    expect(navigateToTab).not.toHaveBeenCalled();
     await fireEvent.press(screen.getByTestId('tabbar-us'));
     expect(navigateToTab).toHaveBeenCalledTimes(1);
     expect(emitter.emit).toHaveBeenCalledWith(
@@ -54,7 +55,7 @@ describe('FloatingTabBar', () => {
 
     const prevented = makeProps(0, true);
     await render(<FloatingTabBar {...prevented.props} />);
-    await fireEvent(screen.getByTestId('tabbar-me'), 'pressIn');
+    await fireEvent.press(screen.getByTestId('tabbar-me'));
     expect(prevented.navigateToTab).not.toHaveBeenCalled();
   });
 });
