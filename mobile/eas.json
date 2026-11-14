@@ -29,6 +29,14 @@
       "extends": "base",
       "autoIncrement": true,
       "channel": "production"
+    },
+    "apk": {
+      "extends": "base",
+      "distribution": "internal",
+      "channel": "production",
+      "android": {
+        "buildType": "apk"
+      }
     }
   },
   "submit": {
