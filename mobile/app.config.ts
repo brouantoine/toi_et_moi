@@ -93,7 +93,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // Firebase: Android push notifications (FCM), sent through Expo.
     googleServicesFile: './google-services.json',
     adaptiveIcon: {
-      backgroundColor: '#1C1C1E',
+      // Lavender of the swans logo (behind the foreground layer).
+      backgroundColor: '#F2E8FF',
       foregroundImage: './assets/android-icon-foreground.png',
       backgroundImage: './assets/android-icon-background.png',
       monochromeImage: './assets/android-icon-monochrome.png',
@@ -120,8 +121,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-secure-store',
     'expo-apple-authentication',
-    // Android notification icon tint: the Bolingo red (tokens `brand`).
-    ['expo-notifications', { color: '#D0112B', defaultChannel: 'default' }],
+    // Android notification icon tint: the violet of the swans logo.
+    ['expo-notifications', { color: '#681BE8', defaultChannel: 'default' }],
     [
       'expo-audio',
       {
@@ -156,7 +157,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         image: './assets/splash-icon.png',
         imageWidth: 200,
-        backgroundColor: '#1C1C1E',
+        // Plum night of the brand guide: the violet swans stand out on it.
+        backgroundColor: '#201B24',
       },
     ],
     // Live voice and video calls (installed app only; Expo Go has no native WebRTC).
